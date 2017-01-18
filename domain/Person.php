@@ -31,7 +31,8 @@ class Person {
             $agePerson, 
             $genderPerson, 
             $emailPerson, 
-            $addressPerson) {
+            $addressPerson) 
+    {
         $this->idPerson = $idPerson;
         $this->dniPerson = $dniPerson;
         $this->namePerson = $namePerson;
@@ -114,6 +115,4 @@ class Person {
     function setAddressPerson($addressPerson) {
         $this->addressPerson = $addressPerson;
     }
-
-    
-}
+}//Fin de la clase

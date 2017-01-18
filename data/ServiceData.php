@@ -31,8 +31,8 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT id,idInstructor,serviceName,description,price,quota FROM "
-                . "TBService;";
+        $sql = "SELECT idService,idInstructorService,nameService,descriptionService,"
+                . "priceService, quotaService FROM TBService;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -40,8 +40,8 @@ class ServiceData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $service = new Service($row['id'], $row['idInstructor'], $row['serviceName'],
-                        $row['description'], $row['price'], $row['quota']);
+                $service = new Service($row['idService'], $row['idInstructorService'], $row['nameService'],
+                        $row['descriptionService'], $row['priceService'], $row['quotaService']);
                 array_push($array, $service);
             }//Fin del while
         }//Fin del if
@@ -60,9 +60,10 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT TBInstructor.id,TBPerson.personName,TBPerson.firstName,"
-                . "TBPerson.secondName FROM TBInstructor INNER JOIN TBPerson ON "
-                . "TBInstructor.idPerson = TBPerson.id;";
+        $sql = "SELECT TBInstructor.idInstructor,TBPerson.namePerson,"
+                . "TBPerson.firstNamePerson,TBPerson.secondNamePerson FROM "
+                . "TBInstructor INNER JOIN TBPerson ON"
+                . " TBInstructor.idPersonInstructor = TBPerson.idPerson;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -71,8 +72,8 @@ class ServiceData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $person = new Person($row['id'],0,$row['personName'],$row['firstName'], 
-                        $row['secondName'],0,0,0,0);
+                $person = new Person($row['idInstructor'],0,$row['namePerson'],$row['firstNamePerson'], 
+                        $row['secondNamePerson'],0,0,0,0);
                 array_push($array, $person);
             }//Fin del while
         }//Fin del if
@@ -90,23 +91,23 @@ class ServiceData
     public function insertService($service)
     {
         //Obtenemos el ID que le vamos a asignar
-        $idService = $this->getLastID("TBService");
+        $idService = $this->getLastID("Service");
         
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
         //Preparamos la información
-        $service->idInstructor = mysqli_real_escape_string($connO,$service->idInstructor);
-        $service->serviceName = mysqli_real_escape_string($connO,$service->serviceName);
-        $service->description = mysqli_real_escape_string($connO,$service->description);
-        $service->price = mysqli_real_escape_string($connO,$service->price);
-        $service->quota = mysqli_real_escape_string($connO,$service->quota);
+        $service->setIdInstructorService(mysqli_real_escape_string($connO,$service->getIdInstructorService()));
+        $service->setNameService(mysqli_real_escape_string($connO,$service->getNameService()));
+        $service->setDescriptionService(mysqli_real_escape_string($connO,$service->getDescriptionService()));
+        $service->setPriceService(mysqli_real_escape_string($connO,$service->getPriceService()));
+        $service->setQuotaService(mysqli_real_escape_string($connO,$service->getQuotaService()));
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO TBService(id,idInstructor,serviceName,description,price,quota) "
-                . "VALUES ($idService,$service->idInstructor,'$service->serviceName',"
-                . "'$service->description',$service->price,$service->quota);";
+        $sql = "INSERT INTO TBService(idService,idInstructorService,nameService,descriptionService,priceService,quotaService) "
+                . "VALUES ($idService,".$service->getIdInstructorService().",'".$service->getNameService()."',"
+                . "'".$service->getDescriptionService()."',".$service->getPriceService().",".$service->getQuotaService().");";
         $result = mysqli_query($connO,$sql);
         
         if($result){}
@@ -124,7 +125,7 @@ class ServiceData
     public function getLastID($table)
     {
         $connO = $this->connection->getConnection();
-        $sqlQuery = "SELECT MAX(".$table.".id) as maxID FROM ".$table.";";
+        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM TB".$table.";";
         $result = mysqli_query($connO,$sqlQuery);
         
         if($result == null)
@@ -156,7 +157,7 @@ class ServiceData
         //Preparamos la información
         $id = mysqli_real_escape_string($connO,$id);
         
-        $sql = "DELETE FROM TBService WHERE TBService.id = $id;";
+        $sql = "DELETE FROM TBService WHERE TBService.idService = $id;";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -179,16 +180,14 @@ class ServiceData
         mysqli_set_charset($connO, "utf8");
         
         //Preparamos la información
-        $service->id = mysqli_real_escape_string($connO,$service->id);
-        $service->idInstructor = mysqli_real_escape_string($connO,$service->idInstructor);
-        $service->serviceName = mysqli_real_escape_string($connO,$service->serviceName);
-        $service->description = mysqli_real_escape_string($connO,$service->description);
-        $service->price = mysqli_real_escape_string($connO,$service->price);
-        $service->quota = mysqli_real_escape_string($connO,$service->quota);
+        $service->setIdService(mysqli_real_escape_string($connO,$service->getIdService()));
+        $service->setIdInstructorService(mysqli_real_escape_string($connO,$service->getIdInstructorService()));
+        $service->setNameService(mysqli_real_escape_string($connO,$service->getNameService()));
+        $service->setDescriptionService(mysqli_real_escape_string($connO,$service->getDescriptionService()));
+        $service->setPriceService(mysqli_real_escape_string($connO,$service->getPriceService()));
+        $service->setQuotaService(mysqli_real_escape_string($connO,$service->getQuotaService()));
         
-        $sql = "UPDATE TBService SET idInstructor = $service->idInstructor, serviceName = '$service->serviceName', "
-                . "description = '$service->description', price = $service->price, quota = $service->quota "
-                . "WHERE TBService.id = $service->id;";
+        $sql = "UPDATE TBService SET idInstructorService = ".$service->getIdInstructorService().", nameService = '".$service->getNameService()."',descriptionService = '".$service->getDescriptionService()."', priceService = ".$service->getPriceService().", quotaService = ".$service->getQuotaService()." WHERE TBService.idService = ".$service->getIdService().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}

@@ -40,8 +40,8 @@ include '../business/PersonStateBusiness.php'; //personState bussiness include
             $PersonStateBusiness = new personStateBusiness(); //Instance of personstate bussiness
             if (is_array($personArray)) {
                 foreach ($personArray as $currentPerson) {
-                    $state = $PersonStateBusiness->getPersonStateBusiness($currentPerson->id); //Returns state fro current client
-                    $id = $currentPerson->id;
+                    $state = $PersonStateBusiness->getPersonStateBusiness($currentPerson->getIdPerson()); //Returns state fro current client
+                    $id = $currentPerson->getIdPerson();
                     $statusEdit = "disabled";
                     $statusEnable = "disabled";
                     $statusDisable = "disabled";
@@ -55,16 +55,16 @@ include '../business/PersonStateBusiness.php'; //personState bussiness include
                         $statusEnable = "enable";
                     }
                     ?>
-                    <tr id="<?php echo $currentPerson->id; ?>" value="<?php echo $state; ?>">
-                        <td align="center"><?php echo $currentPerson->id; ?></td>
-                        <td align="center"><?php echo $currentPerson->dni; ?></td>
-                        <td align="center"><?php echo $currentPerson->personName; ?></td>
-                        <td align="center"><?php echo $currentPerson->firstName; ?></td>
-                        <td align="center"><?php echo $currentPerson->secondName; ?></td>
-                        <td align="center"><?php echo $currentPerson->age; ?></td>
-                        <td align="center"><?php echo $currentPerson->gender; ?></td>
-                        <td align="center"><?php echo $currentPerson->email; ?></td>
-                        <td align="center"><?php echo $currentPerson->address; ?></td>
+                    <tr id="<?php echo $currentPerson->getIdPerson(); ?>" value="<?php echo $state; ?>">
+                        <td align="center"><?php echo $currentPerson->getIdPerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getDniPerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getNamePerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getFirstNamePerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getSecondNamePerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getAgePerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getGenderPerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getEmailPerson(); ?></td>
+                        <td align="center"><?php echo $currentPerson->getAddressPerson(); ?></td>
                         <td align="center"><input id="<?php echo 'btnEdit' . $currentPerson->id; ?>" onclick="<?php echo 'enableButtons(' . $currentPerson->id . ')' ?>" type="button"  value="  EDIT  " <?php echo $statusEdit; ?>/></td>
                         <td align="center" ><input id="<?php echo 'btnEna' . $id; ?>" onclick="<?php echo '' . $action . '(' . $id . ',' . 1 . ')' ?>" type="button"  value="  ENABLE  "  <?php echo $statusEnable . ""; ?> /></td>
                         <td align="center" ><input id="<?php echo 'btnDis' . $id; ?>" onclick="<?php echo '' . $action . '(' . $id . ',' . 0 . ')' ?>" type="button"  value="  DISABLE  " <?php echo $statusDisable . ""; ?> /> </td
@@ -105,13 +105,13 @@ include './footer.php'
 ?>
 <script  type="text/javascript">
     $(document).ready(function () {
-        $('.time').mask('YA:F0:B0', {'translation': {
+        $('.time').mask('YA:F0', {'translation': {
                 Y: {pattern: /[0-2]/},
                 A: {pattern: /[0-3]/},
-                F: {pattern: /[0-5]/},
-                B: {pattern: /[0-5]/}
+                F: {pattern: /[0-5]/}
+//                B: {pattern: /[0-5]/}
             }
         });
-        $('.money').mask('0 000 000 00 ₡', {reverse: true});
+        $('.money').mask(' ₡ 0.000.000,00', {reverse: true});
     });
 </script>

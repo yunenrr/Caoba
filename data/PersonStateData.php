@@ -20,7 +20,7 @@ class PersonStateData extends Connector {
         $fetch = mysqli_fetch_array($this->exeQuery("select max(id)as id from TBPersonState"));
         $num = ((int) $fetch['id']) + 1;
         $query = "insert into TBPersonState (id,idPerson,state)"
-                . "values (" . $num . "," . $personState->idPerson . "," . $personState->state . ")";
+                . "values (" . $num . "," . $personState->getIdPersonState() . "," . $personState->getStatePersonState() . ")";
         return $this->exeQuery($query);
     }
 
@@ -31,7 +31,7 @@ class PersonStateData extends Connector {
      */
     public function updatePersonState($personState) {
         //Aqui va la carne para actualizar
-        $query = "update TBPersonState set state=" . $personState->state . " where idPerson=" . $personState->idPerson;
+        $query = "update TBPersonState set state=" . $personState->getStatePersonState() . " where idPerson=" . $personState->getIdPersonState() ;
         return $this->exeQuery($query);
     }
 
@@ -42,7 +42,7 @@ class PersonStateData extends Connector {
      */
     //return state or -1 if no exist
     public function getPersonStateData($id) {
-        $query = "select state from TBPersonState" . " where idPerson=" . $id;
+        $query = "select state from TBPersonState" . " where idClientPersonState=" . $id;
         $result = $this->exeQuery($query);
         $row_cnt = mysqli_num_rows($result);
         if ($row_cnt === 0) {

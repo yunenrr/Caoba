@@ -47,13 +47,3 @@ function ajaxRequest(data, path) {
         data: data
     });
 }
-$(document).ready(function () {
-    $('.time').mask('YA:F0:B0', {'translation': {
-            Y: {pattern: /[0-2]/},
-            A: {pattern: /[0-3]/},
-            F: {pattern: /[0-5]/},
-            B: {pattern: /[0-5]/}
-        }
-    });
-    $('.money').mask('0 000 000 00 ₡', {reverse: true});
-});

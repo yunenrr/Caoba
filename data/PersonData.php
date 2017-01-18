@@ -132,11 +132,17 @@ class PersonData extends Connector {
                 . "ON p.idPerson=u.idPersonUser "
                 . "WHERE u.typeUser =" . $typeUser . "";
 
+        
+//        echo $query;
+//        
+//        exit;
+        
+        
         $result = $this->exeQuery($query);
         $personArray = [];
         while ($row = mysqli_fetch_array($result)) {
             $currentPerson = new Person(
-                    $row['idPerson'], $row['dniPerson'], $row['namePerson'], $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'], $row['genderPerson'], $row['emailPerson'], $row['address']);
+                    $row['idPerson'], $row['dniPerson'], $row['namePerson'], $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'], $row['genderPerson'], $row['emailPerson'], $row['addressPerson']);
             array_push($personArray, $currentPerson);
         }
         return $personArray;

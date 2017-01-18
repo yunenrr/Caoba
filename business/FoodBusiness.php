@@ -21,7 +21,7 @@ class FoodBusiness {
      * @return type
      */
     public function insertFood($food) {
-        $this->foodData->insertFood($food);
+        return $this->foodData->insertFood($food);
     }
 
     /**
@@ -30,7 +30,7 @@ class FoodBusiness {
      * @return type query result
      */
     public function updateFood($food) {
-        $this->foodData->updateFood($food);
+        return $this->foodData->updateFood($food);
     }
 
     /**
@@ -39,6 +39,6 @@ class FoodBusiness {
      * @return type
      */
     public function deleteFood($id) {
-        $this->foodData->deleteFood($id);
+        return $this->foodData->deleteFood($id);
     }
 }

@@ -21,7 +21,7 @@ class MeasurementBusiness {
      * @return type
      */
     public function insertMeasurement($measurement) {
-        $this->measurementData->insertMeasurement($measurement);
+        return $this->measurementData->insertMeasurement($measurement);
     }
 
     /**
@@ -30,7 +30,7 @@ class MeasurementBusiness {
      * @return type query result
      */
     public function updateMeasurement($measurement) {
-        $this->measurementData->updateMeasurement($measurement);
+        return $this->measurementData->updateMeasurement($measurement);
     }
 
     /**
@@ -39,7 +39,7 @@ class MeasurementBusiness {
      * @return type
      */
     public function deleteMeasurement($id) {
-        $this->measurementData->deleteMeasurement($id);
+        return $this->measurementData->deleteMeasurement($id);
     }
 
 }

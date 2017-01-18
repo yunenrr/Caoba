@@ -21,7 +21,7 @@ class InventoryBusiness {
      * @return type
      */
     public function insertInventory($inventory) {
-        $this->inventoryData->insertInventory($inventory);
+        return $this->inventoryData->insertInventory($inventory);
     }
 
     /**
@@ -30,7 +30,7 @@ class InventoryBusiness {
      * @return type query result
      */
     public function updateInventory($inventory) {
-        $this->inventoryData->updateInventory($inventory);
+        return $this->inventoryData->updateInventory($inventory);
     }
 
     /**
@@ -39,7 +39,7 @@ class InventoryBusiness {
      * @return type
      */
     public function deleteInventory($id) {
-        $this->inventoryData->deleteInventory($id);
+        return $this->inventoryData->deleteInventory($id);
     }
     
 }

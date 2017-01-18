@@ -21,7 +21,7 @@ class DietPlanPlanBusiness {
      * @return type
      */
     public function insertDietPlan($dietPlan) {
-        $this->dietPlanData->insertDietPlan($dietPlan);
+        return $this->dietPlanData->insertDietPlan($dietPlan);
     }
 
     /**
@@ -30,7 +30,7 @@ class DietPlanPlanBusiness {
      * @return type query result
      */
     public function updateDietPlan($dietPlan) {
-        $this->dietPlanData->updateDietPlan($dietPlan);
+        return $this->dietPlanData->updateDietPlan($dietPlan);
     }
 
     /**
@@ -39,6 +39,6 @@ class DietPlanPlanBusiness {
      * @return type
      */
     public function deleteDietPlan($id) {
-        $this->dietPlanData->deleteDietPlan($id);
+        return $this->dietPlanData->deleteDietPlan($id);
     }
 }

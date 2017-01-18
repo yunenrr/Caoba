@@ -12,7 +12,7 @@ class DietBusiness {
     private $dietData;
 
     public function DietBusiness() {
-        $this->dietData = new DietData();
+        return $this->dietData = new DietData();
     }
 
     /**
@@ -21,7 +21,7 @@ class DietBusiness {
      * @return type
      */
     public function insertDiet($diet) {
-        $this->dietData->insertDiet($diet);
+        return $this->dietData->insertDiet($diet);
     }
 
     /**
@@ -30,7 +30,7 @@ class DietBusiness {
      * @return type query result
      */
     public function updateDiet($diet) {
-        $this->dietData->updateDiet($diet);
+        return $this->dietData->updateDiet($diet);
     }
 
     /**
@@ -39,7 +39,7 @@ class DietBusiness {
      * @return type
      */
     public function deleteDiet($id) {
-        $this->dietData->deleteDiet($id);
+        return $this->dietData->deleteDiet($id);
     }
 
 }

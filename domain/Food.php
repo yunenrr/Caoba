@@ -17,7 +17,7 @@ class Food {
     private $nameFood;
     private $nutritionalValueFood;
 
-    function __construct($idFood, $nameFood, $nutritionalValueFood) {
+    function Food($idFood, $nameFood, $nutritionalValueFood) {
         $this->idFood = $idFood;
         $this->nameFood = $nameFood;
         $this->nutritionalValueFood = $nutritionalValueFood;

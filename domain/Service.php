@@ -82,6 +82,4 @@ class Service {
         $this->quotaService = $quotaService;
     }
 
-}
-
-//Fin de la clase
+}//Fin de la clase

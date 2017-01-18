@@ -56,16 +56,16 @@ if(isset($_POST['option']))
             $array = $data->getAllInstructor();
             
             foreach ($array as $current)
-            {
-                $temp = $temp.$current->id.",";
-                $temp = $temp.$current->dni.",";
-                $temp = $temp.$current->personName.",";
-                $temp = $temp.$current->firstName.",";
-                $temp = $temp.$current->secondName.",";
-                $temp = $temp.$current->age.",";
-                $temp = $temp.$current->gender.",";
-                $temp = $temp.$current->email.",";
-                $temp = $temp.$current->address.";";
+            {   
+                $temp = $temp.$current->getIdPerson().",";
+                $temp = $temp.$current->getDniPerson().",";
+                $temp = $temp.$current->getNamePerson().",";
+                $temp = $temp.$current->getFirstNamePerson().",";
+                $temp = $temp.$current->getSecondNamePerson().",";
+                $temp = $temp.$current->getAgePerson().",";
+                $temp = $temp.$current->getGenderPerson().",";
+                $temp = $temp.$current->getEmailPerson().",";
+                $temp = $temp.$current->getAddressPerson().";";
             }//Fin del foreach
             if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
             echo $temp;

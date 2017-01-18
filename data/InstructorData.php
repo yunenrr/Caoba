@@ -29,32 +29,32 @@ class InstructorData
     public function insertInstructor($person)
     {
         //Obtenemos el ID que le vamos a asignar
-        $idPerson = $this->getLastID("TBPerson");
-        $idInstructor = $this->getLastID("TBInstructor");
+        $idPerson = $this->getLastID("Person");
+        $idInstructor = $this->getLastID("Instructor");
         
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
         //Preparamos la información
-        $person->dni = mysqli_real_escape_string($connO,$person->dni);
-        $person->personName = mysqli_real_escape_string($connO,$person->personName);
-        $person->firstName = mysqli_real_escape_string($connO,$person->firstName);
-        $person->secondName = mysqli_real_escape_string($connO,$person->secondName);
-        $person->age = mysqli_real_escape_string($connO,$person->age);
-        $person->gender = mysqli_real_escape_string($connO,$person->gender);
-        $person->email = mysqli_real_escape_string($connO,$person->email);
-        $person->address = mysqli_real_escape_string($connO,$person->address);
+        $person->setDniPerson(mysqli_real_escape_string($connO,$person->getDniPerson()));
+        $person->setNamePerson(mysqli_real_escape_string($connO,$person->getNamePerson()));
+        $person->setFirstNamePerson(mysqli_real_escape_string($connO,$person->getFirstNamePerson()));
+        $person->setSecondNamePerson(mysqli_real_escape_string($connO,$person->getSecondNamePerson()));
+        $person->setAgePerson(mysqli_real_escape_string($connO,$person->getAgePerson()));
+        $person->setGenderPerson(mysqli_real_escape_string($connO,$person->getGenderPerson()));
+        $person->setEmailPerson(mysqli_real_escape_string($connO,$person->getEmailPerson()));
+        $person->setAddressPerson(mysqli_real_escape_string($connO,$person->getAddressPerson()));
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO TBPerson(id,dni,personName,firstName,secondName,age,gender,email,address) VALUES ($idPerson,"
-                . "'$person->dni','$person->personName','$person->firstName','$person->secondName',$person->age,$person->gender,"
-                . "'$person->email','$person->address');";
+        $sql = "INSERT INTO TBPerson(idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,emailPerson,addressPerson) VALUES ($idPerson,"
+                . "'".$person->getDniPerson()."','".$person->getNamePerson()."','".$person->getFirstNamePerson()."','".$person->getSecondNamePerson()."',".$person->getAgePerson().",".$person->getGenderPerson().","
+                . "'".$person->getEmailPerson()."','".$person->getAddressPerson()."');";
         $result = mysqli_query($connO,$sql);
         
         if($result)
         {
-            $sql = "INSERT INTO TBInstructor(id,idPerson) VALUES ($idInstructor,$idPerson);";
+            $sql = "INSERT INTO TBInstructor(idInstructor,idPersonInstructor) VALUES ($idInstructor,$idPerson);";
             $result = mysqli_query($connO,$sql);
             
             if($result){}
@@ -77,9 +77,8 @@ class InstructorData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT TBPerson.id,dni,personName,firstName,secondName,age,"
-                . "gender,email,address FROM TBPerson INNER JOIN TBInstructor ON "
-                . "TBPerson.id = TBInstructor.idPerson;";
+        $sql = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
+                . "emailPerson,addressPerson FROM TBPerson INNER JOIN TBInstructor ON TBPerson.idPerson = TBInstructor.idPersonInstructor;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -87,8 +86,9 @@ class InstructorData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $person = new Person($row['id'], $row['dni'],$row['personName'],$row['firstName'], 
-                        $row['secondName'], $row['age'],$row['gender'], $row['email'], $row['address']);
+                $person = new Person($row['idPerson'], $row['dniPerson'],$row['namePerson'],$row['firstNamePerson'], 
+                        $row['secondNamePerson'], $row['agePerson'],$row['genderPerson'], $row['emailPerson'], 
+                        $row['addressPerson']);
                 array_push($array, $person);
             }//Fin del while
         }//Fin del if
@@ -112,7 +112,7 @@ class InstructorData
         //Preparamos la información
         $id = mysqli_real_escape_string($connO,$id);
         
-        $sql = "DELETE FROM TBPerson WHERE TBPerson.id = $id;";
+        $sql = "DELETE FROM TBPerson WHERE TBPerson.idPerson = $id;";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -135,20 +135,20 @@ class InstructorData
         mysqli_set_charset($connO, "utf8");
         
         //Preparamos la información
-        $person->id = mysqli_real_escape_string($connO,$person->id);
-        $person->dni = mysqli_real_escape_string($connO,$person->dni);
-        $person->personName = mysqli_real_escape_string($connO,$person->personName);
-        $person->firstName = mysqli_real_escape_string($connO,$person->firstName);
-        $person->secondName = mysqli_real_escape_string($connO,$person->secondName);
-        $person->age = mysqli_real_escape_string($connO,$person->age);
-        $person->gender = mysqli_real_escape_string($connO,$person->gender);
-        $person->email = mysqli_real_escape_string($connO,$person->email);
-        $person->address = mysqli_real_escape_string($connO,$person->address);
+        $person->setIdPerson(mysqli_real_escape_string($connO,$person->getIdPerson()));
+        $person->setDniPerson(mysqli_real_escape_string($connO,$person->getDniPerson()));
+        $person->setNamePerson(mysqli_real_escape_string($connO,$person->getNamePerson()));
+        $person->setFirstNamePerson(mysqli_real_escape_string($connO,$person->getFirstNamePerson()));
+        $person->setSecondNamePerson(mysqli_real_escape_string($connO,$person->getSecondNamePerson()));
+        $person->setAgePerson(mysqli_real_escape_string($connO,$person->getAgePerson()));
+        $person->setGenderPerson(mysqli_real_escape_string($connO,$person->getGenderPerson()));
+        $person->setEmailPerson(mysqli_real_escape_string($connO,$person->getEmailPerson()));
+        $person->setAddressPerson(mysqli_real_escape_string($connO,$person->getAddressPerson()));
         
-        $sql = "UPDATE TBPerson SET dni = '$person->dni',personName = '$person->personName',"
-                . "firstName = '$person->firstName',secondName = '$person->secondName', "
-                . "age = $person->age, gender = $person->gender,email = '$person->email',"
-                . "address = '$person->address' WHERE TBPerson.id = $person->id;";
+        $sql = "UPDATE TBPerson SET dniPerson = '".$person->getDniPerson()."',namePerson = '".$person->getNamePerson()."',"
+                . "firstNamePerson = '".$person->getFirstNamePerson()."',secondNamePerson = '".$person->getSecondNamePerson()."', "
+                . "agePerson = ".$person->getAgePerson().", genderPerson = ".$person->getGenderPerson().",emailPerson = '".$person->getEmailPerson()."',"
+                . "addressPerson = '".$person->getAddressPerson()."' WHERE TBPerson.idPerson = ".$person->getIdPerson().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -166,7 +166,7 @@ class InstructorData
     public function getLastID($table)
     {
         $connO = $this->connection->getConnection();
-        $sqlQuery = "SELECT MAX(".$table.".id) as maxID FROM ".$table.";";
+        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM TB".$table.";";
         $result = mysqli_query($connO,$sqlQuery);
         
         if($result == null)

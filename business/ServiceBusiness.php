@@ -24,13 +24,13 @@ if(isset($_POST['option']))
             $array = $data->getAllService();
             $temp = "";
             foreach ($array as $current)
-            {
-                $temp = $temp.$current->id.",";
-                $temp = $temp.$current->idInstructor.",";
-                $temp = $temp.$current->serviceName.",";
-                $temp = $temp.$current->description.",";
-                $temp = $temp.$current->price.",";
-                $temp = $temp.$current->quota.";";
+            {   
+                $temp = $temp.$current->getIdService().",";
+                $temp = $temp.$current->getIdInstructorService().",";
+                $temp = $temp.$current->getNameService().",";
+                $temp = $temp.$current->getDescriptionService().",";
+                $temp = $temp.$current->getPriceService().",";
+                $temp = $temp.$current->getQuotaService().";";
             }//Fin del foreach
             if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
             echo $temp;
@@ -42,8 +42,8 @@ if(isset($_POST['option']))
             
             foreach ($array as $current)
             {
-                $temp = $temp.$current->id.",";
-                $temp = $temp.$current->personName." ".$current->firstName." ".$current->secondName.";";
+                $temp = $temp.$current->getIdPerson().",";
+                $temp = $temp.$current->getNamePerson()." ".$current->getFirstNamePerson()." ".$current->getSecondNamePerson().";";
             }//Fin del foreach
             if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
             echo $temp;

@@ -19,14 +19,21 @@ class Routine {
     private $seriesRoutine;
     private $repetitionsRoutine;
     private $commentRoutine;
-    private $muscleRoutine; //-- 1 = SHOULDERS
+    private $muscleRoutine; //-- 0 = ABDOMEN
+                            //-- 1 = SHOULDERS
                             //-- 2 = BICEPS
                             //-- 3 = TRICEPS
                             //-- 4 = CHEST
                             //-- 5 = BACK
                             //-- 6 = LEGS
 
-    function Routine($idRoutine, $idPersonRoutine, $nameRoutine, $seriesRoutine, $repetitionsRoutine, $commentRoutine, $muscleRoutine) {
+    function Routine($idRoutine, 
+            $idPersonRoutine, 
+            $nameRoutine, 
+            $seriesRoutine, 
+            $repetitionsRoutine, 
+            $commentRoutine, 
+            $muscleRoutine) {
         $this->idRoutine = $idRoutine;
         $this->idPersonRoutine = $idPersonRoutine;
         $this->nameRoutine = $nameRoutine;

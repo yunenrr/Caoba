@@ -41,5 +41,22 @@ class RoutineBusiness {
     public function deleteRoutine($id) {
         return $this->routineData->deleteRoutine($id);
     }
+    
+    /**
+     * Use to get the routine of the person
+     * @return type
+     */
+    public function getAllRoutine($idPerson){
+        return $this->routineData->getAllRoutine($idPerson);
+    }
+
+
+    /**
+     * Use to get the max id num to the people registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->routineData->getMaxId();
+    }
 
 }

@@ -38,10 +38,4 @@ include './header.php';
 
     var idPerson = $.get("id");
 
-    
-
-
-
-
-
 </script>

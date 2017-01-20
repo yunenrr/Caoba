@@ -192,8 +192,4 @@ include '../business/PersonBusiness.php'
         $("#tr" + id).remove();
     }
 
-    function action() {
-        location.href = "../business/CreateNewClientAction.php?phones=" + idPhone + "";
-    }
-
 </script> 

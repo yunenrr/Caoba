@@ -142,11 +142,11 @@ echo "</table>";
                 url: "../business/UpdatePhoneAction.php",
                 data: data,
                 success: function (res) {
-                    if (res == true) {
+                    if (res === true) {
 
                         $("#phone" + id).attr("readonly", "readonly");
                         $("#update" + id).hide();
-                        $("#edit" + id).show()();
+                        $("#edit" + id).show();
                     } else {
                         alert("Error update");
                     }
@@ -184,5 +184,7 @@ echo "</table>";
     function deletePhone(id) {
         $("#tr" + id).remove();
     }
+    
+   
 
 </script>

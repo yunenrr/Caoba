@@ -83,7 +83,7 @@ class Connector {
      * Show data in console
      * @param type $data data to show in console
      */
-    function debug_to_console($data) {
+    public function debug_to_console($data) {
         if (is_array($data))
             $output = "<script>console.log( 'Debug Objects: " . implode(',', $data) . "' );</script>";
         else

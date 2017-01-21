@@ -11,7 +11,7 @@
  *
  * @author luisd
  */
-class Person {
+class Person implements \JsonSerializable{
 
     private $idPerson;
     private $dniPerson;
@@ -22,17 +22,10 @@ class Person {
     private $genderPerson;
     private $emailPerson;
     private $addressPerson;
+    private $phoneReferencePerson;
+    private $bloodTypePerson;
 
-    function Person($idPerson, 
-            $dniPerson, 
-            $namePerson, 
-            $firstNamePerson, 
-            $secondNamePerson, 
-            $agePerson, 
-            $genderPerson, 
-            $emailPerson, 
-            $addressPerson) 
-    {
+    function Person($idPerson, $dniPerson, $namePerson, $firstNamePerson, $secondNamePerson, $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodTypePerson) {
         $this->idPerson = $idPerson;
         $this->dniPerson = $dniPerson;
         $this->namePerson = $namePerson;
@@ -42,6 +35,10 @@ class Person {
         $this->genderPerson = $genderPerson;
         $this->emailPerson = $emailPerson;
         $this->addressPerson = $addressPerson;
+        $this->emailPerson = $emailPerson;
+        $this->addressPerson = $addressPerson;
+        $this->phoneReferencePerson = $phoneReferencePerson;
+        $this->bloodTypePerson = $bloodTypePerson;
     }
 
     function getIdPerson() {
@@ -58,6 +55,22 @@ class Person {
 
     function getFirstNamePerson() {
         return $this->firstNamePerson;
+    }
+
+    function getPhoneReferencePerson() {
+        return $this->phoneReferencePerson;
+    }
+
+    function getBloodTypePerson() {
+        return $this->bloodTypePerson;
+    }
+
+    function setPhoneReferencePerson($phoneReferencePerson) {
+        $this->phoneReferencePerson = $phoneReferencePerson;
+    }
+
+    function setBloodTypePerson($bloodTypePerson) {
+        $this->bloodTypePerson = $bloodTypePerson;
     }
 
     function getSecondNamePerson() {
@@ -115,4 +128,11 @@ class Person {
     function setAddressPerson($addressPerson) {
         $this->addressPerson = $addressPerson;
     }
-}//Fin de la clase
+
+    public function jsonSerialize() {
+        
+    }
+
+}
+
+//Fin de la clase

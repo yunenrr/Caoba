@@ -196,7 +196,7 @@ include './header.php';
 
     function init() {
         var idPerson = $.get("id");
-
+          alert(idPerson );
         $('#divInsert').hide();
         $('#divABDOMEN').hide();
         $('#divSHOULDERS').hide();

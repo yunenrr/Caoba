@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head lang="es" xml:lang="es">
+    <head lang="es" >
         <title>Gym Caoba</title>
-        <meta charset="UTF-8">
+        
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/jsState.js" type="text/javascript"></script>
         <script src="../js/jquery.mask.min.js" type="text/javascript"></script>
@@ -17,7 +17,7 @@
                     <strong> <a href="changePersonStatusView.php">Status</a></strong>
                 </li>
                 <li>
-                    <strong>Client</strong>
+                    <a>Client</a>
                     <ul>
                         <li><a href="CreateNewClient.php">Insert</a></li>
                         <li><a href="ViewClient.php" >Show</a></li>

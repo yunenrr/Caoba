@@ -1,5 +1,4 @@
 <?php
-
 include './PersonStateBusiness.php';
 $state = $_POST['state'];
 $id = $_POST['id'];

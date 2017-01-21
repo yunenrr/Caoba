@@ -45,6 +45,25 @@ class PersonData extends Connector {
         return $person;
     }
 
+    public function getPersonByDNI($id) {
+        $query = "SELECT * FROM TBPerson WHERE dniPerson=" . $id;
+        $personResult = $this->exeQuery($query);
+        $row = mysqli_fetch_array($personResult);
+        $array[] = array("idRoutine" => $row['idPerson'],
+            "dniPerson" => $row['dniPerson'],
+            "namePerson" => $row['namePerson'],
+            "firstNamePerson" => $row['firstNamePerson'],
+            "secondNamePerson" => $row['secondNamePerson'],
+            "agePerson'" => $row['agePerson'],
+            "genderPerson" => $row['genderPerson'],
+            "emailPerson" => $row['emailPerson'],
+            "addressPerson" => $row['addressPerson'],
+            "phoneReferencePerson" => $row['phoneReferencePerson'],
+            "bloodTypePerson" => $row['bloodTypePerson']
+        );
+        return $array;
+    }
+
     /**
      * Used to insert a new person
      * @param type $person
@@ -62,7 +81,8 @@ class PersonData extends Connector {
                 . ",'" . $person->getGenderPerson() . "'"
                 . ",'" . $person->getEmailPerson() . "'"
                 . ",'" . $person->getAddressPerson() . "');";
-
+        echo $query;
+        exit;
         return $this->exeQuery($query);
     }
 
@@ -126,23 +146,16 @@ class PersonData extends Connector {
      * @return all clients array
      */
     public function returnPersonsByTypeData($typeUser) {
-        $query = "SELECT p.idPerson,p.dniPerson,p.namePerson,p.firstNamePerson,p.secondNamePerson,p.agePerson,p.genderPerson,"
-                . "p.emailPerson,p.addressPerson "
+        $query = "SELECT * "
                 . "FROM TBPerson AS p INNER JOIN TBUser AS u "
                 . "ON p.idPerson=u.idPersonUser "
                 . "WHERE u.typeUser =" . $typeUser . "";
 
-        
-//        echo $query;
-//        
-//        exit;
-        
-        
         $result = $this->exeQuery($query);
         $personArray = [];
         while ($row = mysqli_fetch_array($result)) {
             $currentPerson = new Person(
-                    $row['idPerson'], $row['dniPerson'], $row['namePerson'], $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'], $row['genderPerson'], $row['emailPerson'], $row['addressPerson']);
+                    $row['idPerson'], $row['dniPerson'], $row['namePerson'], $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'], $row['genderPerson'], $row['emailPerson'], $row['addressPerson'], $row['phoneReferencePerson'], $row['bloodTypePerson']);
             array_push($personArray, $currentPerson);
         }
         return $personArray;

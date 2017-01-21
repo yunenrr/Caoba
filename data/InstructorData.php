@@ -1,6 +1,7 @@
 <?php
 include 'Connection.php';
 include '../domain/Person.php';
+include '../domain/Gender.php';
 
 /**
  * Clase que nos permite manipular el instructor en la base de datos.
@@ -182,5 +183,33 @@ class InstructorData
         $this->connection->closeConnection();
         
         return $id;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite obtener todos los géneros
+     */
+    public function getAllGender()
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        $sql = "SELECT idGender, nameGender FROM TBGender;";
+        
+        $result = mysqli_query($connO,$sql);
+        $array = [];
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $gender = new Gender($row['idGender'], $row['nameGender']);
+                array_push($array, $gender);
+            }//Fin del while
+        }//Fin del if
+        
+        $this->connection->closeConnection();
+        
+        return $array;
     }//Fin de la función
 }//Fin de la clase

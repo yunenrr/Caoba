@@ -7,7 +7,10 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Payment methods</th>
                 <th>Quota</th>
+                <th>Start date</th>
+                <th>End date</th>
                 <th>Update/Delete</th>
             </tr>
         </thead>

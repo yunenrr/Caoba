@@ -1,18 +1,13 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Person
+ * Objeto Persona
  *
- * @author luisd
+ * @author Yunen Ramos Ramírez
+ * @version 1.1
  */
-class Person {
-
+class Person 
+{
     private $idPerson;
     private $dniPerson;
     private $namePerson;
@@ -22,16 +17,12 @@ class Person {
     private $genderPerson;
     private $emailPerson;
     private $addressPerson;
+    private $phoneReferencePerson;
+    private $bloodTypePerson;
 
-    function Person($idPerson, 
-            $dniPerson, 
-            $namePerson, 
-            $firstNamePerson, 
-            $secondNamePerson, 
-            $agePerson, 
-            $genderPerson, 
-            $emailPerson, 
-            $addressPerson) 
+    function Person($idPerson, $dniPerson, $namePerson, $firstNamePerson, 
+            $secondNamePerson, $agePerson, $genderPerson, $emailPerson,
+            $addressPerson, $phoneReferencePerson, $bloodTypePerson) 
     {
         $this->idPerson = $idPerson;
         $this->dniPerson = $dniPerson;
@@ -42,6 +33,8 @@ class Person {
         $this->genderPerson = $genderPerson;
         $this->emailPerson = $emailPerson;
         $this->addressPerson = $addressPerson;
+        $this->phoneReferencePerson = $phoneReferencePerson;
+        $this->bloodTypePerson = $bloodTypePerson;
     }
 
     function getIdPerson() {
@@ -80,6 +73,14 @@ class Person {
         return $this->addressPerson;
     }
 
+    function getPhoneReferencePerson() {
+        return $this->phoneReferencePerson;
+    }
+
+    function getBloodTypePerson() {
+        return $this->bloodTypePerson;
+    }
+
     function setIdPerson($idPerson) {
         $this->idPerson = $idPerson;
     }
@@ -114,5 +115,13 @@ class Person {
 
     function setAddressPerson($addressPerson) {
         $this->addressPerson = $addressPerson;
+    }
+
+    function setPhoneReferencePerson($phoneReferencePerson) {
+        $this->phoneReferencePerson = $phoneReferencePerson;
+    }
+
+    function setBloodTypePerson($bloodTypePerson) {
+        $this->bloodTypePerson = $bloodTypePerson;
     }
 }//Fin de la clase

@@ -15,6 +15,7 @@ if(isset($_POST['option']))
      * 2 - Obtener todos los instructores  
      * 3 - Eliminar instructores  
      * 4 - Actualizar instructores 
+     * 5 - Obtener todos los géneros.
      */
     switch($option)
     {
@@ -108,6 +109,18 @@ if(isset($_POST['option']))
                 echo "0";
             }
             break;
-        case 5:break;
+        case 5:
+            $data = new InstructorData();
+            $temp = "";
+            $array = $data->getAllGender();
+            
+            foreach ($array as $current)
+            {
+                $temp = $temp.$current->getIdGender().",";
+                $temp = $temp.$current->getNameGender().";";
+            }//Fin del foreach
+            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
+            echo $temp;
+            break;
     }//Fin del switch
 }//Fin del if

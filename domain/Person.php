@@ -1,17 +1,12 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Person
+ * Objeto Persona
  *
- * @author luisd
+ * @author Yunen Ramos Ramírez
+ * @version 1.1
  */
-class Person implements \JsonSerializable{
+class Person {
 
     private $idPerson;
     private $dniPerson;
@@ -26,6 +21,7 @@ class Person implements \JsonSerializable{
     private $bloodTypePerson;
 
     function Person($idPerson, $dniPerson, $namePerson, $firstNamePerson, $secondNamePerson, $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodTypePerson) {
+
         $this->idPerson = $idPerson;
         $this->dniPerson = $dniPerson;
         $this->namePerson = $namePerson;
@@ -57,13 +53,7 @@ class Person implements \JsonSerializable{
         return $this->firstNamePerson;
     }
 
-    function getPhoneReferencePerson() {
-        return $this->phoneReferencePerson;
-    }
-
-    function getBloodTypePerson() {
-        return $this->bloodTypePerson;
-    }
+   
 
     function setPhoneReferencePerson($phoneReferencePerson) {
         $this->phoneReferencePerson = $phoneReferencePerson;
@@ -91,6 +81,14 @@ class Person implements \JsonSerializable{
 
     function getAddressPerson() {
         return $this->addressPerson;
+    }
+
+    function getPhoneReferencePerson() {
+        return $this->phoneReferencePerson;
+    }
+
+    function getBloodTypePerson() {
+        return $this->bloodTypePerson;
     }
 
     function setIdPerson($idPerson) {
@@ -129,10 +127,15 @@ class Person implements \JsonSerializable{
         $this->addressPerson = $addressPerson;
     }
 
-    public function jsonSerialize() {
-        
+    function setPhoneReferencePerson($phoneReferencePerson) {
+        $this->phoneReferencePerson = $phoneReferencePerson;
+    }
+
+    function setBloodTypePerson($bloodTypePerson) {
+        $this->bloodTypePerson = $bloodTypePerson;
     }
 
 }
 
 //Fin de la clase
+

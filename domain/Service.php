@@ -12,7 +12,7 @@ class Service
     //Atributos globales
     private $idService, $idInstructorService, $priceService, $quotaService; //Int
     private $nameService, $descriptionService; //String
-    private $starDateService, $endDateService; //Date
+    private $startDateService, $endDateService; //Date
 
     /**
      * Función constructora.
@@ -22,11 +22,11 @@ class Service
      * @param String $descriptionService Corresponde a una breve descripción del servicio.
      * @param int $priceService Corresponde al precio del servicio.
      * @param int $quotaService Corresponde al cupo del servicio.
-     * @param date $starDateService Corresponde a la fecha de inicio del servicio.
+     * @param date $startDateService Corresponde a la fecha de inicio del servicio.
      * @param data $endDateService Corresponde a la fecha de fin del servicio.
      */
     function Service($idService, $idInstructorService, $nameService, 
-            $descriptionService, $priceService, $quotaService,$starDateService,
+            $descriptionService, $priceService, $quotaService,$startDateService,
             $endDateService) 
     {
         $this->idService = $idService;
@@ -35,7 +35,7 @@ class Service
         $this->descriptionService = $descriptionService;
         $this->priceService = $priceService;
         $this->quotaService = $quotaService;
-        $this->starDateService = $starDateService;
+        $this->startDateService = $startDateService;
         $this->endDateService = $endDateService;
     }//Fin de la función constructora
 
@@ -64,8 +64,8 @@ class Service
         return $this->descriptionService;
     }
 
-    function getStarDateService() {
-        return $this->starDateService;
+    function getStartDateService() {
+        return $this->startDateService;
     }
 
     function getEndDateService() {
@@ -97,8 +97,8 @@ class Service
         $this->descriptionService = $descriptionService;
     }
 
-    function setStarDateService($starDateService) {
-        $this->starDateService = $starDateService;
+    function setStartDateService($startDateService) {
+        $this->startDateService = $startDateService;
     }
 
     function setEndDateService($endDateService) {

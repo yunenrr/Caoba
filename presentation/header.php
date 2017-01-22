@@ -24,13 +24,15 @@
                     </ul>
                 </li>
                 <li>
-                    <strong> <a href="instructor.php">Instructor</a></strong>
+                    <strong> <a href="Instructor.php">Instructor</a></strong>
               
                 </li>
-            
                 <li>
-                    <strong> <a href="service.php">Service</a></strong>
-              
+                    <strong>Service</strong>
+                    <ul>
+                        <li><a href="CreateService.php">Insert</a></li>
+                        <li><a href="ViewClient.php" >Show</a></li>
+                    </ul>
                 </li>
             </ul>
         </nav>

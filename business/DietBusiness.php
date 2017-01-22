@@ -42,4 +42,21 @@ class DietBusiness {
         return $this->dietData->deleteDiet($id);
     }
 
+    /**
+     * Use to get the max id num to the diet registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->dietData->getMaxId();
+    }
+    
+    /**
+     * use to get a specif diet
+     * @param type $idPerson
+     * @return type
+     */
+    public function getDiet($idPerson) {
+        return $this->dietData->getDiet($idPerson);
+    }
+
 }

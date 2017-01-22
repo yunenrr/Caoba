@@ -22,17 +22,10 @@ class Person {
     private $genderPerson;
     private $emailPerson;
     private $addressPerson;
+    private $phoneReferencePerson;
+    private $bloodTypePerson;
 
-    function Person($idPerson, 
-            $dniPerson, 
-            $namePerson, 
-            $firstNamePerson, 
-            $secondNamePerson, 
-            $agePerson, 
-            $genderPerson, 
-            $emailPerson, 
-            $addressPerson) 
-    {
+    function Person($idPerson, $dniPerson, $namePerson, $firstNamePerson, $secondNamePerson, $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodTypePerson) {
         $this->idPerson = $idPerson;
         $this->dniPerson = $dniPerson;
         $this->namePerson = $namePerson;
@@ -42,6 +35,8 @@ class Person {
         $this->genderPerson = $genderPerson;
         $this->emailPerson = $emailPerson;
         $this->addressPerson = $addressPerson;
+        $this->phoneReferencePerson = $phoneReferencePerson;
+        $this->bloodTypePerson = $bloodTypePerson;
     }
 
     function getIdPerson() {
@@ -79,6 +74,12 @@ class Person {
     function getAddressPerson() {
         return $this->addressPerson;
     }
+    function getPhoneReferencePerson() {
+        return $this->phoneReferencePerson;
+    }
+    function getBloodTypePerson() {
+        return $this->bloodTypePerson;
+    }
 
     function setIdPerson($idPerson) {
         $this->idPerson = $idPerson;
@@ -115,4 +116,14 @@ class Person {
     function setAddressPerson($addressPerson) {
         $this->addressPerson = $addressPerson;
     }
-}//Fin de la clase
+
+    function setPhoneReferencePerson ($phoneReferencePerson) {
+        $this->phoneReferencePerson = $phoneReferencePerson ;
+    }
+    function setBloodTypePerson ($bloodTypePerson ) {
+        $this->bloodTypePerson = $bloodTypePerson ;
+    }
+
+}
+
+//Fin de la clase

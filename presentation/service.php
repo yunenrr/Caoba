@@ -11,7 +11,7 @@
                 <th>Update/Delete</th>
             </tr>
         </thead>
-        <tbody id="tableBodyService">
+        <tbody id="tableBodyDiet">
         </tbody>
         <tfoot>
             <tr>

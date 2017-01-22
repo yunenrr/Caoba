@@ -17,7 +17,10 @@ class DietData extends Connector {
      * @return type
      */
     public function insertDiet($diet) {
-        $query = "";
+        $query = "INSERT INTO TBDiet(idDiet,nameDiet,descriptionDiet)"
+                . "VALUES ('" . $diet->getIdDiet() . "'"
+                . ",'" . $diet->getNameDiet() . "'"
+                . ",'" . $diet->getDescriptionDiet() . "');";
 
         return $this->exeQuery($query);
     }
@@ -40,11 +43,42 @@ class DietData extends Connector {
      * @return type
      */
     public function deleteDiet($id) {
-        if ($this->exeQuery("")) {
+        $query = 'DELETE FROM TBDiet WHERE idDiet=' . $id;
+        if ($this->exeQuery($query)) {
             return TRUE;
         } else {
             return FALSE;
         }
     }
 
+    /**
+     * Use to get the max id num to the diet registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->getMaxIdTable("Diet");
+    }
+
+    /**
+     * Use to get all diet
+     * @return array
+     */
+    public function getDiet($idPerson) {
+
+        $query = "SELECT idDiet, nameDiet, descriptionDiet,dietDayDietPlan,dietHourDietPlan,nameFood "
+                . "FROM TBDiet INNER JOIN TBDietPerson ON idDiet = idDietDietPerson "
+                . "INNER JOIN TBDietPlan ON idDiet= idDietDietPlan "
+                . "INNER JOIN TBFood ON idFoodDietPlan=idFood "
+                . "WHERE idPersonDietPerson =" . $idPerson;
+
+        $result = $this->exeQuery($query);
+        $temp = "";
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                $temp = $temp. $row['idDiet'] . "," . $row['nameFood'] . "," . $row['nameDiet'] . "," .
+                        $row['descriptionDiet'] . "," . $row['dietDayDietPlan'] . "," . $row['dietHourDietPlan'] . ";";
+            }
+        }
+        return $temp;
+    }
 }

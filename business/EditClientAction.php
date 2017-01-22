@@ -13,17 +13,21 @@ $personBusiness = new PersonBusiness();
 if (isset($_POST['submit'])) {
 
 // get form data, making sure it is valid
-    $id = $_POST['id'];
-    $dni = mysql_real_escape_string(htmlspecialchars($_POST['dni']));
-    $name = mysql_real_escape_string(htmlspecialchars($_POST['name']));
-    $firstname = mysql_real_escape_string(htmlspecialchars($_POST['firstname']));
-    $secondname = mysql_real_escape_string(htmlspecialchars($_POST['secondname']));
-    $age = $_POST['age'];
-    $gender = $_POST['gender'];
-    $email = mysql_real_escape_string(htmlspecialchars($_POST['email']));
-    $address = $_POST['address'];
-    
-    $person = new Person($id, $dni, $name, $firstname, $secondname, $age, $gender, $email, $address);
+    $idPerson = mysql_real_escape_string(htmlspecialchars($_POST['id']));
+    $dniPerson = mysql_real_escape_string(htmlspecialchars($_POST['dni']));
+    $namePerson = mysql_real_escape_string(htmlspecialchars($_POST['name']));
+    $firstnamePerson = mysql_real_escape_string(htmlspecialchars($_POST['firstname']));
+    $secondnamePerson = mysql_real_escape_string(htmlspecialchars($_POST['secondname']));
+    $agePerson = mysql_real_escape_string(htmlspecialchars($_POST['age']));
+    $genderPerson = mysql_real_escape_string(htmlspecialchars($_POST['gender']));
+    $emailPerson = mysql_real_escape_string(htmlspecialchars($_POST['email']));
+    $addressPerson = mysql_real_escape_string($_POST['address']);
+    $phoneReferencePerson = mysql_real_escape_string($_POST['addPhoneReference']);
+    $bloodPerson = mysql_real_escape_string($_POST['selBlood']);
+//    $passwordUser = mysql_real_escape_string($_POST['password']);
+//    $nameUser = mysql_real_escape_string($_POST['userName']);
+    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson,
+            $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodPerson);
 
     if ($personBusiness->updatePerson($person)) {
         header("location: ../presentation/ViewClient.php?success=UPDATE");

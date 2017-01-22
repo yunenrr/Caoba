@@ -2,14 +2,14 @@
 
 header("Content-Type: text/html;charset=utf-8");
 require_once '../data/Connector.php';
-include '../domain/DietPlanPlan.php';
+include '../domain/DietPlan.php';
 
 /**
  * Description of DietPlanPlanData
  *
  * @author luisd
  */
-class DietPlanPlanData extends Connector {
+class DietPlanData extends Connector {
 
     /**
      * Used to insert a new dietPlan
@@ -17,7 +17,12 @@ class DietPlanPlanData extends Connector {
      * @return type
      */
     public function insertDietPlan($dietPlan) {
-        $query = "";
+        $query = "INSERT INTO TBDietPlan(idDietPlan,idFoodDietPlan,idDietDietPlan, dietDayDietPlan,dietHourDietPlan)"
+                . "VALUES ('" . $dietPlan->getIdDietPlan() . "'"
+                . ",'" . $dietPlan->getIdFoodDietPlan() . "'"
+                . ",'" . $dietPlan->getIdDietDietPlan() . "'"
+                . ",'" . $dietPlan->getDietDayDietPlan() . "'"
+                . ",'" . $dietPlan->getDietHourDietPlan() ."');";
 
         return $this->exeQuery($query);
     }
@@ -46,5 +51,11 @@ class DietPlanPlanData extends Connector {
             return FALSE;
         }
     }
-
+/**
+     * Use to get the max id num to the dietPlan registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->getMaxIdTable("DietPlan");
+    }
 }

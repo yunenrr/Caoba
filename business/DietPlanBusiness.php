@@ -1,13 +1,13 @@
 <?php
 
-include '../data/DietPlanPlanData.php';
+include '../data/DietPlanData.php';
 
 /**
  * Description of DietPlanPlanBusiness
  *
  * @author luisd
  */
-class DietPlanPlanBusiness {
+class DietPlanBusiness {
 
      private $dietPlanData;
 
@@ -40,5 +40,12 @@ class DietPlanPlanBusiness {
      */
     public function deleteDietPlan($id) {
         return $this->dietPlanData->deleteDietPlan($id);
+    }
+    /**
+     * Use to get the max id num to the dietPlan registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->dietPlanData->getMaxId();
     }
 }

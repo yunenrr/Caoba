@@ -49,6 +49,17 @@ $person = $personBusiness->getPerson($id);
             </td>
         </tr>
 
+        <!--USER NAME-->
+        <tr><td>User name:</td>
+            <td><input type="text" id="userName" name="userName" required/><br/>
+                <div id="msgUserName" style="color: red"></div></td>
+        </tr>
+        <!--PASSWORD-->
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" id="password" name="password" required/><br/></td>
+        </tr>
+
         <!--AGE-->
         <tr>
             <td>Age:</td>
@@ -67,8 +78,19 @@ $person = $personBusiness->getPerson($id);
                 <input type="radio" id="gender" name="gender"
                        accept=""<?php if (isset($gender) && $gender == 1) echo "checked"; ?>
                        value=1>Male
+                <input type="radio" id="gender" name="gender"
+                       accept=""<?php if (isset($gender) && $gender == 2) echo "checked"; ?>
+                       value=1>Undefined
             </td>
         </tr>
+        
+        <!--Blood-->
+            <tr>
+                <td>Blood Type:</td>
+                <td><select id="selBlood" name="selBlood"><option value="0-">0-</option><option value="0+">0+</option>
+                        <option value="A-">A-</option><option value="A+">A+</option> <option value="B-">B-</option>
+                        <option value="B+">B+</option><option value="AB-">AB-</option><option value="AB+">AB+</option> </select></td>
+            </tr>
 
         <!--EMAIL-->
         <tr>
@@ -78,6 +100,11 @@ $person = $personBusiness->getPerson($id);
             </td>
         </tr>
 
+        <!--Phone reference-->
+            <tr>
+                <td>Phone reference:</td>
+                <td><input type="number" id="addPhoneReference" name= "addPhoneReference" type="button" value=<?php echo $person->getPhoneReferencePerson() ?>  required></td>
+            </tr>
         <!--ADDRESS-->
         <tr>
             <td>Address:</td>

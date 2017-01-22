@@ -10,8 +10,8 @@ include '../domain/Food.php';
  * @author luisd
  */
 class FoodData extends Connector {
-   
-     /**
+
+    /**
      * Used to insert a new food
      * @param type $food
      * @return type
@@ -45,5 +45,24 @@ class FoodData extends Connector {
         } else {
             return FALSE;
         }
+    }
+
+    /**
+     * Use to get all food
+     * @return array
+     */
+    public function getAllFood() {
+
+        $query = "SELECT idFood,nameFood,nutritionalValueFood FROM TBFood";
+        $result = $this->exeQuery($query);
+        $array = [];
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                $current = new Food($row['idFood'], $row['nameFood'], $row['nutritionalValueFood']);
+                array_push($array, $current);
+                $current->getNameFood();
+            }
+        }
+        return $array;
     }
 }

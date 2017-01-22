@@ -42,5 +42,21 @@ class UserBusiness {
         return $this->userData->deleteUser($id);
     }
 
-    
+    /**
+     * Use to get the max id num to the user registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->userData->getMaxId();
+    }
+
+    /**
+     * Use to verify if the username already exist
+     * @param type $userName
+     * @return type
+     */
+    public function verifyUserNameUser($userName) {
+        return $this->userData->verifyUserName($userName);
+    }
+
 }

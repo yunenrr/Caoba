@@ -25,12 +25,8 @@
                 </li>
                 <li>
                     <strong> <a href="instructor.php">Instructor</a></strong>
-              
-                </li>
-            
                 <li>
                     <strong> <a href="service.php">Service</a></strong>
-              
                 </li>
             </ul>
         </nav>

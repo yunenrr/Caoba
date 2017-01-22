@@ -41,4 +41,11 @@ class FoodBusiness {
     public function deleteFood($id) {
         return $this->foodData->deleteFood($id);
     }
+    /**
+     * Use to get all food
+     * @return type
+     */
+    public function getAllFood() {
+        return $this->foodData->getAllFood();
+    }
 }

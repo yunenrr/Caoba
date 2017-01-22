@@ -18,12 +18,20 @@ class PersonData extends Connector {
      */
     public function getAllPersons() {
 
-        $query = "SELECT * FROM TBPerson ORDER BY dniPerson ASC";
+         $query = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
+                . "emailPerson,addressPerson,phoneReferencePerson,bloodTypePerson "
+                . "FROM TBPerson INNER JOIN TBUser ON idPerson=idPersonUser WHERE typeUser=0";;
+         
         $allPersonsResult = $this->exeQuery($query);
         $array = [];
-        while ($row = mysqli_fetch_array($allPersonsResult)) {
-            $currentPerson = new Person($row['idPerson'], $row['dniPerson'], $row['namePerson'], $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'], $row['genderPerson'], $row['emailPerson'], $row['addressPerson']);
-            array_push($array, $currentPerson);
+        if (mysqli_num_rows($allPersonsResult) > 0) {
+            while ($row = mysqli_fetch_array($allPersonsResult)) {
+                $currentPerson = new Person($row['idPerson'], $row['dniPerson'], $row['namePerson'], 
+                        $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'],
+                        $row['genderPerson'], $row['emailPerson'], $row['addressPerson'], 
+                        $row['phoneReferencePerson'], $row['bloodTypePerson']);
+                array_push($array, $currentPerson);
+            }
         }
         return $array;
     }
@@ -35,13 +43,15 @@ class PersonData extends Connector {
      */
     public function getPerson($id) {
 
-        $query = "SELECT * FROM TBPerson WHERE idPerson=" . $id;
+        $query = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
+                . "emailPerson,addressPerson,phoneReferencePerson,bloodTypePerson FROM TBPerson WHERE idPerson=" . $id;
         $personResult = $this->exeQuery($query);
 
         $row = mysqli_fetch_array($personResult);
-        $person = new Person(
-                $row['idPerson'], $row['dniPerson'], $row['namePerson'], $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'], $row['genderPerson'], $row['emailPerson'], $row['addressPerson']);
-
+        $person = new Person($row['idPerson'], $row['dniPerson'], $row['namePerson'], 
+                        $row['firstNamePerson'], $row['secondNamePerson'], $row['agePerson'],
+                        $row['genderPerson'], $row['emailPerson'], $row['addressPerson'], 
+                        $row['phoneReferencePerson'], $row['bloodTypePerson']);
         return $person;
     }
 
@@ -52,16 +62,18 @@ class PersonData extends Connector {
      */
     public function insertPerson($person) {
 
-        $query = "INSERT INTO TBPerson(idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,emailPerson,addressPerson) "
-                . "VALUES ('" . $person->getIdPerson() . "'"
-                . ", '" . $person->getDniPerson() . "'"
+        $query = "INSERT INTO TBPerson(idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,emailPerson,addressPerson, phoneReferencePerson, bloodTypePerson) "
+                . "VALUES ('" .$person->getIdPerson() . "'"
+                . ",'" . $person->getDniPerson() . "'"
                 . ",'" . $person->getNamePerson() . "'"
                 . ",'" . $person->getFirstNamePerson() . "'"
                 . ",'" . $person->getSecondNamePerson() . "'"
                 . ",'" . $person->getAgePerson() . "'"
                 . ",'" . $person->getGenderPerson() . "'"
                 . ",'" . $person->getEmailPerson() . "'"
-                . ",'" . $person->getAddressPerson() . "');";
+                . ",'" . $person->getAddressPerson() . "'"
+                . ",'" . $person->getPhoneReferencePerson() . "'"
+                . ",'" . $person->getBloodTypePerson() . "');";
 
         return $this->exeQuery($query);
     }
@@ -100,6 +112,8 @@ class PersonData extends Connector {
                 . ",genderPerson = '" . $person->getGenderPerson() . "'"
                 . ",emailPerson = '" . $person->getEmailPerson() . "'"
                 . ",addressPerson = '" . $person->getAddressPerson() . "'"
+                . ",phoneReferencePerson = '" .$person->getPhoneReferencePerson() . "'"
+                . ",bloodTypePerson = '" .$person-> getBloodTypePerson() . "'"
                 . " WHERE idPerson = '" . $person->getIdPerson() . "'";
 
         return $this->exeQuery($query);

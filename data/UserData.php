@@ -2,7 +2,7 @@
 
 header("Content-Type: text/html;charset=utf-8");
 require_once '../data/Connector.php';
-include '../domain/';
+include '../domain/User.php';
 
 /**
  * Description of UserData
@@ -10,14 +10,19 @@ include '../domain/';
  * @author luisd
  */
 class UserData extends Connector {
-    
-     /**
+
+    /**
      * Used to insert a new user
      * @param type $user
      * @return type
      */
     public function insertUser($user) {
-        $query = "";
+        $query = "INSERT INTO TBUser(idUser,idPersonUser,TypeUser,userNameUser,passUser)"
+                . "VALUES ('" . $user->getIdUser() . "'"
+                . ", '" . $user->getIdPersonUser() . "'"
+                . ",'" . $user->getTypeUser() . "'"
+                . ",'" . $user->getUserNameUser() . "'"
+                . ",'" . $user->getPassUser() . "');";
 
         return $this->exeQuery($query);
     }
@@ -45,6 +50,26 @@ class UserData extends Connector {
         } else {
             return FALSE;
         }
+    }
+
+    /**
+     * Use to get the max id num to the user registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->getMaxIdTable("User");
+    }
+
+    /**
+     * Use to verify if the user name already exist
+     * @param type $userName
+     * @return type
+     */
+    public function verifyUserName($userName) {
+        $query = "SELECT count(userNameUser) FROM TBUser WHERE userNameUser=" . $userName;
+        $result = $this->exeQuery($query);
+        $array = mysqli_fetch_array($result);
+        return trim($array[0]);
     }
 
 }

@@ -9,52 +9,48 @@ include '../business/PersonBusiness.php'
 
     <!--FORM-->
     <form name="formInsert" action="../business/CreateNewClientAction.php" method="post" onsubmit="return validationInsertForm(this);">
-
-
         <!--INFO-->
         <table>
             <!--DNI-->
             <tr>
-                <td>DNI:</td>
-                <td>
-                    <input type="number" id="dni" name="dni" onKeyUp="comprobar(this.value)" required/>
-                    <div id="msgUsuario" style="color: red"></div>
-                </td>
+                <td>Identify:</td>
+                <td><input type="number" id="dni" name="dni" onKeyUp="comprobar(this.value)" required/>
+                    <div id="msgUsuario" style="color: red"></div></td>
             </tr>
-
             <!--NAME-->
             <tr>
                 <td>Person name:</td>
-                <td>
-                    <input type="text" id="name" name="name" 
-                           pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" required/><br/>
-                </td>
+                <td><input type="text" id="name" name="name" required/><br/></td>
             </tr>
 
             <!--FIRST NAME-->
             <tr>
                 <td>First name:</td>
-                <td>
-                    <input type="text" id="firstname" name="firstname" 
-                           pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" required/><br/>
-                </td>
+                <td><input type="text" id="firstname" name="firstname" required/><br/></td>
             </tr>
 
             <!--SECOND NAME-->
             <tr>
                 <td>Second name:</td>
-                <td>
-                    <input type="text" id="secondname" name="secondname" 
-                           pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" required/><br/>
-                </td>
+                <td><input type="text" id="secondname" name="secondname" required/><br/></td>
+            </tr>
+
+            <!--USER NAME-->
+            <tr>
+                <td>User name:</td>
+                <td><input type="text" id="userName" name="userName" required/><br/>
+                <div id="msgUserName" style="color: red"></div></td>
+            </tr>
+            <!--PASSWORD-->
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" id="password" name="password" required/><br/></td>
             </tr>
 
             <!--AGE-->
             <tr>
                 <td>Age:</td>
-                <td>
-                    <input type="number" id="age" name="age" min="0" required/>
-                </td>
+                <td><input type="number" id="age" name="age" min="0" required/></td>
             </tr>
 
             <!--GENDER-->
@@ -67,16 +63,29 @@ include '../business/PersonBusiness.php'
                     <input type="radio" id="gender" name="gender"
                     <?php if (isset($gender) && $gender == 1) echo "checked"; ?>
                            value=1>Male
+                    <input type="radio" id="gender" name="gender"
+                    <?php if (isset($gender) && $gender == 2) echo "checked"; ?>
+                           value=2>Undefined
                 </td>
+            </tr>
+            <!--Blood-->
+            <tr>
+                <td>Blood Type:</td>
+                <td><select id="selBlood" name="selBlood"><option value="0-">0-</option><option value="0+">0+</option>
+                        <option value="A-">A-</option><option value="A+">A+</option> <option value="B-">B-</option>
+                        <option value="B+">B+</option><option value="AB-">AB-</option><option value="AB+">AB+</option> </select></td>
             </tr>
 
             <!--EMAIL-->
             <tr>
                 <td>Email:</td>
-                <td>
-                    <input type="email" id="email" name="email" 
-                           pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required/><br/>
-                </td>
+                <td><input type="email" id="email" name="email" required/><br/></td>
+            </tr>
+
+            <!--Phone reference-->
+            <tr>
+                <td>Phone reference:</td>
+                <td><input type="number" id="addPhoneReference" name= "addPhoneReference" type="button" value=""></td>
             </tr>
 
             <!--PHONE-->
@@ -97,13 +106,10 @@ include '../business/PersonBusiness.php'
                     <input id="AddPhone" type="button" onclick="addPhone();" value="Add Phone">
                 </td>
             </tr>
-
             <!--ADDRESS-->
             <tr>
                 <td>Address:</td>
-                <td>
-                    <textarea id="address" name="address" rows="5" cols="40" required ></textarea>
-                </td>
+                <td><textarea id="address" name="address" rows="5" cols="40" required ></textarea></td>
             </tr>
         </table>
 
@@ -128,14 +134,37 @@ include '../business/PersonBusiness.php'
     var availability = '0' //Availability of dni
 
     // Use to valite the dni
+    $('#userName').focusout(function () {
+        if ($('#userName').val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "../business/CheckAction.php",
+                data: "userName=" + $('#userName').val(),
+                beforeSend: function () {
+                    $('#msgUserName').html('<img src="../resources/loader.gif"/> Checking');
+                },
+                success: function (respuesta) {
+                    if (respuesta == true) {
+                        $('#msgUserName').html("It already exists");
+                        availability = '1';
+                    } else {
+                        $('#msgUserName').html("");
+                        availability = '0';
+                    }
+                }
+            });
+        }
+    });
+
+    // Use to valite the username
     $('#dni').focusout(function () {
         if ($('#dni').val() != "") {
             $.ajax({
                 type: "POST",
-                url: "../business/CheckDniAction.php",
+                url: "../business/CheckAction.php",
                 data: "dni=" + $('#dni').val(),
                 beforeSend: function () {
-                    $('#msgUsuario').html('<img src="../resources/loader.gif"/> verificando');
+                    $('#msgUsuario').html('<img src="../resources/loader.gif"/> Checking');
                 },
                 success: function (respuesta) {
                     if (respuesta == true) {
@@ -149,6 +178,8 @@ include '../business/PersonBusiness.php'
             });
         }
     });
+
+
     /**
      * Use to validate that the fields are not empty
      * @returns {Boolean} */
@@ -192,4 +223,8 @@ include '../business/PersonBusiness.php'
         $("#tr" + id).remove();
     }
 
-</script> 
+    function action() {
+        location.href = "../business/CreateNewClientAction.php?phones=" + idPhone + "";
+    }
+
+</script>  

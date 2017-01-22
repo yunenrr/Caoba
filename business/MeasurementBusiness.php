@@ -15,6 +15,11 @@ class MeasurementBusiness {
         $this->measurementData = new MeasurementData();
     }
 
+    public function getMeasurementByClientId($id) {
+       return $this->measurementData->getMeasurementByClientId($id);
+        
+    }
+
     /**
      * Used to insert a new measurement
      * @param type $measurement

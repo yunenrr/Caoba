@@ -20,7 +20,7 @@ class Connector {
         $this->server = "localhost";
         $this->user = "root";
         $this->password = "";
-        $this->db = "gymcaoba";
+        $this->db = "GymCaoba";
     }
 
     /**

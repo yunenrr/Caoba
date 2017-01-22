@@ -16,6 +16,9 @@ if(isset($_POST['option']))
      * 3 - Insertar un nuevo servicio.
      * 4 - Eliminar servicios.
      * 5 - Actualizar servicios.
+     * 6 - Obtener todos los metodos de pago
+     * 7 - Obtener todos los días.
+     * 8 - Obtener los horarios por día.
      */
     switch($option)
     {
@@ -54,23 +57,51 @@ if(isset($_POST['option']))
             $description = $_POST['txtDescription'];
             $price = $_POST['txtPrice'];
             $quota = $_POST['txtQuota'];
+            $startDateService = $_POST['startDate'];
+            $endDateService = $_POST['endDate'];
+            $paymentMethod = $_POST['paymentMethod'];
+            $selectedSchedule = $_POST['selectedSchedule'];
+            $condition = 0;
             
             //Verificamos que no estén vacíos
             if((strlen($idInstructor) > 0) &&
                 (strlen($serviceName) > 0) &&
                 (strlen($description) > 0) &&
                 (strlen($price) > 0) &&
-                (strlen($quota) > 0))
+                (strlen($quota) > 0) &&
+                (strlen($startDateService) > 0) &&
+                (strlen($endDateService) > 0))
             {
                 $data = new ServiceData();
                 $service = new Service(0, $idInstructor, $serviceName, 
-                        $description, $price, $quota);
-                echo $data->insertService($service);
+                        $description, $price, $quota,$startDateService,$endDateService);
+                $condition = $data->insertService($service);
+                
+                //Insertamos las modalidades de pago
+                if($condition !== "0")
+                {
+                    $array = explode(",", $paymentMethod);
+                    
+                    foreach ($array as $current)
+                    {
+                        $cond = $data->insertServicePaymentMethod($condition, $current);
+                    }
+                    
+                    //Insertamos los horarios
+                    if($cond !== "0")
+                    {
+                        $array = explode(",", $selectedSchedule);
+                    
+                        foreach ($array as $current)
+                        {
+                            $cond = $data->insertSchedule($condition, $current);
+                        }
+                    }//Fin del if
+                    else{echo "0";}
+                }//Fin del if
+                else{echo "0";}
             }//Fin del if
-            else
-            {
-                echo "0";
-            }
+            else{echo "0";}
             break;
         case 4:
             $txtID = $_POST['txtID'];
@@ -101,6 +132,45 @@ if(isset($_POST['option']))
             {
                 echo "0";
             }
+            break;
+            
+        case 6:
+            $data = new ServiceData();
+            $array = $data->getAllPaymentModule();
+            $temp = "";
+            foreach ($array as $current)
+            {   
+                $temp = $temp.$current->getIdPaymentModule().",";
+                $temp = $temp.$current->getNamePaymentModule().";";
+            }//Fin del foreach
+            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
+            echo $temp;
+            break;
+        case 7:
+            $data = new ServiceData();
+            $array = $data->getAllDay();
+            $temp = "";
+            foreach ($array as $current)
+            {   
+                $temp = $temp.$current->getIdDay().",";
+                $temp = $temp.$current->getNameDay().";";
+            }//Fin del foreach
+            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
+            echo $temp;
+            break;
+        case 8:
+            $idDay = $_POST['day'];
+            $data = new ServiceData();
+            $array = $data->getScheduleByDay($idDay);
+            $temp = "";
+            foreach ($array as $current)
+            {   
+                $temp = $temp.$current->getIdDayHourService().",";
+                $temp = $temp.$current->getHourStartService().",";
+                $temp = $temp.$current->getHourEndService().";";
+            }//Fin del foreach
+            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
+            echo $temp;
             break;
     }//Fin del switch
 }//Fin del if

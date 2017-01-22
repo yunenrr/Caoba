@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
     $phoneReferencePerson = mysql_real_escape_string($_POST['addPhoneReference']);
     $bloodPerson = mysql_real_escape_string($_POST['selBlood']);
     $agePerson = mysql_real_escape_string( $_POST['age']);
-    $genderPerson = mysql_real_escape_string($_POST['gender']);
+    $genderPerson = $_POST['gender'];
 
     $idPerson = $personBusiness->getMaxId();
 

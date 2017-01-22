@@ -25,12 +25,11 @@ if(isset($_POST['option']))
             $txtFirstSurname = $_POST['txtFirstSurname'];
             $txtSecondSurname = $_POST['txtSecondSurname'];
             $txtAge = $_POST['txtAge'];
+            $selGender = $_POST['selGender'];
             $txtEmail = $_POST['txtEmail'];
             $txtAddress = $_POST['txtAddress'];
-            $selGender = $_POST['selGender'];
-            
-            if($selGender == "F"){$selGender = 0;}
-            else{$selGender = 1;}
+            $txtPhoneReference = $_POST['txtPhoneReference'];
+            $txtBloodType = $_POST['txtBloodType'];
             
             //Verificamos que no estén vacíos
             if((strlen($txtDNI) > 0) &&
@@ -39,11 +38,14 @@ if(isset($_POST['option']))
                 (strlen($txtSecondSurname) > 0) &&
                 (strlen($txtAge) > 0) &&
                 (strlen($txtEmail) > 0) &&
-                (strlen($txtAddress) > 0))
+                (strlen($txtAddress) > 0) &&
+                (strlen($txtPhoneReference) > 0) &&
+                (strlen($txtBloodType) > 0))
             {
                 $data = new InstructorData();
                 $person = new Person(0, $txtDNI, $txtName, $txtFirstSurname, 
-                        $txtSecondSurname, $txtAge, $selGender, $txtEmail, $txtAddress);
+                        $txtSecondSurname, $txtAge, $selGender, $txtEmail, $txtAddress,
+                        $txtPhoneReference,$txtBloodType);
                 echo $data->insertInstructor($person);
             }//Fin del if
             else
@@ -66,7 +68,9 @@ if(isset($_POST['option']))
                 $temp = $temp.$current->getAgePerson().",";
                 $temp = $temp.$current->getGenderPerson().",";
                 $temp = $temp.$current->getEmailPerson().",";
-                $temp = $temp.$current->getAddressPerson().";";
+                $temp = $temp.$current->getAddressPerson().",";
+                $temp = $temp.$current->getPhoneReferencePerson().",";
+                $temp = $temp.$current->getBloodTypePerson().";";
             }//Fin del foreach
             if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
             echo $temp;
@@ -86,9 +90,8 @@ if(isset($_POST['option']))
             $txtAddress = $_POST['txtAddress'];
             $selGender = $_POST['selGender'];
             $txtID = $_POST['txtID'];
-            
-            if($selGender == "F"){$selGender = 0;}
-            else{$selGender = 1;}
+            $txtPhoneReference = $_POST['txtPhoneReference'];
+            $txtBloodType = $_POST['txtBloodType'];
             
             //Verificamos que no estén vacíos
             if((strlen($txtDNI) > 0) &&
@@ -97,11 +100,14 @@ if(isset($_POST['option']))
                 (strlen($txtSecondSurname) > 0) &&
                 (strlen($txtAge) > 0) &&
                 (strlen($txtEmail) > 0) &&
-                (strlen($txtAddress) > 0))
+                (strlen($txtAddress) > 0) &&
+                (strlen($txtPhoneReference) > 0) &&
+                (strlen($txtBloodType) > 0))
             {
                 $data = new InstructorData();
                 $person = new Person($txtID, $txtDNI, $txtName, $txtFirstSurname, 
-                        $txtSecondSurname, $txtAge, $selGender, $txtEmail, $txtAddress);
+                        $txtSecondSurname, $txtAge, $selGender, $txtEmail, $txtAddress,
+                        $txtPhoneReference,$txtBloodType);
                 echo $data->updateInstructor($person);
             }//Fin del if
             else

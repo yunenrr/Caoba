@@ -801,7 +801,6 @@
                     if(validation())
                     {
                         var price = getMoneyInt($("#txtPrice").val().toString());
-                        alert(price);
                         var infoData = "option=5"+
                                 "&txtID="+id +
                                 "&selInstructor="+$("#selInstructor").val() +

@@ -32,7 +32,7 @@
                     <strong>Service</strong>
                     <ul>
                         <li><a href="CreateService.php">Insert</a></li>
-                        <li><a href="ViewClient.php" >Show</a></li>
+                        <li><a href="ViewService.php" >Show</a></li>
                     </ul>
                 </li>
             </ul>

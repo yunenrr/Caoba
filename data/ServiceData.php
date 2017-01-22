@@ -205,8 +205,13 @@ class ServiceData
         $service->setDescriptionService(mysqli_real_escape_string($connO,$service->getDescriptionService()));
         $service->setPriceService(mysqli_real_escape_string($connO,$service->getPriceService()));
         $service->setQuotaService(mysqli_real_escape_string($connO,$service->getQuotaService()));
+        $service->setStartDateService(mysqli_real_escape_string($connO,$service->getStartDateService()));
+        $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
         
-        $sql = "UPDATE TBService SET idInstructorService = ".$service->getIdInstructorService().", nameService = '".$service->getNameService()."',descriptionService = '".$service->getDescriptionService()."', priceService = ".$service->getPriceService().", quotaService = ".$service->getQuotaService()." WHERE TBService.idService = ".$service->getIdService().";";
+        $sql = "UPDATE TBService SET idInstructorService = ".$service->getIdInstructorService().", nameService = '".$service->getNameService()."', "
+                . "descriptionService = '".$service->getDescriptionService()."', priceService = '".$service->getPriceService()."', "
+                . "quotaService = '".$service->getQuotaService()."', starDateService = '".$service->getStartDateService()."', "
+                . "endDateService = '".$service->getEndDateService()."' WHERE TBService.idService = ".$service->getIdService().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -366,6 +371,175 @@ class ServiceData
             $sql = "INSERT INTO TBRelationServiceSchedule "
                     . "(idRelationServiceSchedule,idDayHourService,idService) "
                     . "VALUES ($idRelationServiceSchedule,$idSchedule,$idService);";
+            $result = mysqli_query($connO,$sql);
+            
+            if($result){}
+            else{$result = "0";}
+        }
+        else{$result = "0";}
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $result;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite obtener la información de un servicio por el id
+     * @param int $id Corresponde al identificador del servicio
+     */
+    public function getServiceByID($id)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        $sql = "SELECT idService,idInstructorService,nameService, "
+                . "descriptionService,priceService,quotaService,"
+                . "starDateService,endDateService FROM TBService "
+                . "WHERE TBService.idService = $id;";
+        $result = mysqli_query($connO,$sql);
+        $service;
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $service = new Service($row['idService'], $row['idInstructorService'], $row['nameService'],
+                        $row['descriptionService'], $row['priceService'], $row['quotaService'],
+                        $row['starDateService'],$row['endDateService']);
+            }//Fin del while
+        }//Fin del if
+        
+        $this->connection->closeConnection();
+        
+        return $service;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite obtener todos los métodos de pago existentes para un servicio en específico.
+     * @param String $id Corresponde al identificador del servicio.
+     */
+    public function getCurrentPaymentModule($id)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        $sql = "SELECT idPaymentModule, namePaymentModule FROM TBPaymentModule "
+                . "INNER JOIN TBServicePaymentModule ON TBPaymentModule.idPaymentModule = "
+                . "TBServicePaymentModule.idPaymentModuleServicePaymentModule WHERE "
+                . "TBServicePaymentModule.idServiceServicePaymentModule = $id;";
+        
+        $result = mysqli_query($connO,$sql);
+        $array = [];
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $paymentModule = new PaymentModule($row['idPaymentModule'], 
+                        $row['namePaymentModule']);
+                array_push($array, $paymentModule);
+            }//Fin del while
+        }//Fin del if
+        
+        $this->connection->closeConnection();
+        
+        return $array;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite obtener los horarios por día.
+     * @param String $id Corresponde al identificador del servicio.
+     */
+    public function getCurrentSchedule($id)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Prepraramos la información para la consulta
+        $id = mysqli_real_escape_string($connO,$id);
+        $sql = "SELECT TBDayHourService.idDayHourService,TBDay.nameDay, "
+                . "hourStartService,hourEndService FROM TBDayHourService INNER JOIN "
+                . "TBRelationServiceSchedule ON TBDayHourService.idDayHourService = "
+                . "TBRelationServiceSchedule.idDayHourService INNER JOIN TBDay ON "
+                . "TBDay.idDay = TBDayHourService.dayService WHERE "
+                . "TBRelationServiceSchedule.idService = $id;";
+        
+        $result = mysqli_query($connO,$sql);
+        $array = [];
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $dayHourService = new DayHourService($row['idDayHourService'], 
+                        $row['nameDay'], $row['hourStartService'], $row['hourEndService']);
+                array_push($array, $dayHourService);
+            }//Fin del while
+        }//Fin del if
+        
+        $this->connection->closeConnection();
+        
+        return $array;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite eliminar métodos de pago para los servicios.
+     * @param int $idService Corresponde al identificador del servicio.
+     * @param int $idPaymentMethod Corresponde al identificador del método de pago.
+     * @return String Indicando si se ingresó o no.
+     */
+    public function deleteServicePaymentMethod($idService,$idPaymentMethod)
+    {   
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Preparamos la información
+        $idService = mysqli_real_escape_string($connO,$idService);
+        $idPaymentMethod = mysqli_real_escape_string($connO,$idPaymentMethod);
+        
+        //Ejecutamos la sentencia
+        $sql = "DELETE FROM TBServicePaymentModule WHERE "
+                . "TBServicePaymentModule.idServiceServicePaymentModule = $idService "
+                . "AND TBServicePaymentModule.idPaymentModuleServicePaymentModule = $idPaymentMethod;";
+        $result = mysqli_query($connO,$sql);
+        
+        if($result){$result="1";}
+        else{$result = "0";}
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $result;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite eliminar horarios para los servicios.
+     * @param int $idService Corresponde al identificador del servicio.
+     * @param int $idSchedule Corresponde al identificador del horario.
+     * @return String Indicando si se ingresó o no.
+     */
+    public function deleteSchedule($idService,$idSchedule)
+    {   
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Preparamos la información
+        $idService = mysqli_real_escape_string($connO,$idService);
+        $idSchedule = mysqli_real_escape_string($connO,$idSchedule);
+        
+        //Ejecutamos la sentencia
+        $sql = "UPDATE TBDayHourService SET TBDayHourService.condition = 0 WHERE TBDayHourService.idDayHourService = $idSchedule;";
+        $result = mysqli_query($connO,$sql);
+        
+        if($result)
+        {
+            $sql = "DELETE FROM TBRelationServiceSchedule WHERE "
+                    . "TBRelationServiceSchedule.idService = $idService AND "
+                    . "TBRelationServiceSchedule.idDayHourService = $idSchedule;";
             $result = mysqli_query($connO,$sql);
             
             if($result){}

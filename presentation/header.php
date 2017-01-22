@@ -6,6 +6,7 @@
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/jsState.js" type="text/javascript"></script>
         <script src="../js/jquery.mask.min.js" type="text/javascript"></script>
+        <script src="../js/jquery.getParams.js" type="text/javascript"></script>
         <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
     </head>
     <body>

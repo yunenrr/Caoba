@@ -53,16 +53,6 @@ class Person {
         return $this->firstNamePerson;
     }
 
-   
-
-    function setPhoneReferencePerson($phoneReferencePerson) {
-        $this->phoneReferencePerson = $phoneReferencePerson;
-    }
-
-    function setBloodTypePerson($bloodTypePerson) {
-        $this->bloodTypePerson = $bloodTypePerson;
-    }
-
     function getSecondNamePerson() {
         return $this->secondNamePerson;
     }

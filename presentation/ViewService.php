@@ -123,6 +123,16 @@
                     deleteService(currentRow);
                 }//Fin de la función
             );//Fin del evento
+            
+            $("#tableBodyService").on
+            (
+                'click','input.btnUpdate', function() 
+                {
+                    var row = $(this).attr("id");
+                    var currentRow = row.substring(9,row.length);
+                    alert($("#txtID"+currentRow).val());
+                }//Fin de la función
+            );//Fin del evento
         }//Fin de la función principal
     );//Fin del evento ready
 </script>

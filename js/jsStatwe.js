@@ -46,3 +46,11 @@ function update(id, state) {
     ajaxRequest(data, '../business/PersonStateUpdateAction.php');
 }
 
+function ajaxRequest(data, path) {
+    $.ajax({
+        url: path,
+        type: 'post',
+        dataType: 'json',
+        data: data
+    });
+}

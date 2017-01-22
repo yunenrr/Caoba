@@ -48,12 +48,6 @@ class MeasurementData extends Connector {
                 $measurement->getMedialThighMeasurement() . "," .
                 $measurement->getCalfMeasurement() .
                 ");";
-//        ECHO $query;
-//        EXIT;
-        $query2 = "INSERT INTO mensaje VALUES ('" . $query . "')";
-        $this->exeQuery($query2);
-        $query2 = "INSERT INTO mensaje VALUES ('c" . $measurement->getMeasurementDateMeasurement() . "')";
-        $this->exeQuery($query2);
         return $this->exeQuery($query);
     }
 
@@ -67,6 +61,43 @@ class MeasurementData extends Connector {
         //Aqui va la carne para actualizar
 
         return $this->exeQuery($query);
+    }
+
+    public function getMeasurementByClientId($id) {
+        $query = "SELECT * FROM TBMeasurement WHERE idPersonMeasurement='" . $id . "'";
+        $measurementResult = $this->exeQuery($query);
+        $measurementArray = array();
+        while ($row = mysqli_fetch_array($measurementResult)) {
+            $array = array("idMeasurement" => $row['idMeasurement'],
+                "idPersonMeasurement" => $row['idPersonMeasurement'],
+                "measurementDate" => $row['measurementDateMeasurement'],
+                "transverseThorax" => $row['transverseThoraxMeasurement'],
+                "backThorax" => $row['backThoraxMeasurement'],
+                "biiliocrestideo" => $row['biiliocrestideoMeasurement'],
+                "humeral" => $row['humeralMeasurement'],
+                "femoral" => $row['femoralMeasurement'],
+                "head" => $row['headMeasurement'],
+                "armRelaxed" => $row['armRelaxedMeasurement'],
+                "armFlexed" => $row['armFlexedMeasurement'],
+                "forearmMeasurement" => $row['forearmMeasurement'],
+                "mesosternalThoraxMeasurement" => $row['mesosternalThoraxMeasurement'],
+                "waistMeasurement" => $row['waistMeasurement'],
+                "hipMeasurement" => $row['hipMeasurement'],
+                "innerThighMeasurement" => $row['innerThighMeasurement'],
+                "upperThighMeasurement" => $row['upperThighMeasurement'],
+                "calfMaxMeasurement" => $row['calfMaxMeasurement'],
+                "tricepsMeasurement" => $row['tricepsMeasurement'],
+                "subscapularMeasurement" => $row['subscapularMeasurement'],
+                "abdominalMeasurement" => $row['abdominalMeasurement'],
+                "medialThighMeasurement" => $row['medialThighMeasurement'],
+                "calfMeasurement" => $row['calfMeasurement']
+            );
+            array_push($measurementArray, $array);
+        }
+//        var_dump($measurementArray);
+//        echo (json_encode($measurementArray));
+
+        return $measurementArray;
     }
 
     /**

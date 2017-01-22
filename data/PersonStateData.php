@@ -22,18 +22,9 @@ class PersonStateData extends Connector {
             $num = 0;
         else:
             $num = ((int) $fetch['id']) + 1;
-
         endif;
-
-
         $query = "insert into TBPersonState (idPersonState,idClientPersonState,statePersonState) "
                 . "values(" . $num . "," . $personState->getIdClientPersonState() . "," . $personState->getStatePersonState() . ")";
-        $query2 = "INSERT INTO mensaje VALUES ('" . $query . "');";
-
-        $this->exeQuery($query2);
-
-//       echo  $query;
-//       exit;
         return $this->exeQuery($query);
     }
 

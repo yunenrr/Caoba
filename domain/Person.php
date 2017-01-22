@@ -53,8 +53,6 @@ class Person {
         return $this->firstNamePerson;
     }
 
-   
-
     function setPhoneReferencePerson($phoneReferencePerson) {
         $this->phoneReferencePerson = $phoneReferencePerson;
     }
@@ -126,16 +124,6 @@ class Person {
     function setAddressPerson($addressPerson) {
         $this->addressPerson = $addressPerson;
     }
-
-    function setPhoneReferencePerson($phoneReferencePerson) {
-        $this->phoneReferencePerson = $phoneReferencePerson;
-    }
-
-    function setBloodTypePerson($bloodTypePerson) {
-        $this->bloodTypePerson = $bloodTypePerson;
-    }
-
 }
-
 //Fin de la clase
 

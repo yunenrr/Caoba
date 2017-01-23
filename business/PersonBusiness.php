@@ -32,6 +32,9 @@ class PersonBusiness {
     public function getPerson($id) {
         return $this->personData->getPerson($id);
     }
+    public function getPersonByDNI($id) {
+        return $this->personData->getPersonByDNI($id);
+    }
 
     /**
      * Use to get the max id num to the people registration
@@ -79,7 +82,7 @@ class PersonBusiness {
 
     /**
      * Used to delete a person
-     * @param type $id pk of the person to delete
+     * @param type $typeUser pk of the person to delete
      * @return type
      */
     public function returnPersonsByTypeBusiness($typeUser) {

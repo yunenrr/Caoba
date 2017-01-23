@@ -28,6 +28,7 @@ include '../business/PersonStateBusiness.php'; //personState bussiness include
                 <td><strong>DEFINE STATUS</strong></td>
                 <td><strong>ENABLE</strong></td>
                 <td><strong>DISABLE</strong></td>
+                <td><strong>Measurement</strong></td>
             </tr>
         </thead>
         <!--table body-->
@@ -40,8 +41,8 @@ include '../business/PersonStateBusiness.php'; //personState bussiness include
             $PersonStateBusiness = new personStateBusiness(); //Instance of personstate bussiness
             if (is_array($personArray)) {
                 foreach ($personArray as $currentPerson) {
-                    $state = $PersonStateBusiness->getPersonStateBusiness($currentPerson->getIdPerson()); //Returns state fro current client
-                    $id = $currentPerson->getIdPerson();
+                    $state = $PersonStateBusiness->getPersonStateBusiness($currentPerson->getDniPerson()); //Returns state fro current client
+                    $id = $currentPerson->getDniPerson();
                     $statusEdit = "disabled";
                     $statusEnable = "disabled";
                     $statusDisable = "disabled";
@@ -55,19 +56,20 @@ include '../business/PersonStateBusiness.php'; //personState bussiness include
                         $statusEnable = "enable";
                     }
                     ?>
-                    <tr id="<?php echo $currentPerson->getIdPerson(); ?>" value="<?php echo $state; ?>">
-                        <td align="center"><?php echo $currentPerson->getIdPerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getDniPerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getNamePerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getFirstNamePerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getSecondNamePerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getAgePerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getGenderPerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getEmailPerson(); ?></td>
-                        <td align="center"><?php echo $currentPerson->getAddressPerson(); ?></td>
-                        <td align="center"><input id="<?php echo 'btnEdit' . $currentPerson->id; ?>" onclick="<?php echo 'enableButtons(' . $currentPerson->id . ')' ?>" type="button"  value="  EDIT  " <?php echo $statusEdit; ?>/></td>
-                        <td align="center" ><input id="<?php echo 'btnEna' . $id; ?>" onclick="<?php echo '' . $action . '(' . $id . ',' . 1 . ')' ?>" type="button"  value="  ENABLE  "  <?php echo $statusEnable . ""; ?> /></td>
-                        <td align="center" ><input id="<?php echo 'btnDis' . $id; ?>" onclick="<?php echo '' . $action . '(' . $id . ',' . 0 . ')' ?>" type="button"  value="  DISABLE  " <?php echo $statusDisable . ""; ?> /> </td
+                    <tr id="<?= $currentPerson->getDniPerson(); ?>" value="<?= $state; ?>">
+                        <td align="center"><?= $currentPerson->getIdPerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getDniPerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getNamePerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getFirstNamePerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getSecondNamePerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getAgePerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getGenderPerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getEmailPerson(); ?></td>
+                        <td align="center"><?= $currentPerson->getAddressPerson(); ?></td>
+                        <td align="center"><input id="<?= 'btnEdit' . $currentPerson->getDniPerson(); ?>" onclick="<?= 'enableButtons(' . $currentPerson->getDniPerson() . ')' ?>" type="button"  value="  EDIT  " <?= $statusEdit; ?>/></td>
+                        <td align="center" ><input id="<?= 'btnEna' . $id; ?>" onclick="<?= '' . $action . '(' . $id . ',' . 1 . ')' ?>" type="button"  value="  ENABLE  "  <?= $statusEnable . ""; ?> /></td>
+                        <td align="center" ><input id="<?= 'btnDis' . $id; ?>" onclick="<?= '' . $action . '(' . $id . ',' . 0 . ')' ?>" type="button"  value="  DISABLE  " <?= $statusDisable . ""; ?> /> </td>
+                        <td align="center"><a href="./MeasurementView.php?dni=<?= $currentPerson->getDniPerson(); ?>"> Set Measurement</a></td>
                     </tr>
                     <?php
                 }
@@ -109,9 +111,64 @@ include './footer.php'
                 Y: {pattern: /[0-2]/},
                 A: {pattern: /[0-3]/},
                 F: {pattern: /[0-5]/}
-//                B: {pattern: /[0-5]/}
             }
         });
         $('.money').mask(' ₡ 0.000.000,00', {reverse: true});
     });
+    function enableButtons(id) {
+        $('#btnEdit' + id).attr("disabled", "false");
+        $('#btnEna' + id).removeAttr('disabled');
+        $('#btnDis' + id).removeAttr('disabled');
+        alert("d");
+    }
+
+    function insert(id, ban) {
+        alert('d');
+        if ($('#' + id).attr('value') !== '-1') {
+            update(id, ban);
+            alert('ddd');
+        } else {
+            alert('dc');
+            var data = $('#form' + id).serializeArray();
+            data.push({name: 'state', value: ban});
+            data.push({name: 'id', value: id});
+            ajaxRequest(data, '../business/PersonStateInsertAction.php');
+            if (ban === 1) {
+                alert('dm');
+                $('#btnEna' + id).attr("disabled", "false");
+                $('#' + id).val('0');
+                $('#' + id).attr('value', '1');
+            } else {
+                $('#btnDis' + id).attr("disabled", "false");
+                $('#' + id).attr('value', '0');
+            }
+        }
+    }
+
+    function update(id, state) {
+        var data = $('#form').serializeArray();
+        alert('d3w');
+        if ($('#' + id).attr('value') === '0') {
+            $('#btnDis' + id).removeAttr('disabled');
+            $('#btnEna' + id).attr("disabled", "false");
+            $('#' + id).attr('value', 1);
+            data.push({name: 'state', value: 1});
+        } else {
+            $('#btnEna' + id).removeAttr('disabled');
+            $('#btnDis' + id).attr("disabled", "false");
+            $('#' + id).attr('value', 0);
+            data.push({name: 'state', value: 0});
+        }
+        data.push({name: 'id', value: id});
+        ajaxRequest(data, '../business/PersonStateUpdateAction.php');
+    }
+
+    function ajaxRequest(data, path) {
+        $.ajax({
+            url: path,
+            type: 'post',
+            dataType: 'json',
+            data: data
+        });
+    }
 </script>

@@ -36,8 +36,9 @@ class Measurement {
     private $supraspiralMeasurement;
     private $abdominalMeasurement;
     private $medialThighMeasurement;
+    private $calfMeasurement;
 
-    function Measurement($idMeasurement, $idPersonMeasurement, $measurementDateMeasurement, $transverseThoraxMeasurement, $backThoraxMeasurement, $biiliocrestideoMeasurement, $humeralMeasurement, $femoralMeasurement, $headMeasurement, $armRelaxedMeasurement, $armFlexedMeasurement, $forearmMeasurement, $mesosternalThoraxMeasurement, $waistMeasurement, $hipMeasurement, $innerThighMeasurement, $upperThighMeasurement, $calfMaxMeasurement, $tricepsMeasurement, $subscapularMeasurement, $supraspiralMeasurement, $abdominalMeasurement, $medialThighMeasurement) {
+    function Measurement($idMeasurement, $idPersonMeasurement, $measurementDateMeasurement, $transverseThoraxMeasurement, $backThoraxMeasurement, $biiliocrestideoMeasurement, $humeralMeasurement, $femoralMeasurement, $headMeasurement, $armRelaxedMeasurement, $armFlexedMeasurement, $forearmMeasurement, $mesosternalThoraxMeasurement, $waistMeasurement, $hipMeasurement, $innerThighMeasurement, $upperThighMeasurement, $calfMaxMeasurement, $tricepsMeasurement, $subscapularMeasurement, $supraspiralMeasurement, $abdominalMeasurement, $medialThighMeasurement,$calfMeasurement) {
         $this->idMeasurement = $idMeasurement;
         $this->idPersonMeasurement = $idPersonMeasurement;
         $this->measurementDateMeasurement = $measurementDateMeasurement;
@@ -61,9 +62,17 @@ class Measurement {
         $this->supraspiralMeasurement = $supraspiralMeasurement;
         $this->abdominalMeasurement = $abdominalMeasurement;
         $this->medialThighMeasurement = $medialThighMeasurement;
+        $this->calfMeasurement = $calfMeasurement;
+    }
+    function getCalfMeasurement() {
+        return $this->calfMeasurement;
     }
 
-    function getIdMeasurement() {
+    function setCalfMeasurement($calfMeasurement) {
+        $this->calfMeasurement = $calfMeasurement;
+    }
+
+        function getIdMeasurement() {
         return $this->idMeasurement;
     }
 

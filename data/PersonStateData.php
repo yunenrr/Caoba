@@ -17,10 +17,14 @@ class PersonStateData extends Connector {
      * @return type
      */
     public function insertPersonState($personState) {
-        $fetch = mysqli_fetch_array($this->exeQuery("select max(id)as id from TBPersonState"));
-        $num = ((int) $fetch['id']) + 1;
-        $query = "insert into TBPersonState (id,idPerson,state)"
-                . "values (" . $num . "," . $personState->getIdPersonState() . "," . $personState->getStatePersonState() . ")";
+        $fetch = mysqli_fetch_array($this->exeQuery("select max(idPersonState)as id from TBPersonState"));
+        if ($fetch['id'] == null):
+            $num = 0;
+        else:
+            $num = ((int) $fetch['id']) + 1;
+        endif;
+        $query = "insert into TBPersonState (idPersonState,idClientPersonState,statePersonState) "
+                . "values(" . $num . "," . $personState->getIdClientPersonState() . "," . $personState->getStatePersonState() . ")";
         return $this->exeQuery($query);
     }
 
@@ -31,7 +35,7 @@ class PersonStateData extends Connector {
      */
     public function updatePersonState($personState) {
         //Aqui va la carne para actualizar
-        $query = "update TBPersonState set state=" . $personState->getStatePersonState() . " where idPerson=" . $personState->getIdPersonState() ;
+        $query = "update TBPersonState set statePersonState=" . $personState->getStatePersonState() . " where idClientPersonState=" . $personState->getIdClientPersonState();
         return $this->exeQuery($query);
     }
 
@@ -42,14 +46,14 @@ class PersonStateData extends Connector {
      */
     //return state or -1 if no exist
     public function getPersonStateData($id) {
-        $query = "select state from TBPersonState" . " where idClientPersonState=" . $id;
+        $query = "select statePersonState from TBPersonState" . " where idClientPersonState=" . $id;
         $result = $this->exeQuery($query);
         $row_cnt = mysqli_num_rows($result);
         if ($row_cnt === 0) {
             return -1;
         } else {
             $array = mysqli_fetch_array($result);
-            return $array['state'];
+            return $array['statePersonState'];
         }
     }
 

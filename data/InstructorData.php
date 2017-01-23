@@ -1,6 +1,7 @@
 <?php
 include 'Connection.php';
 include '../domain/Person.php';
+include '../domain/Gender.php';
 
 /**
  * Clase que nos permite manipular el instructor en la base de datos.
@@ -45,11 +46,15 @@ class InstructorData
         $person->setGenderPerson(mysqli_real_escape_string($connO,$person->getGenderPerson()));
         $person->setEmailPerson(mysqli_real_escape_string($connO,$person->getEmailPerson()));
         $person->setAddressPerson(mysqli_real_escape_string($connO,$person->getAddressPerson()));
+        $person->setPhoneReferencePerson(mysqli_real_escape_string($connO,$person->getPhoneReferencePerson()));
+        $person->setBloodTypePerson(mysqli_real_escape_string($connO,$person->getBloodTypePerson()));
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO TBPerson(idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,emailPerson,addressPerson) VALUES ($idPerson,"
+        $sql = "INSERT INTO TBPerson(idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
+                . "emailPerson,addressPerson,phoneReferencePerson,bloodTypePerson) VALUES ($idPerson,"
                 . "'".$person->getDniPerson()."','".$person->getNamePerson()."','".$person->getFirstNamePerson()."','".$person->getSecondNamePerson()."',".$person->getAgePerson().",".$person->getGenderPerson().","
-                . "'".$person->getEmailPerson()."','".$person->getAddressPerson()."');";
+                . "'".$person->getEmailPerson()."','".$person->getAddressPerson()."','".$person->getPhoneReferencePerson()."'"
+                . ",'".$person->getBloodTypePerson()."');";
         $result = mysqli_query($connO,$sql);
         
         if($result)
@@ -77,8 +82,10 @@ class InstructorData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
-                . "emailPerson,addressPerson FROM TBPerson INNER JOIN TBInstructor ON TBPerson.idPerson = TBInstructor.idPersonInstructor;";
+        $sql = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,"
+                . "secondNamePerson,agePerson,genderPerson,emailPerson,"
+                . "addressPerson,phoneReferencePerson,bloodTypePerson FROM TBPerson "
+                . "INNER JOIN TBInstructor ON TBPerson.idPerson = TBInstructor.idPersonInstructor;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -88,7 +95,7 @@ class InstructorData
             {
                 $person = new Person($row['idPerson'], $row['dniPerson'],$row['namePerson'],$row['firstNamePerson'], 
                         $row['secondNamePerson'], $row['agePerson'],$row['genderPerson'], $row['emailPerson'], 
-                        $row['addressPerson']);
+                        $row['addressPerson'],$row['phoneReferencePerson'],$row['bloodTypePerson']);
                 array_push($array, $person);
             }//Fin del while
         }//Fin del if
@@ -144,11 +151,10 @@ class InstructorData
         $person->setGenderPerson(mysqli_real_escape_string($connO,$person->getGenderPerson()));
         $person->setEmailPerson(mysqli_real_escape_string($connO,$person->getEmailPerson()));
         $person->setAddressPerson(mysqli_real_escape_string($connO,$person->getAddressPerson()));
+        $person->setPhoneReferencePerson(mysqli_real_escape_string($connO,$person->getPhoneReferencePerson()));
+        $person->setBloodTypePerson(mysqli_real_escape_string($connO,$person->getBloodTypePerson()));
         
-        $sql = "UPDATE TBPerson SET dniPerson = '".$person->getDniPerson()."',namePerson = '".$person->getNamePerson()."',"
-                . "firstNamePerson = '".$person->getFirstNamePerson()."',secondNamePerson = '".$person->getSecondNamePerson()."', "
-                . "agePerson = ".$person->getAgePerson().", genderPerson = ".$person->getGenderPerson().",emailPerson = '".$person->getEmailPerson()."',"
-                . "addressPerson = '".$person->getAddressPerson()."' WHERE TBPerson.idPerson = ".$person->getIdPerson().";";
+        $sql = "UPDATE TBPerson SET dniPerson = '".$person->getDniPerson()."',namePerson = '".$person->getNamePerson()."', firstNamePerson = '".$person->getFirstNamePerson()."', secondNamePerson = '".$person->getSecondNamePerson()."', agePerson = ".$person->getAgePerson().", genderPerson = ".$person->getGenderPerson().", emailPerson = '".$person->getEmailPerson()."', addressPerson = '".$person->getAddressPerson()."', phoneReferencePerson = '".$person->getPhoneReferencePerson()."', bloodTypePerson = '".$person->getBloodTypePerson()."' WHERE TBPerson.idPerson = ".$person->getIdPerson().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -182,5 +188,33 @@ class InstructorData
         $this->connection->closeConnection();
         
         return $id;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite obtener todos los géneros
+     */
+    public function getAllGender()
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        $sql = "SELECT idGender, nameGender FROM TBGender;";
+        
+        $result = mysqli_query($connO,$sql);
+        $array = [];
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $gender = new Gender($row['idGender'], $row['nameGender']);
+                array_push($array, $gender);
+            }//Fin del while
+        }//Fin del if
+        
+        $this->connection->closeConnection();
+        
+        return $array;
     }//Fin de la función
 }//Fin de la clase

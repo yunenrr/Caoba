@@ -130,7 +130,7 @@ $namePerson = $_GET['name'];
                                 {
                                   var row = $(this).attr("id");
                                   var currentRow = parseInt(row.substring(9, row.length))+1;
-                                    $("#td" + currentRow).remove();
+                                    $("#tr" + currentRow).remove();
                                  }
                             );
                      $("#tableBodyDietshow").on

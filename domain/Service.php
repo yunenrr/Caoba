@@ -5,12 +5,12 @@
  *
  * @author Luis Castillo
  * @author Yunen Ramos Ramírez
- * @version 1.2
+ * @version 1.3
  */
 class Service 
 {
     //Atributos globales
-    private $idService, $idInstructorService, $priceService, $quotaService; //Int
+    private $idService, $idInstructorService, $quotaService; //Int
     private $nameService, $descriptionService; //String
     private $startDateService, $endDateService; //Date
 
@@ -20,20 +20,18 @@ class Service
      * @param int $idInstructorService Corresponde al identificador del instructor.
      * @param String $nameService Corresponde al nombre del servicio.
      * @param String $descriptionService Corresponde a una breve descripción del servicio.
-     * @param int $priceService Corresponde al precio del servicio.
      * @param int $quotaService Corresponde al cupo del servicio.
      * @param date $startDateService Corresponde a la fecha de inicio del servicio.
      * @param data $endDateService Corresponde a la fecha de fin del servicio.
      */
     function Service($idService, $idInstructorService, $nameService, 
-            $descriptionService, $priceService, $quotaService,$startDateService,
+            $descriptionService, $quotaService,$startDateService,
             $endDateService) 
     {
         $this->idService = $idService;
         $this->idInstructorService = $idInstructorService;
         $this->nameService = $nameService;
         $this->descriptionService = $descriptionService;
-        $this->priceService = $priceService;
         $this->quotaService = $quotaService;
         $this->startDateService = $startDateService;
         $this->endDateService = $endDateService;
@@ -46,10 +44,6 @@ class Service
 
     function getIdInstructorService() {
         return $this->idInstructorService;
-    }
-
-    function getPriceService() {
-        return $this->priceService;
     }
 
     function getQuotaService() {
@@ -79,10 +73,6 @@ class Service
 
     function setIdInstructorService($idInstructorService) {
         $this->idInstructorService = $idInstructorService;
-    }
-
-    function setPriceService($priceService) {
-        $this->priceService = $priceService;
     }
 
     function setQuotaService($quotaService) {

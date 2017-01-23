@@ -16,13 +16,10 @@
             <input type="text" id="txtDescription" name="txtDescription" maxlength="50" required="" />
         </div>
         <div>
-            <label>Price:</label>
-            <input type="text" id="txtPrice" class="money" name="txtPrice" 
-                   maxlength="5" required="" dir="rtl"/>
-        </div>
-        <div>
             <label>Payment Method:</label>
             <table id="tablePaymentMethod" name="tablePaymentMethod"></table>
+            <input type="text" id="txtPrice" class="money" name="txtPrice" 
+                   maxlength="5" required="" dir="rtl"/>
             <select id="selPaymentModule"></select>
             <button id="btnAdd" name="btnAdd">Add</button>
         </div>
@@ -65,7 +62,7 @@
             var id = $.getURLParam("id");
             var selectedPaymentModule = "";
             var selectedSchedule = "";
-            
+            $('.money').unmask().mask('₡00.000', {reverse: false});
             getAllInstructor();
             getCurrentService();
             getCurrentPaymentMethod();
@@ -97,12 +94,10 @@
                                 $("#selInstructor").val(arrayTemp[1]);
                                 $("#txtName").val(arrayTemp[2]);
                                 $("#txtDescription").val(arrayTemp[3]);
-                                $("#txtPrice").val(arrayTemp[4]);
-                                $("#txtQuota").val(arrayTemp[5]);
-                                $("#startDate").val(getDateInvert(arrayTemp[6]));
-                                $("#endDate").val(getDateInvert(arrayTemp[7]));
+                                $("#txtQuota").val(arrayTemp[4]);
+                                $("#startDate").val(getDateInvert(arrayTemp[5]));
+                                $("#endDate").val(getDateInvert(arrayTemp[6]));
                                 $("#msg").html("");
-                                $('.money').unmask().mask('₡00.000', {reverse: false});
                                 $('.date').unmask().mask('00-00-0000');
                             }//Fin del if
                             else
@@ -143,7 +138,7 @@
                                 {
                                     var service = arrayPaymentModule[i].split(",");
                                     selectedPaymentModule = selectedPaymentModule + service[0] + ",";
-                                    insertGUI("1",service[0],service[1]);
+                                    insertGUI("1",service[0],service[1] + "-" + service[2]);
                                 }//Fin del for
                                 getAllPaymentModule();
                             }
@@ -317,13 +312,15 @@
                 //Insertar método de pago
                 if(option === "1")
                 {
+                    var content = name.split("-");
                     var newRow = ($("#tablePaymentMethod tr").length);
                     var temp = "";
 
                     if(newRow === 0)
                     {  
                         temp = '<tr id="tr'+newRow+'">'+
-                            '<td><input type="text" value="'+name+'" disabled="true" />' +
+                            '<td><input type="text" id="txtPrice'+newRow+'" value="'+content[1] +'" class="money" disabled="true" />' +
+                            '<td><input type="text" value="'+content[0]+'" disabled="true" />' +
                             '<input type="hidden" id="txtPaymentModule'+newRow+'" value="'+id+'" /></td>' +
                             '</tr>';
                         $("#tablePaymentMethod").html(temp);
@@ -333,7 +330,8 @@
                         var row = $("#tablePaymentMethod tr:last").attr("id");
                         var newRow = parseInt(row.substring(2,row.length)) + 1;
                         temp = '<tr id="tr'+newRow+'">'+
-                            '<td><input type="text" value="'+name +'" disabled="true" />' +
+                            '<td><input type="text" id="txtPrice'+newRow+'" value="'+content[1] +'" class="money" disabled="true" />' +
+                            '<td><input type="text" value="'+content[0] +'" disabled="true" />' +
                             '<input type="hidden" id="txtPaymentModule'+newRow+'" value="'+id+'" /></td>' +
                             '</tr>';
 
@@ -344,6 +342,7 @@
                     var newRow = row.substring(2,row.length);
                     var buttons = '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>';
                     $("#tablePaymentMethod tr:last").append(buttons);
+                    $('.money').unmask().mask('₡00.000', {reverse: false});
                 }//Fin del if
                 else
                 {
@@ -702,11 +701,11 @@
                     if($("#selPaymentModule").val() !== "0")
                     {
                         $("#msg").html("");
-                        insertGUI("1",$("#selPaymentModule").val(),$("#selPaymentModule option:selected").html());
+                        insertGUI("1",$("#selPaymentModule").val(),$("#selPaymentModule option:selected").html() + "-"+$("#txtPrice").val());
                         selectedPaymentModule = selectedPaymentModule + $("#selPaymentModule").val() + ",";
                         
                         var infoData = "option=13&id="+id +
-                                "&paymentMethod="+$("#selPaymentModule").val();
+                                "&paymentMethod="+$("#selPaymentModule").val() + "," + getMoneyInt($("#txtPrice").val());
                         hideOptionSelect("1","selPaymentModule",$("#selPaymentModule").val());
                         $.ajax
                         (

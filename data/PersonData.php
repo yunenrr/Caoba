@@ -93,7 +93,6 @@ class PersonData extends Connector {
                 . ",'" . $person->getAddressPerson() . "'"
                 . ",'" . $person->getPhoneReferencePerson() . "'"
                 . ",'" . $person->getBloodTypePerson() . "');";
-
         return $this->exeQuery($query);
     }
 

@@ -31,6 +31,8 @@ class Person {
         $this->genderPerson = $genderPerson;
         $this->emailPerson = $emailPerson;
         $this->addressPerson = $addressPerson;
+        $this->emailPerson = $emailPerson;
+        $this->addressPerson = $addressPerson;
         $this->phoneReferencePerson = $phoneReferencePerson;
         $this->bloodTypePerson = $bloodTypePerson;
     }
@@ -121,8 +123,4 @@ class Person {
     function setAddressPerson($addressPerson) {
         $this->addressPerson = $addressPerson;
     }
-
-
 }
-
-//Fin de la clase

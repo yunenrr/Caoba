@@ -1,7 +1,10 @@
 
 <?php
 include './header.php';
-include '../business/PersonBusiness.php'
+include '../business/PersonBusiness.php';
+
+$personBusiness = new PersonBusiness();
+$gender = $personBusiness->GetAllGender();
 ?>
 
 <div>
@@ -14,9 +17,17 @@ include '../business/PersonBusiness.php'
             <!--DNI-->
             <tr>
                 <td>Identify:</td>
-                <td><input type="number" id="dni" name="dni" onKeyUp="comprobar(this.value)" required/>
+                <td><input type="number" id="dni" name="dni" required/>
                     <div id="msgUsuario" style="color: red"></div></td>
             </tr>
+
+            <!--Type user-->
+            <tr>
+                <td>Blood Type:</td>
+                <td><select id="userType" name="userType"><option value="0">Client</option><option value="1">Instructor</option>
+                        <option value="2">Instructor & Admin</option><option value="3">Admin</option></select></td>
+            </tr>
+
             <!--NAME-->
             <tr>
                 <td>Person name:</td>
@@ -39,7 +50,7 @@ include '../business/PersonBusiness.php'
             <tr>
                 <td>User name:</td>
                 <td><input type="text" id="userName" name="userName" required/><br/>
-                <div id="msgUserName" style="color: red"></div></td>
+                    <div id="msgUserName" style="color: red"></div></td>
             </tr>
             <!--PASSWORD-->
             <tr>
@@ -57,15 +68,11 @@ include '../business/PersonBusiness.php'
             <tr>
                 <td>Gender:</td>
                 <td>
-                    <input type="radio" id="gender" name="gender"
-                    <?php if (isset($gender) && $gender == 0) echo "checked"; ?>
-                           value=0 checked>Female
-                    <input type="radio" id="gender" name="gender"
-                    <?php if (isset($gender) && $gender == 1) echo "checked"; ?>
-                           value=1>Male
-                    <input type="radio" id="gender" name="gender"
-                    <?php if (isset($gender) && $gender == 2) echo "checked"; ?>
-                           value=2>Undefined
+                    <select i="selGender" name="selGender" > 
+                        <?php foreach ($gender as $value) { ?>
+                            <option value="<?php echo $value->getIdGender(); ?>"><?php echo $value->getNameGender(); ?></option> 
+                        <?php } ?>
+                    </select>
                 </td>
             </tr>
             <!--Blood-->

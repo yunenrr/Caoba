@@ -34,11 +34,6 @@ class FoodData extends Connector {
         return $this->exeQuery($query);
     }
 
-    /**
-     * Delete a food by id
-     * @param type $id pk of the element to delete
-     * @return type
-     */
     public function deleteFood($id) {
         if ($this->exeQuery("")) {
             return TRUE;
@@ -65,4 +60,5 @@ class FoodData extends Connector {
         }
         return $array;
     }
+
 }

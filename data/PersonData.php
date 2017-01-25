@@ -3,6 +3,7 @@
 header("Content-Type: text/html;charset=utf-8");
 require_once '../data/Connector.php';
 include '../domain/Person.php';
+include '../domain/Gender.php';
 
 /**
  * Description of PersonData
@@ -172,5 +173,24 @@ class PersonData extends Connector {
         }
         return $personArray;
     }
+    
+     /**
+     * get all gender 
+     * @return type
+     */
+    public function GetAllGender() {
+
+        $query = "SELECT idGender, nameGender FROM TBGender;";
+        $result = $this->exeQuery($query);
+        $genderArray = [];
+        while ($row = mysqli_fetch_array($result)) {
+            $currentGender = new Gender(
+                    $row['idGender'], $row['nameGender']);
+            array_push($genderArray, $currentGender);
+        }
+        return $genderArray;
+        
+    }
+
 
 }

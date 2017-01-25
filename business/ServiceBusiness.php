@@ -1,5 +1,7 @@
 <?php
-include '../data/ServiceData.php';
+include_once '../data/ServiceData.php';
+include_once '../data/PaymentModuleData.php';
+
 /**
  * Clase que nos va a permitir manipular el CRUD de servicios
  * @author Yunen Ramos Ramírez
@@ -16,16 +18,9 @@ if(isset($_POST['option']))
      * 3 - Insertar un nuevo servicio.
      * 4 - Eliminar servicios.
      * 5 - Actualizar servicios.
-     * 6 - Obtener todos los metodos de pago
      * 7 - Obtener todos los días.
      * 8 - Obtener los horarios por día.
      * 9 - Obtener la información de un servicio específico.
-     * 10 - Obtener los métodos de pagos actuales
-     * 11 - Obtener los horarios actuales.
-     * 12 - Eliminar métodos de pago de un servicio.
-     * 13 - Insertar métodos de pago a un servicio específico.
-     * 14 - Eliminar horarios de un servicio.
-     * 15 - Insertar horario a un servicio en específico.
      */
     switch($option)
     {
@@ -65,7 +60,6 @@ if(isset($_POST['option']))
             $startDateService = $_POST['startDate'];
             $endDateService = $_POST['endDate'];
             $paymentMethod = $_POST['paymentMethod'];
-            $selectedSchedule = $_POST['selectedSchedule'];
             $condition = 0;
             
             //Verificamos que no estén vacíos
@@ -77,6 +71,8 @@ if(isset($_POST['option']))
                 (strlen($endDateService) > 0))
             {
                 $data = new ServiceData();
+                $paymentModuleData = new PaymentModuleData();
+                
                 $service = new Service(0, $idInstructor, $serviceName, 
                         $description, $quota,$startDateService,$endDateService);
                 $condition = $data->insertService($service);
@@ -88,20 +84,8 @@ if(isset($_POST['option']))
                     foreach ($array as $current)
                     {
                         $arraySecond = explode(",", $current);
-                        $cond = $data->insertServicePaymentMethod($condition,$arraySecond[0],$arraySecond[1]);
+                        $cond = $paymentModuleData->insertServicePaymentMethod($condition,$arraySecond[0],$arraySecond[1]);
                     }
-                    
-                    //Insertamos los horarios
-                    if($cond !== "0")
-                    {
-                        $array = explode(",", $selectedSchedule);
-                    
-                        foreach ($array as $current)
-                        {
-                            $cond = $data->insertSchedule($condition, $current);
-                        }
-                    }//Fin del if
-                    else{echo $cond ;}
                 }//Fin del if
                 else{echo "0";}
             }//Fin del if
@@ -138,44 +122,6 @@ if(isset($_POST['option']))
                 echo "0";
             }
             break;
-        case 6:
-            $data = new ServiceData();
-            $array = $data->getAllPaymentModule();
-            $temp = "";
-            foreach ($array as $current)
-            {   
-                $temp = $temp.$current->getIdPaymentModule().",";
-                $temp = $temp.$current->getNamePaymentModule().";";
-            }//Fin del foreach
-            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
-            echo $temp;
-            break;
-        case 7:
-            $data = new ServiceData();
-            $array = $data->getAllDay();
-            $temp = "";
-            foreach ($array as $current)
-            {   
-                $temp = $temp.$current->getIdDay().",";
-                $temp = $temp.$current->getNameDay().";";
-            }//Fin del foreach
-            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
-            echo $temp;
-            break;
-        case 8:
-            $idDay = $_POST['day'];
-            $data = new ServiceData();
-            $array = $data->getScheduleByDay($idDay);
-            $temp = "";
-            foreach ($array as $current)
-            {   
-                $temp = $temp.$current->getIdDayHourService().",";
-                $temp = $temp.$current->getHourStartService().",";
-                $temp = $temp.$current->getHourEndService().";";
-            }//Fin del foreach
-            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
-            echo $temp;
-            break;
         case 9:
             $id = $_POST['id'];
             $data = new ServiceData();
@@ -189,60 +135,6 @@ if(isset($_POST['option']))
             $temp = $temp.$current->getStartDateService().",";
             $temp = $temp.$current->getEndDateService();
             echo $temp;
-            break;
-        case 10:
-            $id = $_POST['id'];
-            $data = new ServiceData();
-            $array = $data->getCurrentPaymentModule($id);
-            $temp = "";
-            foreach ($array as $current)
-            {   
-                $temp = $temp.$current->getIdPaymentModule().",";
-                $temp = $temp.$current->getNamePaymentModule().",";
-                $temp = $temp.$current->getPricePaymentModule().";";
-            }//Fin del foreach
-            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
-            echo $temp;
-            break;
-        case 11:
-            $id = $_POST['id'];
-            $data = new ServiceData();
-            $array = $data->getCurrentSchedule($id);
-            $temp = "";
-            foreach ($array as $current)
-            {   
-                $temp = $temp.$current->getIdDayHourService().",";
-                $temp = $temp.$current->getDayService().",";
-                $temp = $temp.$current->getHourStartService().",";
-                $temp = $temp.$current->getHourEndService().";";
-            }//Fin del foreach
-            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
-            echo $temp;
-            break;
-        case 12:
-            $idService = $_POST['id'];
-            $idPaymentMethod = $_POST['paymentMethod'];
-            $data = new ServiceData();
-            echo $data->deleteServicePaymentMethod($idService, $idPaymentMethod);
-            break;
-        case 13:
-            $idService = $_POST['id'];
-            $idPaymentMethod = $_POST['paymentMethod'];
-            $array = explode(",", $idPaymentMethod);
-            $data = new ServiceData();
-            echo $data->insertServicePaymentMethod($idService,$array[0],$array[1]);
-            break;
-        case 14:
-            $idService = $_POST['id'];
-            $idSchedule = $_POST['idSchedule'];
-            $data = new ServiceData();
-            echo $data->deleteSchedule($idService, $idSchedule);
-            break;
-        case 15:
-            $idService = $_POST['id'];
-            $idSchedule = $_POST['idSchedule'];
-            $data = new ServiceData();
-            echo $data->insertSchedule($idService, $idSchedule);
             break;
     }//Fin del switch
 }//Fin del if

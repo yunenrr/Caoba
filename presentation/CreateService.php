@@ -37,13 +37,6 @@
             <input type="text" class="date" id="endDate" name="endDate"/>
         </div>
         <div>
-            <label>Schedule:</label>
-            <table id="tableSchedule" name="tablePaymentMethod"></table>
-            <select id="selDay"></select>
-            <select id="selScheduleByDay"></select>
-            <button id="btnAddSchedule" name="btnAdd">Add</button>
-        </div>
-        <div>
             <button id="btnInsert" name="btnInsert">Insert</button>
         </div>
     </fieldset>
@@ -57,11 +50,9 @@
         {
             var arrayPaymentModule = "";
             var selectedPaymentModule = "";
-            var selectedSchedule = "";
             
             getAllPaymentModule();
             getAllInstructor();
-            getAllDay();
             
             $('.money').mask('₡00.000', {reverse: false});
             $('.date').mask('00-00-0000');
@@ -72,12 +63,12 @@
             * */
             function getAllPaymentModule()
             {
-                var infoData = "option=6";
+                var infoData = "option=1";
                 $.ajax
                 (
                     {
                         type: 'POST',
-                        url: "../business/ServiceBusiness.php",
+                        url: "../business/PaymentModuleBusiness.php",
                         data: infoData,
                         beforeSend: function(before)
                         {
@@ -99,48 +90,6 @@
                             else
                             {
                                 $("#msg").html("Don't have instructor");
-                            }
-                        },
-                        error:function()
-                        {
-                            $("#msg").html("<p>Error.</p>");
-                        }
-                    }
-                );
-            }//Fin de la función getAllPaymentModule
-            
-            /**
-            * Función que nos permite obtener todos los días existentes en la base.
-            * */
-            function getAllDay()
-            {
-                var infoData = "option=7";
-                $.ajax
-                (
-                    {
-                        type: 'POST',
-                        url: "../business/ServiceBusiness.php",
-                        data: infoData,
-                        beforeSend: function(before)
-                        {
-                        },
-                        success: function(data)
-                        {
-                            if(data.toString().length > 0)
-                            {
-                                var arrayTemp = data.split(";");
-                                var temp = '<option value="0" selected="">Select</option>';
-                                
-                                for(var i = 0; i < arrayTemp.length; i++)
-                                {
-                                    var service = arrayTemp[i].split(",");
-                                    temp = temp + '<option value="'+service[0]+'">'+service[1]+'</option>';
-                                }//Fin del for
-                                $("#selDay").html(temp);
-                            }
-                            else
-                            {
-                                $("#msg").html("Don't have day's in the database");
                             }
                         },
                         error:function()
@@ -184,36 +133,6 @@
             }//Fin de la función
             
             /**
-             * Función que nos permite insertar una nueva fila a la tabla.
-             * @param {String} nameTable Corresponde al nombre de la tabla
-             * */
-            function insertNewRowSchedule(nameTable)
-            {
-                var newRow = ($("#"+nameTable+" tr").length);
-                var temp = "";
-                
-                if(newRow === 0)
-                {  
-                    temp = '<tr id="trS'+newRow+'">'+
-                        '<td><input type="text" style="max-width:250px;" value="'+$("#selDay option:selected").html() +': '+$("#selScheduleByDay option:selected").html() +'" disabled="true" />' +
-                        '<input type="hidden" id="txtDay'+newRow+'" value="'+$("#selScheduleByDay").val() +'" /></td>' +
-                        '</tr>';
-                    $("#"+nameTable).html(temp);
-                }
-                else
-                {
-                    var row = $("#tableSchedule tr:last").attr("id");
-                    var newRow = parseInt(row.substring(3,row.length)) + 1;
-                    temp = '<tr id="trS'+newRow+'">'+
-                        '<td><input type="text" style="max-width:250px;" value="'+$("#selDay option:selected").html() +': '+$("#selScheduleByDay option:selected").html() +'" disabled="true" />' +
-                        '<input type="hidden" id="txtDay'+newRow+'" value="'+$("#selScheduleByDay").val() +'" /></td>' +
-                        '</tr>';
-                    
-                    $("#"+nameTable+" tr:last").after(temp);
-                }//Fin del else
-            }//Fin de la función
-            
-            /**
             * Función que valida los campos.
             * @return {boolean} Indicando si está todo bien o no.
             * */
@@ -238,11 +157,6 @@
                         {
                             flag = false;
                             $("#msg").html("Please select at least one method of payment");
-                        }
-                        else if(selectedSchedule.length === 0)
-                        {
-                            flag = false;
-                            $("#msg").html("Please select at least one schedule");
                         }
                     }//Fin del if
                     else
@@ -306,26 +220,6 @@
             }//Fin de la función
             
             /**
-            * Función que nos permite obtener el formato de la hora.
-            * @param {String} idHour Corresponde al identificador de la hora en la base de datos.
-            * @return {String} Corresponde a la hora pero con formato, ejmp: 7:00am
-            * */
-            function getFormatHour(idHour)
-            {
-                var hour = parseInt(idHour) - 1;
-                var answer = "";
-                
-                if(hour > 12)
-                {
-                    hour = hour-12;
-                    answer = hour + ":00 pm";
-                }//Fin del if
-                else if (hour === 12){answer = hour + ":00 md";}
-                else{answer = hour + ":00 am";}
-                return answer;
-            }//Fin de la función
-            
-            /**
             * Función que nos permite obtener todos los instructores de la base de datos.
             * */
             function getAllInstructor()
@@ -368,23 +262,6 @@
                 );
             }//Fin de la función
             
-            /**
-            * Función que nos permite almacenar horas que ya han sido agregadas.
-            * */
-            function hideHour()
-            {                
-                var arrayTemp = selectedSchedule.split(",");
-
-                for(var i = 0; i < arrayTemp.length; i++)
-                {
-                    if(arrayTemp[i].length > 0)
-                    {
-                        $("#selScheduleByDay option[value="+arrayTemp[i]+"]").hide();
-                    }
-                }//Fin del for
-                $("#selScheduleByDay").val("0");
-            }//Fin de la función
-            
             /***************************** EVENTOS **************************/
             $("#btnAdd").on
             (
@@ -405,28 +282,6 @@
                     else
                     {
                         $("#msg").html("Please select an option");
-                    }//Fin del else
-                }//Fin de la función del evento
-            );//Fin del evento
-    
-            $("#btnAddSchedule").on
-            (
-                'click',function()
-                {   
-                    if(($("#selScheduleByDay").val() !== "0") && ($("#selDay").val() !== "0"))
-                    {
-                        $("#msg").html("");
-                        insertNewRowSchedule("tableSchedule");
-                        var row = $("#tableSchedule tr:last").attr("id");
-                        var newRow = row.substring(3,row.length);
-                        var buttons = '<input type="button" value="Delete" class="btnDelete" id="btnDeleteS'+newRow+'" name="btnDeleteS'+newRow+'" /></td>';
-                        $("#tableSchedule tr:last").append(buttons);
-                        selectedSchedule = selectedSchedule + $("#selScheduleByDay").val() + ",";                        
-                        hideHour();
-                    }//Fin del if
-                    else
-                    {
-                        $("#msg").html("Please select a schedule");
                     }//Fin del else
                 }//Fin de la función del evento
             );//Fin del evento
@@ -457,30 +312,6 @@
                 }//Fin de la función del evento
             );//Fin del evento
         
-            $("#tableSchedule").on
-            (
-                'click','input.btnDelete', function() 
-                {
-                    var row = $(this).attr("id");
-                    var currentRow = row.substring(10,row.length);
-                    
-                    selectedSchedule = selectedSchedule.substr(0,selectedSchedule.length-1);
-                    var arrayTemp = selectedSchedule.split(",");
-                    selectedSchedule = "";
-                    
-                    for(var i = 0; i < arrayTemp.length; i++)
-                    {
-                        if(arrayTemp[i] !== $("#txtDay"+currentRow).val())
-                        {
-                            selectedSchedule = selectedSchedule + arrayTemp[i] + ",";
-                        }//Fin del if
-                    }//Fin del for
-                    $("#selScheduleByDay option[value="+$("#txtDay"+currentRow).val()+"]").show();
-                    $("#selScheduleByDay").val("0");
-                    $("#trS"+currentRow).remove();
-                }//Fin de la función del evento
-            );//Fin del evento
-        
             $("#btnInsert").on
             (
                 'click',function()
@@ -488,7 +319,6 @@
                     if(validation())
                     {
                         selectedPaymentModule = selectedPaymentModule.substr(0,selectedPaymentModule.length-1);
-                        selectedSchedule = selectedSchedule.substr(0,selectedSchedule.length-1);
                         var infoData = "option=3"+
                                 "&selInstructor="+$("#selInstructor").val() +
                                 "&txtName="+$("#txtName").val() +
@@ -496,8 +326,7 @@
                                 "&txtQuota="+$("#txtQuota").val() +
                                 "&startDate="+ getDateInvert($("#startDate").val()) +
                                 "&endDate="+ getDateInvert($("#endDate").val()) +
-                                "&paymentMethod="+selectedPaymentModule+
-                                "&selectedSchedule="+selectedSchedule;
+                                "&paymentMethod="+selectedPaymentModule;
                         $.ajax
                         (
                             {
@@ -528,53 +357,6 @@
                     }//Fin del if
                 }//Fin de la función del evento
             ); //fin del evento
-            
-            $("#selDay").change
-            (
-                function()
-                {
-                    if($("#selDay").val() !== "0")
-                    {
-                        var infoData = "option=8&day="+$("#selDay").val();
-                        $.ajax
-                        (
-                            {
-                                type: 'POST',
-                                url: "../business/ServiceBusiness.php",
-                                data: infoData,
-                                beforeSend: function(before)
-                                {
-                                },
-                                success: function(data)
-                                {
-                                    if(data.toString().length > 0)
-                                    {
-                                        var arrayTemp = data.split(";");
-                                        var temp = '<option value="0" selected="">Select</option>';
-
-                                        for(var i = 0; i < arrayTemp.length; i++)
-                                        {
-                                            var service = arrayTemp[i].split(",");
-                                            temp = temp + '<option value="'+service[0]+'">'+getFormatHour(service[1])+' - '+getFormatHour(service[2])+'</option>';
-                                        }//Fin del for
-                                        $("#selScheduleByDay").html(temp);
-                                        hideHour();
-                                    }
-                                    else
-                                    {
-                                        $("#msg").html("Don't have schedule in the database");
-                                    }
-                                },
-                                error:function()
-                                {
-                                    $("#msg").html("<p>Error.</p>");
-                                }
-                            }
-                        );
-                    }//Fin del if diferente a "Seleccione
-                    else{$("#selScheduleByDay").html("");}
-                }//Fin de la función del evento
-            );//Fin del evento
         }//Fin de la función principal
     );
 </script>

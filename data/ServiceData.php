@@ -35,7 +35,7 @@ class ServiceData
         mysqli_set_charset($connO, "utf8");
         
         $sql = "SELECT idService,idInstructorService,nameService,"
-                . "descriptionService,priceService,quotaService,starDateService,"
+                . "descriptionService,quotaService,starDateService,"
                 . "endDateService FROM TBService;";
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -45,7 +45,7 @@ class ServiceData
             while($row = mysqli_fetch_array($result))
             {
                 $service = new Service($row['idService'], $row['idInstructorService'], $row['nameService'],
-                        $row['descriptionService'], $row['priceService'], $row['quotaService'],
+                        $row['descriptionService'], $row['quotaService'],
                         $row['starDateService'],$row['endDateService']);
                 array_push($array, $service);
             }//Fin del while
@@ -106,17 +106,16 @@ class ServiceData
         $service->setIdInstructorService(mysqli_real_escape_string($connO,$service->getIdInstructorService()));
         $service->setNameService(mysqli_real_escape_string($connO,$service->getNameService()));
         $service->setDescriptionService(mysqli_real_escape_string($connO,$service->getDescriptionService()));
-        $service->setPriceService(mysqli_real_escape_string($connO,$service->getPriceService()));
         $service->setQuotaService(mysqli_real_escape_string($connO,$service->getQuotaService()));
         $service->setStartDateService(mysqli_real_escape_string($connO,$service->getStartDateService()));
         $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
         
         //Ejecutamos la sentencia
         $sql = "INSERT INTO TBService (idService,idInstructorService,nameService,"
-                . "descriptionService,priceService,quotaService,starDateService,"
+                . "descriptionService,quotaService,starDateService,"
                 . "endDateService) VALUES ($idService,".$service->getIdInstructorService().","
                 . "'".$service->getNameService()."','".$service->getDescriptionService()."',"
-                . "".$service->getPriceService().",".$service->getQuotaService().","
+                . "".$service->getQuotaService().","
                 . "'".$service->getStartDateService()."','".$service->getEndDateService()."');";
         $result = mysqli_query($connO,$sql);
         
@@ -203,13 +202,12 @@ class ServiceData
         $service->setIdInstructorService(mysqli_real_escape_string($connO,$service->getIdInstructorService()));
         $service->setNameService(mysqli_real_escape_string($connO,$service->getNameService()));
         $service->setDescriptionService(mysqli_real_escape_string($connO,$service->getDescriptionService()));
-        $service->setPriceService(mysqli_real_escape_string($connO,$service->getPriceService()));
         $service->setQuotaService(mysqli_real_escape_string($connO,$service->getQuotaService()));
         $service->setStartDateService(mysqli_real_escape_string($connO,$service->getStartDateService()));
         $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
         
         $sql = "UPDATE TBService SET idInstructorService = ".$service->getIdInstructorService().", nameService = '".$service->getNameService()."', "
-                . "descriptionService = '".$service->getDescriptionService()."', priceService = '".$service->getPriceService()."', "
+                . "descriptionService = '".$service->getDescriptionService()."', "
                 . "quotaService = '".$service->getQuotaService()."', starDateService = '".$service->getStartDateService()."', "
                 . "endDateService = '".$service->getEndDateService()."' WHERE TBService.idService = ".$service->getIdService().";";
         $result = mysqli_query($connO,$sql);
@@ -241,7 +239,7 @@ class ServiceData
             while($row = mysqli_fetch_array($result))
             {
                 $paymentModule = new PaymentModule($row['idPaymentModule'], 
-                        $row['namePaymentModule']);
+                        $row['namePaymentModule'],0);
                 array_push($array, $paymentModule);
             }//Fin del while
         }//Fin del if
@@ -255,9 +253,10 @@ class ServiceData
      * Función que nos permite insertar métodos de pago para los servicios.
      * @param int $idService Corresponde al identificador del servicio.
      * @param int $idPaymentMethod Corresponde al identificador del método de pago.
+     * @param int $price Corresponde al monto a pagar por el servicio con la modalidad seleccionada.
      * @return String Indicando si se ingresó o no.
      */
-    public function insertServicePaymentMethod($idService,$idPaymentMethod)
+    public function insertServicePaymentMethod($idService,$idPaymentMethod,$price)
     {
         //Obtenemos el ID que le vamos a asignar
         $idServicePaymentMethod = $this->getLastID("ServicePaymentModule");
@@ -269,11 +268,12 @@ class ServiceData
         //Preparamos la información
         $idService = mysqli_real_escape_string($connO,$idService);
         $idPaymentMethod = mysqli_real_escape_string($connO,$idPaymentMethod);
+        $price = mysqli_real_escape_string($connO,$price);
         
         //Ejecutamos la sentencia
         $sql = "INSERT INTO TBServicePaymentModule(idServicePaymentModule,"
-                . "idServiceServicePaymentModule,idPaymentModuleServicePaymentModule)"
-                . " VALUES ($idServicePaymentMethod,$idService,$idPaymentMethod);";
+                . "idServiceServicePaymentModule,idPaymentModuleServicePaymentModule, 	priceServicePaymentModule)"
+                . " VALUES ($idServicePaymentMethod,$idService,$idPaymentMethod,$price);";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result="1";}
@@ -394,7 +394,7 @@ class ServiceData
         mysqli_set_charset($connO, "utf8");
         
         $sql = "SELECT idService,idInstructorService,nameService, "
-                . "descriptionService,priceService,quotaService,"
+                . "descriptionService,quotaService,"
                 . "starDateService,endDateService FROM TBService "
                 . "WHERE TBService.idService = $id;";
         $result = mysqli_query($connO,$sql);
@@ -405,7 +405,7 @@ class ServiceData
             while($row = mysqli_fetch_array($result))
             {
                 $service = new Service($row['idService'], $row['idInstructorService'], $row['nameService'],
-                        $row['descriptionService'], $row['priceService'], $row['quotaService'],
+                        $row['descriptionService'], $row['quotaService'],
                         $row['starDateService'],$row['endDateService']);
             }//Fin del while
         }//Fin del if
@@ -425,7 +425,7 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idPaymentModule, namePaymentModule FROM TBPaymentModule "
+        $sql = "SELECT idPaymentModule, namePaymentModule,priceServicePaymentModule FROM TBPaymentModule "
                 . "INNER JOIN TBServicePaymentModule ON TBPaymentModule.idPaymentModule = "
                 . "TBServicePaymentModule.idPaymentModuleServicePaymentModule WHERE "
                 . "TBServicePaymentModule.idServiceServicePaymentModule = $id;";
@@ -438,7 +438,7 @@ class ServiceData
             while($row = mysqli_fetch_array($result))
             {
                 $paymentModule = new PaymentModule($row['idPaymentModule'], 
-                        $row['namePaymentModule']);
+                        $row['namePaymentModule'],$row['priceServicePaymentModule']);
                 array_push($array, $paymentModule);
             }//Fin del while
         }//Fin del if

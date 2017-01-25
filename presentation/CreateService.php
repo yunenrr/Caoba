@@ -16,13 +16,10 @@
             <input type="text" id="txtDescription" name="txtDescription" maxlength="50" required="" />
         </div>
         <div>
-            <label>Price:</label>
-            <input type="text" class="money" id="txtPrice" name="txtPrice" 
-                   maxlength="5" required="" dir="rtl"/>
-        </div>
-        <div>
             <label>Payment Method:</label>
             <table id="tablePaymentMethod" name="tablePaymentMethod"></table>
+            <input type="text" class="money" id="txtPrice" name="txtPrice" 
+                   maxlength="5" required="" dir="rtl"/>
             <select id="selPaymentModule"></select>
             <button id="btnAdd" name="btnAdd">Add</button>
         </div>
@@ -166,6 +163,7 @@
                 if(newRow === 0)
                 {  
                     temp = '<tr id="tr'+newRow+'">'+
+                        '<td><input type="text" id="txtPrice'+newRow+'" value="'+$("#txtPrice").val() +'" disabled="true" />' +
                         '<td><input type="text" value="'+$("#selPaymentModule option:selected").html() +'" disabled="true" />' +
                         '<input type="hidden" id="txtPaymentModule'+newRow+'" value="'+$("#selPaymentModule").val() +'" /></td>' +
                         '</tr>';
@@ -176,6 +174,7 @@
                     var row = $("#tablePaymentMethod tr:last").attr("id");
                     var newRow = parseInt(row.substring(2,row.length)) + 1;
                     temp = '<tr id="tr'+newRow+'">'+
+                        '<td><input type="text" id="txtPrice'+newRow+'" value="'+$("#txtPrice").val() +'" disabled="true" />' +
                         '<td><input type="text" value="'+$("#selPaymentModule option:selected").html() +'" disabled="true" />' +
                         '<input type="hidden" id="txtPaymentModule'+newRow+'" value="'+$("#selPaymentModule").val() +'" /></td>' +
                         '</tr>';
@@ -224,7 +223,6 @@
                 
                 if(($("#txtName").val().length === 0) ||
                     ($("#txtDescription").val().length === 0) ||
-                    ($("#txtPrice").val().length === 0) ||
                     ($("#txtQuota").val().length === 0) ||
                     ($("#startDate").val().length === 0) ||
                     ($("#endDate").val().length === 0))
@@ -400,7 +398,7 @@
                         var newRow = row.substring(2,row.length);
                         var buttons = '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>';
                         $("#tablePaymentMethod tr:last").append(buttons);
-                        selectedPaymentModule = selectedPaymentModule + $("#selPaymentModule").val() + ",";
+                        selectedPaymentModule = selectedPaymentModule + $("#selPaymentModule").val() + "," + getMoneyInt($("#txtPrice").val()) + ";";
                         $("#selPaymentModule option[value="+$("#selPaymentModule").val()+"]").hide();
                         $("#selPaymentModule").val("0");
                     }//Fin del if
@@ -441,14 +439,16 @@
                     var currentRow = row.substring(9,row.length);
                     
                     selectedPaymentModule = selectedPaymentModule.substr(0,selectedPaymentModule.length-1);
-                    var arrayTemp = selectedPaymentModule.split(",");
+                    var arrayTemp = selectedPaymentModule.split(";");
                     selectedPaymentModule = "";
                     
+                    //Recorremos el arreglo que contiene el conjunto idMétodo de pago - Precio a aplicar
                     for(var i = 0; i < arrayTemp.length; i++)
                     {
-                        if(arrayTemp[i] !== $("#txtPaymentModule"+currentRow).val())
+                        var arraySecond = arrayTemp[i].split(",");
+                        if(arraySecond[0] !== $("#txtPaymentModule"+currentRow).val())
                         {
-                            selectedPaymentModule = selectedPaymentModule + arrayTemp[i] + ",";
+                            selectedPaymentModule = selectedPaymentModule + arraySecond[0] + "," + arraySecond[1] + ";";
                         }//Fin del if
                     }//Fin del for
                     $("#selPaymentModule option[value="+$("#txtPaymentModule"+currentRow).val()+"]").show();
@@ -487,14 +487,12 @@
                 {  
                     if(validation())
                     {
-                        var price = getMoneyInt($("#txtPrice").val().toString());
                         selectedPaymentModule = selectedPaymentModule.substr(0,selectedPaymentModule.length-1);
                         selectedSchedule = selectedSchedule.substr(0,selectedSchedule.length-1);
                         var infoData = "option=3"+
                                 "&selInstructor="+$("#selInstructor").val() +
                                 "&txtName="+$("#txtName").val() +
                                 "&txtDescription="+$("#txtDescription").val() +
-                                "&txtPrice="+price +
                                 "&txtQuota="+$("#txtQuota").val() +
                                 "&startDate="+ getDateInvert($("#startDate").val()) +
                                 "&endDate="+ getDateInvert($("#endDate").val()) +

@@ -88,6 +88,12 @@ class PersonBusiness {
     public function returnPersonsByTypeBusiness($typeUser) {
         return $this->personData->returnPersonsByTypeData($typeUser);
     }
-
+/**
+     * use to get all gender 
+     * @return type
+     */
+    public function GetAllGender(){
+         return $this->personData->GetAllGender(); 
+    }
     
 }

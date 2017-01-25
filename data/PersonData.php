@@ -21,7 +21,8 @@ class PersonData extends Connector {
          $query = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
                 . "emailPerson,addressPerson,phoneReferencePerson,bloodTypePerson "
                 . "FROM TBPerson INNER JOIN TBUser ON idPerson=idPersonUser WHERE typeUser=0";;
-         
+         echo $query ;
+         exit;
         $allPersonsResult = $this->exeQuery($query);
         $array = [];
         if (mysqli_num_rows($allPersonsResult) > 0) {

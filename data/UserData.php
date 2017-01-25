@@ -23,8 +23,9 @@ class UserData extends Connector {
                 . ",'" . $user->getTypeUser() . "'"
                 . ",'" . $user->getUserNameUser() . "'"
                 . ",'" . $user->getPassUser() . "');";
-
         return $this->exeQuery($query);
+        
+        
     }
 
     /**

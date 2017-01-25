@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     $nameUser = mysql_real_escape_string($_POST['userName']);
     $phoneReferencePerson = mysql_real_escape_string($_POST['addPhoneReference']);
     $bloodPerson = mysql_real_escape_string($_POST['selBlood']);
-    $agePerson = mysql_real_escape_string( $_POST['age']);
+    $agePerson = mysql_real_escape_string($_POST['age']);
     $genderPerson = $_POST['gender'];
 
     $idPerson = $personBusiness->getMaxId();
@@ -41,6 +41,7 @@ if (isset($_POST['submit'])) {
         $idUser = $userBusiness->getMaxId();
         $user = new User($idUser, $idPerson, 0, $nameUser, $passwordUser);
         $userBusiness->insertUser($user);
+        echo "topo";
 
         if (isset($_POST['phones'])) {
             $indexPhones = (int) $_POST['phones'];

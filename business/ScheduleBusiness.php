@@ -16,6 +16,8 @@ if(isset($_POST['option']))
      * 1 - Obtener todos los dias que tienen un horario.
      * 2 - Obtener todos los horarios existentes para un día y campus en específico.
      * 3 - Insertar una relación entre horario/servicio.
+     * 4 - Elimiar la relación entre horario y servicio.
+     * 5 - Obtener los horarios de un servicio en específico.
      */
     switch($option)
     {
@@ -53,8 +55,31 @@ if(isset($_POST['option']))
             $serviceData = new ServiceData();
             $service = $serviceData->getServiceByID($idService);
             $data = new ScheduleData();
-            $data->updateScheduleCondition($idService);
+            $data->updateScheduleCondition($idSchedule,1);
             echo $data->insertSchedule($idService, $idSchedule, $service->getQuotaService());
+            break;
+        case 4:
+            $idService = $_POST['idService'];
+            $idSchedule = $_POST['idSchedule'];
+            $data = new ScheduleData();
+            $data->updateScheduleCondition($idSchedule,0);
+            echo $data->deleteSchedule($idService, $idSchedule);
+            break;
+        case 5:
+            $id = $_POST['id'];
+            $data = new ScheduleData();
+            $array = $data->getCurrentSchedule($id);
+            $temp = "";
+            foreach ($array as $current)
+            {   
+                $temp = $temp.$current->getCampusService().",";
+                $temp = $temp.$current->getIdDayHourService().",";
+                $temp = $temp.$current->getDayService().",";
+                $temp = $temp.$current->getHourStartService().",";
+                $temp = $temp.$current->getHourEndService().";";
+            }//Fin del foreach
+            if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
+            echo $temp;
             break;
     }//Fin del switch
 }//Fin del if

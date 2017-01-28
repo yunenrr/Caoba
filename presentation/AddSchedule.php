@@ -13,13 +13,16 @@
             <label>Schedule:</label>
             <select id="selSchedule" name="selSchedule"></select>
             <button id="btnAddSchedule" name="btnAddSchedule">Add</button>
-            <table id="tableSchedule" name="tableSchedule">
-                <tr>
-                    <td>Boxing</td>
-                    <td>01</td>
-                    <td>Lunes de 7:00am a 8:00am</td>
-                    <td>DELETE</td>
-                </tr>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Service:</td>
+                        <td>Campus:</td>
+                        <td>Schedule:</td>
+                        <td>Delete:</td>
+                    </tr>
+                </thead>
+                <tbody id="tableSchedule" name="tableSchedule"></tbody>
             </table>
         </div>
     </fieldset>
@@ -48,6 +51,7 @@
                     else
                     {
                         $("#selDay").html('<option value="0" selected="">Select</option>');
+                        $("#selSchedule").html('<option value="0" selected="">Select</option>');
                     }//Fin del else
                 }//Fin de la función del evento
             );//Fin del evento del select de campus
@@ -79,6 +83,7 @@
                         {
                             if($("#selSchedule").val() !== "0")
                             {
+                                insertGUI($("#selSchedule").val(),$("#selService option:selected").html(),$("#selCampus option:selected").html(),$("#selDay option:selected").html() +': '+$("#selSchedule option:selected").html(),$("#selService").val());
                                 insertScheduleByService();
                             }
                             else
@@ -90,13 +95,25 @@
                         {
                             $("#msg").html("Please select a campus");
                         }
-//                        $("#msg").html("");
-//                        insertGUI("2",$("#selScheduleByDay").val(),$("#selDay option:selected").html() +': '+$("#selScheduleByDay option:selected").html());
+                        $("#msg").html("");
                     }//Fin del if
                     else
                     {
                         $("#msg").html("Please select a service");
                     }//Fin del else
+                }//Fin de la función del evento
+            );//Fin del evento
+    
+            //Evento eliminar horarios
+            $("#tableSchedule").on
+            (
+                'click','input.btnDelete', function() 
+                {
+                    var row = $(this).attr("id");
+                    var currentRow = row.substring(9,row.length);
+                    deleteScheduleByService(currentRow);
+                    $("#selSchedule").html('<option value="0" selected="">Select</option>');
+                    $("#selDay").val("0");
                 }//Fin de la función del evento
             );//Fin del evento
         }//Fin de la función principal

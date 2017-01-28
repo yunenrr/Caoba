@@ -34,9 +34,7 @@ class ScheduleData
         
         $idCampus = mysqli_real_escape_string($connO,$idCampus);
         
-        $sql = "SELECT TBDayHourService.dayService,TBDay.nameDay FROM TBDayHourService"
-                . " INNER JOIN TBDay ON TBDayHourService.dayService = TBDay.idDay "
-                . "WHERE TBDayHourService.idCampusService = $idCampus GROUP BY TBDay.idDay;";
+        $sql = "SELECT TBDayHourService.dayService,TBDay.nameDay FROM TBDayHourService INNER JOIN TBDay ON TBDayHourService.dayService = TBDay.idDay WHERE TBDayHourService.idCampusService = $idCampus GROUP BY TBDay.idDay;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -71,8 +69,8 @@ class ScheduleData
         $idDay = mysqli_real_escape_string($connO,$idDay);
         
         $sql = "SELECT idDayHourService,dayService, hourStartService,hourEndService FROM "
-                . "TBDayHourService WHERE TBDayHourService.condition = 0 AND "
-                . "TBDayHourService.idCampusService = $idCampus AND TBDayHourService.dayService = $idDay;";
+                . "TBDayHourService WHERE TBDayHourService.idCampusService = $idCampus AND TBDayHourService.dayService = $idDay
+                    AND TBDayHourService.condition = 0;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -82,7 +80,7 @@ class ScheduleData
             while($row = mysqli_fetch_array($result))
             {
                 $dayHourService = new DayHourService($row['idDayHourService'], 
-                        $row['dayService'], $row['hourStartService'], $row['hourEndService']);
+                        $row['dayService'], $row['hourStartService'], $row['hourEndService'],0);
                 array_push($array, $dayHourService);
             }//Fin del while
         }//Fin del if
@@ -153,19 +151,21 @@ class ScheduleData
     
     /**
      * Función que nos permite actualizar la condición de un horario.
-     * @param int $idService Corresponde al identificador del servicio.
+     * @param int $idSchedule Corresponde al identificador del horario.
+     * @param int $valueCondition Corresponde al valor que se va asignar a la condición de ese horario.
      * @return int Indicando si se actualizó o no.
      */
-    public function updateScheduleCondition($idSchedule)
+    public function updateScheduleCondition($idSchedule,$valueCondition)
     {
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
         $idSchedule = mysqli_real_escape_string($connO,$idSchedule);
+        $valueCondition = mysqli_real_escape_string($connO,$valueCondition);
         
         //Ejecutamos la sentencia
-        $sql = "UPDATE TBDayHourService SET TBDayHourService.condition = 1 WHERE TBDayHourService.idDayHourService = $idSchedule;";
+        $sql = "UPDATE TBDayHourService SET TBDayHourService.condition = $valueCondition WHERE TBDayHourService.idDayHourService = $idSchedule;";
         $result = mysqli_query($connO,$sql);
         
         if($result){}
@@ -174,5 +174,72 @@ class ScheduleData
         //Cerramos la conexión
         $this->connection->closeConnection();
         return $result;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite eliminar horarios para los servicios.
+     * @param int $idService Corresponde al identificador del servicio.
+     * @param int $idSchedule Corresponde al identificador del horario.
+     * @return String Indicando si se ingresó o no.
+     */
+    public function deleteSchedule($idService,$idSchedule)
+    {   
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Preparamos la información
+        $idService = mysqli_real_escape_string($connO,$idService);
+        $idSchedule = mysqli_real_escape_string($connO,$idSchedule);
+        $sql = "DELETE FROM TBRelationServiceSchedule WHERE "
+                . "TBRelationServiceSchedule.idService = $idService AND "
+                . "TBRelationServiceSchedule.idDayHourService = $idSchedule;";
+        $result = mysqli_query($connO,$sql);
+
+        if($result){}
+        else{$result = "0";}
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $result;
+    }//Fin de la función
+    
+    /**
+     * Función que nos permite obtener los horarios por día.
+     * @param String $id Corresponde al identificador del servicio.
+     */
+    public function getCurrentSchedule($id)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Prepraramos la información para la consulta
+        $id = mysqli_real_escape_string($connO,$id);
+        $sql = "SELECT TBDayHourService.idDayHourService,TBDay.nameDay,"
+                . "hourStartService,hourEndService,TBCampus.nameCampus FROM "
+                . "TBDayHourService INNER JOIN TBRelationServiceSchedule ON "
+                . "TBDayHourService.idDayHourService = "
+                . "TBRelationServiceSchedule.idDayHourService INNER JOIN TBDay "
+                . "ON TBDay.idDay = TBDayHourService.dayService INNER JOIN "
+                . "TBCampus ON TBCampus.idCampus = TBDayHourService.idCampusService "
+                . "WHERE TBRelationServiceSchedule.idService = $id;";
+        
+        $result = mysqli_query($connO,$sql);
+        $array = [];
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $dayHourService = new DayHourService($row['idDayHourService'], 
+                        $row['nameDay'], $row['hourStartService'], $row['hourEndService'],$row['nameCampus']);
+                array_push($array, $dayHourService);
+            }//Fin del while
+        }//Fin del if
+        
+        $this->connection->closeConnection();
+        
+        return $array;
     }//Fin de la función
 }//Fin de la clase

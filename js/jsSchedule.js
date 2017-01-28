@@ -130,6 +130,8 @@ function getSelectAllDay()
                 }
                 else
                 {
+                    $("#selDay").html('<option value="0" selected="">Select</option>');
+                    $("#selSchedule").html('<option value="0" selected="">Select</option>');
                     $("#msg").html("Don't have day");
                 }
             },
@@ -263,3 +265,120 @@ function hideOptionSelect(type,select,value)
         $("#"+select).val("0");
     }//Fin del else
 }//Fin de la función hideOptionSelect
+
+/**
+* Función que nos permite horarios en la tabla de horarios.
+* @param {int} idSchedule Corresponde al identificador del horario.
+* @param {String} nameService Corresponde al nombre del servicio.
+* @param {String} nameCampus Corresponde al nombre del campus.
+* @param {String} schedule Corresponde al horario.
+* @param {int} idService Corresponde al identificador del servicio.
+* */
+function insertGUI(idSchedule,nameService,nameCampus,schedule,idService)
+{
+    var newRow = ($("#tableSchedule tr").length);
+    var temp = "";
+
+    if(newRow === 0)
+    {  
+        temp = '<tr id="trS'+newRow+'">'+
+                '<td>'+nameService+' <input type="hidden" id="txtDay'+newRow+'" value="'+idSchedule +'" /><input type="hidden" id="txtID'+newRow+'" value="'+idService +'" /></td>'+
+                '<td>'+nameCampus+'</td>'+
+                '<td>'+schedule+'</td>'+
+            '</tr>';
+        $("#tableSchedule").html(temp);
+    }
+    else
+    {
+        var row = $("#tableSchedule tr:last").attr("id");
+        var newRow = parseInt(row.substring(3,row.length)) + 1;
+        temp = '<tr id="trS'+newRow+'">'+
+                '<td>'+nameService+' <input type="hidden" id="txtDay'+newRow+'" value="'+idSchedule +'" /><input type="hidden" id="txtID'+newRow+'" value="'+idService +'" /></td>'+
+                '<td>'+nameCampus+'</td>'+
+                '<td>'+schedule+'</td>'+
+            '</tr>';
+
+        $("#tableSchedule tr:last").after(temp);
+    }//Fin del else
+
+    var row = $("#tableSchedule tr:last").attr("id");
+    var newRow = row.substring(3,row.length);
+    var buttons = '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>';
+    $("#tableSchedule tr:last").append(buttons);
+}//Fin de la función insertGUI
+
+/**
+ * Fución que nos permite eliminar la relación entre horarios y servicios.
+ * @param {int} currentRow Corresponde a la posición de la fila en la tabla.
+ * */
+function deleteScheduleByService(currentRow)
+{
+    var infoData = "option=4&idService="+$("#txtID"+currentRow).val() +
+            "&idSchedule="+$("#txtDay"+currentRow).val();
+    $.ajax
+    (
+        {
+            type: 'POST',
+            url: "../business/ScheduleBusiness.php",
+            data: infoData,
+            beforeSend: function(before)
+            {
+                $("#msg").html("<p>Wait.</p>");
+            },
+            success: function(data)
+            {
+                if(data.toString().length > 0)
+                {
+                    $("#trS"+currentRow).remove();
+                    $("#msg").html("Schedule successfully deleted");
+                }
+                else
+                {
+                    $("#msg").html("Don't have schedule in the database");
+                }
+            },
+            error:function()
+            {
+                $("#msg").html("<p>Error.</p>");
+            }
+        }
+    );
+}//Fin de la función
+
+/**
+ * Función que nos permite reprensetar en la tabla los horarios actuales para un determinado servicio.
+ * @param {int} idService Corresponde al identificador del servicio.
+ * @param {String} nameService Corresponde al nombre del servicio.
+ * */
+function getRowTableCurrentSchedule(idService,nameService)
+{
+    var infoData = "option=5&id="+idService;
+     $.ajax
+     (
+         {
+             type: 'POST',
+             url: "../business/ScheduleBusiness.php",
+             data: infoData,
+             beforeSend: function(before)
+             {
+             },
+             success: function(data)
+             {
+                 if(data.toString().length > 0)
+                 {
+                     var arraySchedule = data.split(";");
+
+                     for(var i = 0; i < arraySchedule.length; i++)
+                     {
+                         var service = arraySchedule[i].split(",");
+                         insertGUI(service[1],nameService,service[0],service[2] +": "+getFormatHour(service[3])+' - '+getFormatHour(service[4]),idService);
+                     }//Fin del 
+                 }
+             },
+             error:function()
+             {
+                 $("#msg").html("<p>Error.</p>");
+             }
+         }
+     );
+}//Fin de la función

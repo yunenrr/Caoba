@@ -19,7 +19,6 @@ if(isset($_POST['option']))
      * 4 - Eliminar servicios.
      * 5 - Actualizar servicios.
      * 7 - Obtener todos los días.
-     * 8 - Obtener los horarios por día.
      * 9 - Obtener la información de un servicio específico.
      */
     switch($option)

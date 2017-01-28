@@ -65,20 +65,23 @@ class DietData extends Connector {
      */
     public function getDiet($idPerson) {
 
-        $query = "SELECT idDiet, nameDiet, descriptionDiet,dietDayDietPlan,dietHourDietPlan,nameFood "
+        $query = "SELECT DISTINCT  idDiet, nameDiet, descriptionDiet,dietDayDietPlan,dietHourDietPlan,nameFood, "
+                . "GROUP_CONCAT(nameFood SEPARATOR '-') AS list_food  "
                 . "FROM TBDiet INNER JOIN TBDietPerson ON idDiet = idDietDietPerson "
                 . "INNER JOIN TBDietPlan ON idDiet= idDietDietPlan "
                 . "INNER JOIN TBFood ON idFoodDietPlan=idFood "
-                . "WHERE idPersonDietPerson =" . $idPerson;
+                . "WHERE idPersonDietPerson ='".$idPerson."' GROUP BY idDiet;";
 
         $result = $this->exeQuery($query);
         $temp = "";
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-                $temp = $temp. $row['idDiet'] . "," . $row['nameFood'] . "," . $row['nameDiet'] . "," .
+               $temp  = $temp. $row['idDiet'] . "," . $row['list_food'] . "," . $row['nameDiet'] . "," .
                         $row['descriptionDiet'] . "," . $row['dietDayDietPlan'] . "," . $row['dietHourDietPlan'] . ";";
             }
         }
+
         return $temp;
     }
+
 }

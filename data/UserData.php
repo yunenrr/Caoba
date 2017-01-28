@@ -34,7 +34,10 @@ class UserData extends Connector {
      */
     public function updateUser($user) {
 
-        //Aqui va la carne para actualizar
+        $query = "UPDATE TBUser SET "
+                . "userNameUser  = '" . $user->getUserNameUser() . "'"
+                . ",passUser = '" . $user->getPassUser() . "'"
+                . " WHERE idPersonUser = '" . $user->getIdPersonUser() . "'";
 
         return $this->exeQuery($query);
     }
@@ -66,10 +69,24 @@ class UserData extends Connector {
      * @return type
      */
     public function verifyUserName($userName) {
-        $query = "SELECT count(userNameUser) FROM TBUser WHERE userNameUser=" . $userName;
+        $query = "SELECT COUNT(userNameUser) FROM TBUser WHERE userNameUser = '".$userName ."' ";
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
+    }
+    /**
+     * Use to get a specif user
+     * @param type $dniPerson
+     * @return \User
+     */
+    public function getUser($idPersonUser) {
+
+        $query = "SELECT idUser,typeUser,userNameUser,passUser FROM TBUser WHERE idPersonUser=" . $idPersonUser;
+        $userResult = $this->exeQuery($query);
+
+        $row = mysqli_fetch_array($userResult);
+        $user = new User($row['idUser'],$idPersonUser, $row['userNameUser'],$row['userNameUser'],$row['passUser']);        
+        return $user;
     }
 
 }

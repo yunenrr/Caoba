@@ -1,7 +1,7 @@
 <?php
-include 'Connection.php';
-include '../domain/Service.php';
-include '../domain/Person.php';
+include_once 'Connection.php';
+include_once '../domain/Service.php';
+include_once '../domain/Person.php';
 
 /**
  * Clase que nos permite manipular los servicios en la base de datos.

@@ -21,7 +21,7 @@ class PersonData extends Connector {
 
          $query = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
                 . "emailPerson,addressPerson,phoneReferencePerson,bloodTypePerson "
-                . "FROM TBPerson INNER JOIN TBUser ON idPerson=idPersonUser WHERE typeUser=0";;
+                . "FROM TBPerson INNER JOIN TBUser ON dniPerson=idPersonUser WHERE typeUser=0";;
          
         $allPersonsResult = $this->exeQuery($query);
         $array = [];
@@ -111,7 +111,7 @@ class PersonData extends Connector {
      * @return type
      */
     public function verifyDniPerson($dni) {
-        $query = "SELECT count(dniPersson) FROM TBPerson WHERE dniPerson=" . $dni;
+        $query = "SELECT count(dniPerson) FROM TBPerson WHERE dniPerson=" . $dni;
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);

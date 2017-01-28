@@ -187,7 +187,7 @@ $namePerson = $_GET['name'];
                               arrayAllPerson = data.split(";");
                             } else
                                {
-                                 $("#msg").html("Don't have Clients to show");
+                                 $("#msg").html("Don't have Person to show");
                                }
                             insertNewRow("tableBodyFamily");
                         },

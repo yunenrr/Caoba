@@ -35,5 +35,8 @@
                         <li><a href="ViewService.php" >Show</a></li>
                     </ul>
                 </li>
+                <li>
+                    <strong> <a href="Inventory.php">Inventory</a></strong>
+                </li>
             </ul>
         </nav>

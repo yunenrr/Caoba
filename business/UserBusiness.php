@@ -58,5 +58,13 @@ class UserBusiness {
     public function verifyUserNameUser($userName) {
         return $this->userData->verifyUserName($userName);
     }
+    /**
+     * use to get a specif user
+     * @param type $idPersonUser
+     * @return type
+     */
+    public function getUser($idPersonUser) {
+        return $this->userData->getUser($idPersonUser);
+    }
 
 }

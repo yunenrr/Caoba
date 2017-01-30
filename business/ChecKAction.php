@@ -7,13 +7,13 @@
 include '../business/PersonBusiness.php';
 include '../business/UserBusiness.php';
 
-$personB = new PersonBusiness();
-$userB = new UserBusiness();
+$personBusiness = new PersonBusiness();
+$userBusiness = new UserBusiness();
 
 
 if (isset($_POST['dni'])) {
     $dni = $_POST['dni'];
-    $result = $personB->verifyDniPerson($dni);
+    $result = $personBusiness->verifyDniPerson($dni);
 
     if ($result > 0)
         echo true;
@@ -22,7 +22,7 @@ if (isset($_POST['dni'])) {
 }
 if (isset($_POST['userName'])) {
     $userNameUser = $_POST['userName'];
-    $result = $userB->verifyUserNameUser($userNameUser);
+    $result = $userBusiness->verifyUserNameUser($userNameUser);
     if ($result > 0)
         echo true;
     else

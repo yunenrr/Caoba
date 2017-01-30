@@ -10,13 +10,14 @@ include './PersonBusiness.php';
 include './PhoneBusiness.php';
 include './UserBusiness.php';
 
-// get form data, making sure it is valid
-$personBusiness = new PersonBusiness();
-$phoneBusiness = new PhoneBusiness();
-$userBusiness = new UserBusiness();
+
 
 // check if the form has been submitted. If it has, start to process the form and save it to the database
 if (isset($_POST['submit'])) {
+    // get form data, making sure it is valid
+    $personBusiness = new PersonBusiness();
+    $phoneBusiness = new PhoneBusiness();
+    $userBusiness = new UserBusiness();
 
     $dniPerson = mysql_real_escape_string(htmlspecialchars($_POST['dni']));
     $namePerson = mysql_real_escape_string(htmlspecialchars($_POST['name']));
@@ -28,8 +29,8 @@ if (isset($_POST['submit'])) {
     $nameUser = mysql_real_escape_string($_POST['userName']);
     $phoneReferencePerson = mysql_real_escape_string($_POST['addPhoneReference']);
     $bloodPerson = mysql_real_escape_string($_POST['selBlood']);
-    $agePerson = mysql_real_escape_string( $_POST['age']);
-    $userType = mysql_real_escape_string( $_POST['userType']);
+    $agePerson = mysql_real_escape_string($_POST['age']);
+    $userType = mysql_real_escape_string($_POST['userType']);
     $genderPerson = $_POST['selGender'];
 
     $idPerson = $personBusiness->getMaxId();

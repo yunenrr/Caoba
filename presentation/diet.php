@@ -1,16 +1,15 @@
-<?php include './header.php';
-if (isset($_GET['id'])){
-$idPerson = $_GET['id'];
-$namePerson = $_GET['name'];
-}else{
-   header('Location: ViewClient.php');
+<?php
+include './header.php';
+if (isset($_GET['id'])) {
+    $idPerson = $_GET['id'];
+    $namePerson = $_GET['name'];
+} else {
+    header('Location: ViewClient.php');
 }
-    ?>
+?>
 <div>
-    <H1 ALIGN=JUSTIFY> Assign diet to <?php echo $namePerson?></H1>
- 
-    
-        <table border>
+    <H2 ALIGN=JUSTIFY> <?php echo $namePerson ?>'s diet</H2>
+    <table border>
         <thead>
             <tr>
                 <th>Food</th>
@@ -27,7 +26,10 @@ $namePerson = $_GET['name'];
             <tr></tr>
         </tfoot>
     </table>
+
     <br><br>
+    <fieldset>
+        <legend><legend> Assign diet to <?php echo $namePerson ?></legend></legend>
     <table>
         <thead>
             <tr>
@@ -47,6 +49,7 @@ $namePerson = $_GET['name'];
             </tr>
         </tfoot>
     </table>
+     </fieldset>
     <div id="msg"></div>
 </div>
 
@@ -133,6 +136,7 @@ $namePerson = $_GET['name'];
                                     $("#tr" + currentRow).remove();
                                  }
                             );
+                    
                      $("#tableBodyDietshow").on
                             (
                               'click', 'input.deleteDiet', function ()
@@ -168,14 +172,14 @@ $namePerson = $_GET['name'];
                            for (var i = 0; i < array.length; i++)
                             {
                               var newRow = i + 1;
-                              var service = array[i].split(",");
-                              temp = temp + '<tr id="tr' + newRow + '">';
-                              temp = temp +'<td><input type="text" id="txtFood' + newRow + '" name="txtFood' + newRow + '" value="' + service[1] + '"readonly=”readonly”/></td>' +
-                                            '<td><input type="text" id="txtName' + newRow + '" name="txtName' + newRow + '" value="' + service[2] + '"readonly=”readonly”/><input type="hidden" id="txtID' + newRow + '" name="txtID' + newRow + '" value="' + service[0] + '"/></td>' +
-                                            '<td><input type="text" id="txtDescription' + newRow + '" name="txtDescription' + newRow + '" value="' + service[3] + '"readonly=”readonly”/></td>'+
-                                            '<td><input type="text" id="txtDay' + newRow + '" name="txtDay' + newRow + '" value="' + service[4] + '"readonly=”readonly”/></td>' +
-                                            '<td><input type="number" id="txtHour' + newRow + '" name="txtHour' + newRow + '" value="' + service[5] + '" readonly=”readonly”/></td>' +
-                                            '<td><input type="button" value="Delete" class="deleteDiet" id="deleteDiet'+service[0]+'" name="deleteDiet'+service[0]+'"readonly=”readonly” /></td>'+
+                              var diet = array[i].split(",");
+                              temp = temp + '<tr id="td' + newRow + '">';
+                              temp = temp +'<td><textarea id="txtFood' + newRow + '" name="txtFood' + newRow + '"  rows="5" cols="40" readonly=”readonly” >' + diet[1] + '</textarea></td>' +
+                                            '<td><input type="text" id="txtName' + newRow + '" name="txtName' + newRow + '" value="' + diet[2] + '"readonly=”readonly”/><input type="hidden" id="txtID' + newRow + '" name="txtID' + newRow + '" value="' + diet[0] + '"/></td>' +
+                                            '<td><input type="text" id="txtDescription' + newRow + '" name="txtDescription' + newRow + '" value="' + diet[3] + '"readonly=”readonly”/></td>'+
+                                            '<td><input type="text" id="txtDay' + newRow + '" name="txtDay' + newRow + '" value="' + diet[4] + '"readonly=”readonly”/></td>' +
+                                            '<td><input type="number" id="txtHour' + newRow + '" name="txtHour' + newRow + '" value="' + diet[5] + '" readonly=”readonly”/></td>' +
+                                            '<td><input type="button" value="Delete" class="deleteDiet" id="deleteDiet'+diet[0]+'" name="deleteDiet'+diet[0]+'"readonly=”readonly” /></td>'+
                                             '</tr>';
                             }
                               $("#tableBodyDietshow").html(temp);
@@ -215,7 +219,7 @@ $namePerson = $_GET['name'];
                                {
                                  $("#msg").html("Don't have food");
                                }
-                            insertNewRow("tableBodyDiet");
+                            insertRow("tableBodyDiet");
                         },
                        error: function ()
                          {
@@ -250,7 +254,7 @@ $namePerson = $_GET['name'];
                  * Función que nos permite insertar una nueva fila a la tabla.
                  * @param {String} nameTable Corresponde al nombre de la tabla
                  * */
-                 function insertNewRow(nameTable)
+                 function insertRow(nameTable)
                    {
                      var newRow = ($("#" + nameTable + " tr").length);
                         
@@ -284,8 +288,7 @@ $namePerson = $_GET['name'];
                             }
                                             
                       return flag;
-                   }//Fin de la función
-                                                                    
+                   }//Fin de la función                                             
                                                                     
                 /**
                  * Función que nos permite insertar una nueva fila de food a la tabla.
@@ -327,7 +330,7 @@ $namePerson = $_GET['name'];
                             if(data.toString() !== "0")
                             {
                                 $("#msg").html("<p>Success.</p>");
-                                $("#tr"+currentRow).remove();
+                                $("#td"+currentRow).remove();
                             }
                             else
                             {
@@ -347,8 +350,8 @@ $namePerson = $_GET['name'];
     
                                                             
 </script>
-                                                            
-         
+
+
 
 
 

@@ -9,7 +9,7 @@
 class DayHourService
 {
     // Declaración de variables globales
-    private $idDayHourService,$dayService,$hourStartService,$hourEndService;
+    private $idDayHourService,$dayService,$hourStartService,$hourEndService,$campusService;
     
     /**
      * Función constructora.
@@ -17,13 +17,15 @@ class DayHourService
      * @param int $dayService Corresponde al identificador del día.
      * @param int $hourStartService Corresponde al identificador de la hora de inicio.
      * @param int $hourEndService Corresponde al identificador de la hora de finalización.
+     * @param int $campusService Identificador del campo donde se brinda el servicio.
      */
-    function DayHourService($idDayHourService, $dayService, $hourStartService, $hourEndService) 
+    function DayHourService($idDayHourService, $dayService, $hourStartService, $hourEndService,$campusService) 
     {
         $this->idDayHourService = $idDayHourService;
         $this->dayService = $dayService;
         $this->hourStartService = $hourStartService;
         $this->hourEndService = $hourEndService;
+        $this->campusService = $campusService;
     }//Fin de la función constructora
 
     function getIdDayHourService() {
@@ -56,6 +58,14 @@ class DayHourService
 
     function setHourEndService($hourEndService) {
         $this->hourEndService = $hourEndService;
+    }
+
+    function getCampusService() {
+        return $this->campusService;
+    }
+
+    function setCampusService($campusService) {
+        $this->campusService = $campusService;
     }
 
 

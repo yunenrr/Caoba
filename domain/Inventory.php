@@ -14,25 +14,29 @@
 class Inventory {
 
     private $idInventory;
-    private $nameInventory;
+    private $nameActiveInventory;
     private $quantityInventory;
     private $priceInventory;
     private $registrationDateInventory;
+    private $codeActiveInventory;
+    private $locationActiveInventory;
 
-    function Inventory($idInventory, $nameInventory, $quantityInventory, $priceInventory, $registrationDateInventory) {
+    function Inventory($idInventory, $nameActiveInventory, $quantityInventory, $priceInventory, $registrationDateInventory, $codeActiveInventory, $locationActiveInventory) {
         $this->idInventory = $idInventory;
-        $this->nameInventory = $nameInventory;
+        $this->nameActiveInventory = $nameActiveInventory;
         $this->quantityInventory = $quantityInventory;
         $this->priceInventory = $priceInventory;
         $this->registrationDateInventory = $registrationDateInventory;
+        $this->codeActiveInventory = $codeActiveInventory;
+        $this->locationActiveInventory = $locationActiveInventory;
     }
 
     function getIdInventory() {
         return $this->idInventory;
     }
 
-    function getNameInventory() {
-        return $this->nameInventory;
+    function getNameActiveInventory() {
+        return $this->nameActiveInventory;
     }
 
     function getQuantityInventory() {
@@ -47,12 +51,20 @@ class Inventory {
         return $this->registrationDateInventory;
     }
 
+    function getCodeActiveInventory() {
+        return $this->codeActiveInventory;
+    }
+
+    function getLocationActiveInventory() {
+        return $this->locationActiveInventory;
+    }
+
     function setIdInventory($idInventory) {
         $this->idInventory = $idInventory;
     }
 
-    function setNameInventory($nameInventory) {
-        $this->nameInventory = $nameInventory;
+    function setNameActveInventory($nameActiveInventory) {
+        $this->nameActiveInventory = $nameActveInventory;
     }
 
     function setQuantityInventory($quantityInventory) {
@@ -67,4 +79,11 @@ class Inventory {
         $this->registrationDateInventory = $registrationDateInventory;
     }
 
+    function setCodeActiveInventory($codeActiveInventory) {
+        $this->codeActiveInventory = $codeActiveInventory;
+    }
+
+    function setLocationActiveInventory($locationActiveInventory) {
+        $this->locationActiveInventory = $locationActiveInventory;
+    }
 }

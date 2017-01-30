@@ -6,6 +6,8 @@ include ('../business/PersonBusiness.php' );
 // number of results to show per page
 $perPage = 10;
 $personBusiness = new PersonBusiness();
+$gender = $personBusiness->GetAllGender();
+
 $PersonsArray = $personBusiness->getAllPersons();
 $totalResults = sizeof($PersonsArray);
 $totalPages = ceil($totalResults / $perPage);
@@ -59,20 +61,18 @@ for ($i = $start; $i < $end; $i++) {
 //
 //// echo out the contents of each row into a table
     echo "<tr>";
-
-    if ($PersonsArray[$i]->getGenderPerson() == 0) {
-        $gender = "Female";
-    } else if ($PersonsArray[$i]->getGenderPerson() == 1){
-        $gender = "Male";
-    }else{
-        $gender = "Indefined";
+    $tempGender="";
+    foreach ($gender as $value) {
+        if($PersonsArray[$i]->getGenderPerson()== $value->getIdGender()){
+            $tempGender = $value->getNameGender();
+        }
     }
     echo '<td>' . $PersonsArray[$i]->getDniPerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getNamePerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getFirstNamePerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getSecondNamePerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getAgePerson() . '</td>';
-    echo '<td>' . $gender . '</td>';
+    echo '<td>' . $tempGender . '</td>';
     echo '<td>' . $PersonsArray[$i]->getEmailPerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getAddressPerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getBloodTypePerson() . '</td>';
@@ -83,11 +83,11 @@ for ($i = $start; $i < $end; $i++) {
     echo '<td><a href="../presentation/Routine.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Routine</a></td>';
     echo '<td><a href="../presentation/diet.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Diet</a></td>';
     echo '<td><a href="../presentation/familyRelationship.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Familiy</a></td>';
-    
+
     echo '<td><a href="../presentation/EditClient.php?id=' . $PersonsArray[$i]->getIdPerson() . '">Edit</a></td>';
     echo '<td><a href="../business/DeletePersonAction.php?id=' . $PersonsArray[$i]->getIdPerson() . '">Delete</a></td>';
-    
-    
+
+
     echo "</tr>";
 }
 echo "</table>";

@@ -35,11 +35,27 @@ class InventoryBusiness {
 
     /**
      * Used to delete a inventory
+     * @param type $idInventory pk of the inventory to delete
+     * @return type
+     */
+    public function deleteInventory($idInventory) {
+        return $this->inventoryData->deleteInventory($idInventory);
+    }
+    
+     /**
+     * Used to delete a inventory
      * @param type $id pk of the inventory to delete
      * @return type
      */
-    public function deleteInventory($id) {
-        return $this->inventoryData->deleteInventory($id);
+    public function getAllInventory() {
+        return $this->inventoryData->getAllInventory();
     }
     
+     /**
+     * Use to get the max id num to the inventory registration
+     * @return type
+     */
+    public function getMaxId() {
+        return $this->inventoryData->getMaxId();
+    } 
 }

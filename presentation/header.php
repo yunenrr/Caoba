@@ -33,7 +33,12 @@
                     <ul>
                         <li><a href="CreateService.php">Insert</a></li>
                         <li><a href="ViewService.php" >Show</a></li>
+                        <li><a href="AddSchedule.php">Add Schedule</a></li>
+                        <li><a href="RemoveSchedule.php">Remove Schedule</a></li>
                     </ul>
+                </li>
+                <li>
+                    <strong> <a href="Inventory.php">Inventory</a></strong>
                 </li>
             </ul>
         </nav>

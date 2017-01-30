@@ -32,6 +32,7 @@ class PersonBusiness {
     public function getPerson($id) {
         return $this->personData->getPerson($id);
     }
+    
     public function getPersonByDNI($id) {
         return $this->personData->getPersonByDNI($id);
     }

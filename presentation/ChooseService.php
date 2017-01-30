@@ -3,7 +3,7 @@ include './header.php';
 ?>
 
 <div>
-    <form name="formInsert" action="../business/.php" method="POST">
+    <form name="formInsert" action="../business/CreateClientRecordAction.php" method="POST">
 
         <h1>Choose Service</h1>
         <table border="1">

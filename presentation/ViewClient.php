@@ -47,7 +47,7 @@ HERE;
 echo "<table border='2'>";
 echo "<tr> <th>Identify</th> <th>Person Name</th> <th>First Name</th> "
  . "<th>Second Name</th> <th>Age</th> <th>Gende</th> <th>Email</th><th>Address</th>"
- . "<th>Blood Type</th><th>Phone Reference</th><th>Phones</th><th>Routine</th><th>Diet</th><th>Family</th></tr>";
+ . "<th>Blood Type</th><th>Phone Reference</th><th>Phones</th><th>Routine</th><th>Diet</th><th>Family</th><th>Sesion</th></tr>";
 
 //// loop through results of database query, displaying them in the table
 
@@ -61,9 +61,9 @@ for ($i = $start; $i < $end; $i++) {
 //
 //// echo out the contents of each row into a table
     echo "<tr>";
-    $tempGender="";
+    $tempGender = "";
     foreach ($gender as $value) {
-        if($PersonsArray[$i]->getGenderPerson()== $value->getIdGender()){
+        if ($PersonsArray[$i]->getGenderPerson() == $value->getIdGender()) {
             $tempGender = $value->getNameGender();
         }
     }
@@ -83,6 +83,7 @@ for ($i = $start; $i < $end; $i++) {
     echo '<td><a href="../presentation/Routine.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Routine</a></td>';
     echo '<td><a href="../presentation/diet.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Diet</a></td>';
     echo '<td><a href="../presentation/familyRelationship.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Familiy</a></td>';
+    echo '<td><a href="../presentation/ChooseService.php?id=' . $PersonsArray[$i]->getIdPerson() . '">Service</a></td>';
 
     echo '<td><a href="../presentation/EditClient.php?id=' . $PersonsArray[$i]->getIdPerson() . '">Edit</a></td>';
     echo '<td><a href="../business/DeletePersonAction.php?id=' . $PersonsArray[$i]->getIdPerson() . '">Delete</a></td>';

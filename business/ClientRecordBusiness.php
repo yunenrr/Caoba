@@ -1,6 +1,6 @@
 <?php
 
-include '../data/RecordData.php';
+include '../data/ClientRecordData.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,7 +14,7 @@ include '../data/RecordData.php';
  */
 class ClientRecordBusiness {
 
-    //put your code here
+//put your code here
     private $clientRecordData;
 
     public function ClientRecordBusiness() {
@@ -25,12 +25,20 @@ class ClientRecordBusiness {
         return $this->clientRecordData->insertClientRecord($diet);
     }
 
+    public function deleteClientRecord($id) {
+        return $this->clientRecordData->deleteClientRecord($id);
+    }
+
     public function updateClientRecord($diet) {
         return $this->clientRecordData->updateClientRecord($diet);
     }
 
-    public function deleteClientRecord($id) {
-        return $this->clientRecordData->deleteClientRecord($id);
+    function dateOfEntryIntoService($id) {
+        return $this->clientRecordData->dateOfEntryIntoService($id);
+    }
+
+    public function returnsRegisteredServices($id) {
+        return $this->clientRecordData->returnsRegisteredServices($id);
     }
 
 }

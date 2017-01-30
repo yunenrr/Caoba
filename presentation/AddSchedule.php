@@ -29,6 +29,7 @@
     <div id="msg"></div>
 </div>
 <script src="../js/jsSchedule.js" type="text/javascript"></script>
+<script src="../js/jsService.js" type="text/javascript"></script>
 <?php include './footer.php' ?>
 <script type="text/javascript">
     $(document).ready

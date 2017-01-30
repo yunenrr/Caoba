@@ -44,4 +44,5 @@ class CampusData
         
         return $array;
     }//Fin de la función
+    
 }//Fin de la clase

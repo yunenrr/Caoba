@@ -59,4 +59,5 @@ if(isset($_POST['option']))
             echo $data->insertServicePaymentMethod($idService,$array[0],$array[1]);
             breaK;
     }//Fin del switch
+    
 }//Fin del if

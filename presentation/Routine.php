@@ -192,11 +192,14 @@ include './header.php';
 
 </div>
 
+<?php
+include './footer.php.php';
+?>
+
 <script type="text/javascript">
 
     function init() {
         var idPerson = $.get("id");
-          alert(idPerson );
         $('#divInsert').hide();
         $('#divABDOMEN').hide();
         $('#divSHOULDERS').hide();

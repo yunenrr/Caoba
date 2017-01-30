@@ -1,4 +1,5 @@
 <?php
+
 require_once '../data/Connector.php';
 include '../domain/ClientRecord.php';
 
@@ -9,7 +10,6 @@ include '../domain/ClientRecord.php';
  */
 
 
-
 /**
  * Description of ClientRecordData
  *
@@ -17,15 +17,17 @@ include '../domain/ClientRecord.php';
  */
 class ClientRecordData extends Connector {
 
-    public function updateClientRecord($clientRecord) {
+    public function insertClientRecord($clientRecord) {
+        $query = "INSERT INTO TBClientRecord "
+                . "VALUES('" . $clientRecord->getIdClientRecord()."',"
+                . "'" . getDniPersonClientRecord() . "',"
+                . "'". getIdServicePaymentModuleClientRecord() . "',"
+                . "'" .getIdRelationServiceScheduleClientRecord() . "');";
+        
         return $this->exeQuery($query);
     }
 
-    public function insertClientRecord($clientRecord) {
-        $query = "INSERT INTO TBClientRecord VALUES(" . $clientRecord->getIdClientRecord()
-                . "," . getDniPersonClientRecord() . ","
-                . getIdServicePaymentModuleClientRecord() . "," .
-                getIdRelationServiceScheduleClientRecord() . ");";
+    public function updateClientRecord($clientRecord) {
         return $this->exeQuery($query);
     }
 

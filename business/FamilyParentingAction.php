@@ -7,22 +7,22 @@ if (isset($_POST['option'])) {
     $option = $_POST['option'];
 
     $relationshipBusiness = new FamilyParentingBusiness();
-    
+
     switch ($option) {
         case 1:// ingresa un familiar a la base
             $idPersonFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['idPerson']));
-            $idRelativeFamilyParenting= mysql_real_escape_string(htmlspecialchars($_POST['selFamilyParenting']));
-            $idRelationshipFamilyParenting=mysql_real_escape_string(htmlspecialchars($_POST['selRelationShip']));
-            
+            $idRelativeFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['selFamilyParenting']));
+            $idRelationshipFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['selRelationShip']));
+
             // se valida que el cliente selecionado como familia no se haya ingresado antes.
-            if($relationshipBusiness->verifyFamily($idRelativeFamilyParenting)>0){
+            if ($relationshipBusiness->verifyFamily($idRelativeFamilyParenting,$idPersonFamilyParenting) > 0) {
                 echo 0;
-            }else{// se ingresa a la base 
-                $idFamilyParenting=$relationshipBusiness->getMaxId();
-            $family= new FamilyParenting($idFamilyParenting, $idPersonFamilyParenting, $idRelativeFamilyParenting, $idRelationshipFamilyParenting);
-            $relationshipBusiness->insertFamilyParenting($family); 
+            } else {// se ingresa a la base 
+                $idFamilyParenting = $relationshipBusiness->getMaxId();
+                $family = new FamilyParenting($idFamilyParenting, $idPersonFamilyParenting, $idRelativeFamilyParenting, $idRelationshipFamilyParenting);
+                $relationshipBusiness->insertFamilyParenting($family);
             }
-            
+
             break;
         case 2:// obtengo a todas los clientes de la base 
             $personBusiness = new PersonBusiness();
@@ -54,10 +54,15 @@ if (isset($_POST['option'])) {
             }
             echo $temp;
             break;
-            
+
         case 5:// elimino a un mienbro de la familia
-             $idFamilyParenting =mysql_real_escape_string(htmlspecialchars($_POST['txtID']));
+            $idFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['txtID']));
             echo $relationshipBusiness->deleteFamilyParenting($idFamilyParenting);
+            break;
+
+        case 6:// family tree
+            $idFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['idPerson']));
+            echo $relationshipBusiness->getFamily($idFamilyParenting);
             break;
     }
 }

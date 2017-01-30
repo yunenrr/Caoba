@@ -7,7 +7,10 @@ $namePerson = $_GET['name'];
 }
     ?>
 <div>
-    <H1 ALIGN=JUSTIFY><?php echo $namePerson?>'s family</H1>
+    <fieldset>
+        <legend><?php echo $namePerson?>'s family</legend>
+        <div id="tree"></div>       
+        </fieldset><br><br>
     
     
     <table border>
@@ -53,6 +56,7 @@ $namePerson = $_GET['name'];
             {
              var arrayAllPerson = "";
              var arrayAllRelationShip = "";
+             TreeFamily();
              getAllRelationship();
              getAllPerson();
              getFamily();
@@ -153,7 +157,7 @@ $namePerson = $_GET['name'];
                                             '</tr>';
                             }
                               $("#tableBodyFamilytshow").html(temp);
-                              $("#msg").html("");
+                              TreeFamily();
                          }
                        },          
                      error: function ()
@@ -213,7 +217,7 @@ $namePerson = $_GET['name'];
                       data: infoData,
                       beforeSend: function (before)
                         {
-                          $("#msg").html("<p>Wait.</p>");
+                          $("#msg").html("<p>.</p>");
                         },
                       success: function (data)
                         {
@@ -323,6 +327,7 @@ $namePerson = $_GET['name'];
                             {
                                 $("#msg").html("<p>Success.</p>");
                                 $("#tr"+currentRow).remove();
+                                getFamily();
                             }
                             else
                             {
@@ -336,6 +341,35 @@ $namePerson = $_GET['name'];
                     }
                 );
             }//Fin de la función
+            
+            function TreeFamily()
+             {
+               var infoData = "option=6"+ "&idPerson="+<?php echo $idPerson ?> ;
+                $.ajax
+                 (
+                   {
+                     type: 'POST',
+                     url: "../business/FamilyParentingAction.php",
+                     data: infoData,
+                     beforeSend: function (before)
+                      {
+                        $("#msg").html("<p>.</p>");
+                      },
+                     success: function (data)
+                      {
+                        if (data.toString().length > 0)
+                         {
+                           
+                              $("#tree").html(data);
+                         }
+                       },          
+                     error: function ()
+                       {
+                        $("#msg").html("<p>Error.</p>");
+                       }
+                    }
+                  );
+             }//Fin de la función
             }
         );
     

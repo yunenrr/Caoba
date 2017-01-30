@@ -8,7 +8,7 @@ $gender = $personBusiness->GetAllGender();
 ?>
 
 <div>
-    <H1 ALIGN=JUSTIFY> Register new customer </H1>
+    <H2 ALIGN=JUSTIFY> Register new customer </H2>
 
     <fieldset>
         <!--FORM-->

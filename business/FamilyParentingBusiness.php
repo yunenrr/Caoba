@@ -71,7 +71,15 @@ class FamilyParentingBusiness {
      * @param type $idPerson
      * @return type
      */
-    public function verifyFamily($idPerson) {
-        return $this->familyParentingData->verifyFamily($idPerson);
+    public function verifyFamily($idPerson, $idPersonFamilyParenting) {
+        return $this->familyParentingData->verifyFamily($idPerson, $idPersonFamilyParenting);
+    }
+    /**
+     * use to get a specif RelationShip tree
+     * @param type $idPerson
+     * @return type
+     */
+    public function getFamily($idPerson) {
+        return $this->familyParentingData->getFamily($idPerson);
     }
 }

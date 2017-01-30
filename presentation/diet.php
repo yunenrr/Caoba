@@ -8,6 +8,7 @@ if (isset($_GET['id'])) {
 }
 ?>
 <div>
+    <H2 ALIGN=JUSTIFY> <?php echo $namePerson ?>'s diet</H2>
     <table border>
         <thead>
             <tr>
@@ -27,9 +28,8 @@ if (isset($_GET['id'])) {
     </table>
 
     <br><br>
-     <H2 ALIGN=JUSTIFY> Assign diet to <?php echo $namePerson ?></H2>
-
     <fieldset>
+        <legend><legend> Assign diet to <?php echo $namePerson ?></legend></legend>
     <table>
         <thead>
             <tr>

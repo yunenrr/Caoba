@@ -22,6 +22,7 @@
                     <ul>
                         <li><a href="CreateNewClient.php">Insert</a></li>
                         <li><a href="ViewClient.php" >Show</a></li>
+                        <li><a href="clientScheduleView.php" >Schedule</a></li>
                     </ul>
                 </li>
                 <li>

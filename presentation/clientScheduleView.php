@@ -84,7 +84,7 @@ include './header.php';
             <tr>
                 <?php
             endif;
-            if ($countAllDays < $numDay):
+            if ($countAllDays < $numDay-1):
                 ?>
                 <td><div></div><div></div></td>
                 <?php

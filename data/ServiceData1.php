@@ -11,12 +11,10 @@ include '../domain/Service.php';
  */
 class ServiceData1 extends Connector {
 
-    public function insertServiceToClient($idClientRecord,
-                                            $idPersonUserClientRecord,
-                                            $idServicePaymentModuleClientRecord,
-                                            $idRelationServiceScheduleClientRecord,
-                                            $startDateClientRecord) {
-        
+    public function insertServiceToClient($idClientRecord, $idPersonUserClientRecord, $idServicePaymentModuleClientRecord, $idRelationServiceScheduleClientRecord, $startDateClientRecord) {
+
+
+
         $query = "INSERT INTO `TBClientRecord` (`idClientRecord`,
                                                 `idPersonUserClientRecord`,
                                                 `idServicePaymentModuleClientRecord`,
@@ -24,13 +22,13 @@ class ServiceData1 extends Connector {
                                                 `startDateClientRecord`,
                                                 `finalDateClientRecord`) 
                  VALUES
-                 (".$idClientRecord.","
-                . "".$idPersonUserClientRecord.","
-                . "".$idServicePaymentModuleClientRecord.","
-                . "".$idRelationServiceScheduleClientRecord.","
-                . "".$startDateClientRecord.","
-                . "".$startDateClientRecord.");";
-        
+                 (" . $idClientRecord . ""
+                . "," . $idPersonUserClientRecord . ""
+                . "," . $idServicePaymentModuleClientRecord . ""
+                . "," . $idRelationServiceScheduleClientRecord . ""
+                . "," . $startDateClientRecord . ""
+                . "," . $startDateClientRecord . ");";
+
         return $this->exeQuery($query);
     }
 
@@ -150,12 +148,10 @@ class ServiceData1 extends Connector {
     }
 
     public function getPaymentModuleService($id) {
-        $query = "SELECT TBPaymentModule.idPaymentModule, TBPaymentModule.namePaymentModule FROM TBService INNER JOIN
-                    TBServicepaymentmodule ON 
-                    TBService.idService = TBServicepaymentmodule.idServicePaymentModule INNER JOIN
-                    TBPaymentmodule ON 
-                    TBServicepaymentmodule.idServiceServicePaymentModule = TBPaymentmodule.idPaymentModule WHERE
-                    TBService.idService = " . $id;
+        $query = "SELECT TBPaymentModule.idPaymentModule, TBPaymentModule.namePaymentModule FROM TBPaymentModule "
+                . "INNER JOIN TBServicePaymentModule ON TBPaymentModule.idPaymentModule = "
+                . "TBServicePaymentModule.idPaymentModuleServicePaymentModule WHERE "
+                . "TBServicePaymentModule.idServiceServicePaymentModule = $id;";
 
         $module = $this->exeQuery($query);
         $array = [];
@@ -171,8 +167,8 @@ class ServiceData1 extends Connector {
                     FROM TBRelationserviceschedule 
                     INNER JOIN tbservice 
                     ON TBRelationserviceschedule.idService = TBService.idService 
-                    WHERE TBService.idService = " + $idService + " AND TBRelationserviceschedule.idDayHourService = " + $idRelation + ";";
-
+                    WHERE TBService.idService = " . $idService . " AND TBRelationserviceschedule.idDayHourService = " . $idRelation . ";";
+        
         $getId = $this->exeQuery($query);
         $row = mysqli_fetch_array($getId);
 
@@ -181,14 +177,15 @@ class ServiceData1 extends Connector {
 
     public function getIdTbServicePaymentModule($idService, $idModule) {
         $query = "SELECT TBServicePaymentModule.idServicePaymentModule FROM TBServicePaymentModule"
-                . " WHERE TBServicePaymentModule.idServiceServicePaymentModule = ".$idService. " AND "
-                . "TBServicePaymentModule.idPaymentModuleServicePaymentModule = ".$idModule. ";";
-        $result = $this->exeQuery($query);
-        $array = mysqli_fetch_array($result);
-        $id = trim($array[0]);
-        return $id;
+                . " WHERE TBServicePaymentModule.idServiceServicePaymentModule = " . $idService . " AND "
+                . "TBServicePaymentModule.idPaymentModuleServicePaymentModule = " . $idModule . ";";
+       
+        $getId = $this->exeQuery($query);
+        $row = mysqli_fetch_array($getId);
+
+        return $row['idServicePaymentModule'];
     }
-    
+
     /**
      * Use to get the max id num to the ClientRecord
      * @return type

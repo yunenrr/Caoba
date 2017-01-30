@@ -13,8 +13,9 @@ if (isset($_POST['submit'])) {
         $serviceBusiness1 = new ServiceBusiness1();
         $idClientRecord = $serviceBusiness1->getMaxId();
         $idRelationServiceScheduleClientRecord = $serviceBusiness1->getIdRelationtServices($idService, $idRelation);
-        $idServicePaymentModuleClientRecord = $serviceBusiness1->getIdTbServicePaymentModule($idService, $idModule);
         
+        $idServicePaymentModuleClientRecord = $serviceBusiness1->getIdTbServicePaymentModule($idService, $idModule);
+     
         if($serviceBusiness1->insertServiceToClient($idClientRecord, 
                 $idPersonUserClientRecord, 
                 $idServicePaymentModuleClientRecord, 

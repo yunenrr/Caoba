@@ -67,8 +67,13 @@ include '../business/PersonStateBusiness.php'; //personState bussiness include
                         <td align="center"><?= $currentPerson->getEmailPerson(); ?></td>
                         <td align="center"><?= $currentPerson->getAddressPerson(); ?></td>
                         <td align="center"><input id="<?= 'btnEdit' . $currentPerson->getDniPerson(); ?>" onclick="<?= 'enableButtons(' . $currentPerson->getDniPerson() . ')' ?>" type="button"  value="  EDIT  " <?= $statusEdit; ?>/></td>
-                        <td align="center" ><input id="<?= 'btnEna' . $id; ?>" onclick="<?= '' . $action . '(' . $id . ',' . 1 . ')' ?>" type="button"  value="  ENABLE  "  <?= $statusEnable . ""; ?> /></td>
-                        <td align="center" ><input id="<?= 'btnDis' . $id; ?>" onclick="<?= '' . $action . '(' . $id . ',' . 0 . ')' ?>" type="button"  value="  DISABLE  " <?= $statusDisable . ""; ?> /> </td>
+                        <td align="center" >
+
+                            <input id="<?= 'btnEna' . $id; ?>" onclick="<?= '' . $action . '(' . $id . ',' . 1 . ')' ?>" type="button"  value="  ENABLE  "  <?= $statusEnable . ""; ?> />
+                        </td>
+                        <td align="center" >
+                            <input id="<?= 'btnDis' . $id; ?>" onclick="<?= '' . $action . '(' . $id . ',' . 0 . ')' ?>" type="button"  value="  DISABLE  " <?= $statusDisable . ""; ?> /> 
+                        </td>
                         <td align="center"><a href="./MeasurementView.php?dni=<?= $currentPerson->getDniPerson(); ?>"> Set Measurement</a></td>
                     </tr>
                     <?php

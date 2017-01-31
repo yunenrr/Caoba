@@ -9,7 +9,7 @@
 include './PersonBusiness.php';
 include './PhoneBusiness.php';
 include './UserBusiness.php';
-
+include '../business/PersonStateBusiness.php';
 
 
 // check if the form has been submitted. If it has, start to process the form and save it to the database
@@ -39,7 +39,8 @@ if (isset($_POST['submit'])) {
     $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodPerson);
 
     if ($personBusiness->insertPerson($person)) {
-
+        $personStateBusiness = new personStateBusiness();
+        $personStateBusiness->insertPersonState($dniPerson);
         $idUser = $userBusiness->getMaxId();
         $user = new User($idUser, $dniPerson, $userType, $nameUser, $passwordUser);
         $userBusiness->insertUser($user);

@@ -33,7 +33,7 @@ class ClientRecordData extends Connector {
      * @autor Edwin Navarro B.
      */
     public function insertClientRecord($clientRecord) {
-        $query = "INSERT INTO TBClientRecord VALUES(" . $clientRecord->getIdClientRecord()
+        $query = "insert into tbclientrecord values(" . $clientRecord->getIdClientRecord()
                 . "," . getDniPersonClientRecord() . ","
                 . getIdServicePaymentModuleClientRecord() . "," .
                 getIdRelationServiceScheduleClientRecord() . ");";
@@ -47,25 +47,25 @@ class ClientRecordData extends Connector {
      * @autor Edwin Navarro B.
      */
     public function returnsRegisteredServices($id) {
-        $query = "select idServiceServicePaymentModule,nameService,namePaymentModule,dayService,hourStartService,hourEndService "
-                . "from tbpaymentmodule inner join tbServicePaymentModule on idPaymentModule = idPaymentModuleServicePaymentModule "
-                . "inner join tbservice on idServiceServicePaymentModule=tbservice.idService "
-                . "inner join tbrelationserviceschedule on tbservice.idService=tbrelationserviceschedule.idService "
-                . "inner join tbdayhourservice on tbrelationserviceschedule.idDayHourService = tbdayhourservice.idDayHourService"
-                . " where idServicePaymentModule in( select idServicePaymentModuleClientRecord from tbServicePaymentModule "
-                . "inner join tbclientrecord on idServicePaymentModule = idServicePaymentModuleClientRecord where idPersonUserClientRecord ='123')";
+        $query = "select idserviceservicepaymentmodule,nameservice,namepaymentmodule,dayservice,hourstartservice,hourendservice "
+                . "from tbpaymentmodule inner join tbservicepaymentmodule on idpaymentmodule = idpaymentmoduleservicepaymentmodule "
+                . "inner join tbservice on idserviceservicepaymentmodule=tbservice.idservice "
+                . "inner join tbrelationserviceschedule on tbservice.idservice=tbrelationserviceschedule.idservice "
+                . "inner join tbdayhourservice on tbrelationserviceschedule.iddayhourservice = tbdayhourservice.iddayhourservice"
+                . " where idservicepaymentmodule in( select idservicepaymentmoduleclientrecord from tbservicepaymentmodule "
+                . "inner join tbclientrecord on idservicepaymentmodule = idservicepaymentmoduleclientrecord where idpersonuserclientrecord ='123')";
         $clientRecordResult = $this->exeQuery($query);
         $clientRecordArray = array();
         while ($row = mysqli_fetch_array($clientRecordResult)) {
-            $date = $this->dateOfEntryIntoService($row['idServiceServicePaymentModule']);
-            $dateSecuence = $this->calculateDate($date, $row['namePaymentModule']);
+            $date = $this->dateOfEntryIntoService($row['idserviceservicepaymentmodule']);
+            $dateSecuence = $this->calculateDate($date, $row['namepaymentModule']);
             $array = array(
-                "idServiceServicePaymentModule" => $row['idServiceServicePaymentModule'],
-                "nameService" => $row['nameService'],
-                "namePaymentModule" => $row['namePaymentModule'],
-                "dayService" => $row['dayService'],
-                "hourStartService" => $row['hourStartService'],
-                "hourEndService" => $row['hourEndService'],
+                "idserviceservicepaymentmodule" => $row['idserviceservicepaymentModule'],
+                "nameservice" => $row['nameservice'],
+                "namepaymentModule" => $row['namepaymentModule'],
+                "dayservice" => $row['dayservice'],
+                "hourstartservice" => $row['hourstartservice'],
+                "hourendservice" => $row['hourendservice'],
                 "days" => $dateSecuence,
             );
             array_push($clientRecordArray, $array);
@@ -74,14 +74,15 @@ class ClientRecordData extends Connector {
     }
 
     public function dateOfEntryIntoService($idservice) {
-        $query = "select idServicePaymentModuleClientRecord,startDateClientRecord "
-                . "from tbPaymentModule inner join tbServicePaymentModule "
-                . "on idPaymentModule=idPaymentModuleServicePaymentModule "
-                . "inner join tbclientrecord on idServicePaymentModule = idServicePaymentModuleClientRecord "
-                . "where idPersonUserClientRecord ='123' and idServicePaymentModuleClientRecord=" . $idservice . "";
+        $query = "select idservicepaymentmoduleclientrecord,startdateclientrecord "
+                . "from tbpaymentmodule inner join tbservicepaymentmodule "
+                . "on idpaymentmodule=idpaymentmoduleservicepaymentmodule "
+                . "inner join tbclientrecord on idservicepaymentmodule = idservicepaymentmoduleclientrecord "
+                . "where idpersonuserclientrecord ='123' and idservicepaymentmoduleclientrecord=
+" . $idservice . "";
         $clientRecordResult = $this->exeQuery($query);
         $row = mysqli_fetch_array($clientRecordResult);
-        return $row['startDateClientRecord'];
+        return $row['startdateclientrecord'];
     }
 
     function calculateDate($fechaInicioServicio, $namePaymentModule) {

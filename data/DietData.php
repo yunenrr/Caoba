@@ -65,19 +65,20 @@ class DietData extends Connector {
      */
     public function getDiet($idPerson) {
 
-        $query = "SELECT DISTINCT  idDiet, nameDiet, descriptionDiet,dietDayDietPlan,dietHourDietPlan,nameFood, "
-                . "GROUP_CONCAT(nameFood SEPARATOR '-') AS list_food  "
-                . "FROM TBDiet INNER JOIN TBDietPerson ON idDiet = idDietDietPerson "
-                . "INNER JOIN TBDietPlan ON idDiet= idDietDietPlan "
-                . "INNER JOIN TBFood ON idFoodDietPlan=idFood "
-                . "WHERE idPersonDietPerson ='".$idPerson."' GROUP BY idDiet;";
+        $query = "select distinct  iddiet, namediet, descriptiondiet,dietdaydietplan,diethourdietplan,namefood, "
+                . "group_concat(namefood separator '-') as list_food  "
+                . "from tbdiet inner join tbdietperson on iddiet = iddietdietperson "
+                . "inner join tbdietplan on iddiet= iddietdietplan "
+                . "inner join tbfood on idfooddietplan=idfood "
+                . "where idpersondietperson
+ ='".$idPerson."' GROUP BY iddiet;";
 
         $result = $this->exeQuery($query);
         $temp = "";
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-               $temp  = $temp. $row['idDiet'] . "," . $row['list_food'] . "," . $row['nameDiet'] . "," .
-                        $row['descriptionDiet'] . "," . $row['dietDayDietPlan'] . "," . $row['dietHourDietPlan'] . ";";
+               $temp  = $temp. $row['iddiet'] . "," . $row['list_food'] . "," . $row['namediet'] . "," .
+                        $row['descriptiondiet'] . "," . $row['dietdaydietplan'] . "," . $row['diethourdietplan'] . ";";
             }
         }
 

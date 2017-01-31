@@ -3,13 +3,26 @@
 include './header.php';
 include '../business/PersonBusiness.php';
 include '../business/UserBusiness.php';
-
+include '../business/PersonStateBusiness.php';
 $id = $_GET['id'];
+
 $personBusiness = new PersonBusiness();
 $userBusiness = new UserBusiness();
 $person = $personBusiness->getPerson($id);
-$user= $userBusiness->getUser($person->getDniPerson());
+$user = $userBusiness->getUser($person->getDniPerson());
 $gender = $personBusiness->GetAllGender();
+
+$personStateBusiness = new personStateBusiness();
+$state;
+
+if ($personStateBusiness->getPersonStateBusiness(123) == 1) {
+    $state = "ENABLE";
+} else {
+    $state = "DISABLE";
+}
+//ECHO $personStateBusiness->getPersonStateBusiness(123);
+//ECHO $state;
+//exit;
 ?>
 
 <H1 ALIGN=JUSTIFY> Edit customer </H1>
@@ -54,16 +67,16 @@ $gender = $personBusiness->GetAllGender();
                 </td>
             </tr>
             <!--USER NAME-->
-                <tr>
-                    <td>User name:</td>
-                    <td><input type="text" id="userName" name="userName"  value=<?php echo $user->getUserNameUser() ?> required/><br/>
-                        <div id="msgUserName" style="color: red"></div></td>
-                </tr>
-                <!--PASSWORD-->
-                <tr>
-                    <td>Password:</td>
-                    <td><input type="password" id="password" name="password"  value=<?php echo $user->getPassUser() ?> required/><br/></td>
-                </tr>
+            <tr>
+                <td>User name:</td>
+                <td><input type="text" id="userName" name="userName"  value=<?php echo $user->getUserNameUser() ?> required/><br/>
+                    <div id="msgUserName" style="color: red"></div></td>
+            </tr>
+            <!--PASSWORD-->
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" id="password" name="password"  value=<?php echo $user->getPassUser() ?> required/><br/></td>
+            </tr>
             <!--AGE-->
             <tr>
                 <td>Age:</td>
@@ -112,9 +125,19 @@ $gender = $personBusiness->GetAllGender();
                     <textarea id="address" name="address" rows="5" cols="40" required><?php echo $person->getAddressPerson() ?></textarea>
                 </td>
             </tr>
+            <!--ADDRESS-->
+            <tr>
+                <td>Status:</td>
+                <td>
+                    <label id="status" > <?=$state; ?> </label>
+                    
+                    <input type="button" dni ="id" name="id" onclick="<?='update(' . $id . ',' . 0 . ')' ?>" value=CAMBIAR /> 
+                    
+                </td>
+            </tr>
             <!--ID-->
             <tr>
-                <td> <input type="hidden" dni ="id" name="id" value=<?php echo $id ?> /><br/>
+                <td> <input type="hidden" dni ="id" name="id" value=<?php echo $id ?>/> <br/>
             </tr>
 
             <!--REGISTRE-->
@@ -136,45 +159,45 @@ $gender = $personBusiness->GetAllGender();
 
 <script type="text/javascript">
 
-    /**
-     * Use to validate that the fields are not empty
-     * @returns {Boolean}
-     */
-    function validationForm() {
-        name = document.formEdit.name.value;
-        firstname = document.formEdit.firstname.value;
-        secondname = document.formEdit.secondname.value;
-        age = document.formEdit.age.value;
-        gender = document.formEdit.gender.value;
-        email = document.formEdit.email.value;
-        address = document.formEdit.address.value;
+                    /**
+                     * Use to validate that the fields are not empty
+                     * @returns {Boolean}
+                     */
+                    function validationForm() {
+                        name = document.formEdit.name.value;
+                        firstname = document.formEdit.firstname.value;
+                        secondname = document.formEdit.secondname.value;
+                        age = document.formEdit.age.value;
+                        gender = document.formEdit.gender.value;
+                        email = document.formEdit.email.value;
+                        address = document.formEdit.address.value;
 
 
-        if (name.length == 0 || firstname.length == 0 || secondname.length == 0 || age.length == 0 ||
-                gender.length == 0 || email.length == 0 || address.length == 0) {
-            document.getElementById('errorMsj').style.display = 'block';
-            return false;
+                        if (name.length == 0 || firstname.length == 0 || secondname.length == 0 || age.length == 0 ||
+                                gender.length == 0 || email.length == 0 || address.length == 0) {
+                            document.getElementById('errorMsj').style.display = 'block';
+                            return false;
 
-        } else {
-            return true;
-        }
-    }
+                        } else {
+                            return true;
+                        }
+                    }
 
-    function valideKey(evt)
-    {
-        var code = (evt.which) ? evt.which : evt.keyCode;
-        if (code == 8)
-        {
-            //backspace
-            return true;
-        } else if (code >= 48 && code <= 57)
-        {
-            //is a number
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
+                    function valideKey(evt)
+                    {
+                        var code = (evt.which) ? evt.which : evt.keyCode;
+                        if (code == 8)
+                        {
+                            //backspace
+                            return true;
+                        } else if (code >= 48 && code <= 57)
+                        {
+                            //is a number
+                            return true;
+                        } else
+                        {
+                            return false;
+                        }
+                    }
 
 </script>

@@ -27,7 +27,7 @@ class CampusData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idCampus, nameCampus FROM TBCampus;";
+        $sql = "select idcampus, namecampus from tbcampus;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -35,7 +35,7 @@ class CampusData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $campus = new Campus($row['idCampus'], $row['nameCampus']);
+                $campus = new Campus($row['idcampus'], $row['namecampus']);
                 array_push($array, $campus);
             }//Fin del while
         }//Fin del if

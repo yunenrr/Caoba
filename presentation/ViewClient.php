@@ -2,7 +2,7 @@
 
 include './header.php';
 include ('../business/PersonBusiness.php' );
-
+include '../business/PersonStateBusiness.php';
 // number of results to show per page
 $perPage = 10;
 $personBusiness = new PersonBusiness();
@@ -47,7 +47,7 @@ HERE;
 echo "<table border='2'>";
 echo "<tr> <th>Identify</th> <th>Person Name</th> <th>First Name</th> "
  . "<th>Second Name</th> <th>Age</th> <th>Gende</th> <th>Email</th><th>Address</th>"
- . "<th>Blood Type</th><th>Phone Reference</th><th>Phones</th><th>Routine</th><th>Diet</th><th>Family</th><th>Sesion</th></tr>";
+ . "<th>Blood Type</th><th>Phone Reference</th><th>Status</th><th>Phones</th><th>Routine</th><th>Diet</th><th>Family</th><th>Sesion</th></tr>";
 
 //// loop through results of database query, displaying them in the table
 
@@ -77,7 +77,12 @@ for ($i = $start; $i < $end; $i++) {
     echo '<td>' . $PersonsArray[$i]->getAddressPerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getBloodTypePerson() . '</td>';
     echo '<td>' . $PersonsArray[$i]->getPhoneReferencePerson() . '</td>';
-
+    $personStateBusiness = new personStateBusiness();
+    if ($personStateBusiness->getPersonStateBusiness($PersonsArray[$i]->getDniPerson()) == 1) {
+        echo '<td>' . 'Activo' . '</td>';
+    } else {
+        echo '<td>' . 'Inactivo' . '</td>';
+    };
     $name = str_replace(" ", "_", $PersonsArray[$i]->getNamePerson());
     echo '<td><a href="../presentation/EditPhone.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Phones</a></td>';
     echo '<td><a href="../presentation/Routine.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Routine</a></td>';

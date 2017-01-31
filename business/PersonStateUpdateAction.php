@@ -1,9 +1,10 @@
 <?php
 
 include './PersonStateBusiness.php';
-$state = $_POST['state'];
-$id = $_POST['id'];
-$personState = new PersonState(0, $id, $state);
+//$id = $_POST['id'];
+$personState = new PersonState(0, 123, 0);
 $personStateBusiness = new personStateBusiness();
-$personStateBusiness->updatePersonState($personState);
-echo true;
+$return = $personStateBusiness->updatePersonState(123);
+$array = array("status"=>$return);
+echo (json_encode($array));
+//echo true;

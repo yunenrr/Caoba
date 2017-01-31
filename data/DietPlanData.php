@@ -17,8 +17,8 @@ class DietPlanData extends Connector {
      * @return type
      */
     public function insertDietPlan($dietPlan) {
-        $query = "INSERT INTO TBDietPlan(idDietPlan,idFoodDietPlan,idDietDietPlan, dietDayDietPlan,dietHourDietPlan)"
-                . "VALUES ('" . $dietPlan->getIdDietPlan() . "'"
+        $query = "insert into tbdietplan(iddietplan,idfooddietplan,iddietdietplan, dietdaydietplan,diethourdietplan)"
+                . "values ('" . $dietPlan->getIdDietPlan() . "'"
                 . ",'" . $dietPlan->getIdFoodDietPlan() . "'"
                 . ",'" . $dietPlan->getIdDietDietPlan() . "'"
                 . ",'" . $dietPlan->getDietDayDietPlan() . "'"
@@ -56,6 +56,6 @@ class DietPlanData extends Connector {
      * @return type
      */
     public function getMaxId() {
-        return $this->getMaxIdTable("DietPlan");
+        return $this->getMaxIdTable("dietplan");
     }
 }

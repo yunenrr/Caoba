@@ -16,7 +16,7 @@ class PersonStateData extends Connector {
      * @param type $personState
      * @return type
      */
-    public function insertPersonState($personState) {
+    public function insertPersonState($dni) {
         $fetch = mysqli_fetch_array($this->exeQuery("select max(idPersonState)as id from TBPersonState"));
         if ($fetch['id'] == null):
             $num = 0;
@@ -24,7 +24,7 @@ class PersonStateData extends Connector {
             $num = ((int) $fetch['id']) + 1;
         endif;
         $query = "insert into TBPersonState (idPersonState,idClientPersonState,statePersonState) "
-                . "values(" . $num . "," . $personState->getIdClientPersonState() . "," . $personState->getStatePersonState() . ")";
+                . "values(" . $num . "," . $dni . ",1)";
         return $this->exeQuery($query);
     }
 
@@ -33,10 +33,21 @@ class PersonStateData extends Connector {
      * @param type $personState
      * @return type
      */
-    public function updatePersonState($personState) {
+    public function updatePersonState($id) {
+        $query = "select statepersonstate from tbpersonstate where idclientpersonstate=" . $id;
+        $result = $this->exeQuery($query);
+        $status = mysqli_fetch_array($result);
+//        echo $a["statepersonstate"];
+//        exit;
         //Aqui va la carne para actualizar
-        $query = "update TBPersonState set statePersonState=" . $personState->getStatePersonState() . " where idClientPersonState=" . $personState->getIdClientPersonState();
-        return $this->exeQuery($query);
+        if ($status["statepersonstate"] == 0) {
+            $query = "update TBPersonState set statePersonState=1 where idClientPersonState=" . $id;
+        } else {
+            $query = "update TBPersonState set statePersonState=0 where idClientPersonState=" . $id;
+        }
+        $this->exeQuery($query);
+//        echo $status["statepersonstate"];
+        return $status["statepersonstate"];
     }
 
     /**
@@ -46,15 +57,16 @@ class PersonStateData extends Connector {
      */
     //return state or -1 if no exist
     public function getPersonStateData($id) {
-        $query = "select statePersonState from TBPersonState" . " where idClientPersonState=" . $id;
+        $query = "select statepersonstate from tbpersonstate" . " where idclientpersonstate=" . $id;
+//        echo  $query ;
+//        exit;
         $result = $this->exeQuery($query);
-        $row_cnt = mysqli_num_rows($result);
-        if ($row_cnt === 0) {
-            return -1;
-        } else {
-            $array = mysqli_fetch_array($result);
-            return $array['statePersonState'];
-        }
+//        var_dump($result);
+        $temp = mysqli_fetch_array($result);
+//        var_dump(  $temp );
+//        echo $temp['statepersonstate'];
+//        exit;
+        return $temp['statepersonstate'];
     }
 
     /**

@@ -38,8 +38,8 @@ class PersonStateBusiness {
      * @param type $personState personState to keep data
      * @return type query result
      */
-    public function updatePersonState($personState) {
-        return $this->personStateData->updatePersonState($personState);
+    public function updatePersonState($id) {
+        return $this->personStateData->updatePersonState($id);
     }
 
     /**

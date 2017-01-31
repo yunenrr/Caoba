@@ -48,12 +48,12 @@ class FoodData extends Connector {
      */
     public function getAllFood() {
 
-        $query = "SELECT idFood,nameFood,nutritionalValueFood FROM TBFood";
+        $query = "SELECT idfood,namefood,nutritionalvaluefood FROM tbfood";
         $result = $this->exeQuery($query);
         $array = [];
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-                $current = new Food($row['idFood'], $row['nameFood'], $row['nutritionalValueFood']);
+                $current = new Food($row['idfood'], $row['namefood'], $row['nutritionalvaluefood']);
                 array_push($array, $current);
                 $current->getNameFood();
             }

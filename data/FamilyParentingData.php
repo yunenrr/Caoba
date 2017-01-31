@@ -17,7 +17,7 @@ class FamilyParentingData extends Connector {
      * @return type
      */
     public function insertFamilyParenting($FamilyParenting) {
-        $query = "INSERT INTO TBFamilyParenting(idFamilyParenting,idPersonFamilyParenting,idRelativeFamilyParenting,idRelationshipFamilyParenting)"
+        $query = "INSERT INTO tbfamilyparenting(idfamilyparenting,idpersonfamilyparenting,idrelativefamilyparenting,idrelationshipfamilyparenting)"
                 . "VALUES ('" . $FamilyParenting->getIdFamilyParenting() . "'"
                 . ", '" . $FamilyParenting->getIdPersonFamilyParenting() . "'"
                 . ",'" . $FamilyParenting->getIdRelativeFamilyParenting() . "'"
@@ -44,7 +44,7 @@ class FamilyParentingData extends Connector {
      * @return type
      */
     public function deleteFamilyParenting($id) {
-        $query = "DELETE FROM `TBFamilyParenting` WHERE idFamilyParenting=" . $id;
+        $query = "delete from `tbfamilyparenting` where idfamilyparenting=" . $id;
         if ($this->exeQuery($query)) {
             return TRUE;
         } else {
@@ -57,7 +57,7 @@ class FamilyParentingData extends Connector {
      * @return type
      */
     public function getMaxId() {
-        return $this->getMaxIdTable("FamilyParenting");
+        return $this->getMaxIdTable("familyparenting");
     }
 
     /**
@@ -66,12 +66,12 @@ class FamilyParentingData extends Connector {
      */
     public function getAllRelationShip() {
 
-        $query = "SELECT `idRelationship`, `nameRelationship` FROM `TBRelationShip`";
+        $query = "select `idrelationship`, `namerelationship` from `tbrelationship`";
         $result = $this->exeQuery($query);
         $temp = "";
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-                $temp = $temp . $row['idRelationship'] . "," . $row['nameRelationship'] . ";";
+                $temp = $temp . $row['idrelationship'] . "," . $row['namerelationship'] . ";";
             }
         }
         return $temp;
@@ -83,17 +83,17 @@ class FamilyParentingData extends Connector {
      */
     public function getFamilyParenty($idPerson) {
 
-        $query = "SELECT idFamilyParenting, dniPerson,namePerson,firstNamePerson,secondNamePerson,nameRelationship "
-                . "FROM TBFamilyParenting INNER JOIN TBPerson ON IdRelativeFamilyParenting=idPerson "
-                . "INNER JOIN TBRelationship ON idRelationshipFamilyParenting=idRelationship "
-                . "WHERE idPersonFamilyParenting=" . $idPerson;
+        $query = "select idfamilyparenting, dniperson,nameperson,firstnameperson,secondnameperson,namerelationship "
+                . "from tbfamilyparenting inner join tbperson on idrelativefamilyparenting=idperson "
+                . "inner join tbrelationship on idrelationshipfamilyparenting=idrelationship "
+                . "where idpersonfamilyparenting=" . $idPerson;
 
         $result = $this->exeQuery($query);
         $temp = "";
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-                $temp = $temp . $row['idFamilyParenting'] . "," . $row['dniPerson'] . "," . $row['namePerson'] . "," .
-                        $row['firstNamePerson'] . "," . $row['secondNamePerson'] . "," . $row['nameRelationship'] . ";";
+                $temp = $temp . $row['idfamilyparenting'] . "," . $row['dniperson'] . "," . $row['nameperson'] . "," .
+                        $row['firstnameperson'] . "," . $row['secondnameperson'] . "," . $row['namerelationship'] . ";";
             }
         }
         return $temp;
@@ -105,7 +105,7 @@ class FamilyParentingData extends Connector {
      * @return type
      */
     public function verifyFamily($idPerson, $idPersonFamilyParenting) {
-        $query = "SELECT count(idRelativeFamilyParenting) FROM TBFamilyParenting WHERE idRelativeFamilyParenting=" . $idPerson." and idPersonFamilyParenting=".$idPersonFamilyParenting ;
+        $query = "select count(idrelativefamilyparenting) from tbfamilyparenting where idrelativefamilyparenting=" . $idPerson." and idpersonfamilyparenting=".$idPersonFamilyParenting ;
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
@@ -117,10 +117,10 @@ class FamilyParentingData extends Connector {
      */
     public function getFamily($idPerson) {
 
-        $query = "SELECT idRelationshipFamilyParenting,namePerson,firstNamePerson,secondNamePerson,nameRelationship "
-                . "FROM TBFamilyParenting INNER JOIN TBPerson ON IdRelativeFamilyParenting=idPerson "
-                . "INNER JOIN TBRelationship ON idRelationshipFamilyParenting=idRelationship "
-                . "WHERE idPersonFamilyParenting=" . $idPerson;
+        $query = "select idrelationshipfamilyparenting,nameperson,firstnameperson,secondnameperson,namerelationship "
+                . "from tbfamilyparenting inner join tbperson on idrelativefamilyparenting=idperson "
+                . "inner join tbrelationship on idrelationshipfamilyparenting=idrelationship "
+                . "where idpersonfamilyparenting=" . $idPerson;
 
         $temp1 = "<ul><a>Parents</a><ul>"; //papás
         $temp2 = "<ul><a>Siblings</a><ul>"; //hermanos
@@ -130,19 +130,19 @@ class FamilyParentingData extends Connector {
         if (mysqli_num_rows($result) > 0) {
             for ($i = 0; $i < 4; $i++) {
                 while ($row = mysqli_fetch_array($result)) {
-                    $relation = $row['idRelationshipFamilyParenting'];
+                    $relation = $row['idrelationshipfamilyparenting'];
                     switch ($relation) {
                         case 1;
-                            $temp1 = $temp1 . "<li>" . $row['namePerson'] . " " . $row['firstNamePerson'] . " " . $row['secondNamePerson'] . "</li>";
+                            $temp1 = $temp1 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
                             break;
                         case 2;
-                            $temp1 = $temp1 . "<li>" . $row['namePerson'] . " " . $row['firstNamePerson'] . " " . $row['secondNamePerson'] . "</li>";
+                            $temp1 = $temp1 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
                             break;
                         case 3;
-                            $temp2 = $temp2 . "<li>" . $row['namePerson'] . " " . $row['firstNamePerson'] . " " . $row['secondNamePerson'] . "</li>";
+                            $temp2 = $temp2 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
                             break;
                         case 4;
-                            $temp3 = $temp3 . "<li>" . $row['namePerson'] . " " . $row['firstNamePerson'] . " " . $row['secondNamePerson'] . "</li>";
+                            $temp3 = $temp3 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
                             break;
                     }
                 }

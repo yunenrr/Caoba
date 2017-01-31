@@ -30,8 +30,8 @@ class InstructorData
     public function insertInstructor($person)
     {
         //Obtenemos el ID que le vamos a asignar
-        $idPerson = $this->getLastID("Person");
-        $idInstructor = $this->getLastID("Instructor");
+        $idPerson = $this->getLastID("person");
+        $idInstructor = $this->getLastID("instructor");
         
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
@@ -50,8 +50,8 @@ class InstructorData
         $person->setBloodTypePerson(mysqli_real_escape_string($connO,$person->getBloodTypePerson()));
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO TBPerson(idPerson,dniPerson,namePerson,firstNamePerson,secondNamePerson,agePerson,genderPerson,"
-                . "emailPerson,addressPerson,phoneReferencePerson,bloodTypePerson) VALUES ($idPerson,"
+        $sql = "insert into tbperson(idperson,dniperson,nameperson,firstnameperson,secondnameperson,ageperson,genderperson,"
+                . "emailperson,addressperson,phonereferenceperson,bloodtypeperson) VALUES ($idPerson,"
                 . "'".$person->getDniPerson()."','".$person->getNamePerson()."','".$person->getFirstNamePerson()."','".$person->getSecondNamePerson()."',".$person->getAgePerson().",".$person->getGenderPerson().","
                 . "'".$person->getEmailPerson()."','".$person->getAddressPerson()."','".$person->getPhoneReferencePerson()."'"
                 . ",'".$person->getBloodTypePerson()."');";
@@ -59,7 +59,7 @@ class InstructorData
         
         if($result)
         {
-            $sql = "INSERT INTO TBInstructor(idInstructor,idPersonInstructor) VALUES ($idInstructor,$idPerson);";
+            $sql = "insert into tbinstructor(idinstructor,idpersoninstructor) values) VALUES ($idInstructor,$idPerson);";
             $result = mysqli_query($connO,$sql);
             
             if($result){}
@@ -82,10 +82,10 @@ class InstructorData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT TBPerson.idPerson,dniPerson,namePerson,firstNamePerson,"
-                . "secondNamePerson,agePerson,genderPerson,emailPerson,"
-                . "addressPerson,phoneReferencePerson,bloodTypePerson FROM TBPerson "
-                . "INNER JOIN TBInstructor ON TBPerson.idPerson = TBInstructor.idPersonInstructor;";
+        $sql = "select tbperson.idperson,dniperson,nameperson,firstnameperson,"
+                . "secondnameperson,ageperson,genderperson,emailperson,"
+                . "addressperson,phonereferenceperson,bloodtypeperson from tbperson "
+                . "inner join tbinstructor on tbperson.idperson = tbinstructor.idpersoninstructor;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -93,9 +93,9 @@ class InstructorData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $person = new Person($row['idPerson'], $row['dniPerson'],$row['namePerson'],$row['firstNamePerson'], 
-                        $row['secondNamePerson'], $row['agePerson'],$row['genderPerson'], $row['emailPerson'], 
-                        $row['addressPerson'],$row['phoneReferencePerson'],$row['bloodTypePerson']);
+                $person = new Person($row['idperson'], $row['dniperson'],$row['nameperson'],$row['firstnameperson'], 
+                        $row['secondnamePerson'], $row['ageperson'],$row['genderperson'], $row['emailperson'], 
+                        $row['addressperson'],$row['phonereferenceperson'],$row['bloodtypeperson']);
                 array_push($array, $person);
             }//Fin del while
         }//Fin del if
@@ -119,7 +119,7 @@ class InstructorData
         //Preparamos la información
         $id = mysqli_real_escape_string($connO,$id);
         
-        $sql = "DELETE FROM TBPerson WHERE TBPerson.idPerson = $id;";
+        $sql = "delete from tbperson where tbperson.idperson = $id;";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -154,7 +154,7 @@ class InstructorData
         $person->setPhoneReferencePerson(mysqli_real_escape_string($connO,$person->getPhoneReferencePerson()));
         $person->setBloodTypePerson(mysqli_real_escape_string($connO,$person->getBloodTypePerson()));
         
-        $sql = "UPDATE TBPerson SET dniPerson = '".$person->getDniPerson()."',namePerson = '".$person->getNamePerson()."', firstNamePerson = '".$person->getFirstNamePerson()."', secondNamePerson = '".$person->getSecondNamePerson()."', agePerson = ".$person->getAgePerson().", genderPerson = ".$person->getGenderPerson().", emailPerson = '".$person->getEmailPerson()."', addressPerson = '".$person->getAddressPerson()."', phoneReferencePerson = '".$person->getPhoneReferencePerson()."', bloodTypePerson = '".$person->getBloodTypePerson()."' WHERE TBPerson.idPerson = ".$person->getIdPerson().";";
+        $sql = "UPDATE tbperson set dniperson = '".$person->getDniPerson()."',nameperson = '".$person->getNamePerson()."', firstnameperson = '".$person->getFirstNamePerson()."', secondnameperson = '".$person->getSecondNamePerson()."', ageperson = ".$person->getAgePerson().", genderperson = ".$person->getGenderPerson().", emailperson = '".$person->getEmailPerson()."', addressperson = '".$person->getAddressPerson()."', phonereferenceperson = '".$person->getPhoneReferencePerson()."', bloodtypeperson = '".$person->getBloodTypePerson()."' WHERE tbperson.idperson = ".$person->getIdPerson().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -172,7 +172,7 @@ class InstructorData
     public function getLastID($table)
     {
         $connO = $this->connection->getConnection();
-        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM TB".$table.";";
+        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM tb".$table.";";
         $result = mysqli_query($connO,$sqlQuery);
         
         if($result == null)
@@ -199,7 +199,7 @@ class InstructorData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idGender, nameGender FROM TBGender;";
+        $sql = "SELECT idgender, namegender FROM tbgender;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -208,7 +208,7 @@ class InstructorData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $gender = new Gender($row['idGender'], $row['nameGender']);
+                $gender = new Gender($row['idgender'], $row['namegender']);
                 array_push($array, $gender);
             }//Fin del while
         }//Fin del if

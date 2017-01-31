@@ -5,22 +5,24 @@
  */
 class Connector {
 
-    public $server;
-    public $user;
-    public $password;
-    public $db;
-    public $conn;
-    public $isActive;
+    private $server;
+    private $user;
+    private $password;
+    private $db;
+    private $conn;
 
     /**
      * Constructor of the connection manager
      */
+
+    /**
+     * Función constructora
+     */
     public function Connector() {
-        $this->isActive = false;
-        $this->server = "localhost";
-        $this->user = "root";
-        $this->password = "";
-        $this->db = "GymCaoba";
+        $this->server = '163.178.107.130';
+        $this->user = 'adm';
+        $this->password = 'saucr.092';
+        $this->db = 'gymcaoba';
     }
 
     /**
@@ -44,8 +46,6 @@ class Connector {
      */
     public function exeQuery($query) {
         $this->connect();
-        //$result = mysqli_query($this->conn, mysql_real_escape_string($query));
-        mysqli_set_charset($this->conn, "utf8"); //Allows the insertion of special characters
         $result = mysqli_query($this->conn, $query);
         $this->closeConn();
         return $result;
@@ -72,7 +72,7 @@ class Connector {
      * @return boolean indicates if the given values are registred on the db
      */
     public function getMaxIdTable($table) {
-        $query = "SELECT MAX(id" . $table . ") FROM `TB" . $table . "`";
+        $query = "SELECT MAX(id" . $table . ") FROM `tb" . $table . "`";
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         $id = trim($array[0]) + 1;

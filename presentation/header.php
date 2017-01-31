@@ -15,9 +15,6 @@
 
             <ul>
                 <li>
-                    <strong> <a href="changePersonStatusView.php">Status</a></strong>
-                </li>
-                <li>
                     <a>Client</a>
                     <ul>
                         <li><a href="CreateNewClient.php">Insert</a></li>

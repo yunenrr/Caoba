@@ -64,7 +64,8 @@ class PersonStateData extends Connector {
 //        var_dump($result);
         $temp = mysqli_fetch_array($result);
 //        var_dump(  $temp );
-//        echo $temp['statepersonstate'];
+        echo $temp['statepersonstate'];
+        echo "  " . $id;
 //        exit;
         return $temp['statepersonstate'];
     }

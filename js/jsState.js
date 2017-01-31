@@ -3,7 +3,7 @@ function update(id) {
         url: '../business/PersonStateUpdateAction.php',
         type: 'post',
         dataType: 'json',
-        data: {"NombreFruta": "123"},
+        data: {"NombreFruta": id},
         success: function (data)
         {
             $("#status").empty();

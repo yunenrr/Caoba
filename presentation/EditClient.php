@@ -15,13 +15,13 @@ $gender = $personBusiness->GetAllGender();
 $personStateBusiness = new personStateBusiness();
 $state;
 
-if ($personStateBusiness->getPersonStateBusiness(123) == 1) {
+if ($personStateBusiness->getPersonStateBusiness($person->getDniPerson()) == "1") {
     $state = "ENABLE";
 } else {
     $state = "DISABLE";
 }
 //ECHO $personStateBusiness->getPersonStateBusiness(123);
-//ECHO $state;
+ECHO $state;
 //exit;
 ?>
 
@@ -131,7 +131,7 @@ if ($personStateBusiness->getPersonStateBusiness(123) == 1) {
                 <td>
                     <label id="status" > <?=$state; ?> </label>
                     
-                    <input type="button" dni ="id" name="id" onclick="<?='update(' . $id . ',' . 0 . ')' ?>" value=CAMBIAR /> 
+                    <input type="button"  name="id" onclick="<?='update(' . $person->getDniPerson() . ')' ?>" value=CAMBIAR /> 
                     
                 </td>
             </tr>

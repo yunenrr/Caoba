@@ -39,8 +39,8 @@ class PaymentModuleData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $paymentModule = new PaymentModule($row['idPaymentModule'], 
-                        $row['namePaymentModule'],0);
+                $paymentModule = new PaymentModule($row['idpaymentmodule'], 
+                        $row['namepaymentmodule'],0);
                 array_push($array, $paymentModule);
             }//Fin del while
         }//Fin del if
@@ -72,8 +72,8 @@ class PaymentModuleData
         $price = mysqli_real_escape_string($connO,$price);
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO tbservicePaymentModule(idservicepaymentmodule,"
-                . "idserviceservicepaymentmodule,idpaymentmoduleservicepaymentmodule, 	priceservicepaymentmodule)"
+        $sql = "INSERT INTO tbservicepaymentmodule(idservicepaymentmodule,"
+                . "idserviceservicepaymentmodule,idpaymentmoduleservicepaymentmodule,priceservicepaymentmodule)"
                 . " VALUES ($idServicePaymentMethod,$idService,$idPaymentMethod,$price);";
         $result = mysqli_query($connO,$sql);
         
@@ -121,7 +121,7 @@ class PaymentModuleData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idpaymentmodule, namepaymentmodule,priceservicepaymentModule FROM tbpaymentmodule "
+        $sql = "SELECT idpaymentmodule, namepaymentmodule,priceservicepaymentmodule FROM tbpaymentmodule "
                 . "INNER JOIN tbservicepaymentmodule ON tbpaymentmodule.idpaymentmodule = "
                 . "tbservicepaymentmodule.idpaymentmoduleservicepaymentmodule WHERE "
                 . "tbservicepaymentmodule.idserviceservicepaymentmodule = $id;";

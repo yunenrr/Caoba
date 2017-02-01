@@ -7,6 +7,7 @@
             <thead>
                 <tr>
                     <th>Name:</th>
+                    <th>State:</th>
                     <th>Update/Delete</th>
                 </tr>
             </thead>
@@ -53,7 +54,8 @@
                                     var service = array[i].split(",");
                                     
                                     temp = temp + '<tr id="tr'+newRow+'">';
-                                    temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[2]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
+                                    temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
+                                    '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="'+((parseInt(service[2]) > 0) ? "Active" : "Inactive")+'" disabled=""/></td>' +
                                     '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
                                     '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>'+
                                     '</tr>';

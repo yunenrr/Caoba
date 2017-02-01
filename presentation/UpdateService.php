@@ -29,12 +29,16 @@
                    maxlength="5" required="" dir="rtl"/>
         </div>
         <div>
-            <label>Start date:</label>
-            <input type="text" class="date" id="startDate" name="startDate"/>
+            <label>State:</label>
+            <label id="lblState" name="lblState"></label>
         </div>
         <div>
-            <label>End date:</label>
-            <input type="text" class="date" id="endDate" name="endDate"/>
+            <label>Periodicity:</label>
+            <select id="selPeriodicity" name="selPeriodicity">
+                <option value="1">Monthly</option>
+                <option value="6">Biannual</option>
+                <option value="12">Annual</option>
+            </select>
         </div>
         <div>
             <button id="btnUpdate" name="btnUpdate">Update</button>
@@ -85,10 +89,8 @@
                                 $("#txtName").val(arrayTemp[2]);
                                 $("#txtDescription").val(arrayTemp[3]);
                                 $("#txtQuota").val(arrayTemp[4]);
-                                $("#startDate").val(getDateInvert(arrayTemp[5]));
-                                $("#endDate").val(getDateInvert(arrayTemp[6]));
+                                $("#lblState").html(((parseInt(arrayTemp[6]) > 0) ? "Active" : "Inactive"));
                                 $("#msg").html("");
-                                $('.date').unmask().mask('00-00-0000');
                             }//Fin del if
                             else
                             {
@@ -340,25 +342,6 @@
             }//Fin de la función
             
             /**
-            * Funcion que nos permite validar fechas
-            * @param {String} date Corresponde a la fecha que se desea validar.
-            * @return {Boolean} Indicando si es valida o no la fecha.
-            * */
-            function validateDate(date)
-            {
-                var datef = date.split("-");
-                var day = datef[0];
-                var month = datef[1];
-                var year = datef[2];
-                var date = new Date(year,month,'0');
-                if((day-0)>(date.getDate()-0))
-                {
-                      return false;
-                }
-                return true;
-            }//Funcion que nos permite validar fechas
-            
-            /**
             * Función que valida los campos.
             * @return {boolean} Indicando si está todo bien o no.
             * */
@@ -369,27 +352,17 @@
                 if(($("#txtName").val().length === 0) ||
                     ($("#txtDescription").val().length === 0) ||
                     ($("#txtPrice").val().length === 0) ||
-                    ($("#txtQuota").val().length === 0) ||
-                    ($("#startDate").val().length === 0) ||
-                    ($("#endDate").val().length === 0))
+                    ($("#txtQuota").val().length === 0))
                 {
                     flag = false;
                     $("#msg").html("Leave some blank");
                 }//Fin del if de campos en blanco
                 else
                 {
-                    if(validateDate($("#startDate").val()) && validateDate($("#endDate").val()))
-                    {
-                        if(selectedPaymentModule.length === 0)
-                        {
-                            flag = false;
-                            $("#msg").html("Please select at least one method of payment");
-                        }
-                    }//Fin del if
-                    else
+                    if(selectedPaymentModule.length === 0)
                     {
                         flag = false;
-                        $("#msg").html("One of the dates entered is incorrect");
+                        $("#msg").html("Please select at least one method of payment");
                     }
                 }//Fin del else de campos en blanco
                 
@@ -533,8 +506,7 @@
                                 "&txtDescription="+$("#txtDescription").val() +
                                 "&txtPrice="+price +
                                 "&txtQuota="+$("#txtQuota").val() +
-                                "&startDate="+ getDateInvert($("#startDate").val()) +
-                                "&endDate="+ getDateInvert($("#endDate").val());
+                                "&selPeriodicity="+ $("#selPeriodicity").val();
                         $.ajax
                         (
                             {

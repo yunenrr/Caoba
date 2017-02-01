@@ -17,13 +17,13 @@ class PersonStateData extends Connector {
      * @return type
      */
     public function insertPersonState($dni) {
-        $fetch = mysqli_fetch_array($this->exeQuery("select max(idPersonState)as id from TBPersonState"));
+        $fetch = mysqli_fetch_array($this->exeQuery("select max(idpersonstate)as id from tbpersonstate"));
         if ($fetch['id'] == null):
             $num = 0;
         else:
             $num = ((int) $fetch['id']) + 1;
         endif;
-        $query = "insert into TBPersonState (idPersonState,idClientPersonState,statePersonState) "
+        $query = "insert into tbpersonstate (idpersonstate,idclientpersonstate,statepersonstate) "
                 . "values(" . $num . "," . $dni . ",1)";
         return $this->exeQuery($query);
     }
@@ -41,9 +41,9 @@ class PersonStateData extends Connector {
 //        exit;
         //Aqui va la carne para actualizar
         if ($status["statepersonstate"] == 0) {
-            $query = "update TBPersonState set statePersonState=1 where idClientPersonState=" . $id;
+            $query = "update tbpersonstate set statepersonstate=1 where idclientpersonstate=" . $id;
         } else {
-            $query = "update TBPersonState set statePersonState=0 where idClientPersonState=" . $id;
+            $query = "update tbpersonstate set statepersonstate=0 where idclientpersonstate=" . $id;
         }
         $this->exeQuery($query);
 //        echo $status["statepersonstate"];

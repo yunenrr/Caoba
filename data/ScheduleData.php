@@ -34,7 +34,7 @@ class ScheduleData
         
         $idCampus = mysqli_real_escape_string($connO,$idCampus);
         
-        $sql = "SELECT TBDayHourService.dayService,TBDay.nameDay FROM TBDayHourService INNER JOIN TBDay ON TBDayHourService.dayService = TBDay.idDay WHERE TBDayHourService.idCampusService = $idCampus GROUP BY TBDay.idDay;";
+        $sql = "SELECT tbdayhourservice.dayservice,tbday.nameday FROM tbdayhourservice INNER JOIN tbday ON tbdayhourservice.dayservice = tbday.idday WHERE tbdayhourservice.idcampusservice = $idCampus GROUP BY tbday.idday;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -43,7 +43,7 @@ class ScheduleData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $day = new Day($row['dayService'],$row['nameDay']);
+                $day = new Day($row['dayservice'],$row['nameday']);
                 array_push($array, $day);
             }//Fin del while
         }//Fin del if
@@ -68,9 +68,9 @@ class ScheduleData
         $idCampus = mysqli_real_escape_string($connO,$idCampus);
         $idDay = mysqli_real_escape_string($connO,$idDay);
         
-        $sql = "SELECT idDayHourService,dayService, hourStartService,hourEndService FROM "
-                . "TBDayHourService WHERE TBDayHourService.idCampusService = $idCampus AND TBDayHourService.dayService = $idDay
-                    AND TBDayHourService.condition = 0;";
+        $sql = "select iddayhourservice,dayservice, hourstartservice,hourendservice from "
+                . "tbdayhourservice where tbdayhourservice.idcampusservice = $idcampus and tbdayhourservice.dayservice = $idday
+                    and tbdayhourservice.condition = 0;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -79,8 +79,8 @@ class ScheduleData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $dayHourService = new DayHourService($row['idDayHourService'], 
-                        $row['dayService'], $row['hourStartService'], $row['hourEndService'],0);
+                $dayHourService = new DayHourService($row['iddayhourservice'], 
+                        $row['dayservice'], $row['hourstartservice'], $row['hourendservice'],0);
                 array_push($array, $dayHourService);
             }//Fin del while
         }//Fin del if
@@ -97,7 +97,7 @@ class ScheduleData
     public function getLastID($table)
     {
         $connO = $this->connection->getConnection();
-        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM TB".$table.";";
+        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM tb".$table.";";
         $result = mysqli_query($connO,$sqlQuery);
         
         if($result == null)
@@ -125,7 +125,7 @@ class ScheduleData
     public function insertSchedule($idService,$idSchedule,$quotaService)
     {
         //Obtenemos el ID que le vamos a asignar
-        $idRelationServiceSchedule = $this->getLastID("RelationServiceSchedule");
+        $idRelationServiceSchedule = $this->getLastID("relationserviceschedule");
         
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
@@ -136,9 +136,9 @@ class ScheduleData
         $idSchedule = mysqli_real_escape_string($connO,$idSchedule);
         $quotaService = mysqli_real_escape_string($connO,$quotaService);
         
-        $sql = "INSERT INTO TBRelationServiceSchedule "
-            . "(idRelationServiceSchedule,idDayHourService,idService,quotaService) "
-            . "VALUES ($idRelationServiceSchedule,$idSchedule,$idService,$quotaService);";
+        $sql = "insert into tbrelationserviceschedule "
+            . "(idrelationserviceschedule,iddayhourservice,idservice,quotaservice) "
+            . "values ($idRelationServiceSchedule,$idSchedule,$idService,$quotaService);";
         $result = mysqli_query($connO,$sql);
             
         if($result){}
@@ -165,7 +165,7 @@ class ScheduleData
         $valueCondition = mysqli_real_escape_string($connO,$valueCondition);
         
         //Ejecutamos la sentencia
-        $sql = "UPDATE TBDayHourService SET TBDayHourService.condition = $valueCondition WHERE TBDayHourService.idDayHourService = $idSchedule;";
+        $sql = "UPDATE tbdayhourservice SET tbdayhourservice.condition = $valueCondition WHERE tbdayhourservice.iddayhourservice = $idSchedule;";
         $result = mysqli_query($connO,$sql);
         
         if($result){}
@@ -191,9 +191,9 @@ class ScheduleData
         //Preparamos la información
         $idService = mysqli_real_escape_string($connO,$idService);
         $idSchedule = mysqli_real_escape_string($connO,$idSchedule);
-        $sql = "DELETE FROM TBRelationServiceSchedule WHERE "
-                . "TBRelationServiceSchedule.idService = $idService AND "
-                . "TBRelationServiceSchedule.idDayHourService = $idSchedule;";
+        $sql = "delete from tbrelationserviceschedule where "
+                . "tbrelationserviceschedule.idservice = $idService and "
+                . "tbrelationserviceschedule.iddayhourservice = $idSchedule;";
         $result = mysqli_query($connO,$sql);
 
         if($result){}
@@ -216,14 +216,14 @@ class ScheduleData
         
         //Prepraramos la información para la consulta
         $id = mysqli_real_escape_string($connO,$id);
-        $sql = "SELECT TBDayHourService.idDayHourService,TBDay.nameDay,"
-                . "hourStartService,hourEndService,TBCampus.nameCampus FROM "
-                . "TBDayHourService INNER JOIN TBRelationServiceSchedule ON "
-                . "TBDayHourService.idDayHourService = "
-                . "TBRelationServiceSchedule.idDayHourService INNER JOIN TBDay "
-                . "ON TBDay.idDay = TBDayHourService.dayService INNER JOIN "
-                . "TBCampus ON TBCampus.idCampus = TBDayHourService.idCampusService "
-                . "WHERE TBRelationServiceSchedule.idService = $id;";
+        $sql = "select tbdayhourservice.iddayhourservice,tbday.nameday,"
+                . "hourstartservice,hourendservice,tbcampus.namecampus from "
+                . "tbdayhourservice inner join tbrelationserviceschedule on "
+                . "tbdayhourservice.iddayhourservice = "
+                . "tbrelationserviceschedule.iddayhourservice inner join tbday "
+                . "on tbday.idday = tbdayhourservice.dayservice inner join "
+                . "tbcampus on tbcampus.idcampus = tbdayhourservice.idcampusservice "
+                . "where tbrelationserviceschedule.idservice = $id;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -232,8 +232,8 @@ class ScheduleData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $dayHourService = new DayHourService($row['idDayHourService'], 
-                        $row['nameDay'], $row['hourStartService'], $row['hourEndService'],$row['nameCampus']);
+                $dayHourService = new DayHourService($row['iddayhourservice'], 
+                        $row['nameday'], $row['hourstartservice'], $row['hourendservice'],$row['namecampus']);
                 array_push($array, $dayHourService);
             }//Fin del while
         }//Fin del if

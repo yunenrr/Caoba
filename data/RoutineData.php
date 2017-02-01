@@ -18,8 +18,8 @@ class RoutineData extends Connector {
      */
     public function insertRoutine($routine) {
 
-        $query = "INSERT INTO TBRoutine(idRoutine,idPersonRoutine,nameRoutine,seriesRoutine,"
-                . "repetitionsRoutine,commentRoutine,muscleRoutine)"
+        $query = "INSERT INTO tbroutine(idroutine,idpersonRoutine,nameroutine,seriesroutine,"
+                . "repetitionsroutine,commentroutine,muscleroutine)"
                 . "VALUES ('" . $routine->getIdRoutine() . "',"
                 . "'" . $routine->getIdPersonRoutine() . "',"
                 . "'" . $routine->getNameRoutine() . "',"
@@ -38,12 +38,12 @@ class RoutineData extends Connector {
      */
     public function updateRoutine($routine) {
 
-        $query = "UPDATE TBRoutine SET "
-                . "nameRoutine = '" . $routine->getNameRoutine() . "'"
-                . ",seriesRoutine ='" . $routine->getSeriesRoutine() . "'"
-                . ",repetitionsRoutine = '" . $routine->getRepetitionsRoutine() . "'"
-                . ",commentRoutine = '" . $routine->getCommentRoutine() . "'"
-                . "WHERE idRoutine = '" . $routine->getIdRoutine() . "'";
+        $query = "UPDATE tbroutine SET "
+                . "nameroutine = '" . $routine->getNameRoutine() . "'"
+                . ",seriesroutine ='" . $routine->getSeriesRoutine() . "'"
+                . ",repetitionsroutine = '" . $routine->getRepetitionsRoutine() . "'"
+                . ",commentroutine = '" . $routine->getCommentRoutine() . "'"
+                . "WHERE idroutine = '" . $routine->getIdRoutine() . "'";
 
         return $this->exeQuery($query);
     }
@@ -54,7 +54,7 @@ class RoutineData extends Connector {
      * @return type
      */
     public function deleteRoutine($id) {
-        $query = 'DELETE FROM TBRoutine WHERE idRoutine=' . $id;
+        $query = 'DELETE FROM tbroutine WHERE idroutine=' . $id;
         if ($this->exeQuery($query)) {
             return TRUE;
         } else {
@@ -67,18 +67,18 @@ class RoutineData extends Connector {
      * @return type
      */
     public function getAllRoutine($idPerson) {
-        $query = "SELECT * FROM TBRoutine WHERE idPersonRoutine = " . $idPerson;
+        $query = "SELECT * FROM tbroutine WHERE idpersonroutine = " . $idPerson;
 
         $allRoutine = $this->exeQuery($query);
         $array = [];
         while ($row = mysqli_fetch_array($allRoutine)) {
-            $array[] = array("idRoutine" => $row['idRoutine'],
-                "idPersonRoutine" => $row['idPersonRoutine'],
-                "nameRoutine" => $row['nameRoutine'],
-                "seriesRoutine" => $row['seriesRoutine'],
-                "repetitionsRoutine" => $row['repetitionsRoutine'],
-                "commentRoutine" => $row['commentRoutine'],
-                "muscleRoutine" => $row['muscleRoutine']);
+            $array[] = array("idRoutine" => $row['idroutine'],
+                "idPersonRoutine" => $row['idpersonroutine'],
+                "nameRoutine" => $row['nameroutine'],
+                "seriesRoutine" => $row['seriesroutine'],
+                "repetitionsRoutine" => $row['repetitionsroutine'],
+                "commentRoutine" => $row['commentroutine'],
+                "muscleRoutine" => $row['muscleroutine']);
         }
 
         return $array;
@@ -89,7 +89,7 @@ class RoutineData extends Connector {
      * @return type
      */
     public function getMaxId() {
-        return $this->getMaxIdTable("Routine");
+        return $this->getMaxIdTable("routine");
     }
 
 }

@@ -22,7 +22,7 @@ class MeasurementData extends Connector {
         date_default_timezone_set("America/Costa_Rica");
         $time = time();
         $date = date("Y-m-d ", $time) . "";
-        $query = "INSERT INTO TBMeasurement VALUES(" .
+        $query = "INSERT INTO tbmeasurement VALUES(" .
                 $measurement->getIdMeasurement() . ",'" .
                 $measurement->getIdPersonMeasurement() . "','" .
                 $date . "'," .
@@ -64,33 +64,33 @@ class MeasurementData extends Connector {
     }
 
     public function getMeasurementByClientId($id) {
-        $query = "SELECT * FROM TBMeasurement WHERE idPersonMeasurement='" . $id . "'";
+        $query = "SELECT * FROM tbmeasurement WHERE idpersonmeasurement='" . $id . "'";
         $measurementResult = $this->exeQuery($query);
         $measurementArray = array();
         while ($row = mysqli_fetch_array($measurementResult)) {
-            $array = array("idMeasurement" => $row['idMeasurement'],
-                "idPersonMeasurement" => $row['idPersonMeasurement'],
-                "measurementDate" => $row['measurementDateMeasurement'],
-                "transverseThorax" => $row['transverseThoraxMeasurement'],
-                "backThorax" => $row['backThoraxMeasurement'],
-                "biiliocrestideo" => $row['biiliocrestideoMeasurement'],
-                "humeral" => $row['humeralMeasurement'],
-                "femoral" => $row['femoralMeasurement'],
-                "head" => $row['headMeasurement'],
-                "armRelaxed" => $row['armRelaxedMeasurement'],
-                "armFlexed" => $row['armFlexedMeasurement'],
-                "forearmMeasurement" => $row['forearmMeasurement'],
-                "mesosternalThoraxMeasurement" => $row['mesosternalThoraxMeasurement'],
-                "waistMeasurement" => $row['waistMeasurement'],
-                "hipMeasurement" => $row['hipMeasurement'],
-                "innerThighMeasurement" => $row['innerThighMeasurement'],
-                "upperThighMeasurement" => $row['upperThighMeasurement'],
-                "calfMaxMeasurement" => $row['calfMaxMeasurement'],
-                "tricepsMeasurement" => $row['tricepsMeasurement'],
-                "subscapularMeasurement" => $row['subscapularMeasurement'],
-                "abdominalMeasurement" => $row['abdominalMeasurement'],
-                "medialThighMeasurement" => $row['medialThighMeasurement'],
-                "calfMeasurement" => $row['calfMeasurement']
+            $array = array("idMeasurement" => $row['idmeasurement'],
+                "idPersonMeasurement" => $row['idpersonmeasurement'],
+                "measurementDate" => $row['measurementdatemeasurement'],
+                "transverseThorax" => $row['transversethoraxmeasurement'],
+                "backThorax" => $row['backthoraxmeasurement'],
+                "biiliocrestideo" => $row['biiliocrestideomeasurement'],
+                "humeral" => $row['humeralmeasurement'],
+                "femoral" => $row['femoralmeasurement'],
+                "head" => $row['headmeasurement'],
+                "armRelaxed" => $row['armrelaxedmeasurement'],
+                "armFlexed" => $row['armflexedmeasurement'],
+                "forearmMeasurement" => $row['forearmmeasurement'],
+                "mesosternalThoraxMeasurement" => $row['mesosternalthoraxmeasurement'],
+                "waistMeasurement" => $row['waistmeasurement'],
+                "hipMeasurement" => $row['hipmeasurement'],
+                "innerThighMeasurement" => $row['innerthighmeasurement'],
+                "upperThighMeasurement" => $row['upperthighmeasurement'],
+                "calfMaxMeasurement" => $row['calfmaxmeasurement'],
+                "tricepsMeasurement" => $row['tricepsmeasurement'],
+                "subscapularMeasurement" => $row['subscapularmeasurement'],
+                "abdominalMeasurement" => $row['abdominalmeasurement'],
+                "medialThighMeasurement" => $row['medialthighmeasurement'],
+                "calfMeasurement" => $row['calfmeasurement']
             );
             array_push($measurementArray, $array);
         }

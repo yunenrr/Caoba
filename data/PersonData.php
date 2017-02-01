@@ -145,7 +145,7 @@ class PersonData extends Connector {
             return FALSE;
         }
     }
-
+//
     /**
      * Return return person by typeUser
      * @param 

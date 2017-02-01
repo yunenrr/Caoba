@@ -17,7 +17,7 @@ class PhoneData extends Connector {
      * @return type
      */
     public function insertPhone($phone) {
-        $query = "INSERT INTO TBPhone (idPhone ,idClientPhone ,numberPhone)
+        $query = "INSERT INTO TBPhone (idphone ,idclientphone ,numberphone)
         VALUES ('" . $phone->getIdPhone() . "' , '" . $phone->getIdClientPhone() . "', '" . $phone->getNumberPhone() . "');";
 
         return $this->exeQuery($query);
@@ -30,8 +30,8 @@ class PhoneData extends Connector {
      */
     public function updatePhone($phone) {
 
-        $query = "UPDATE TBPhone SET numberPhone= " . $phone->getNumberPhone() . " "
-                . "WHERE  idPhone='" . $phone->getIdPhone() . "'";
+        $query = "UPDATE tbphone SET numberphone= " . $phone->getNumberPhone() . " "
+                . "WHERE  idphone='" . $phone->getIdPhone() . "'";
 
         return $this->exeQuery($query);
     }
@@ -42,7 +42,7 @@ class PhoneData extends Connector {
      * @return type
      */
     public function deletePhone($id) {
-        if ($this->exeQuery("DELETE FROM TBPhone WHERE idPhone = " . $id)) {
+        if ($this->exeQuery("DELETE FROM tbphone WHERE idphone = " . $id)) {
             return TRUE;
         } else {
             return FALSE;
@@ -58,11 +58,11 @@ class PhoneData extends Connector {
     }
 
     public function getAllPhonesPerson($idPerson) {
-        $query = "SELECT * FROM TBPhone WHERE idClientPhone = " . $idPerson;
+        $query = "SELECT * FROM tbphone WHERE idclientphone = " . $idPerson;
         $allPhoneResult = $this->exeQuery($query);
         $array = [];
         while ($row = mysqli_fetch_array($allPhoneResult)) {
-            $currentPhone = new Phone($row['idPhone'], $row['idClientPhone'], $row['numberPhone']);
+            $currentPhone = new Phone($row['idphone'], $row['idclientphone'], $row['numberphone']);
             array_push($array, $currentPhone);
         }
         return $array;

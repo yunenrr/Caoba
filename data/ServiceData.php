@@ -31,9 +31,9 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idService,idInstructorService,nameService,"
-                . "descriptionService,quotaService,starDateService,"
-                . "endDateService FROM TBService;";
+        $sql = "select idservice,idinstructorservice,nameservice,"
+                . "descriptionservice,quotaservice,stardateservice,"
+                . "enddateservice from tbservice;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -41,9 +41,9 @@ class ServiceData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $service = new Service($row['idService'], $row['idInstructorService'], $row['nameService'],
-                        $row['descriptionService'], $row['quotaService'],
-                        $row['starDateService'],$row['endDateService']);
+                $service = new Service($row['idservice'], $row['idinstructorService'], $row['nameservice'],
+                        $row['descriptionservice'], $row['quotaservice'],
+                        $row['stardateService'],$row['enddateService']);
                 array_push($array, $service);
             }//Fin del while
         }//Fin del if
@@ -62,10 +62,10 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT TBInstructor.idInstructor,TBPerson.namePerson,"
-                . "TBPerson.firstNamePerson,TBPerson.secondNamePerson FROM "
-                . "TBInstructor INNER JOIN TBPerson ON"
-                . " TBInstructor.idPersonInstructor = TBPerson.idPerson;";
+        $sql = "select tbinstructor.idinstructor,tbperson.nameperson,"
+                . "tbperson.firstnameperson,tbperson.secondnameperson from "
+                . "tbinstructor inner join tbperson on"
+                . " tbinstructor.idpersoninstructor = tbperson.idperson;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -74,8 +74,8 @@ class ServiceData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $person = new Person($row['idInstructor'],0,$row['namePerson'],$row['firstNamePerson'], 
-                        $row['secondNamePerson'],0,0,0,0,0,0);
+                $person = new Person($row['idinstructor'],0,$row['nameperson'],$row['firstnameperson'], 
+                        $row['secondnameperson'],0,0,0,0,0,0);
                 array_push($array, $person);
             }//Fin del while
         }//Fin del if
@@ -93,7 +93,7 @@ class ServiceData
     public function insertService($service)
     {
         //Obtenemos el ID que le vamos a asignar
-        $idService = $this->getLastID("Service");
+        $idService = $this->getLastID("service");
         
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
@@ -108,9 +108,9 @@ class ServiceData
         $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO TBService (idService,idInstructorService,nameService,"
-                . "descriptionService,quotaService,starDateService,"
-                . "endDateService) VALUES ($idService,".$service->getIdInstructorService().","
+        $sql = "insert into tbservice (idservice,idinstructorservice,nameservice,"
+                . "descriptionservice,quotaservice,stardateservice,"
+                . "enddateservice) values($idService,".$service->getIdInstructorService().","
                 . "'".$service->getNameService()."','".$service->getDescriptionService()."',"
                 . "".$service->getQuotaService().","
                 . "'".$service->getStartDateService()."','".$service->getEndDateService()."');";
@@ -131,7 +131,7 @@ class ServiceData
     public function getLastID($table)
     {
         $connO = $this->connection->getConnection();
-        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM TB".$table.";";
+        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM tb".$table.";";
         $result = mysqli_query($connO,$sqlQuery);
         
         if($result == null)
@@ -163,15 +163,15 @@ class ServiceData
         //Preparamos la información
         $id = mysqli_real_escape_string($connO,$id);
         
-        $sql = "UPDATE TBDayHourService SET TBDayHourService.condition = 0 "
-                . "WHERE TBDayHourService.idDayHourService IN "
-                . "(SELECT TBRelationServiceSchedule.idDayHourService FROM "
-                . "TBRelationServiceSchedule WHERE TBRelationServiceSchedule.idService = $id );";
+        $sql = "update tbdayhourservice set tbdayhourservice.condition = 0 "
+                . "where tbdayhourservice.iddayhourservice in "
+                . "(select tbrelationserviceschedule.iddayhourservice from "
+                . "tbrelationserviceschedule where tbrelationserviceschedule.idservice = $id );";
         $result = mysqli_query($connO,$sql);
         
         if($result)
         {
-            $sql = "DELETE FROM TBService WHERE TBService.idService = $id;";
+            $sql = "DELETE FROM tbservice WHERE tbservice.idservice = $id;";
             $result = mysqli_query($connO,$sql);
             if($result){$result = "1";}
             else{$result = "0";}
@@ -203,10 +203,10 @@ class ServiceData
         $service->setStartDateService(mysqli_real_escape_string($connO,$service->getStartDateService()));
         $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
         
-        $sql = "UPDATE TBService SET idInstructorService = ".$service->getIdInstructorService().", nameService = '".$service->getNameService()."', "
-                . "descriptionService = '".$service->getDescriptionService()."', "
-                . "quotaService = '".$service->getQuotaService()."', starDateService = '".$service->getStartDateService()."', "
-                . "endDateService = '".$service->getEndDateService()."' WHERE TBService.idService = ".$service->getIdService().";";
+        $sql = "UPDATE tbservice SET idinstructorservice = ".$service->getIdInstructorService().", nameservice = '".$service->getNameService()."', "
+                . "descriptionservice = '".$service->getDescriptionService()."', "
+                . "quotaservice = '".$service->getQuotaService()."', stardateservice = '".$service->getStartDateService()."', "
+                . "enddateservice = '".$service->getEndDateService()."' WHERE tbservice.idservice = ".$service->getIdService().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -227,10 +227,10 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idService,idInstructorService,nameService, "
-                . "descriptionService,quotaService,"
-                . "starDateService,endDateService FROM TBService "
-                . "WHERE TBService.idService = $id;";
+        $sql = "select idservice,idinstructorservice,nameservice, "
+                . "descriptionservice,quotaservice,"
+                . "stardateservice,enddateservice from tbservice "
+                . "where tbservice.idservice = $id;";
         $result = mysqli_query($connO,$sql);
         $service;
         
@@ -238,9 +238,9 @@ class ServiceData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $service = new Service($row['idService'], $row['idInstructorService'], $row['nameService'],
-                        $row['descriptionService'], $row['quotaService'],
-                        $row['starDateService'],$row['endDateService']);
+                $service = new Service($row['idservice'], $row['idinstructorservice'], $row['nameservice'],
+                        $row['descriptionservice'], $row['quotaservice'],
+                        $row['stardateservice'],$row['enddateservice']);
             }//Fin del while
         }//Fin del if
         

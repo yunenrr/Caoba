@@ -17,8 +17,8 @@ class UserData extends Connector {
      * @return type
      */
     public function insertUser($user) {
-        $query = "INSERT INTO TBUser(idUser,idPersonUser,TypeUser,userNameUser,passUser)"
-                . "VALUES ('" . $user->getIdUser() . "'"
+        $query = "insert into tbuser(iduser,idpersonuser,typeuser,usernameuser,passuser)"
+                . "values ('" . $user->getIdUser() . "'"
                 . ", '" . $user->getIdPersonUser() . "'"
                 . ",'" . $user->getTypeUser() . "'"
                 . ",'" . $user->getUserNameUser() . "'"

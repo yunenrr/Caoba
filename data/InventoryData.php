@@ -17,7 +17,7 @@ class InventoryData extends Connector {
      * @return type
      */
     public function insertInventory($inventory) {
-        $query = "INSERT INTO TBInventory (`idInventory`, `nameActiveInventory`, `quantityInventory`, `priceInventory`, `registrationDateInventory`, `codeActiveInventory`, `locationActveInventory`)"
+        $query = "INSERT INTO tbinventory (`idinventory`, `nameactiveinventory`, `quantitynventory`, `priceinventory`, `registrationdateinventory`, `codeactiveinventory`, `locationactveinventory`)"
                 . "VALUES ('" . $inventory->getIdInventory() . "'"
                 . ", '" . $inventory->getNameActiveInventory() . "'"
                 . ",'" . $inventory->getQuantityInventory() . "'"

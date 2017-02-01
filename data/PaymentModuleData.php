@@ -30,7 +30,7 @@ class PaymentModuleData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idPaymentModule, namePaymentModule FROM TBPaymentModule;";
+        $sql = "SELECT idpaymentmodule, namepaymentmodule FROM tbpaymentmodule;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -60,7 +60,7 @@ class PaymentModuleData
     public function insertServicePaymentMethod($idService,$idPaymentMethod,$price)
     {
         //Obtenemos el ID que le vamos a asignar
-        $idServicePaymentMethod = $this->getLastID("ServicePaymentModule");
+        $idServicePaymentMethod = $this->getLastID("servicepaymentmodule");
         
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
@@ -72,8 +72,8 @@ class PaymentModuleData
         $price = mysqli_real_escape_string($connO,$price);
         
         //Ejecutamos la sentencia
-        $sql = "INSERT INTO TBServicePaymentModule(idServicePaymentModule,"
-                . "idServiceServicePaymentModule,idPaymentModuleServicePaymentModule, 	priceServicePaymentModule)"
+        $sql = "INSERT INTO tbservicePaymentModule(idservicepaymentmodule,"
+                . "idserviceservicepaymentmodule,idpaymentmoduleservicepaymentmodule, 	priceservicepaymentmodule)"
                 . " VALUES ($idServicePaymentMethod,$idService,$idPaymentMethod,$price);";
         $result = mysqli_query($connO,$sql);
         
@@ -92,7 +92,7 @@ class PaymentModuleData
     public function getLastID($table)
     {
         $connO = $this->connection->getConnection();
-        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM TB".$table.";";
+        $sqlQuery = "SELECT MAX(id".$table.") as maxID FROM tb".$table.";";
         $result = mysqli_query($connO,$sqlQuery);
         
         if($result == null)
@@ -121,10 +121,10 @@ class PaymentModuleData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "SELECT idPaymentModule, namePaymentModule,priceServicePaymentModule FROM TBPaymentModule "
-                . "INNER JOIN TBServicePaymentModule ON TBPaymentModule.idPaymentModule = "
-                . "TBServicePaymentModule.idPaymentModuleServicePaymentModule WHERE "
-                . "TBServicePaymentModule.idServiceServicePaymentModule = $id;";
+        $sql = "SELECT idpaymentmodule, namepaymentmodule,priceservicepaymentModule FROM tbpaymentmodule "
+                . "INNER JOIN tbservicepaymentmodule ON tbpaymentmodule.idpaymentmodule = "
+                . "tbservicepaymentmodule.idpaymentmoduleservicepaymentmodule WHERE "
+                . "tbservicepaymentmodule.idserviceservicepaymentmodule = $id;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];
@@ -133,8 +133,8 @@ class PaymentModuleData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $paymentModule = new PaymentModule($row['idPaymentModule'], 
-                        $row['namePaymentModule'],$row['priceServicePaymentModule']);
+                $paymentModule = new PaymentModule($row['idpaymentmodule'], 
+                        $row['namepaymentmodule'],$row['priceservicepaymentmodule']);
                 array_push($array, $paymentModule);
             }//Fin del while
         }//Fin del if
@@ -161,11 +161,10 @@ class PaymentModuleData
         $idPaymentMethod = mysqli_real_escape_string($connO,$idPaymentMethod);
         
         //Ejecutamos la sentencia
-        $sql = "DELETE FROM TBServicePaymentModule WHERE "
-                . "TBServicePaymentModule.idServiceServicePaymentModule = $idService "
-                . "AND TBServicePaymentModule.idPaymentModuleServicePaymentModule = $idPaymentMethod;";
+        $sql = "DELETE FROM tbservicepaymentmodule WHERE "
+                . "tbservicepaymentmodule.idserviceservicepaymentmodule = $idService "
+                . "AND tbservicepaymentmodule.idpaymentmoduleservicepaymentmodule = $idPaymentMethod;";
         $result = mysqli_query($connO,$sql);
-        
         if($result){$result="1";}
         else{$result = "0";}
         

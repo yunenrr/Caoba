@@ -8,6 +8,11 @@
         <script src="../js/jquery.mask.min.js" type="text/javascript"></script>
         <script src="../js/jquery.getParams.js" type="text/javascript"></script>
         <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
     <body>
         <nav>

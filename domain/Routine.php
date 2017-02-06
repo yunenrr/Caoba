@@ -19,6 +19,7 @@ class Routine {
     private $seriesRoutine;
     private $repetitionsRoutine;
     private $commentRoutine;
+    private $periodicityRoutine;
     private $muscleRoutine; //-- 0 = ABDOMEN
                             //-- 1 = SHOULDERS
                             //-- 2 = BICEPS
@@ -33,6 +34,7 @@ class Routine {
             $seriesRoutine, 
             $repetitionsRoutine, 
             $commentRoutine, 
+            $periodicityRoutine, 
             $muscleRoutine) {
         $this->idRoutine = $idRoutine;
         $this->idPersonRoutine = $idPersonRoutine;
@@ -40,6 +42,7 @@ class Routine {
         $this->seriesRoutine = $seriesRoutine;
         $this->repetitionsRoutine = $repetitionsRoutine;
         $this->commentRoutine = $commentRoutine;
+        $this->periodicityRoutine = $periodicityRoutine;
         $this->muscleRoutine = $muscleRoutine;
     }
 
@@ -63,6 +66,10 @@ class Routine {
         return $this->repetitionsRoutine;
     }
 
+    function getPeriodicityRoutine() {
+        return $this->periodicityRoutine;
+    }
+    
     function getCommentRoutine() {
         return $this->commentRoutine;
     }
@@ -93,6 +100,10 @@ class Routine {
 
     function setCommentRoutine($commentRoutine) {
         $this->commentRoutine = $commentRoutine;
+    }
+    
+    function setPeriodicityRoutine($periodicityRoutine) {
+        $this->periodicityRoutine = $periodicityRoutine;
     }
 
     function setMuscleRoutine($muscleRoutine) {

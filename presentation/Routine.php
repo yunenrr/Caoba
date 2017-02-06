@@ -1,5 +1,9 @@
 <?php
 include './header.php';
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("location: ./Home.php");
+}
 ?>
 
 <div>
@@ -19,6 +23,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -32,6 +37,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -45,6 +51,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -58,6 +65,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -71,6 +79,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -84,6 +93,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -97,6 +107,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                             </tr>
                         </table>
                     </div>
@@ -125,6 +136,7 @@ include './header.php';
                                 <th>SERIES</th>
                                 <th>REPETITIONS</th>
                                 <th>COMMENT</th>
+                                <th>PERIDIOCITY</th>
                                 <th>MUSCLE</th>
                                 <th>DELETE</th>
                             </tr>
@@ -133,7 +145,8 @@ include './header.php';
 
                                 <!--NAME-->
                                 <td>
-                                    <input id="exercise0" name="exercise0" type="text">
+                                    <SELECT id="exercise0" name="exercise0" SIZE=1> 
+                                    </SELECT> 
                                 </td>
 
                                 <!--SERIES-->
@@ -149,6 +162,19 @@ include './header.php';
                                 <!--COMMENT-->
                                 <td>
                                     <textarea id="comment0" name="comment0" rows="5" cols="40" required ></textarea>
+                                </td>
+
+                                <!--Periodicity-->
+                                <td>
+                                    <SELECT NAME="periodicityRoutine0" SIZE=1> 
+                                        <OPTION VALUE="Day 1">Day 1</OPTION>
+                                        <OPTION VALUE="Day 2">Day 2</OPTION>
+                                        <OPTION VALUE="Day 3">Day 3</OPTION>
+                                        <OPTION VALUE="Day 1 & Day 2">Day 1 & Day 2</OPTION> 
+                                        <OPTION VALUE="Day 1 & Day 3">Day 1 & Day 3</OPTION> 
+                                        <OPTION VALUE="Day 2 & Day 3">Day 2 & Day 3</OPTION> 
+                                        <OPTION VALUE="Everyday">Everyday</OPTION> 
+                                    </SELECT> 
                                 </td>
 
                                 <!--MUSCLE-->
@@ -193,11 +219,12 @@ include './header.php';
 </div>
 
 <?php
-include './footer.php.php';
+include './footer.php';
 ?>
 
 <script type="text/javascript">
 
+    var type;
     function init() {
         var idPerson = $.get("id");
         $('#divInsert').hide();
@@ -211,15 +238,20 @@ include './footer.php.php';
         $('#idPerson').hide();
         $('#idPerson').val(idPerson);
 
-        var name = $.get("name");
-        name = name.replace("_", " ");
-        document.getElementById("title").innerHTML = "Assign exercise to " + name;
+        type = $.get("type");
 
-        $('#namePerson').hide();
-        $('#namePerson').val(name);
-        $('#exercises').hide();
-        
-        $('#divInsert').show();
+        if (type !== '0' && type !== '1') {
+            var name = $.get("name");
+            name = name.replace("_", " ");
+            document.getElementById("title").innerHTML = "Assign exercise to " + name;
+
+            $('#namePerson').hide();
+            $('#namePerson').val(name);
+            $('#exercises').hide();
+
+            $('#divInsert').show();
+        }
+
     }
 
     (function ($) {
@@ -257,16 +289,45 @@ include './footer.php.php';
 
             }
         });
+
+        $.ajax({
+            type: 'GET',
+            url: "../business/GetExercise.php",
+            success: function (data)
+            {
+                var exercise = JSON.parse(data);
+                var htmlCombo = '';
+                $.each(exercise, function (i, item) {
+                    htmlCombo += '<OPTION VALUE="' + item.nameexercise + '">' + item.nameexercise + '</OPTION>';
+                });
+                $("#exercise0").html(htmlCombo);
+            },
+            error: function ()
+            {
+                alert("Error show services!");
+            }
+        });
+
     });
 
     var idExercise = 1;
     function addExercise() {
 
         var trStar = '<tr id="tr' + idExercise + '">';
-        var tdName = '<td><input id="exercise' + idExercise + '" name="exercise' + idExercise + '" type="text"></td> ';
+        var tdName = '<td><SELECT id="exercise' + idExercise + '" NAME="exercise' + idExercise + '" SIZE=1></SELECT></td> ';
+        exercises(idExercise);
         var tdSeries = '<td><input id="series' + idExercise + '" name="series' + idExercise + '" type="number"></td>';
         var tdRepetitons = '<td><input id="repetitions' + idExercise + '" name="repetitions' + idExercise + '" type="number"></td>';
         var tdComment = '<td><textarea id="comment' + idExercise + '" name="comment' + idExercise + '" rows="5" cols="40" required ></textarea></td>';
+        var tdPeriodicity = '<td><SELECT NAME="periodicityRoutine' + idExercise + '" SIZE=1>' +
+                '<OPTION VALUE="Day 1">Day 1</OPTION>' +
+                '<OPTION VALUE="Day 2">Day 2</OPTION>' +
+                '<OPTION VALUE="Day 3">Day 3</OPTION>' +
+                '<OPTION VALUE="Day 1 & Day 2">Day 1 & Day 2</OPTION>' +
+                '<OPTION VALUE="Day 1 & Day 3">Day 1 & Day 3</OPTION>' +
+                '<OPTION VALUE="Day 2 & Day 3">Day 2 & Day 3</OPTION>' +
+                '<OPTION VALUE="Everyday">Everyday</OPTION>' +
+                '</SELECT> </td>';
         var tdMuscle = '<td><SELECT NAME="comboExercise' + idExercise + '" SIZE=1>' +
                 '<OPTION VALUE="0">ABDOMEN</OPTION>' +
                 '<OPTION VALUE="1">SHOULDERS</OPTION>' +
@@ -278,10 +339,30 @@ include './footer.php.php';
                 '</SELECT> </td>';
         var tdDelete = '<td><input id="deleteExercise' + idExercise + '" type="button" onclick="deleteExercise(' + idExercise + ');" value="Delete"></td>';
         var trEnd = '</tr>';
-        var newTR = trStar + tdName + tdSeries + tdRepetitons + tdComment + tdMuscle + tdDelete + trEnd;
+        var newTR = trStar + tdName + tdSeries + tdRepetitons + tdComment + tdPeriodicity + tdMuscle + tdDelete + trEnd;
         $('#exercise tr:last').after(newTR);
         idExercise++;
         $('#exercises').val(idExercise);
+    }
+
+    function exercises(id) {
+        $.ajax({
+            type: 'GET',
+            url: "../business/GetExercise.php",
+            success: function (data)
+            {
+                var exercise = JSON.parse(data);
+                var htmlCombo = '';
+                $.each(exercise, function (i, item) {
+                    htmlCombo += '<OPTION VALUE="' + item.nameexercise + '">' + item.nameexercise + '</OPTION>';
+                });
+                $("#exercise" + id).html(htmlCombo);
+            },
+            error: function ()
+            {
+                alert("Error show services!");
+            }
+        });
     }
 
     function deleteExercise(id) {
@@ -330,14 +411,15 @@ include './footer.php.php';
         var tdSeries = '<td><input id="seriesContent' + id + '" name="seriesContent' + id + '" type="number" value="' + exercixe.seriesRoutine + '" readonly="readonly"></td>';
         var tdRepetitons = '<td><input id="repetitionsContent' + id + '" name="repetitionsContent' + id + '" type="number" value="' + exercixe.repetitionsRoutine + '" readonly="readonly"></td>';
         var tdComment = '<td><textarea id="commentContent' + id + '" name="commentContent' + id + '" rows="5" cols="40" required readonly="readonly">' + exercixe.commentRoutine + '</textarea></td>';
-
-        var tdEdit = '<td><input id="edit' + id + '" type="button" onclick="edit(' + id + ');" value="Edit">';
-        var tdUpdate = '<input id="update' + id + '" type="button" onclick="update(' + id + ');" value="Update"></td>';
-        var tdDelete = '<td><input id="delete' + id + '" type="button" onclick="deleteEx(' + id + ');" value="Delete"></td>';
-
+        var tdperiodicity = '<td><input id="periodicityContent' + id + '" name="periodicityContent' + id + '" type="text" value="' + exercixe.periodicityRoutine + '" readonly="readonly"></td> ';
+        if (type !== '0' && type !== '1') {
+            var tdEdit = '<td><input id="edit' + id + '" type="button" onclick="edit(' + id + ');" value="Edit">';
+            var tdUpdate = '<input id="update' + id + '" type="button" onclick="update(' + id + ');" value="Update"></td>';
+            var tdDelete = '<td><input id="delete' + id + '" type="button" onclick="deleteEx(' + id + ');" value="Delete"></td>';
+        }
         var trEnd = '</tr>';
 
-        var newTR = trStar + tdName + tdSeries + tdRepetitons + tdComment + tdEdit + tdUpdate + tdDelete + trEnd;
+        var newTR = trStar + tdName + tdSeries + tdRepetitons + tdComment + tdperiodicity + tdEdit + tdUpdate + tdDelete + trEnd;
 
         $('#' + table + ' tr:last').after(newTR);
         $('#update' + id).hide();
@@ -348,6 +430,7 @@ include './footer.php.php';
         $("#seriesContent" + id).removeAttr("readonly");
         $("#repetitionsContent" + id).removeAttr("readonly");
         $("#commentContent" + id).removeAttr("readonly");
+        $("#periodicityContent" + id).removeAttr("readonly");
 
         $("#edit" + id).hide();
         $("#update" + id).show();
@@ -359,7 +442,8 @@ include './footer.php.php';
             "exercixe": $("#exercixeContent" + id).val(),
             "series": $("#seriesContent" + id).val(),
             "repetitions": $("#repetitionsContent" + id).val(),
-            "comment": $("#commentContent" + id).val()
+            "comment": $("#commentContent" + id).val(),
+            "periodicity": $("#periodicityContent" + id).val()
         };
 
         $.ajax({
@@ -373,6 +457,7 @@ include './footer.php.php';
                     $("#seriesContent" + id).attr("readonly", "readonly");
                     $("#repetitionsContent" + id).attr("readonly", "readonly");
                     $("#commentContent" + id).attr("readonly", "readonly");
+                    $("#periodicityContent" + id).attr("readonly", "readonly");
 
                     $("#update" + id).hide();
                     $("#edit" + id).show();

@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
         $personStateBusiness = new personStateBusiness();
         $personStateBusiness->insertPersonState($dniPerson);
         $idUser = $userBusiness->getMaxId();
-        $user = new User($idUser, $dniPerson, $userType, $nameUser, $passwordUser);
+        $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser);
         $userBusiness->insertUser($user);
         echo "topo";
 

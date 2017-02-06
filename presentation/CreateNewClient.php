@@ -112,6 +112,7 @@ $gender = $personBusiness->GetAllGender();
                                 </td>
                             </tr>
                         </table>
+                       
                         <input id="AddPhone" type="button" onclick="addPhone();" value="Add Phone">
                     </td>
                 </tr>

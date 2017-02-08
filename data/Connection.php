@@ -16,13 +16,16 @@ class Connection
     /**
      * Función constructora
      */
-    public function Connection() 
-    {
+
+//    public function Connection() {
 //        $this->server = '163.178.107.130';
 //        $this->user = 'adm';
 //        $this->password = 'saucr.092';
 //        $this->db = 'gymcaoba';
-        
+//    }
+
+    public function Connection() 
+    {
         $this->server = "localhost";
         $this->user = "root";
         $this->password = "";

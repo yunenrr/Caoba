@@ -19,24 +19,23 @@ if (isset($_POST['submit'])) {
     $phoneBusiness = new PhoneBusiness();
     $userBusiness = new UserBusiness();
 
-    $dniPerson = mysql_real_escape_string(htmlspecialchars($_POST['dni']));
-    $namePerson = mysql_real_escape_string(htmlspecialchars($_POST['name']));
-    $firstnamePerson = mysql_real_escape_string(htmlspecialchars($_POST['firstname']));
-    $secondnamePerson = mysql_real_escape_string(htmlspecialchars($_POST['secondname']));
-    $emailPerson = mysql_real_escape_string(htmlspecialchars($_POST['email']));
-    $addressPerson = mysql_real_escape_string($_POST['address']);
-    $passwordUser = mysql_real_escape_string($_POST['password']);
-    $nameUser = mysql_real_escape_string($_POST['userName']);
-    $phoneReferencePerson = mysql_real_escape_string($_POST['addPhoneReference']);
-    $bloodPerson = mysql_real_escape_string($_POST['selBlood']);
-    $agePerson = mysql_real_escape_string($_POST['age']);
-    $userType = mysql_real_escape_string($_POST['userType']);
+    $dniPerson = $_POST['dni'];
+    $namePerson = $_POST['name'];
+    $firstnamePerson = $_POST['firstname'];
+    $secondnamePerson = $_POST['secondname'];
+    $emailPerson = $_POST['email'];
+    $passwordUser = $_POST['password'];
+    $nameUser =$_POST['userName'];
+    $phoneReferencePerson = $_POST['addPhoneReference'];
+    $bloodPerson =$_POST['selBlood'];
+    $agePerson = $_POST['age'];
+    $userType = $_POST['userType'];
     $genderPerson = $_POST['selGender'];
 
     $idPerson = $personBusiness->getMaxId();
 
     $indexPhones = 0;
-    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodPerson);
+    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, '', $phoneReferencePerson, $bloodPerson);
 
     if ($personBusiness->insertPerson($person)) {
         $personStateBusiness = new personStateBusiness();
@@ -44,7 +43,7 @@ if (isset($_POST['submit'])) {
         $idUser = $userBusiness->getMaxId();
         $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser);
         $userBusiness->insertUser($user);
-        echo "topo";
+        
 
         if (isset($_POST['phones'])) {
             $indexPhones = (int) $_POST['phones'];
@@ -60,10 +59,10 @@ if (isset($_POST['submit'])) {
         }
 
 
-        header("location: ../presentation/ViewClient.php?success=inserted");
+        header("location: ../presentation/Person.php?success=inserted");
     } else {
-        header("location: ../presentation/CreateNewClient.php");
+        header("location: ../presentation/Person.php");
     }
 } else {
-    header("location: ../presentation/CreateNewClient.php?error=info");
+    header("location: ../presentation/Person.php?error=info");
 }

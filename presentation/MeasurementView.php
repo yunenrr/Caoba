@@ -98,6 +98,8 @@ include './header.php'; //header include
         ajaxGetClientData('../business/returnClientAction.php');
         ajaxGetClientHistory('../business/returnMeasurementAction.php');
     });
+    
+    
     function domAdd(data) {
         var types = JSON.parse(data);
 //        $("#client").prepend("<H1>CLIENT DATA</H1>");

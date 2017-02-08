@@ -36,8 +36,13 @@ if (isset($_POST['option'])) {
             break;
 
         case 3:// opción para eliminar un activo del inventario
-            $idInventory = mysql_real_escape_string(htmlspecialchars($_POST['txtID']));
-            echo $inventoryBusiness->deleteInventory($idInventory);
+            $idInventory = $_POST['txtID'];
+            $quantityActiveInventory = $_POST['txtQuantity'];
+            if($inventoryBusiness->getActive($idInventory)>=$quantityActiveInventory){
+               echo $inventoryBusiness->deleteInventory($idInventory,$quantityActiveInventory); 
+            }else{
+                echo 'Error!! Dont have enought quantity';
+            }
             break;
 
         case 4:// opción para actualizar la información de un activo
@@ -48,6 +53,7 @@ if (isset($_POST['option'])) {
             $registrationDateInventory = $_POST['txtDate'];
             $locationActiveInventory = $_POST['txtLocation'];
             $idInventory = $_POST['txtID'];
+            
             $inventory = new Inventory($idInventory, $nameActiveInventory, $quantityActiveInventory, $priceActiveInventory, $registrationDateInventory, $codeActiveInventory, $locationActiveInventory);
             echo $inventoryBusiness->updateInventory($inventory);
             break;

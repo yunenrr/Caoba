@@ -43,7 +43,12 @@ class DietData extends Connector {
      * @return type
      */
     public function deleteDiet($id) {
-        $query = 'DELETE FROM TBDiet WHERE idDiet=' . $id;
+       //revisar llaves foraeas porque no elimina en cascada
+        $query = 'DELETE FROM tbdiet WHERE iddiet=' . $id;
+        $this->exeQuery($query);
+        $query = 'DELETE FROM tbdietperson WHERE iddietdietperson=' . $id;
+        $this->exeQuery($query);
+        $query = 'DELETE FROM tbdietplan WHERE iddietdietplan=' . $id;
         if ($this->exeQuery($query)) {
             return TRUE;
         } else {
@@ -64,25 +69,40 @@ class DietData extends Connector {
      * @return array
      */
     public function getDiet($idPerson) {
-
-        $query = "select distinct  iddiet, namediet, descriptiondiet,dietdaydietplan,diethourdietplan,namefood, "
-                . "group_concat(namefood separator '-') as list_food  "
-                . "from tbdiet inner join tbdietperson on iddiet = iddietdietperson "
-                . "inner join tbdietplan on iddiet= iddietdietplan "
-                . "inner join tbfood on idfooddietplan=idfood "
-                . "where idpersondietperson
- ='".$idPerson."' GROUP BY iddiet;";
-
+        error_reporting(0);
+        $query = "select iddiet,namediet,descriptiondiet from tbdiet inner join tbdietperson on iddiet = iddietdietperson inner join tbperson on idpersondietperson=idperson where idperson =" . $idPerson . "";
         $result = $this->exeQuery($query);
-        $temp = "";
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_array($result)) {
-               $temp  = $temp. $row['iddiet'] . "," . $row['list_food'] . "," . $row['namediet'] . "," .
-                        $row['descriptiondiet'] . "," . $row['dietdaydietplan'] . "," . $row['diethourdietplan'] . ";";
-            }
+        $dietArray = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $result2 = $this->getFood($row['iddiet']);
+            $array = array(
+                "iddiet" => $row['iddiet'],
+                "namediet" => $row['namediet'],
+                "descriptiondiet" => $row['descriptiondiet'],
+                "days" => $result2
+            );
+//            echo "<br/>";
+            array_push($dietArray, $array);
         }
+//        exit;
+        return $dietArray;
+    }
 
-        return $temp;
+    public function getFood($idDiet) {
+        $query = "select dietdaydietplan,diethourdietplan,namefood from tbdiet inner join tbdietplan on iddiet = iddietdietplan inner join tbfood on idfooddietplan = idfood where iddiet =" . $idDiet . "";
+//        echo $query;
+        $result = $this->exeQuery($query);
+        $dietArray = array();
+        while ($row = mysqli_fetch_array($result)) {
+//            $foodArray = $this->getFood($row['iddiet']);
+            $array = array(
+                "dietdaydietplan" => $row['dietdaydietplan'],
+                "diethourdietplan" => $row['diethourdietplan'],
+                "food" => $row['namefood'],
+            );
+            array_push($dietArray, $array);
+        }
+        return $dietArray;
     }
 
 }

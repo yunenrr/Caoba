@@ -38,8 +38,8 @@ class InventoryBusiness {
      * @param type $idInventory pk of the inventory to delete
      * @return type
      */
-    public function deleteInventory($idInventory) {
-        return $this->inventoryData->deleteInventory($idInventory);
+    public function deleteInventory($idInventory, $quantityActiveInventory) {
+        return $this->inventoryData->deleteInventory($idInventory, $quantityActiveInventory);
     }
     
      /**
@@ -58,4 +58,11 @@ class InventoryBusiness {
     public function getMaxId() {
         return $this->inventoryData->getMaxId();
     } 
+    /**
+     * Use to get a goods
+     * @return type
+     */
+    public function getActive($id){
+        return $this->inventoryData->getActive($id);
+    }
 }

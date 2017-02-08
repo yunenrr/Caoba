@@ -113,7 +113,7 @@ echo "</table>";
 
 </di>
 
-<p><a href="../presentation/ViewClient.php">Back</a></p>
+<p><a href="../presentation/Person.php">Back</a></p>
 <?php include './footer.php' ?>
 
 <script type="text/javascript">

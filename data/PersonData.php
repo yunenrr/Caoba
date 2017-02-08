@@ -19,9 +19,9 @@ class PersonData extends Connector {
      */
     public function getAllPersons() {
 
-        $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,ageperson,genderperson,
-              emailperson,addressperson,phonereferenceperson,bloodtypeperson 
-                from tbperson inner join tbuser on dniperson=idpersonuser where typeuser=0";
+        $query = "SELECT `idperson`, `dniperson`, `nameperson`, `firstnameperson`, "
+                . "`secondnameperson`, `ageperson`, `genderperson`, `emailperson`, `addressperson`, "
+                . "`phonereferenceperson`, `bloodtypeperson` FROM `tbperson` WHERE 1";
 
         $allPersonsResult = $this->exeQuery($query);
         $array = [];
@@ -105,7 +105,7 @@ class PersonData extends Connector {
      * @return type
      */
     public function verifyDniPerson($dni) {
-        $query = "SELECT count(dniperson) FROM tbperson WHERE dniperson=" . $dni;
+        $query = "SELECT count(dniperson) FROM tbperson WHERE dniperson = '" . $dni . "' ";
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
@@ -145,6 +145,7 @@ class PersonData extends Connector {
             return FALSE;
         }
     }
+
 //
     /**
      * Return return person by typeUser
@@ -156,7 +157,7 @@ class PersonData extends Connector {
                 . "FROM tbperson AS p INNER JOIN tbuser AS u "
                 . "ON p.dniperson=u.idpersonuser "
                 . "WHERE u.typeuser =" . $typeUser . "";
-     
+
         $result = $this->exeQuery($query);
         $personArray = [];
         while ($row = mysqli_fetch_array($result)) {

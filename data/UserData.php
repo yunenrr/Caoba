@@ -17,15 +17,24 @@ class UserData extends Connector {
      * @return type
      */
     public function insertUser($user) {
-        $query = "insert into tbuser(iduser,idpersonuser,typeuser,usernameuser,passuser)"
+        $query = "insert into tbuser(iduser,idpersonuser,typeuser,usernameuser,passuser,startDateUser)"
                 . "values ('" . $user->getIdUser() . "'"
                 . ", '" . $user->getIdPersonUser() . "'"
                 . ",'" . $user->getTypeUser() . "'"
                 . ",'" . $user->getUserNameUser() . "'"
-                . ",'" . $user->getPassUser() . "');";
-        return $this->exeQuery($query);
-        
-        
+                . ",'" . $user->getPassUser() . "'"
+                . ",'" . date("Y-m-d") . "');";
+        if ($user->getTypeUser() == 1 || $user->getTypeUser() == 2) {
+            if ($this->exeQuery($query)) {
+                $idInstructor = $this->getMaxIdTable("instructor");
+                $sql = "INSERT INTO `gymcaoba`.`tbinstructor` (`idinstructor`, `idpersoninstructor`)"
+                        . "values ('" .$idInstructor. "'"
+                        . ",'" . $user->getIdPersonUser() . "');";
+                return $this->exeQuery($sql);
+            }
+        } else {
+            return $this->exeQuery($query);
+        }
     }
 
     /**
@@ -36,8 +45,8 @@ class UserData extends Connector {
     public function updateUser($user) {
 
         $query = "UPDATE TBUser SET "
-                . "userNameUser  = '" . $user->getUserNameUser() . "'"
-                . ",passUser = '" . $user->getPassUser() . "'"
+                . "userNameUser = '" . $user->getUserNameUser() . "'"
+                . ", passUser = '" . $user->getPassUser() . "'"
                 . " WHERE idPersonUser = '" . $user->getIdPersonUser() . "'";
 
         return $this->exeQuery($query);
@@ -70,23 +79,24 @@ class UserData extends Connector {
      * @return type
      */
     public function verifyUserName($userName) {
-        $query = "SELECT COUNT(userNameUser) FROM TBUser WHERE userNameUser = '".$userName ."' ";
+        $query = "SELECT COUNT(userNameUser) FROM TBUser WHERE userNameUser = '" . $userName . "' ";
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
     }
+
     /**
      * Use to get a specif user
-     * @param type $dniPerson
+     * @param type $idPersonUser
      * @return \User
      */
     public function getUser($idPersonUser) {
 
-        $query = "SELECT idUser,typeUser,userNameUser,passUser FROM TBUser WHERE idPersonUser=" . $idPersonUser;
+        $query = "SELECT idUser, typeUser, userNameUser, passUser FROM TBUser WHERE idPersonUser = '" . $idPersonUser . "' ";
         $userResult = $this->exeQuery($query);
 
         $row = mysqli_fetch_array($userResult);
-        $user = new User($row['idUser'],$idPersonUser, $row['userNameUser'],$row['userNameUser'],$row['passUser']);        
+        $user = new User($row['idUser'], $idPersonUser, $row['userNameUser'], $row['userNameUser'], $row['passUser']);
         return $user;
     }
 

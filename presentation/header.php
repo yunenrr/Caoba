@@ -20,10 +20,9 @@ function googleTranslateElementInit() {
 
             <ul>
                 <li>
-                    <a>Client</a>
+                    <a>Person</a>
                     <ul>
-                        <li><a href="CreateNewClient.php">Insert</a></li>
-                        <li><a href="ViewClient.php" >Show</a></li>
+                        <li><a href="Person.php">Person</a></li>
                         <li><a href="clientScheduleView.php" >Schedule</a></li>
                     </ul>
                 </li>
@@ -40,8 +39,7 @@ function googleTranslateElementInit() {
                         <li><a href="RemoveSchedule.php">Remove Schedule</a></li>
                     </ul>
                 </li>
-                <li>
-                    <strong> <a href="Inventory.php">Inventory</a></strong>
-                </li>
+                <li> <strong> <a href="Goods.php">Goods</a></strong></li>
+                 <li> <strong> <a href="Inventory.php">Inventory</a></strong></li>
             </ul>
         </nav>

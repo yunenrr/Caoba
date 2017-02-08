@@ -23,23 +23,23 @@ if (isset($_POST['submit'])) {
     $agePerson = $_POST['age'];
     $genderPerson = $_POST['selGender'];
     $emailPerson = $_POST['email'];
-    $addressPerson = $_POST['address'];
+//    $addressPerson = $_POST['address'];
     $phoneReferencePerson = $_POST['addPhoneReference'];
     $bloodPerson = $_POST['selBlood'];
-    $passUser = mysql_real_escape_string($_POST['password']);
-    $userNameUser = mysql_real_escape_string($_POST['userName']);
+    $passUser = $_POST['password'];
+    $userNameUser = $_POST['userName'];
     
-    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodPerson);
+    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, '', $phoneReferencePerson, $bloodPerson);
     $user= new User(0, $dniPerson, 0, $userNameUser, $passUser);
     
     if ($personBusiness->updatePerson($person)) {
         $userBusiness->updateUser($user);
-        header("location: ../presentation/ViewClient.php?success=UPDATE");
+        header("location: ../presentation/Person.php?success=UPDATE");
     } else {
-        header("location: ../presentation/ViewClient.php?error=UPDATE");
+        header("location: ../presentation/Person.php?error=UPDATE");
     }
 } else {
-    header("location: ../presentation/ViewClient.php?error=UPDATE");
+    header("location: ../presentation/Person.php?error=UPDATE");
 }
 ?>
 

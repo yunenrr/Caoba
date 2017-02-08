@@ -101,6 +101,7 @@ class UserData extends Connector {
 
         return $user;
     }
+
     /**
      * Use to get a specif user
      * @param type $userName

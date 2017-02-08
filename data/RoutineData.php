@@ -18,14 +18,15 @@ class RoutineData extends Connector {
      */
     public function insertRoutine($routine) {
 
-        $query = "INSERT INTO tbroutine(idroutine,idpersonRoutine,nameroutine,seriesroutine,"
-                . "repetitionsroutine,commentroutine,muscleroutine)"
-                . "VALUES ('" . $routine->getIdRoutine() . "',"
+        $query = "insert into tbroutine(idroutine,idpersonRoutine,nameroutine,seriesroutine,"
+                . "repetitionsroutine,commentroutine,periodicityroutine, muscleroutine)"
+                . "values ('" . $routine->getIdRoutine() . "',"
                 . "'" . $routine->getIdPersonRoutine() . "',"
                 . "'" . $routine->getNameRoutine() . "',"
                 . "'" . $routine->getSeriesRoutine() . "',"
                 . "'" . $routine->getRepetitionsRoutine() . "',"
                 . "'" . $routine->getCommentRoutine() . "',"
+                . "'" . $routine->getPeriodicityRoutine() . "',"
                 . "'" . $routine->getMuscleRoutine() . "');";
 
         return $this->exeQuery($query);
@@ -38,12 +39,13 @@ class RoutineData extends Connector {
      */
     public function updateRoutine($routine) {
 
-        $query = "UPDATE tbroutine SET "
+        $query = "update tbroutine set "
                 . "nameroutine = '" . $routine->getNameRoutine() . "'"
                 . ",seriesroutine ='" . $routine->getSeriesRoutine() . "'"
                 . ",repetitionsroutine = '" . $routine->getRepetitionsRoutine() . "'"
                 . ",commentroutine = '" . $routine->getCommentRoutine() . "'"
-                . "WHERE idroutine = '" . $routine->getIdRoutine() . "'";
+                . ",periodicityroutine = '" . $routine->getPeriodicityRoutine() . "'"
+                . "where idroutine = '" . $routine->getIdRoutine() . "'";
 
         return $this->exeQuery($query);
     }
@@ -54,7 +56,7 @@ class RoutineData extends Connector {
      * @return type
      */
     public function deleteRoutine($id) {
-        $query = 'DELETE FROM tbroutine WHERE idroutine=' . $id;
+        $query = 'delete from tbroutine where idroutine=' . $id;
         if ($this->exeQuery($query)) {
             return TRUE;
         } else {
@@ -67,7 +69,7 @@ class RoutineData extends Connector {
      * @return type
      */
     public function getAllRoutine($idPerson) {
-        $query = "SELECT * FROM tbroutine WHERE idpersonroutine = " . $idPerson;
+        $query = "select * from tbroutine where idpersonroutine = " . $idPerson;
 
         $allRoutine = $this->exeQuery($query);
         $array = [];
@@ -78,6 +80,7 @@ class RoutineData extends Connector {
                 "seriesRoutine" => $row['seriesroutine'],
                 "repetitionsRoutine" => $row['repetitionsroutine'],
                 "commentRoutine" => $row['commentroutine'],
+                "periodicityRoutine" => $row['periodicityroutine'],
                 "muscleRoutine" => $row['muscleroutine']);
         }
 

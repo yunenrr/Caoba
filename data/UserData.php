@@ -17,7 +17,7 @@ class UserData extends Connector {
      * @return type
      */
     public function insertUser($user) {
-        $query = "insert into tbuser(iduser,idpersonuser,typeuser,usernameuser,passuser,startDateUser)"
+        $query = "insert into tbuser(iduser,idpersonuser,typeuser,usernameuser,passuser,startdateuser)"
                 . "values ('" . $user->getIdUser() . "'"
                 . ", '" . $user->getIdPersonUser() . "'"
                 . ",'" . $user->getTypeUser() . "'"
@@ -78,11 +78,12 @@ class UserData extends Connector {
      * @param type $userName
      * @return type
      */
-    public function verifyUserName($userName) {
-        $query = "SELECT COUNT(userNameUser) FROM TBUser WHERE userNameUser = '" . $userName . "' ";
+    public function verifyUserName($userName, $pass) {
+        $query = "select count(usernameuser) from tbuser where usernameuser = '" . $userName . "' and passuser = '" . $pass."'";
         $result = $this->exeQuery($query);
-        $array = mysqli_fetch_array($result);
-        return trim($array[0]);
+        $row = mysqli_fetch_array($result);
+        
+        return $row[0];
     }
 
     /**
@@ -90,13 +91,29 @@ class UserData extends Connector {
      * @param type $idPersonUser
      * @return \User
      */
-    public function getUser($idPersonUser) {
+    public function getUser($userName, $pass) {
 
-        $query = "SELECT idUser, typeUser, userNameUser, passUser FROM TBUser WHERE idPersonUser = '" . $idPersonUser . "' ";
+        $query = "select * from tbuser where usernameuser='" . $userName. "' and passuser = '". $pass."'";
         $userResult = $this->exeQuery($query);
-
+        
         $row = mysqli_fetch_array($userResult);
-        $user = new User($row['idUser'], $idPersonUser, $row['userNameUser'], $row['userNameUser'], $row['passUser']);
+        $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser']);
+
+        return $user;
+    }
+    /**
+     * Use to get a specif user
+     * @param type $userName
+     * @return \User
+     */
+    public function getUserByIdPerson($id) {
+
+        $query = "select iduser,idpersonuser,typeuser,usernameuser,passuser from tbuser where idpersonuser='" . $id. "'";
+        $userResult = $this->exeQuery($query);
+        
+        $row = mysqli_fetch_array($userResult);
+        $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser']);
+
         return $user;
     }
 

@@ -25,6 +25,7 @@ if (isset($_POST['submit'])) {
         $series = (int) $_POST['series' . $i];
         $repetitions = (int) $_POST['repetitions' . $i];
         $comment = $_POST['comment' . $i];
+        $periodicityRoutine = $_POST['periodicityRoutine' . $i];
         $muscle = (int) $_POST['comboExercise' . $i];
 
         if ((isset($idRoutine) && is_int($idRoutine)) &&
@@ -34,7 +35,7 @@ if (isset($_POST['submit'])) {
                 (isset($comment) && $comment != "") &&
                 (isset($muscle) && is_int($muscle))) {
 
-            $routine = new Routine($idRoutine, $idPerson, $exercixe, $series, $repetitions, $comment, $muscle);
+            $routine = new Routine($idRoutine, $idPerson, $exercixe, $series, $repetitions, $comment, $periodicityRoutine, $muscle);
             $routineData->insertRoutine($routine);
         }
     }

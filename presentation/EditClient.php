@@ -9,7 +9,7 @@ $id = $_GET['id'];
 $personBusiness = new PersonBusiness();
 $userBusiness = new UserBusiness();
 $person = $personBusiness->getPerson($id);
-$user = $userBusiness->getUser($id);
+$user = $userBusiness->getUserByIdPerson($id);
 $gender = $personBusiness->GetAllGender();
 
 $personStateBusiness = new personStateBusiness();

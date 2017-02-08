@@ -55,16 +55,25 @@ class UserBusiness {
      * @param type $userName
      * @return type
      */
-    public function verifyUserNameUser($userName) {
-        return $this->userData->verifyUserName($userName);
+    public function verifyUserNameUser($userName, $pass) {
+        return $this->userData->verifyUserName($userName, $pass);
     }
+
     /**
      * use to get a specif user
      * @param type $idPersonUser
      * @return type
      */
-    public function getUser($idPersonUser) {
-        return $this->userData->getUser($idPersonUser);
+    public function getUser($userName, $pass) {
+        return $this->userData->getUser($userName, $pass);
+    }
+    /**
+     * use to get a specif user
+     * @param type $userName
+     * @return type
+     */
+    public function getUserByIdPerson($id) {
+        return $this->userData->getUserByIdPerson($id);
     }
 
 }

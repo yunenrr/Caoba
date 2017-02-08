@@ -30,10 +30,8 @@ if(isset($_POST['option']))
             foreach ($array as $current)
             {   
                 $temp = $temp.$current->getIdService().",";
-                $temp = $temp.$current->getIdInstructorService().",";
                 $temp = $temp.$current->getNameService().",";
-                $temp = $temp.$current->getDescriptionService().",";
-                $temp = $temp.$current->getQuotaService().";";
+                $temp = $temp.$current->getEndDateService().";";
             }//Fin del foreach
             if(strlen($temp) > 0){$temp = substr($temp,0, strlen($temp)-1);}
             echo $temp;
@@ -56,8 +54,7 @@ if(isset($_POST['option']))
             $serviceName = $_POST['txtName'];
             $description = $_POST['txtDescription'];
             $quota = $_POST['txtQuota'];
-            $startDateService = $_POST['startDate'];
-            $endDateService = $_POST['endDate'];
+            $periodicity = $_POST['selPeriodicity'];
             $paymentMethod = $_POST['paymentMethod'];
             $condition = 0;
             
@@ -65,15 +62,15 @@ if(isset($_POST['option']))
             if((strlen($idInstructor) > 0) &&
                 (strlen($serviceName) > 0) &&
                 (strlen($description) > 0) &&
-                (strlen($quota) > 0) &&
-                (strlen($startDateService) > 0) &&
-                (strlen($endDateService) > 0))
+                (strlen($quota) > 0))
             {
                 $data = new ServiceData();
                 $paymentModuleData = new PaymentModuleData();
-                
+                $dateInsert =  date("Y")."-".date("m")."-".date("d");
+                $dateEnd = date('Y-m-d', strtotime('+'.$periodicity.' month')) ;
+                        
                 $service = new Service(0, $idInstructor, $serviceName, 
-                        $description, $quota,$startDateService,$endDateService);
+                        $description, $quota,$dateInsert,$dateEnd);
                 $condition = $data->insertService($service);
                 
                 //Insertamos las modalidades de pago
@@ -101,19 +98,18 @@ if(isset($_POST['option']))
             $serviceName = $_POST['txtName'];
             $description = $_POST['txtDescription'];
             $quota = $_POST['txtQuota'];
-            $startDateService = $_POST['startDate'];
-            $endDateService = $_POST['endDate'];
+            $periodicity = $_POST['selPeriodicity'];
             
             if((strlen($idInstructor) > 0) &&
                 (strlen($serviceName) > 0) &&
                 (strlen($description) > 0) &&
-                (strlen($quota) > 0) &&
-                (strlen($startDateService) > 0) &&
-                (strlen($endDateService) > 0))
+                (strlen($quota) > 0))
             {
                 $data = new ServiceData();
+                $dateInsert =  date("Y")."-".date("m")."-".date("d");
+                $dateEnd = date('Y-m-d', strtotime('+'.$periodicity.' month')) ;
                 $service = new Service($id, $idInstructor, $serviceName, 
-                        $description, $quota, $startDateService, $endDateService);
+                        $description, $quota, $dateInsert, $dateEnd);
                 echo $data->updateService($service);
             }//Fin del if
             else

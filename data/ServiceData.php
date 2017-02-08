@@ -31,9 +31,10 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "select idservice,idinstructorservice,nameservice,"
-                . "descriptionservice,quotaservice,stardateservice,"
-                . "enddateservice from tbservice;";
+        $sql = "select idservice, idinstructorservice, nameservice, "
+                . "descriptionservice, quotaservice,enddateservice, "
+                . "DATEDIFF(enddateservice,CURRENT_DATE) as 'diffDays' "
+                . "from tbservice;";
         $result = mysqli_query($connO,$sql);
         $array = [];
         
@@ -41,9 +42,9 @@ class ServiceData
         {
             while($row = mysqli_fetch_array($result))
             {
-                $service = new Service($row['idservice'], $row['idinstructorService'], $row['nameservice'],
+                $service = new Service($row['idservice'], $row['idinstructorservice'], $row['nameservice'],
                         $row['descriptionservice'], $row['quotaservice'],
-                        $row['stardateService'],$row['enddateService']);
+                        $row['enddateservice'],$row['diffDays']);
                 array_push($array, $service);
             }//Fin del while
         }//Fin del if
@@ -227,10 +228,11 @@ class ServiceData
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
-        $sql = "select idservice,idinstructorservice,nameservice, "
-                . "descriptionservice,quotaservice,"
-                . "stardateservice,enddateservice from tbservice "
-                . "where tbservice.idservice = $id;";
+        $sql = "select idservice, idinstructorservice, nameservice, "
+                . "descriptionservice, quotaservice,enddateservice, "
+                . "DATEDIFF(enddateservice,CURRENT_DATE) as 'diffDays' "
+                . "from tbservice where tbservice.idservice = $id;";
+        
         $result = mysqli_query($connO,$sql);
         $service;
         
@@ -240,7 +242,7 @@ class ServiceData
             {
                 $service = new Service($row['idservice'], $row['idinstructorservice'], $row['nameservice'],
                         $row['descriptionservice'], $row['quotaservice'],
-                        $row['stardateservice'],$row['enddateservice']);
+                        $row['enddateservice'],$row['diffDays']);
             }//Fin del while
         }//Fin del if
         

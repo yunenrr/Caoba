@@ -29,12 +29,12 @@
                    maxlength="5" required="" dir="rtl"/>
         </div>
         <div>
-            <label>Start date:</label>
-            <input type="text" class="date" id="startDate" name="startDate"/>
-        </div>
-        <div>
-            <label>End date:</label>
-            <input type="text" class="date" id="endDate" name="endDate"/>
+            <label>Periodicity:</label>
+            <select id="selPeriodicity" name="selPeriodicity">
+                <option value="1">Monthly</option>
+                <option value="6">Biannual</option>
+                <option value="12">Annual</option>
+            </select>
         </div>
         <div>
             <button id="btnInsert" name="btnInsert">Insert</button>
@@ -55,7 +55,6 @@
             getAllInstructor();
             
             $('.money').mask('₡00.000', {reverse: false});
-            $('.date').mask('00-00-0000');
             
             /***************************** FUNCIONES **************************/
             /**
@@ -142,51 +141,22 @@
                 
                 if(($("#txtName").val().length === 0) ||
                     ($("#txtDescription").val().length === 0) ||
-                    ($("#txtQuota").val().length === 0) ||
-                    ($("#startDate").val().length === 0) ||
-                    ($("#endDate").val().length === 0))
+                    ($("#txtQuota").val().length === 0))
                 {
                     flag = false;
                     $("#msg").html("Leave some blank");
                 }//Fin del if de campos en blanco
                 else
                 {
-                    if(validateDate($("#startDate").val()) && validateDate($("#endDate").val()))
-                    {
-                        if(selectedPaymentModule.length === 0)
-                        {
-                            flag = false;
-                            $("#msg").html("Please select at least one method of payment");
-                        }
-                    }//Fin del if
-                    else
+                    if(selectedPaymentModule.length === 0)
                     {
                         flag = false;
-                        $("#msg").html("One of the dates entered is incorrect");
+                        $("#msg").html("Please select at least one method of payment");
                     }
                 }//Fin del else de campos en blanco
                 
                 return flag;
             }//Fin de la función
-            
-            /**
-            * Funcion que nos permite validar fechas
-            * @param {String} date Corresponde a la fecha que se desea validar.
-            * @return {Boolean} Indicando si es valida o no la fecha.
-            * */
-            function validateDate(date)
-            {
-                var datef = date.split("-");
-                var day = datef[0];
-                var month = datef[1];
-                var year = datef[2];
-                var date = new Date(year,month,'0');
-                if((day-0)>(date.getDate()-0))
-                {
-                      return false;
-                }
-                return true;
-            }//Funcion que nos permite validar fechas
             
             /**
             * Función que nos permite obtener el entero del precio.
@@ -205,18 +175,6 @@
                 }
                 
                 return moneyInt;
-            }//Fin de la función
-            
-            /**
-            * Función que nos retorna la fecha invertida.
-            * @param {String} date Corresponde a la fecha tal y como está en el campo de texto.
-            * @return {String} Corresponde a la fecha pero en order: yyyy-mm-dd
-            * */
-            function getDateInvert(date)
-            {
-                var array = date.split("-");
-                var answer = array[2]+"-"+array[1]+"-"+array[0];
-                return answer;
             }//Fin de la función
             
             /**
@@ -324,8 +282,7 @@
                                 "&txtName="+$("#txtName").val() +
                                 "&txtDescription="+$("#txtDescription").val() +
                                 "&txtQuota="+$("#txtQuota").val() +
-                                "&startDate="+ getDateInvert($("#startDate").val()) +
-                                "&endDate="+ getDateInvert($("#endDate").val()) +
+                                "&selPeriodicity="+$("#selPeriodicity").val() +
                                 "&paymentMethod="+selectedPaymentModule;
                         $.ajax
                         (

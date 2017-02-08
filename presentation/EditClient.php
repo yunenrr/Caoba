@@ -20,9 +20,6 @@ if ($personStateBusiness->getPersonStateBusiness($person->getDniPerson()) == "1"
 } else {
     $state = "DISABLE";
 }
-//ECHO $personStateBusiness->getPersonStateBusiness(123);
-ECHO $state;
-//exit;
 ?>
 
 <H1 ALIGN=JUSTIFY> Edit customer </H1>

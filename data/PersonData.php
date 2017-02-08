@@ -19,9 +19,12 @@ class PersonData extends Connector {
      */
     public function getAllPersons() {
 
+//        $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,ageperson,genderperson,
+//              emailperson,addressperson,phonereferenceperson,bloodtypeperson 
+//                from tbperson inner join tbuser on dniperson=idpersonuser where typeuser=0";
         $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,ageperson,genderperson,
               emailperson,addressperson,phonereferenceperson,bloodtypeperson 
-                from tbperson inner join tbuser on dniperson=idpersonuser where typeuser=0";
+                from tbperson inner join tbuser on idperson=iduser where typeuser=0";
 
         $allPersonsResult = $this->exeQuery($query);
         $array = [];

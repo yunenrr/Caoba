@@ -47,7 +47,7 @@ HERE;
 echo "<table border='2'>";
 echo "<tr> <th>Identify</th> <th>Person Name</th> <th>First Name</th> "
  . "<th>Second Name</th> <th>Age</th> <th>Gende</th> <th>Email</th><th>Address</th>"
- . "<th>Blood Type</th><th>Phone Reference</th><th>Status</th><th>Phones</th><th>Routine</th><th>Diet</th><th>Family</th><th>Sesion</th></tr>";
+ . "<th>Blood Type</th><th>Phone Reference</th><th>Status</th><th>Phones</th><th>Routine</th><th>Conditions</th><th>Diet</th><th>Family</th><th>Sesion</th></tr>";
 
 //// loop through results of database query, displaying them in the table
 
@@ -86,6 +86,7 @@ for ($i = $start; $i < $end; $i++) {
     $name = str_replace(" ", "_", $PersonsArray[$i]->getNamePerson());
     echo '<td><a href="../presentation/EditPhone.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Phones</a></td>';
     echo '<td><a href="../presentation/Routine.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Routine</a></td>';
+    echo '<td><a href="../presentation/conditionSet.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Conditions</a></td>';
     echo '<td><a href="../presentation/diet.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Diet</a></td>';
     echo '<td><a href="../presentation/familyRelationship.php?id=' . $PersonsArray[$i]->getIdPerson() . '&name=' . $name . '">Familiy</a></td>';
     echo '<td><a href="../presentation/ChooseService.php?id=' . $PersonsArray[$i]->getIdPerson() . '">Service</a></td>';

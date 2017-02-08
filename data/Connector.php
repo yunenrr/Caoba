@@ -18,12 +18,20 @@ class Connector {
     /**
      * Función constructora
      */
+//    public function Connector() {
+//        $this->server = '163.178.107.130';
+//        $this->user = 'adm';
+//        $this->password = 'saucr.092';
+//        $this->db = 'gymcaoba';
+//    }
     public function Connector() {
-        $this->server = '163.178.107.130';
-        $this->user = 'adm';
-        $this->password = 'saucr.092';
-        $this->db = 'gymcaoba';
+        $this->server = "localhost";
+        $this->user = "root";
+        $this->password = "";
+        $this->db = "gymcaoba";
     }
+
+//Fin de la función
 
     /**
      * Open connection to the data base

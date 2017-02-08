@@ -2,12 +2,12 @@
 <html>
     <head lang="es" >
         <title>Gym Caoba</title>
-        
+
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/jsState.js" type="text/javascript"></script>
         <script src="../js/jquery.mask.min.js" type="text/javascript"></script>
         <script src="../js/jquery.getParams.js" type="text/javascript"></script>
-        <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+        <link href=".../../AdmResource/css/style.css" rel="stylesheet" type="text/css" media="all" />
     </head>
     <body>
         <nav>
@@ -24,7 +24,7 @@
                 </li>
                 <li>
                     <strong> <a href="Instructor.php">Instructor</a></strong>
-              
+
                 </li>
                 <li>
                     <strong>Service</strong>
@@ -37,6 +37,9 @@
                 </li>
                 <li>
                     <strong> <a href="Inventory.php">Inventory</a></strong>
+                </li>
+                <li>
+                    <strong> <a href="conditionView.php">Condition</a></strong>
                 </li>
             </ul>
         </nav>

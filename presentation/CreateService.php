@@ -10,23 +10,32 @@
         <div>
             <label>Name:</label>
             <input type="text" id="txtName" name="txtName" maxlength="20" required="" />
+            <label>*</label>
         </div>
         <div>
             <label>Description:</label>
             <input type="text" id="txtDescription" name="txtDescription" maxlength="50" required="" />
+            <label>*</label>
         </div>
         <div>
             <label>Payment Method:</label>
             <table id="tablePaymentMethod" name="tablePaymentMethod"></table>
             <input type="text" class="money" id="txtPrice" name="txtPrice" 
-                   maxlength="5" required="" dir="rtl"/>
+                   maxlength="5" required="" dir="rtl" placeholder="₡"/>
             <select id="selPaymentModule"></select>
             <button id="btnAdd" name="btnAdd">Add</button>
+            <label>*</label>
         </div>
         <div>
             <label>Quota:</label>
             <input type="number" id="txtQuota" name="txtQuota" 
-                   maxlength="5" required="" dir="rtl"/>
+                   maxlength="5" required=""/>
+            <label>*</label>
+        </div>
+        <div>
+            <label>Start date:</label>
+            <input type="date" class="date" id="txtStartDate" name="txtStartDate" required=""/>
+            <label>*</label>
         </div>
         <div>
             <label>Periodicity:</label>
@@ -35,13 +44,21 @@
                 <option value="6">Biannual</option>
                 <option value="12">Annual</option>
             </select>
+            <label>*</label>
         </div>
         <div>
             <button id="btnInsert" name="btnInsert">Insert</button>
         </div>
+        <div>
+            <p>* = Required</p>
+            <p>** = Please enter at least one.</p>
+        </div>
     </fieldset>
     <div id="msg"></div>
 </div>
+<script src="../js/jsMessage.js" type="text/javascript"></script>
+<script src="../js/jsValidation.js" type="text/javascript"></script>
+<script src="../js/jsService.js" type="text/javascript"></script>
 <?php include './footer.php' ?>
 <script type="text/javascript">
     $(document).ready
@@ -55,6 +72,7 @@
             getAllInstructor();
             
             $('.money').mask('₡00.000', {reverse: false});
+            $('.date').mask('00-00-0000');
             
             /***************************** FUNCIONES **************************/
             /**
@@ -139,42 +157,27 @@
             {
                 var flag = true;
                 
-                if(($("#txtName").val().length === 0) ||
-                    ($("#txtDescription").val().length === 0) ||
-                    ($("#txtQuota").val().length === 0))
+                //Se pregunta si están vacíos
+                if(validateEmptyField($("#txtName").val()) &&
+                    validateEmptyField($("#txtDescription").val()) &&
+                    validateEmptyField(selectedPaymentModule) &&
+                    validateEmptyField($("#txtQuota").val()) &&
+                    validateEmptyField($("#txtStartDate").val()))
                 {
                     flag = false;
-                    $("#msg").html("Leave some blank");
-                }//Fin del if de campos en blanco
+                    $("#msg").html(getErrorMessage(1));
+                }//Fin del if
                 else
                 {
-                    if(selectedPaymentModule.length === 0)
+                    //Se valida que la fecha sea valida
+                    if(!validateDate($("#txtStartDate").val()))
                     {
                         flag = false;
-                        $("#msg").html("Please select at least one method of payment");
-                    }
-                }//Fin del else de campos en blanco
+                        $("#msg").html(getErrorMessage(4));
+                    }//Fin del if
+                }//Fin del else de verificacion de espacios vacios
                 
                 return flag;
-            }//Fin de la función
-            
-            /**
-            * Función que nos permite obtener el entero del precio.
-            * @param {String} money Corresponde al String del precio.
-            * @return {String} Corresponde al precio, pero sin puntos ni símbolo de colón.
-            * */
-            function getMoneyInt(money)
-            {
-                var moneyInt = "";
-                var moneyWithOutColon = money.substring(1,money.lenght);
-                var arrayMoney = moneyWithOutColon.split(".");
-                
-                for(var i = 0; i < arrayMoney.length;i++)
-                {
-                    moneyInt = moneyInt + arrayMoney[i];
-                }
-                
-                return moneyInt;
             }//Fin de la función
             
             /**
@@ -227,19 +230,35 @@
                 {   
                     if($("#selPaymentModule").val() !== "0")
                     {
-                        $("#msg").html("");
-                        insertNewRowPaymentMethod("tablePaymentMethod");
-                        var row = $("#tablePaymentMethod tr:last").attr("id");
-                        var newRow = row.substring(2,row.length);
-                        var buttons = '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>';
-                        $("#tablePaymentMethod tr:last").append(buttons);
-                        selectedPaymentModule = selectedPaymentModule + $("#selPaymentModule").val() + "," + getMoneyInt($("#txtPrice").val()) + ";";
-                        $("#selPaymentModule option[value="+$("#selPaymentModule").val()+"]").hide();
-                        $("#selPaymentModule").val("0");
+                        //Preguntamos si está vacío
+                        if(validateEmptyField($("#txtPrice").val()))
+                        {
+                            $("#msg").html(getErrorMessage(1));
+                        }//Fin del if
+                        else
+                        {
+                            //Preguntamos si es un número
+                            if(validateNumberField(getMoneyInt($("#txtPrice").val())))
+                            {
+                                $("#msg").html(getSuccessfullyInsertedMessage(1));
+                                insertNewRowPaymentMethod("tablePaymentMethod");
+                                var row = $("#tablePaymentMethod tr:last").attr("id");
+                                var newRow = row.substring(2,row.length);
+                                var buttons = '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>';
+                                $("#tablePaymentMethod tr:last").append(buttons);
+                                selectedPaymentModule = selectedPaymentModule + $("#selPaymentModule").val() + "," + getMoneyInt($("#txtPrice").val()) + ";";
+                                $("#selPaymentModule option[value="+$("#selPaymentModule").val()+"]").hide();
+                                $("#selPaymentModule").val("0");
+                            }//Fin del if
+                            else
+                            {
+                                $("#msg").html(getErrorMessage(2));
+                            }//Fin del else
+                        }//Fin del else
                     }//Fin del if
                     else
                     {
-                        $("#msg").html("Please select an option");
+                        $("#msg").html(getErrorMessage(3));
                     }//Fin del else
                 }//Fin de la función del evento
             );//Fin del evento
@@ -267,6 +286,7 @@
                     $("#selPaymentModule option[value="+$("#txtPaymentModule"+currentRow).val()+"]").show();
                     $("#selPaymentModule").val("0");
                     $("#tr"+currentRow).remove();
+                    $("#msg").html(getRemoveMessage(1));
                 }//Fin de la función del evento
             );//Fin del evento
         
@@ -283,6 +303,7 @@
                                 "&txtDescription="+$("#txtDescription").val() +
                                 "&txtQuota="+$("#txtQuota").val() +
                                 "&selPeriodicity="+$("#selPeriodicity").val() +
+                                "&txtStartDate="+getDateInvert($("#txtStartDate").val()) +
                                 "&paymentMethod="+selectedPaymentModule;
                         $.ajax
                         (
@@ -292,22 +313,22 @@
                                 data: infoData,
                                 beforeSend: function(before)
                                 {
-                                    $("#msg").html("<p>Wait.</p>");
+                                    $("#msg").html(getWaitMessage());
                                 },
                                 success: function(data)
                                 {
                                     if(data.toString() !== "0")
                                     {
-                                        $("#msg").html("<p>Success.</p>");
+                                        $("#msg").html(getSuccessfullyInsertedMessage(2));
                                     }
                                     else
                                     {
-                                        $("#msg").html("<p>Error.</p>");
+                                        $("#msg").html(getErrorMessage(5));
                                     }
                                 },
                                 error:function()
                                 {
-                                    $("#msg").html("<p>Error.</p>");
+                                    $("#msg").html(getErrorMessage(5));
                                 }
                             }
                         );

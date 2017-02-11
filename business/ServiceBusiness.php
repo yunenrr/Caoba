@@ -55,6 +55,7 @@ if(isset($_POST['option']))
             $description = $_POST['txtDescription'];
             $quota = $_POST['txtQuota'];
             $periodicity = $_POST['selPeriodicity'];
+            $txtStartDate = $_POST['txtStartDate'];
             $paymentMethod = $_POST['paymentMethod'];
             $condition = 0;
             
@@ -66,11 +67,12 @@ if(isset($_POST['option']))
             {
                 $data = new ServiceData();
                 $paymentModuleData = new PaymentModuleData();
-                $dateInsert =  date("Y")."-".date("m")."-".date("d");
-                $dateEnd = date('Y-m-d', strtotime('+'.$periodicity.' month')) ;
-                        
+                $dateInsert =  strtotime("$txtStartDate");
+                $calDateEnd = strtotime("$periodicity month","$dateInsert");
+                $dateEnd = date("Y-m-d",$calDateEnd);
+                
                 $service = new Service(0, $idInstructor, $serviceName, 
-                        $description, $quota,$dateInsert,$dateEnd);
+                        $description, $quota,$txtStartDate,$dateEnd);
                 $condition = $data->insertService($service);
                 
                 //Insertamos las modalidades de pago

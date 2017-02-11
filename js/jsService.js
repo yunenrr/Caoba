@@ -48,3 +48,34 @@ function getSelectAllService()
     );
 }//Fin de la función
 
+/**
+* Función que nos permite obtener el entero del precio.
+* @param {String} money Corresponde al String del precio.
+* @return {String} Corresponde al precio, pero sin puntos ni símbolo de colón.
+* */
+function getMoneyInt(money)
+{
+    var moneyInt = "";
+    var moneyWithOutColon = money.substring(1,money.lenght);
+    var arrayMoney = moneyWithOutColon.split(".");
+
+    for(var i = 0; i < arrayMoney.length;i++)
+    {
+        moneyInt = moneyInt + arrayMoney[i];
+    }
+
+    return moneyInt;
+}//Fin de la función
+
+
+/**
+* Función que nos retorna la fecha invertida.
+* @param {String} date Corresponde a la fecha tal y como está en el campo de texto.
+* @return {String} Corresponde a la fecha pero en order: yyyy-mm-dd
+* */
+function getDateInvert(date)
+{
+    var array = date.split("-");
+    var answer = array[2]+"-"+array[1]+"-"+array[0];
+    return answer;
+}//Fin de la función

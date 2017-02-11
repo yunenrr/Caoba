@@ -100,7 +100,6 @@ if(isset($_POST['option']))
             $serviceName = $_POST['txtName'];
             $description = $_POST['txtDescription'];
             $quota = $_POST['txtQuota'];
-            $periodicity = $_POST['selPeriodicity'];
             
             if((strlen($idInstructor) > 0) &&
                 (strlen($serviceName) > 0) &&
@@ -108,16 +107,38 @@ if(isset($_POST['option']))
                 (strlen($quota) > 0))
             {
                 $data = new ServiceData();
-                $dateInsert =  date("Y")."-".date("m")."-".date("d");
-                $dateEnd = date('Y-m-d', strtotime('+'.$periodicity.' month')) ;
                 $service = new Service($id, $idInstructor, $serviceName, 
-                        $description, $quota, $dateInsert, $dateEnd);
+                        $description, $quota, 0, 0);
                 echo $data->updateService($service);
             }//Fin del if
             else
             {
                 echo "0";
             }
+            break;
+        case 6:
+            $idService = $_POST['txtID'];
+            $txtStartDate = $_POST['txtStartDate'];
+            $periodicity = $_POST['selPeriodicity'];
+            
+            //Calculos para la fecha final
+            $dateInsert =  strtotime("$txtStartDate");
+            $calDateEnd = strtotime("$periodicity month","$dateInsert");
+            $dateEnd = date("Y-m-d",$calDateEnd);
+            
+            $service = new Service($idService, 0, 0, 0, 0, $txtStartDate, $dateEnd);
+            $data = new ServiceData();
+            echo $data->renewService($service);
+            break;
+        case 7:
+            $idService = $_POST['txtID'];
+            $txtStartDate = $_POST['txtStartDate'];
+            $txtEndDate = $_POST['txtEndDate'];
+            
+            
+            $service = new Service($idService, 0, 0, 0, 0, $txtStartDate, $txtEndDate);
+            $data = new ServiceData();
+            echo $data->renewService($service);
             break;
         case 9:
             $id = $_POST['id'];

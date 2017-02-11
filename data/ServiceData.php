@@ -201,13 +201,11 @@ class ServiceData
         $service->setNameService(mysqli_real_escape_string($connO,$service->getNameService()));
         $service->setDescriptionService(mysqli_real_escape_string($connO,$service->getDescriptionService()));
         $service->setQuotaService(mysqli_real_escape_string($connO,$service->getQuotaService()));
-        $service->setStartDateService(mysqli_real_escape_string($connO,$service->getStartDateService()));
-        $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
         
-        $sql = "UPDATE tbservice SET idinstructorservice = ".$service->getIdInstructorService().", nameservice = '".$service->getNameService()."', "
+        $sql = "UPDATE tbservice SET idinstructorservice = ".$service->getIdInstructorService().", "
+                . "nameservice = '".$service->getNameService()."', "
                 . "descriptionservice = '".$service->getDescriptionService()."', "
-                . "quotaservice = '".$service->getQuotaService()."', stardateservice = '".$service->getStartDateService()."', "
-                . "enddateservice = '".$service->getEndDateService()."' WHERE tbservice.idservice = ".$service->getIdService().";";
+                . "quotaservice = ".$service->getQuotaService()." WHERE tbservice.idservice = ".$service->getIdService().";";
         $result = mysqli_query($connO,$sql);
         
         if($result){$result = "1";}
@@ -229,8 +227,7 @@ class ServiceData
         mysqli_set_charset($connO, "utf8");
         
         $sql = "select idservice, idinstructorservice, nameservice, "
-                . "descriptionservice, quotaservice,enddateservice, "
-                . "DATEDIFF(enddateservice,CURRENT_DATE) as 'diffDays' "
+                . "descriptionservice, quotaservice, stardateservice,enddateservice "
                 . "from tbservice where tbservice.idservice = $id;";
         
         $result = mysqli_query($connO,$sql);
@@ -242,12 +239,40 @@ class ServiceData
             {
                 $service = new Service($row['idservice'], $row['idinstructorservice'], $row['nameservice'],
                         $row['descriptionservice'], $row['quotaservice'],
-                        $row['enddateservice'],$row['diffDays']);
+                        $row['stardateservice'],$row['enddateservice']);
             }//Fin del while
         }//Fin del if
         
         $this->connection->closeConnection();
         
         return $service;
+    }//Fin de la función
+    
+    /**
+     * Método que nos permite renovar las fechas de un servicio.
+     * @param Service $service Corresponde al servicio que se desea actualizar.
+     * @return int 0:si ocurrió un error y 1:si se ingresa correctamente.
+     */
+    public function renewService($service)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Preparamos la información
+        $service->setIdService(mysqli_real_escape_string($connO,$service->getIdService()));
+        $service->setStartDateService(mysqli_real_escape_string($connO,$service->getStartDateService()));
+        $service->setEndDateService(mysqli_real_escape_string($connO,$service->getEndDateService()));
+        
+        $sql = "update tbservice set stardateservice = '".$service->getStartDateService()."', "
+                . "enddateservice = '".$service->getEndDateService()."' where tbservice.idservice = ".$service->getIdService().";";
+        $result = mysqli_query($connO,$sql);
+        
+        if($result){$result = "1";}
+        else{$result = "0";}
+        
+        $this->connection->closeConnection();
+        
+        return $result;
     }//Fin de la función
 }//Fin de la clase

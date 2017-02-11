@@ -29,23 +29,14 @@
                    maxlength="5" required="" dir="rtl"/>
         </div>
         <div>
-            <label>State:</label>
-            <label id="lblState" name="lblState"></label>
-        </div>
-        <div>
-            <label>Periodicity:</label>
-            <select id="selPeriodicity" name="selPeriodicity">
-                <option value="1">Monthly</option>
-                <option value="6">Biannual</option>
-                <option value="12">Annual</option>
-            </select>
-        </div>
-        <div>
             <button id="btnUpdate" name="btnUpdate">Update</button>
         </div>
     </fieldset>
     <div id="msg"></div>
 </div>
+<script src="../js/jsMessage.js" type="text/javascript"></script>
+<script src="../js/jsValidation.js" type="text/javascript"></script>
+<script src="../js/jsService.js" type="text/javascript"></script>
 <?php include './footer.php' ?>
 <script type="text/javascript">
     $(document).ready
@@ -78,7 +69,7 @@
                         data: infoData,
                         beforeSend: function(before)
                         {
-                            $("#msg").html("Wait");
+                            $("#msg").html(getWaitMessage());
                         },
                         success: function(data)
                         {
@@ -89,17 +80,16 @@
                                 $("#txtName").val(arrayTemp[2]);
                                 $("#txtDescription").val(arrayTemp[3]);
                                 $("#txtQuota").val(arrayTemp[4]);
-                                $("#lblState").html(((parseInt(arrayTemp[6]) > 0) ? "Active" : "Inactive"));
                                 $("#msg").html("");
                             }//Fin del if
                             else
                             {
-                                $("#msg").html("Don't have instructor");
+                                $("#msg").html(getErrorMessage(5));
                             }
                         },
                         error:function()
                         {
-                            $("#msg").html("<p>Error.</p>");
+                            $("#msg").html(getErrorMessage(5));
                         }
                     }
                 );
@@ -141,23 +131,11 @@
                         },
                         error:function()
                         {
-                            $("#msg").html("<p>Error.</p>");
+                            $("#msg").html(getErrorMessage(5));
                         }
                     }
                 );
             }//Fin de la función getCurrentPaymentMethod
-            
-            /**
-            * Función que nos retorna la fecha invertida.
-            * @param {String} date Corresponde a la fecha tal y como está en el campo de texto.
-            * @return {String} Corresponde a la fecha pero en order: yyyy-mm-dd
-            * */
-            function getDateInvert(date)
-            {
-                var array = date.split("-");
-                var answer = array[2]+"-"+array[1]+"-"+array[0];
-                return answer;
-            }//Fin de la función
             
             /**
             * Función que nos permite obtener todos los instructores de la base de datos.
@@ -191,12 +169,12 @@
                             }
                             else
                             {
-                                $("#msg").html("Don't have instructor");
+                                $("#msg").html(getErrorMessage(5));
                             }
                         },
                         error:function()
                         {
-                            $("#msg").html("<p>Error.</p>");
+                            $("#msg").html(getErrorMessage(5));
                         }
                     }
                 );
@@ -244,12 +222,12 @@
                             }//Fin del if
                             else
                             {
-                                $("#msg").html("Don't payment method");
+                                $("#msg").html(getErrorMessage(5));
                             }
                         },
                         error:function()
                         {
-                            $("#msg").html("<p>Error.</p>");
+                            $("#msg").html(getErrorMessage(5));
                         }
                     }
                 );
@@ -322,26 +300,6 @@
             }//Fin de la función hideOptionSelect
             
             /**
-            * Función que nos permite obtener el formato de la hora.
-            * @param {String} idHour Corresponde al identificador de la hora en la base de datos.
-            * @return {String} Corresponde a la hora pero con formato, ejmp: 7:00am
-            * */
-            function getFormatHour(idHour)
-            {
-                var hour = parseInt(idHour) - 1;
-                var answer = "";
-                
-                if(hour > 12)
-                {
-                    hour = hour-12;
-                    answer = hour + ":00 pm";
-                }//Fin del if
-                else if (hour === 12){answer = hour + ":00 md";}
-                else{answer = hour + ":00 am";}
-                return answer;
-            }//Fin de la función
-            
-            /**
             * Función que valida los campos.
             * @return {boolean} Indicando si está todo bien o no.
             * */
@@ -349,44 +307,19 @@
             {
                 var flag = true;
                 
-                if(($("#txtName").val().length === 0) ||
-                    ($("#txtDescription").val().length === 0) ||
-                    ($("#txtPrice").val().length === 0) ||
-                    ($("#txtQuota").val().length === 0))
+                //Se pregunta si están vacíos
+                if(validateEmptyField($("#txtName").val()) &&
+                    validateEmptyField($("#txtDescription").val()) &&
+                    validateEmptyField(selectedPaymentModule) &&
+                    validateEmptyField($("#txtQuota").val()))
                 {
                     flag = false;
-                    $("#msg").html("Leave some blank");
-                }//Fin del if de campos en blanco
-                else
-                {
-                    if(selectedPaymentModule.length === 0)
-                    {
-                        flag = false;
-                        $("#msg").html("Please select at least one method of payment");
-                    }
-                }//Fin del else de campos en blanco
+                    $("#msg").html(getErrorMessage(1));
+                }//Fin del if
                 
                 return flag;
             }//Fin de la función
             
-            /**
-            * Función que nos permite obtener el entero del precio.
-            * @param {String} money Corresponde al String del precio.
-            * @return {String} Corresponde al precio, pero sin puntos ni símbolo de colón.
-            * */
-            function getMoneyInt(money)
-            {
-                var moneyInt = "";
-                var moneyWithOutColon = money.substring(1,money.lenght);
-                var arrayMoney = moneyWithOutColon.split(".");
-                
-                for(var i = 0; i < arrayMoney.length;i++)
-                {
-                    moneyInt = moneyInt + arrayMoney[i];
-                }
-                
-                return moneyInt;
-            }//Fin de la función
             /***************************** EVENTOS ****************************/
             //Evento del eliminar método de pago
             $("#tablePaymentMethod").on
@@ -419,23 +352,23 @@
                             data: infoData,
                             beforeSend: function(before)
                             {
-                                $("#msg").html("<p>Wait.</p>");
+                                $("#msg").html(getWaitMessage());
                             },
                             success: function(data)
                             {
                                 if(data.toString().length > 0)
                                 {
                                     $("#tr"+currentRow).remove();
-                                    $("#msg").html("Payment method successfully deleted");
+                                    $("#msg").html(getRemoveMessage(1));
                                 }
                                 else
                                 {
-                                    $("#msg").html("Don't have payment method in the database");
+                                    $("#msg").html(getErrorMessage(5));
                                 }
                             },
                             error:function()
                             {
-                                $("#msg").html("<p>Error.</p>");
+                                $("#msg").html(getErrorMessage(5));
                             }
                         }
                     );
@@ -449,7 +382,6 @@
                 {   
                     if($("#selPaymentModule").val() !== "0")
                     {
-                        $("#msg").html("");
                         insertGUI("1",$("#selPaymentModule").val(),$("#selPaymentModule option:selected").html() + "-"+$("#txtPrice").val());
                         selectedPaymentModule = selectedPaymentModule + $("#selPaymentModule").val() + ",";
                         
@@ -464,29 +396,29 @@
                                 data: infoData,
                                 beforeSend: function(before)
                                 {
-                                    $("#msg").html("<p>Wait.</p>");
+                                    $("#msg").html(getWaitMessage());
                                 },
                                 success: function(data)
                                 {
                                     if(data.toString().length > 0)
                                     {
-                                        $("#msg").html("Payment method successfully added");
+                                        $("#msg").html(getSuccessfullyInsertedMessage(1));
                                     }
                                     else
                                     {
-                                        $("#msg").html("Don't select schedule");
+                                        $("#msg").html(getErrorMessage(5));
                                     }
                                 },
                                 error:function()
                                 {
-                                    $("#msg").html("<p>Error.</p>");
+                                    $("#msg").html(getErrorMessage(5));
                                 }
                             }
                         );
                     }//Fin del if
                     else
                     {
-                        $("#msg").html("Please select an option");
+                        $("#msg").html(getErrorMessage(3));
                     }//Fin del else
                 }//Fin de la función del evento
             );//Fin del evento
@@ -505,8 +437,7 @@
                                 "&txtName="+$("#txtName").val() +
                                 "&txtDescription="+$("#txtDescription").val() +
                                 "&txtPrice="+price +
-                                "&txtQuota="+$("#txtQuota").val() +
-                                "&selPeriodicity="+ $("#selPeriodicity").val();
+                                "&txtQuota="+$("#txtQuota").val();
                         $.ajax
                         (
                             {
@@ -515,22 +446,22 @@
                                 data: infoData,
                                 beforeSend: function(before)
                                 {
-                                    $("#msg").html("<p>Wait.</p>");
+                                    $("#msg").html(getWaitMessage());
                                 },
                                 success: function(data)
                                 {
                                     if(data.toString() !== "0")
                                     {
-                                        $("#msg").html("<p>Success.</p>");
+                                        $("#msg").html(getSuccessfullyInsertedMessage(2));
                                     }
                                     else
                                     {
-                                        $("#msg").html("<p>Error.</p>");
+                                        $("#msg").html(getErrorMessage(5));
                                     }
                                 },
                                 error:function()
                                 {
-                                    $("#msg").html("<p>Error.</p>");
+                                    $("#msg").html(getErrorMessage(5));
                                 }
                             }
                         );

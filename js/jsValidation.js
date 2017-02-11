@@ -67,3 +67,48 @@ function validateDate(valueField)
     var y = dateArray[2];
     return m > 0 && m < 13 && y > 0 && y < 32768 && d > 0 && d <= (new Date(y, m, 0)).getDate();
 }//Fin de la función
+
+/**
+ * Función que compara una fecha con la fecha actual.
+ * @param {String} valueField Corresponde a la fecha que se desea validar.
+ * @return {boolean} True: Si la fecha es mayor que la actual, false en caso contrario.
+ * */
+function compareDateWithCurrentDate(valueField)
+{
+    var condition = false;
+    var x = new Date();
+    var dateArray = valueField.split("-");
+    x.setFullYear(dateArray[2],dateArray[1]-1,dateArray[0]); //Queda en el formato yyyy/mm/dd
+    var today = new Date(); //Obtenemos la fecha actual
+
+    if (x >= today)
+    {
+        condition = true;
+    }
+    return condition;
+}//Fin de la función
+
+/**
+ * Función que nos permite comparar dos fechas.
+ * @param {String} oldFinishDate Corresponde a la antigua fecha de fin.
+ * @param {String} newFinishDate Corresponde a la nueva fecha de fin.
+ * @return {boolean} True: Si la nueva fecha es mayor que la antigua, false en caso contrario.
+ * */
+function compareDate(oldFinishDate,newFinishDate)
+{
+    var condition = false;
+    var oldDate = new Date();
+    var oldDateArray = oldFinishDate.split("-");
+    oldDate.setFullYear(oldDateArray[2],oldDateArray[1]-1,oldDateArray[0]); //Queda en el formato yyyy/mm/dd
+    
+    var newDate = new Date(); //Obtenemos la fecha actual
+    var newDateArray = newFinishDate.split("-");
+    newDate.setFullYear(newDateArray[2],newDateArray[1]-1,newDateArray[0]);
+    
+
+    if (newDate > oldDate)
+    {
+        condition = true;
+    }
+    return condition;
+}//Fin de la función

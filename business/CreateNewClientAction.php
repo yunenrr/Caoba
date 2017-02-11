@@ -28,20 +28,22 @@ if (isset($_POST['submit'])) {
     $nameUser =$_POST['userName'];
     $phoneReferencePerson = $_POST['addPhoneReference'];
     $bloodPerson =$_POST['selBlood'];
-    $agePerson = $_POST['age'];
+    $birthdayPersonPerson = $_POST['birthday'];
     $userType = $_POST['userType'];
     $genderPerson = $_POST['selGender'];
+    $starDateUser = $_POST['startDay'];
+    $address = $_POST['selNeighborhood'];
 
     $idPerson = $personBusiness->getMaxId();
 
     $indexPhones = 0;
-    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, '', $phoneReferencePerson, $bloodPerson);
+    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $birthdayPersonPerson, $genderPerson, $emailPerson, $address, $phoneReferencePerson, $bloodPerson);
 
     if ($personBusiness->insertPerson($person)) {
         $personStateBusiness = new personStateBusiness();
         $personStateBusiness->insertPersonState($dniPerson);
         $idUser = $userBusiness->getMaxId();
-        $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser);
+        $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser, $starDateUser);
         $userBusiness->insertUser($user);
         
 

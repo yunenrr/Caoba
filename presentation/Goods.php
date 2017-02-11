@@ -1,6 +1,11 @@
 <?php 
 include './header.php';
 include '../business/InventoryBusiness.php';
+
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("location: ./Home.php");
+}
 $inventoryBusiness= new InventoryBusiness();
 $active= $inventoryBusiness->getAllInventory();
 ?>
@@ -312,6 +317,7 @@ $active= $inventoryBusiness->getAllInventory();
                                     {
                                         $("#msg").html("<p>Success.</p>");
                                         $("#txtID"+newRow).val(data);
+                                        insertNewRow("tableBodyInventory");
                                     }
                                     else
                                     {
@@ -324,8 +330,6 @@ $active= $inventoryBusiness->getAllInventory();
                                 }
                             }
                         );
-                        
-                        insertNewRow("tableBodyInventory");
                     }//
                     else{$("#msg").html("<p>Please, check the information.</p>");}
                 }

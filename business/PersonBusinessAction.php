@@ -29,10 +29,16 @@ if (isset($_POST['option'])) {
                 } else {
                     $state = "Inactive";
                 }
-                $temp = $temp.",".$current->getIdPerson() . ",". $current->getDniPerson() . "," . $current->getNamePerson() . ","
+
+                $date1 = $current->getBirthDayperson();
+                $fecha2 = "2006-04-10";
+                $diferencia = abs((strtotime($fecha1) - strtotime($fecha2)) / 86400);
+                echo $diferencia;
+
+                $temp = $temp . "," . $current->getIdPerson() . "," . $current->getDniPerson() . "," . $current->getNamePerson() . ","
                         . $current->getFirstNamePerson() . "," . $current->getSecondNamePerson() . ","
-                        . $current->getAgePerson() . "," . $tempGender . "," . $current->getEmailPerson() . ","
-                        . $current->getPhoneReferencePerson() . "," . $current->getBloodTypePerson() . "," . $state . ";";
+                        . $current->getBirthDayperson() . "," . $tempGender . "," . $current->getEmailPerson() . ","
+                        . $current->getPhoneReferencePerson() . "," . $current->getBloodTypePerson() . "," . $state ."," . $current->getAddressPerson() . ";";
             }//Fin del foreach 
             if (strlen($temp) > 0) {
                 $temp = substr($temp, 0, strlen($temp) - 1);
@@ -57,9 +63,8 @@ if (isset($_POST['option'])) {
             else
                 echo '0';
             break;
-        case 4: 
-            
+        case 4:
+
             break;
     }
 }
-            

@@ -20,26 +20,26 @@ if (isset($_POST['submit'])) {
     $namePerson = $_POST['name'];
     $firstnamePerson = $_POST['firstname'];
     $secondnamePerson = $_POST['secondname'];
-    $agePerson = $_POST['age'];
+    $birthdayPerson = $_POST['birthday'];
     $genderPerson = $_POST['selGender'];
     $emailPerson = $_POST['email'];
-//    $addressPerson = $_POST['address'];
+    $addressPerson = $_POST['selNeighborhood'];
     $phoneReferencePerson = $_POST['addPhoneReference'];
     $bloodPerson = $_POST['selBlood'];
     $passUser = $_POST['password'];
     $userNameUser = $_POST['userName'];
     
-    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $agePerson, $genderPerson, $emailPerson, '', $phoneReferencePerson, $bloodPerson);
+    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $birthdayPerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodPerson);
     $user= new User(0, $dniPerson, 0, $userNameUser, $passUser);
     
     if ($personBusiness->updatePerson($person)) {
         $userBusiness->updateUser($user);
-        header("location: ../presentation/Person.php?success=UPDATE");
+        header("location: ../presentation/EditClient.php?success=UPDATE");
     } else {
-        header("location: ../presentation/Person.php?error=UPDATE");
+        header("location: ../presentation/EditClient.php?error=UPDATE");
     }
 } else {
-    header("location: ../presentation/Person.php?error=UPDATE");
+    header("location: ../presentation/EditClient.php?error=UPDATE");
 }
 ?>
 

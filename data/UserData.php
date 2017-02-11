@@ -23,7 +23,7 @@ class UserData extends Connector {
                 . ",'" . $user->getTypeUser() . "'"
                 . ",'" . $user->getUserNameUser() . "'"
                 . ",'" . $user->getPassUser() . "'"
-                . ",'" . date("Y-m-d") . "');";
+                . ",'" . $user->getStarDate(). "');";
         if ($user->getTypeUser() == 1 || $user->getTypeUser() == 2) {
             if ($this->exeQuery($query)) {
                 $idInstructor = $this->getMaxIdTable("instructor");
@@ -70,7 +70,7 @@ class UserData extends Connector {
      * @return type
      */
     public function getMaxId() {
-        return $this->getMaxIdTable("User");
+        return $this->getMaxIdTable("user");
     }
 
     /**
@@ -97,23 +97,23 @@ class UserData extends Connector {
         $userResult = $this->exeQuery($query);
         
         $row = mysqli_fetch_array($userResult);
-        $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser']);
+        $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser'],0);
 
         return $user;
     }
 
     /**
      * Use to get a specif user
-     * @param type $userName
+     * @param type $idPerson
      * @return \User
      */
-    public function getUserByIdPerson($id) {
+    public function getUserByIdPerson($idPerson) {
 
-        $query = "select iduser,idpersonuser,typeuser,usernameuser,passuser from tbuser where idpersonuser='" . $id. "'";
+        $query = "select iduser,idpersonuser,typeuser,usernameuser,passuser from tbuser where idpersonuser='" . $idPerson. "'";
         $userResult = $this->exeQuery($query);
         
         $row = mysqli_fetch_array($userResult);
-        $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser']);
+        $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser'],0);
 
         return $user;
     }

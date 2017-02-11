@@ -20,14 +20,14 @@ class PersonData extends Connector {
     public function getAllPersons() {
 
         $query = "SELECT `idperson`, `dniperson`, `nameperson`, `firstnameperson`, "
-                . "`secondnameperson`, `ageperson`, `genderperson`, `emailperson`, `addressperson`, "
+                . "`secondnameperson`, `birthdayperson`, `genderperson`, `emailperson`, `addressperson`, "
                 . "`phonereferenceperson`, `bloodtypeperson` FROM `tbperson` WHERE 1";
 
         $allPersonsResult = $this->exeQuery($query);
         $array = [];
         if (mysqli_num_rows($allPersonsResult) > 0) {
             while ($row = mysqli_fetch_array($allPersonsResult)) {
-                $currentPerson = new Person($row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['ageperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
+                $currentPerson = new Person($row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['birthdayperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
                 array_push($array, $currentPerson);
             }
         }
@@ -41,12 +41,12 @@ class PersonData extends Connector {
      */
     public function getPerson($id) {
 
-        $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,ageperson,genderperson,"
+        $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,birthdayperson,genderperson,"
                 . "emailperson,addressperson,phonereferenceperson,bloodtypeperson from tbperson where idperson=" . $id;
         $personResult = $this->exeQuery($query);
 
         $row = mysqli_fetch_array($personResult);
-        $person = new Person($row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['ageperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
+        $person = new Person($row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['birthdayperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
         return $person;
     }
 
@@ -59,7 +59,7 @@ class PersonData extends Connector {
             "nameperson" => $row['nameperson'],
             "firstnamePerson" => $row['firstnameperson'],
             "secondnameperson" => $row['secondnameperson'],
-            "ageperson'" => $row['ageperson'],
+            "birthdayperson'" => $row['birthdayperson'],
             "genderperson" => $row['genderperson'],
             "emailperson" => $row['emailperson'],
             "addressperson" => $row['addressperson'],
@@ -76,13 +76,13 @@ class PersonData extends Connector {
      */
     public function insertPerson($person) {
 
-        $query = "INSERT INTO tbperson(idperson,dniperson,nameperson,firstnameperson,secondnameperson,ageperson,genderperson,emailperson,addressperson, phonereferenceperson, bloodtypeperson)"
+        $query = "INSERT INTO tbperson(idperson,dniperson,nameperson,firstnameperson,secondnameperson,birthdayperson,genderperson,emailperson,addressperson, phonereferenceperson, bloodtypeperson)"
                 . "VALUES ('" . $person->getIdPerson() . "'"
                 . ",'" . $person->getDniPerson() . "'"
                 . ",'" . $person->getNamePerson() . "'"
                 . ",'" . $person->getFirstNamePerson() . "'"
                 . ",'" . $person->getSecondNamePerson() . "'"
-                . ",'" . $person->getAgePerson() . "'"
+                . ",'" . $person->getBirthdayPerson() . "'"
                 . ",'" . $person->getGenderPerson() . "'"
                 . ",'" . $person->getEmailPerson() . "'"
                 . ",'" . $person->getAddressPerson() . "'"
@@ -121,7 +121,7 @@ class PersonData extends Connector {
                 . "nameperson  = '" . $person->getNamePerson() . "'"
                 . ",firstnameperson = '" . $person->getFirstNamePerson() . "'"
                 . ",secondnameperson = '" . $person->getSecondNamePerson() . "'"
-                . ",ageperson = '" . $person->getAgePerson() . "'"
+                . ",birthdayperson = '" . $person->getBirthdayPerson() . "'"
                 . ",genderperson = '" . $person->getGenderPerson() . "'"
                 . ",emailperson = '" . $person->getEmailPerson() . "'"
                 . ",addressperson = '" . $person->getAddressPerson() . "'"
@@ -145,8 +145,6 @@ class PersonData extends Connector {
             return FALSE;
         }
     }
-
-//
     /**
      * Return return person by typeUser
      * @param 
@@ -162,7 +160,7 @@ class PersonData extends Connector {
         $personArray = [];
         while ($row = mysqli_fetch_array($result)) {
             $currentPerson = new Person(
-                    $row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['ageperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
+                    $row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['birthdayperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
             array_push($personArray, $currentPerson);
         }
         return $personArray;

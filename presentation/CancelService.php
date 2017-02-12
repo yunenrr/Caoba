@@ -130,6 +130,35 @@
                 return flag;
             }//Fin de la función
             
+            function sendEmail()
+            {
+                var infoData = "option=1"+
+                        "&id="+id;
+                $.ajax
+                (
+                    {
+                        type: 'POST',
+                        url: "../business/SendEmailBusiness.php",
+                        data: infoData,
+                        beforeSend: function(before)
+                        {
+                            $("#msg").html(getWaitMessage());
+                        },
+                        success: function(data)
+                        {
+                            alert(data);
+                            $("#msg").html(getRemoveMessage(2));
+                            $().delay(100);
+                            location.href = "ViewService.php";
+                        },
+                        error:function()
+                        {
+                            $("#msg").html(getErrorMessage(5));
+                        }
+                    }
+                );
+            }//Fin de la función
+            
             /***************************** EVENTOS ****************************/
             $("#btnCancel").on
             (
@@ -156,8 +185,7 @@
                                     if(data.toString() !== "0")
                                     {
                                         $("#msg").html(getRemoveMessage(2));
-                                        $().delay(100);
-                                        location.href = "ViewService.php";
+                                        sendEmail();
                                     }
                                     else
                                     {

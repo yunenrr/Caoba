@@ -29,15 +29,11 @@ if (isset($_POST['option'])) {
             $dietBusiness = new DietBusiness();
             $dietPlanBusiness = new DietPlanBusiness();
             $dietPersonBusiness = new DietPersonBusiness();
-
             // obtengo las id de las tablas
             $idDiet = $dietBusiness->getMaxId();
             $idDietPerson = $dietPersonBusiness->getMaxId();
             $idDietPlan = $dietPlanBusiness->getMaxId();
-
             $diet = new Diet($idDiet, $nameDiet, $descriptionDiet);
-
-
             if ($dietBusiness->insertDiet($diet)) {
                 $dietPerson = new DietPerson($idDietPerson, $idPersonDietPerson, $idDiet);
                 $dietPersonBusiness->insertDietPerson($dietPerson); //assign a diet to person

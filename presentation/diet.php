@@ -1,12 +1,12 @@
 <?php
 include './header.php';
-if (isset($_GET['id'])) {
-    $idPerson = $_GET['id'];
-    $namePerson = $_GET['name'];
-} else {
-    header('Location: ViewClient.php');
-}
-?>
+//if (isset($_GET['id'])) {
+//    $idPerson = $_GET['id'];
+//    $namePerson = $_GET['name'];
+//} else {
+//    header('Location: ViewClient.php');
+//}
+//?>
 <div>
     <H2 ALIGN=JUSTIFY> <?php echo $namePerson ?>'s diet</H2>
     <table border>
@@ -40,8 +40,6 @@ if (isset($_GET['id'])) {
                     <th>Diet Function</th>
                 </tr>
             </thead>
-
-
             <tbody>
                 <tr> 
                     <td><div></div></td>
@@ -167,7 +165,7 @@ if (isset($_GET['id'])) {
                             }
                         }
                 );
-        getDiet();
+//        getDiet();
         getDiet();
     }//Fin de la función
     $(document).ready

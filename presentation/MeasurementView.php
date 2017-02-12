@@ -98,8 +98,8 @@ include './header.php'; //header include
         ajaxGetClientData('../business/returnClientAction.php');
         ajaxGetClientHistory('../business/returnMeasurementAction.php');
     });
-    
-    
+
+
     function domAdd(data) {
         var types = JSON.parse(data);
 //        $("#client").prepend("<H1>CLIENT DATA</H1>");
@@ -108,7 +108,8 @@ include './header.php'; //header include
     }
     function domAdd2(data) {
         var types = JSON.parse(data);
-        $("#meansu").empty()
+       
+        $("#meansu").empty();
         for (i in types)
         {
             $("#meansu").prepend("<h4>Date: " + types[i].measurementDate + "</h4>");

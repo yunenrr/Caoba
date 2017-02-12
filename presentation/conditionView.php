@@ -32,8 +32,6 @@
 </div>
 
 <script type="text/javascript">
-
-
     function chargeTable() {
         $.ajax({
             url: '../business/GetCondition.php',

@@ -56,10 +56,11 @@ $namePerson = $_GET['name'];
             {
              var arrayAllPerson = "";
              var arrayAllRelationShip = "";
+             
              TreeFamily();
              getAllRelationship();
              getAllPerson();
-             getFamily();
+//             getFamily();
              
  /****************************** Eventos ************************************/
  
@@ -241,7 +242,7 @@ $namePerson = $_GET['name'];
               * Función que nos permite obtener el select de personas .
               * @param {int} currentRow Corresponde a la posición en la tabla.
               * */
-              function getSelPerson(id, currentRow)
+              function getSelPerson( currentRow)
                 {
                  var temp = '<select id="selPerson' + currentRow + '" name="selPerson' + currentRow + '">';
                  for (var i = 0; i < arrayAllPerson.length; i++)
@@ -256,16 +257,17 @@ $namePerson = $_GET['name'];
                 }//Fin de la función
                 
                 /**
-              * Función que nos permite obtener el select de las miembros que componen a la familia.
-              * @param {int} currentRow Corresponde a la posición en la tabla.
-              * */
-              function getSelRelationship(id, currentRow)
+                * Función que nos permite obtener el select de las miembros que componen a la familia.
+                 * @param {type} currentRow
+                 * @returns {String}                 
+                 * */
+              function getSelRelationship(currentRow)
                 {
                  var temp = '<select id="selRelationShip' + currentRow + '" name="selRelationShip' + currentRow + '">';
                  for (var i = 0; i < arrayAllRelationShip.length; i++)
                    {
-                       var service = arrayAllRelationShip[i].split(",");
-                        temp = temp + '<option value="' + service[0] + '" selected="">' + service[1] + '</option>';
+                       var relative = arrayAllRelationShip[i].split(",");
+                        temp = temp + '<option value="' + relative[0] + '" selected="">' + relative[1] + '</option>';
                         
                     }//Fin del for
                     return temp;
@@ -278,29 +280,14 @@ $namePerson = $_GET['name'];
                  function insertNewRow(nameTable)
                    {
                      var newRow = ($("#" + nameTable + " tr").length);
-                        if (newRow === 0)
-                           {
                                 $("#" + nameTable).html
                                     (
                                     '<tr id="tr' + newRow + '">' +
-                                    '<td>' + getSelPerson(0, newRow) + '</td>'+ '<td></td>'+
-                                    '<td>' + getSelRelationship(0, newRow) + '</td>' +
+                                    '<td>' + getSelPerson(newRow) + '</td>'+ '<td></td>'+
+                                    '<td>' + getSelRelationship (newRow) + '</td>' +
                                     '<td><input type="hidden" id="txtID' + newRow + '" name="txtID' + newRow + '"/></td>'+
                                     '</tr>'
                                     );
-                            }else
-                                {
-                                    var row = $("#tableBodyFamily tr:last").attr("id");
-                                    var newRow = parseInt(row.substring(2, row.length)) + 1;
-                                    $("#" + nameTable + " tr:last").after
-                                        (
-                                            '<tr id="tr' + newRow + '">' +
-                                            '<td>' + getSelPerson(0, newRow) + '</td>' +'<td></td>'+
-                                            '<td>' + getSelRelationship(0, newRow) + '</td>' +
-                                            '<td><input type="hidden" id="txtID' + newRow + '" name="txtID' + newRow + '"/></td>' +
-                                            '</tr>'
-                                        );
-                                }
                     }//Fin de la función                       
                     
             /**

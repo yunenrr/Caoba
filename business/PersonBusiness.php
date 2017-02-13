@@ -32,7 +32,7 @@ class PersonBusiness {
     public function getPerson($id) {
         return $this->personData->getPerson($id);
     }
-    
+
     public function getPersonByDNI($id) {
         return $this->personData->getPersonByDNI($id);
     }
@@ -89,12 +89,13 @@ class PersonBusiness {
     public function returnPersonsByTypeBusiness($typeUser) {
         return $this->personData->returnPersonsByTypeData($typeUser);
     }
-/**
+
+    /**
      * use to get all gender 
      * @return type
      */
-    public function GetAllGender(){
-         return $this->personData->GetAllGender(); 
+    public function GetAllGender() {
+        return $this->personData->GetAllGender();
     }
-    
+
 }

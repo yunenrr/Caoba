@@ -3,6 +3,7 @@
 include './PersonBusiness.php';
 include './UserBusiness.php';
 include './PersonStateBusiness.php';
+include './AddressBusiness.php';
 
 if (isset($_POST['option'])) {
     $option = $_POST['option'];
@@ -64,7 +65,8 @@ if (isset($_POST['option'])) {
                 echo '0';
             break;
         case 4:
-
+            $addressBussiness= new AddressBussiness();
+            echo $addressBussiness->getAllAddress();
             break;
     }
 }

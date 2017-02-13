@@ -30,7 +30,7 @@ function getSelectAllService()
                     {
                         var service = array[i].split(",");
                         
-                        temp = temp + '<option value="'+service[0]+'">'+service[2]+'</option>';
+                        temp = temp + '<option value="'+service[0]+'">'+service[1]+'</option>';
                     }
                     $("#selService").html(temp);
                     $("#msg").html("");

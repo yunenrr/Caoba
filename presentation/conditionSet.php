@@ -64,17 +64,19 @@
             dataType: 'json',
             data: 'id=' + id + '',
             success: function (data) {
+//                alert('dsad');
                 var res = JSON.stringify(data);
                 var result = JSON.parse(res);
                 $("#condition").empty();
                 for (i in result)
                 {
+//                    alert('dsad');
                     var elements = '<option value="' + result[i].idcondition + '">' + result[i].namecondition + '</option>';
                     $("#condition").append(elements);
                 }
             },
             error: function (data) {
-
+                alert('124');
             }
         });
     }

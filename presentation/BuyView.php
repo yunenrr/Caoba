@@ -121,11 +121,11 @@ include './header.php';
                 data: "bra=" + $("#bra").val() + "&mo=" + $("#mo").val() + "&qu=" + $("#qu").val() + "&in=" + $("#in").val() + "&pro=" + $("#pro").val() + "&pri=" + $("#pri").val() + "&pay=" + $("#pay").val() + "&ser=" + $("#ser").val() + "",
                 success: function (data) {
                     returnAll();
-//                    alert(data);
+                    alert(data);
                 },
                 error: function (data) {
                     returnAll();
-//                    alert(data);
+                    alert(data);
                 }
             });
         }

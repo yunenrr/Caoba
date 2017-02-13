@@ -20,14 +20,14 @@ class PersonData extends Connector {
     public function getAllPersons() {
 
         $query = "SELECT `idperson`, `dniperson`, `nameperson`, `firstnameperson`, "
-                . "`secondnameperson`, `birthdayperson`, `genderperson`, `emailperson`, `addressperson`, "
-                . "`phonereferenceperson`, `bloodtypeperson` FROM `tbperson` WHERE 1";
+                . "`secondnameperson`, `birthdayperson`, `genderperson`, `emailperson`, `neighborhoodaddress`, "
+                . "`phonereferenceperson`, `bloodtypeperson` FROM `tbperson` LEFT OUTER JOIN  `tbaddress` ON `idaddress`=`addressperson`";
 
         $allPersonsResult = $this->exeQuery($query);
         $array = [];
         if (mysqli_num_rows($allPersonsResult) > 0) {
             while ($row = mysqli_fetch_array($allPersonsResult)) {
-                $currentPerson = new Person($row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['birthdayperson'], $row['genderperson'], $row['emailperson'], $row['addressperson'], $row['phonereferenceperson'], $row['bloodtypeperson']);
+                $currentPerson = new Person($row['idperson'], $row['dniperson'], $row['nameperson'], $row['firstnameperson'], $row['secondnameperson'], $row['birthdayperson'], $row['genderperson'], $row['emailperson'], $row['neighborhoodaddress'], $row['phonereferenceperson'], $row['bloodtypeperson']);
                 array_push($array, $currentPerson);
             }
         }
@@ -145,6 +145,7 @@ class PersonData extends Connector {
             return FALSE;
         }
     }
+
     /**
      * Return return person by typeUser
      * @param 
@@ -181,5 +182,4 @@ class PersonData extends Connector {
         }
         return $genderArray;
     }
-
 }

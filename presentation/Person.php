@@ -14,7 +14,7 @@ $gender = $personBusiness->GetAllGender();
 $neighborhood= $neighborhoodBusiness->getAllAddress();
 ?>
 <div>
-    <H1 ALIGN=JUSTIFY> Person Registration </H1>
+    <H1 ALIGN=JUSTIFY>Person Registration </H1>
     <table border='2'>
         <thead>
             <tr>

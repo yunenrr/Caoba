@@ -56,6 +56,18 @@
                                 <li><a href="DeleteExercise.php">Delete</a></li>
                             </ul>
                         </li>
+                        <li>
+                            <a>Inventory</a>
+                            <ul>
+                                <li><a href="">Buy</a></li>
+                                <li><a href="RepairInventory.php">Repair</a></li>
+                                <li><a href="WasteInventory.php">Waste</a></li>
+                                <li><a href="DamageInUseInventory.php">Damage in use</a></li>
+                                <li><a href="StolenInventory.php">Stolen</a></li>
+                                <li><a href="">Donated</a></li>
+                                <li><a href="DonationInventory.php">Donation</a></li>
+                            </ul>
+                        </li>
                     <?php } ?>
 
                     <?php

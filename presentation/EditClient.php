@@ -6,10 +6,10 @@ include '../business/UserBusiness.php';
 include '../business/PersonStateBusiness.php';
 include '../business/AddressBusiness.php';
 
-session_start();
-if (!isset($_SESSION['id']) || !isset($_GET['id'])) {
-    header("location: ./Home.php");
-}
+//session_start();
+//if (!isset($_SESSION['id']) || !isset($_GET['id'])) {
+//    header("location: ./Home.php");
+//}
 $id = $_GET['id'];
 
 $personBusiness = new PersonBusiness();
@@ -23,7 +23,8 @@ $neighborhood = $neighborhoodBusiness->getAllAddress();
 
 $personStateBusiness = new personStateBusiness();
 $state;
-
+//echo $personStateBusiness->getPersonStateBusiness($id);
+//exit;
 if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
     $state = "ENABLE";
 } else {

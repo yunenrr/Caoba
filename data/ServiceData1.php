@@ -44,7 +44,6 @@ class ServiceData1 extends Connector {
      */
     public function getAllService() {
         $query = "SELECT idservice, nameservice FROM tbservice";
-
         $allService = $this->exeQuery($query);
         $array = [];
         while ($row = mysqli_fetch_array($allService)) {

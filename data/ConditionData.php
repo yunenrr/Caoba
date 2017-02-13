@@ -23,6 +23,7 @@ class ConditionData extends Connector {
         $query = "delete from tbclinicaldetailperson where idcondictionclinicaldetailperson=" . $id;
         $this->exeQuery($query);
         $query = "delete from tbcondition where idcondition=" . $id;
+//        return $this->exeQuery($query);
         if ($this->exeQuery($query)) {
             return TRUE;
         } else {

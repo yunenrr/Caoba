@@ -52,10 +52,10 @@ class PersonData extends Connector {
     }
 
     public function getPersonByDNI($id) {
-        $query = "select * from tbperson where dniperson=" . $id;
+        $query = "select * from tbperson where idperson=" . $id;
         $personResult = $this->exeQuery($query);
         $row = mysqli_fetch_array($personResult);
-        $array[] = array("idroutine" => $row['idperson'],
+        $array[] = array("idperson" => $row['idperson'],
             "dniperson" => $row['dniperson'],
             "nameperson" => $row['nameperson'],
             "firstnamePerson" => $row['firstnameperson'],
@@ -67,7 +67,7 @@ class PersonData extends Connector {
             "phonereferenceperson" => $row['phonereferenceperson'],
             "bloodtypeperson" => $row['bloodtypeperson']
         );
-        return $array;
+        return $array;     
     }
 
     /**

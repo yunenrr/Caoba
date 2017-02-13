@@ -103,7 +103,7 @@ include './header.php'; //header include
     function domAdd(data) {
         var types = JSON.parse(data);
 //        $("#client").prepend("<H1>CLIENT DATA</H1>");
-        $("#client").prepend("<p>Name:" + types[0].namePerson + "</p><p>Dni: " + types[0].dniPerson + "</p>");
+        $("#client").prepend("<p>Name:" + types[0].nameperson + "</p><p>ID: " + types[0].idperson + "</p>");
         $("#client").prepend("<H1>CLIENT DATA</H1>");
     }
     function domAdd2(data) {
@@ -131,7 +131,7 @@ include './header.php'; //header include
             url: path,
             type: 'POST',
             dataType: 'json',
-            data: {"dni": $.get("dni")},
+            data: {"id": $.get("id")},
             success: function (res) {
                 var result = JSON.stringify(res);
 //                alert(res);
@@ -149,7 +149,7 @@ include './header.php'; //header include
             url: path,
             type: 'POST',
             dataType: 'json',
-            data: {"dni": $.get("dni")},
+            data: {"id": $.get("id")},
             success: function (res) {
                 var result = JSON.stringify(res);
                 domAdd(result);
@@ -163,7 +163,7 @@ include './header.php'; //header include
     $(function send(data) {
         $("#btn_enviar").click(function () {
             var dataString = $("#form").serializeArray();
-            dataString.push({name: 'idPersonMeasurement', value: $.get("dni")});
+            dataString.push({name: 'idPersonMeasurement', value: $.get("id")});
             var url = "../business/InsertMeasurementAction.php"; // El script a dónde se realizará la petición.
             $.ajax({
                 type: "POST",
@@ -180,6 +180,8 @@ include './header.php'; //header include
             return false; // Evitar ejecutar el submit del formulario.
         });
     });
+    
+    
     (function ($) {
         $.get = function (key) {
             key = key.replace(/[\[]/, '\\[');

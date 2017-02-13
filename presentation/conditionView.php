@@ -1,5 +1,6 @@
 <?php include './header.php' ?>
 <div>
+    <h1>INSERT/DELETE NEW SUFFERING</h1>
     <table border="1px" cellpadding="10px">
         <thead>
             <tr>
@@ -77,8 +78,10 @@
 //            dataType: 'json',
             success: function (data) {
                 chargeTable();
+//                alert(data);
             },
             error: function (data) {
+//                 alert(data);
                 alert('error');
             }
         });

@@ -262,6 +262,7 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
                 data: {"id": "" + id},
                 success: function (data)
                 {
+//                    alert('fd');
                     $("#status").empty();
                     if (data.status === "0") {
                         $("#status").html("ENABLE");
@@ -271,6 +272,7 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
                 },
                 error: function (data)
                 {
+//                      alert('fdde');
                 }
             });
         }

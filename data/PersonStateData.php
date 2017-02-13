@@ -57,9 +57,11 @@ class PersonStateData extends Connector {
      */
     //return state or -1 if no exist
     public function getPersonStateData($id) {
+          error_reporting(0);
         $query = "select statepersonstate from tbpersonstate" . " where idclientpersonstate=" . $id;
 //        echo  $query ;
 //        exit;
+        
         $result = $this->exeQuery($query);
 //        var_dump($result);
         $temp = mysqli_fetch_array($result);

@@ -28,6 +28,30 @@ function getErrorMessage(idError)
         case 5:
             message = "There was an error processing the request on the server.";
             break;
+        //La fecha ingresada es menor que la del sistema.
+        case 6:
+            message = "Please enter a date that is greater than or equal to the current date.";
+            break;
+        //La fecha ingresada es mayor que la que fecha final que posee.
+        case 7:
+            message = "The date entered is higher than the current end date of the service.";
+            break;
+        //La fecha ingresada es menor que la que fecha inicial que posee.
+        case 8:
+            message = "The date entered is less than the initial date of the service.";
+            break;
+        //No seleccionó un campus.
+        case 9:
+            message = "Please select a campus.";
+            break;
+        //No seleccionó un servicio.
+        case 10:
+            message = "Please select a service.";
+            break;
+        //No seleccionó un servicio.
+        case 11:
+            message = "Please select a time field.";
+            break;
     }//Fin del switch
     
     return message;
@@ -51,6 +75,10 @@ function getSuccessfullyInsertedMessage(idSuccess)
         case 2:
             message = "The service was successfully entered."; 
             break;
+        //Servicio renovado correctamente.
+        case 3:
+            message = "The service was successfully renewed."; 
+            break;
     }//Fin del switch
     
     return message;
@@ -69,6 +97,10 @@ function getRemoveMessage(idRemove)
         //Se removió correctamente el método de pago
         case 1: 
             message = "Payment method was successfully removed."; 
+            break;
+        //El servicio se canceló correctamente.
+        case 2: 
+            message = "The service was successfully canceled."; 
             break;
     }//Fin del switch
     

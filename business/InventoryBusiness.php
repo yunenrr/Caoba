@@ -20,8 +20,16 @@ class InventoryBusiness {
      * @param type $inventory
      * @return type
      */
-    public function insertInventory($inventory) {
-        return $this->inventoryData->insertInventory($inventory);
+    public function insertInventory($idInventory, $quantityInventory, $status) {
+        return $this->inventoryData->insertInventory($idInventory, $quantityInventory, $status);
+    }
+     /**
+     * Used regresa el articulo en  estado de reparación a funcionamiento
+     * @param type $inventory
+     * @return type
+     */
+    public function insertInventoryRepair($inventory,$quantity) {
+        return $this->inventoryData->insertInventoryRepair($inventory,$quantity);
     }
 
     /**
@@ -47,8 +55,8 @@ class InventoryBusiness {
      * @param type $id pk of the inventory to delete
      * @return type
      */
-    public function getAllInventory() {
-        return $this->inventoryData->getAllInventory();
+    public function getInventory($status) {
+        return $this->inventoryData->getInventory($status);
     }
     
      /**
@@ -64,5 +72,12 @@ class InventoryBusiness {
      */
     public function getActive($id){
         return $this->inventoryData->getActive($id);
+    }
+    /**
+     * Use to get status
+     * @return type
+     */
+    public function getStatus(){
+        return $this->inventoryData->getStatus();
     }
 }

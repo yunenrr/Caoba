@@ -1,10 +1,10 @@
 <?php include './header.php' ?>
 <div>
-    <table border>
+    <table border="1px" cellpadding="10px">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Level</th>
+                <th>Suffering Name</th>
+                <th>Level Risk</th>
                 <th>DELETE</th>
             </tr>
         </thead>
@@ -12,7 +12,7 @@
         </tbody>
     </table>
     <br/>
-    <table border>
+    <table  border="1px" cellpadding="10px">
         <thead>
             <tr>
                 <th><input id="name" ></th>
@@ -32,8 +32,6 @@
 </div>
 
 <script type="text/javascript">
-
-
     function chargeTable() {
         $.ajax({
             url: '../business/GetCondition.php',

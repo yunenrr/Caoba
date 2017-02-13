@@ -14,20 +14,16 @@
 class Inventory {
 
     private $idInventory;
-    private $nameActiveInventory;
-    private $quantityInventory;
-    private $priceInventory;
-    private $registrationDateInventory;
-    private $codeActiveInventory;
+    private $idgoodsinventory;
+    private $statusinventory;
+    private $quantityinventory;
     private $locationActiveInventory;
 
-    function Inventory($idInventory, $nameActiveInventory, $quantityInventory, $priceInventory, $registrationDateInventory, $codeActiveInventory, $locationActiveInventory) {
+    function Inventory($idInventory, $idgoodsinventory, $statusinventory, $quantityinventory, $locationActiveInventory) {
         $this->idInventory = $idInventory;
-        $this->nameActiveInventory = $nameActiveInventory;
-        $this->quantityInventory = $quantityInventory;
-        $this->priceInventory = $priceInventory;
-        $this->registrationDateInventory = $registrationDateInventory;
-        $this->codeActiveInventory = $codeActiveInventory;
+        $this->idgoodsinventory = $idgoodsinventory;
+        $this->statusinventory = $statusinventory;
+        $this->quantityinventory = $quantityinventory;
         $this->locationActiveInventory = $locationActiveInventory;
     }
 
@@ -35,24 +31,16 @@ class Inventory {
         return $this->idInventory;
     }
 
-    function getNameActiveInventory() {
-        return $this->nameActiveInventory;
+    function getIdgoodsinventory() {
+        return $this->idgoodsinventory;
     }
 
-    function getQuantityInventory() {
-        return $this->quantityInventory;
+    function getStatusinventory() {
+        return $this->statusinventory;
     }
 
-    function getPriceInventory() {
-        return $this->priceInventory;
-    }
-
-    function getRegistrationDateInventory() {
-        return $this->registrationDateInventory;
-    }
-
-    function getCodeActiveInventory() {
-        return $this->codeActiveInventory;
+    function getQuantityinventory() {
+        return $this->quantityinventory;
     }
 
     function getLocationActiveInventory() {
@@ -63,27 +51,20 @@ class Inventory {
         $this->idInventory = $idInventory;
     }
 
-    function setNameActveInventory($nameActiveInventory) {
-        $this->nameActiveInventory = $nameActveInventory;
+    function setIdgoodsinventory($idgoodsinventory) {
+        $this->idgoodsinventory = $idgoodsinventory;
     }
 
-    function setQuantityInventory($quantityInventory) {
-        $this->quantityInventory = $quantityInventory;
+    function setStatusinventory($statusinventory) {
+        $this->statusinventory = $statusinventory;
     }
 
-    function setPriceInventory($priceInventory) {
-        $this->priceInventory = $priceInventory;
-    }
-
-    function setRegistrationDateInventory($registrationDateInventory) {
-        $this->registrationDateInventory = $registrationDateInventory;
-    }
-
-    function setCodeActiveInventory($codeActiveInventory) {
-        $this->codeActiveInventory = $codeActiveInventory;
+    function setQuantityinventory($quantityinventory) {
+        $this->quantityinventory = $quantityinventory;
     }
 
     function setLocationActiveInventory($locationActiveInventory) {
         $this->locationActiveInventory = $locationActiveInventory;
     }
+
 }

@@ -10,52 +10,58 @@ if (isset($_POST['option'])) {
 
     switch ($option) {
         case 1: // obtener todos los activos registrados
-            $array = $inventoryBusiness->getAllInventory();
-            
+            $status = $_POST['status'];
+            $array = $inventoryBusiness->getInventory($status);
+
             $temp = "";
+            $payment = "";
             foreach ($array as $current) {
-                $temp = $temp . $current->getIdInventory() . "," . $current->getCodeActiveInventory() . "," . $current->getNameActiveInventory() . "," . $current->getQuantityInventory() . "," . $current->getPriceInventory() . "," . $current->getRegistrationDateInventory() . "," . $current->getLocationActiveInventory() . ";";
-            }
+                if ($current->getPaymentbuy() == 1) {
+                    $payment = "Credit";
+                } else {
+                    $payment = "Cash";
+                }
+                $temp = $temp . $current->getIdbuy() . "," . $current->getBrandbuy() . "," . $current->getModelbuy() . "," . $current->getSeriesbuy() . "," . $current->getQuantitybuy() . "," . $current->getBuydatebuy() . "," . $current->getInvoicenumberbuy() . "," . $current->getProviderbuy() . "," . $current->getPricebuy() . "," . $current->getBuyerbuy() . "," . $payment . ";";
+            }//Fin del foreach
             if (strlen($temp) > 0) {
                 $temp = substr($temp, 0, strlen($temp) - 1);
             }
             echo $temp;
             break;
 
-        case 2:// insertar nuevos activos
-            $codeActiveInventory = $_POST['txtCode'];
-            $nameActiveInventory = $_POST['txtName'];
-            $quantityActiveInventory = $_POST['txtQuantity'];
-            $priceActiveInventory = $_POST['txtPrice'];
-            $registrationDateInventory = $_POST['txtDate'];
-            $locationActiveInventory = $_POST['txtLocation'];
-            $idInventory = $inventoryBusiness->getMaxId();
-
-            $inventory = new Inventory($idInventory, $nameActiveInventory, $quantityActiveInventory, $priceActiveInventory, $registrationDateInventory, $codeActiveInventory, $locationActiveInventory);
-            $inventoryBusiness->insertInventory($inventory);
+        case 2:// insertar nuevos inventario
+            $idInventory = $_POST['txtIdInventory'];
+            $statusinventory = $_POST['status'];
+            $quantityInventory = $_POST['txtQuantity'];
+            echo $inventoryBusiness->insertInventory($idInventory, $quantityInventory, $statusinventory);
             break;
 
         case 3:// opción para eliminar un activo del inventario
-            $idInventory = $_POST['txtID'];
-            $quantityActiveInventory = $_POST['txtQuantity'];
-            if($inventoryBusiness->getActive($idInventory)>=$quantityActiveInventory){
-               echo $inventoryBusiness->deleteInventory($idInventory,$quantityActiveInventory); 
-            }else{
-                echo 'Error!! Dont have enought quantity';
-            }
+//            $idInventory = $_POST['txtID'];
+//            $quantityActiveInventory = $_POST['txtQuantity'];
+//            if($inventoryBusiness->getActive($idInventory)>=$quantityActiveInventory){
+//               echo $inventoryBusiness->deleteInventory($idInventory,$quantityActiveInventory); 
+//            }else{
+//                echo 'Error!! Dont have enought quantity';
+//            }
+            $idInventory = $_POST['txtIdInventory'];
+            $quantityInventory = $_POST['txtQuantity'];
+            $inventoryBusiness->insertInventoryRepair($idInventory, $quantityInventory);
+            echo '1';
             break;
+        case 4:
+            $status = $_POST['status'];
+            $array = $inventoryBusiness->getInventory($status);
 
-        case 4:// opción para actualizar la información de un activo
-            $codeActiveInventory = $_POST['txtCode'];
-            $nameActiveInventory = $_POST['txtName'];
-            $quantityActiveInventory = $_POST['txtQuantity'];
-            $priceActiveInventory = $_POST['txtPrice'];
-            $registrationDateInventory = $_POST['txtDate'];
-            $locationActiveInventory = $_POST['txtLocation'];
-            $idInventory = $_POST['txtID'];
-            
-            $inventory = new Inventory($idInventory, $nameActiveInventory, $quantityActiveInventory, $priceActiveInventory, $registrationDateInventory, $codeActiveInventory, $locationActiveInventory);
-            echo $inventoryBusiness->updateInventory($inventory);
+            $temp = "";
+            $payment = "";
+            foreach ($array as $current) {
+                $temp = $temp . $current->getIdbuy() . "," . $current->getBrandbuy() . "," . $current->getModelbuy() . "," . $current->getSeriesbuy() . "," . $current->getQuantitybuy() . ";";
+            }//Fin del foreach
+            if (strlen($temp) > 0) {
+                $temp = substr($temp, 0, strlen($temp) - 1);
+            }
+            echo $temp;
             break;
     }
 }

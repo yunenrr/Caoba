@@ -1,12 +1,20 @@
 <?php
 include './header.php';
 include '../business/PersonBusiness.php';
+include '../business/AddressBusiness.php';
+
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("location: ./Home.php");
+}
 
 $personBusiness = new PersonBusiness();
+$neighborhoodBusiness= new AddressBussiness();
 $gender = $personBusiness->GetAllGender();
+$neighborhood= $neighborhoodBusiness->getAllAddress();
 ?>
 <div>
-    <H1 ALIGN=JUSTIFY> Person Registration </H1>
+    <H1 ALIGN=JUSTIFY>Person Registration </H1>
     <table border='2'>
         <thead>
             <tr>
@@ -20,6 +28,7 @@ $gender = $personBusiness->GetAllGender();
                 <th>Phone Reference</th>
                 <th>Blood Type</th>
                 <th>Status</th>
+                <th>Neighborhood</th>
                 <th>Phone</th>
                 <th>Family</th>
                 <th>Update</th>
@@ -88,10 +97,16 @@ $gender = $personBusiness->GetAllGender();
                     <td><input type="password" id="password" name="password" />*<br/></td>
                 </tr>
 
-                <!--AGE-->
+                <!--Birthday-->
                 <tr>
-                    <td>Age:</td>
-                    <td><input type="number" id="age" name="age" min="0"  />*</td>
+                    <td>Birthday date:</td>
+                    <td><input type="text" id="birthday" name="birthday" />*</td>
+                </tr>
+                
+                <!--StartDate-->
+                <tr>
+                    <td>Start Date :</td>
+                    <td><input type="text" id="startDay" name="startDay" />*</td>
                 </tr>
                 <!--GENDER-->
                 <tr>
@@ -111,7 +126,17 @@ $gender = $personBusiness->GetAllGender();
                             <option value="A-">A-</option><option value="A+">A+</option> <option value="B-">B-</option>
                             <option value="B+">B+</option><option value="AB-">AB-</option><option value="AB+">AB+</option> </select></td>
                 </tr>
-
+                <!--NEIGHBORHOOD-->
+                <tr>
+                    <td>Neighborhood:</td>
+                    <td>
+                        <select id="selNeighborhood" name="selNeighborhood" > 
+                            <?php foreach ($neighborhood as $value) { ?>
+                                <option value="<?php echo $value->getNeighborhoodAddresss(); ?>"><?php echo $value->getNeighborhoodAddresss(); ?></option> 
+                            <?php } ?>
+                        </select>
+                    </td>
+                </tr>
                 <!--EMAIL-->
                 <tr>
                     <td>Email:</td>
@@ -169,17 +194,21 @@ $gender = $personBusiness->GetAllGender();
     
      var availability = true; //Availability of dni/username
      var idPhone = 1;
+     CalculateAge('1992-11-');
      
     $(document).ready
     (
         function()
         {
+            //**************************Mask******************************************
             $("#dni").mask("9-999-999", {placeholder: '0-000-000'}); //placeholder
             $('#addPhoneReference').mask('(000)0000-0000', {placeholder: '(000) 0000-0000'}); //placeholder
             $('#phone0').mask('(000)0000-0000', {placeholder: '(000) 0000-0000'});
+            $('#birthday').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
+            $('#startDay').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
             getperson();  
             
-    // Use to valite the dni
+    // Use to valite the username
     $('#userName').focusout(function () {
         if ($('#userName').val() !== "") {
             $.ajax({
@@ -257,12 +286,13 @@ $gender = $personBusiness->GetAllGender();
                                             '<td>' + person[3] + '</td>' +
                                             '<td>' + person[4] + '</td>'+
                                             '<td>' + person[5] + '</td>' +
-                                            '<td>' + person[6] + '</td>' +
+                                            '<td>' + CalculateAge(person[6]) + '</td>' +
                                             '<td>' + person[7] + '</td>' +
                                             '<td>' + person[8] + '</td>' +
                                             '<td>' + person[9] + '</td>' +
                                             '<td>' + person[10] + '</td>' +
                                             '<td>' + person[11] + '</td>' +
+                                            '<td>' + person[12] + '</td>' +
                                             '<td><a href="../presentation/EditPhone.php?id='+ person[1]+ '&name=' +person[3] + '">Phones</a></td>'+
                                             '<td><a href="../presentation/familyRelationship.php?id=' +  person[1] +'&name=' + person[2]+ '">Familiy</a></td>'+
                                             '<td><a href="../presentation/EditClient.php?id='+ person[1]+  '">Edit</a></td>'+
@@ -311,22 +341,31 @@ $gender = $personBusiness->GetAllGender();
         var name = form.name.value;
         var firstname = form.firstname.value;
         var secondname = form.secondname.value;
-        var age = form.age.value;
+        var birthday = form.birthday.value;
         var email = form.email.value;
         var userName = form.userName.value;
         var password = form.password.value;
         var phoneReference = form.addPhoneReference.value;
+        var startDay = form.startDay.value;
         var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-        if (name.length === 0 || firstname.length === 0 || secondname.length === 0 || age.length === 0 ||
+        if (name.length === 0 || firstname.length === 0 || secondname.length === 0 || birthday.length === 0 ||
                 email.length === 0 || userName.length === 0 ||
-                password.length === 0) {
+                password.length === 0 || startDay===0) {
+            
             $("#msgError").html("Error:Check the information.Fields empty");
             ok = false;
         } else if (phoneReference.length < 14) {
             $("#msgError").html("Error:Check the phone references. The formart is (000)-0000-0000");
             ok = false;
-        } else if (!expr.test(email)) {
+        }else if (birthday.length < 10) {
+            $("#msgError").html("Error:Check the birthday date. The formart is aaa-mm-dd");
+            ok = false;
+        }else if (startDay.length < 10) {
+            $("#msgError").html("Error:Check the star date. The formart is aaa-mm-dd");
+            ok = false;
+        }
+        else if (!expr.test(email)) {
             $("#msgError").html("Error: The email " + email + " is incorrect.");
             ok = false;
         }else if(availability===false){
@@ -348,6 +387,38 @@ $gender = $personBusiness->GetAllGender();
         return false;
         
     }
+    /**
+     * Método utilizado para calcular la edad de una persona apartir de su fecha de nacimiento.
+     * @param {type} date
+     * @returns {Number}
+     */
+    function CalculateAge(date) {
+   	//calculo la fecha que recibo 
+   	//La descompongo en un array 
+   	var array_fecha = date.split("-");
+   	 
+        var dia = array_fecha[2];
+        var mes = array_fecha[1];
+        var ano = array_fecha[0];
+
+        fecha_hoy = new Date();
+        ahora_ano = fecha_hoy.getYear();
+        ahora_mes = fecha_hoy.getMonth();
+        ahora_dia = fecha_hoy.getDate();
+        edad = (ahora_ano + 1900) - ano;
+
+        if ( ahora_mes < (mes - 1)){
+          edad--;
+        }
+        if (((mes - 1) === ahora_mes) && (ahora_dia < dia)){ 
+          edad--;
+        }
+        if (edad > 1900){
+            edad -= 1900;
+        }
+
+        return edad;
+}
 </script>
 
 

@@ -4,15 +4,85 @@ if (isset($_GET['id'])) {
     $idPerson = $_GET['id'];
     $namePerson = $_GET['name'];
 } else {
-    header('Location: ViewClient.php');
+    header('Location: diet.php?id=0&name=Daniel');
 }
 ?>
 <div>
-    <H2 ALIGN=JUSTIFY> <?php echo $namePerson ?>'s diet</H2>
-    <table border>
+<!--    <H2 ALIGN=JUSTIFY> <?php // echo $namePerson     ?>'s diet</H2>-->
+
+    <br><br>
+    <!--<fieldset>-->
+    <h2> Diet Information:</h2>
+    <table  border="1px" cellpadding="1px">
+        <thead>
+            <!--<tr><td><div></div></td>-->
+        <th>Dient Name</th>
+        <!--<th></th>-->
+        <th>Diet Function</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr> 
+                <!--<td><div></div></td>-->
+                <td><input id="txtDescription" /></td>
+                <!--<td></td>-->
+                <td> <input id="txtName" /></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <h4> Select Foods to Diet:</h4>
+    <table  border="1px" cellpadding="6px">
         <thead>
             <tr>
+                <th>Food</th>
+                <th>Day</th>
+                <th>Hour</th>
+            </tr>
+        </thead>
+        <tbody id="tableBodyDiet">
 
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td><input type="button" value="ADD FOOD" id="btnInsertFood" name="btnInsertFood" />
+                    <!--<input type="button" value="Insert" id="btnInsert" name="btnInsert" /></td>-->
+            </tr>
+        </tfoot>
+
+
+    </table>
+    </br>
+
+    <table border="1px" cellpadding="15px">
+        <thead>
+            <tr>
+                <!--<th></th>-->
+                <th><input type="button" value="INSERT DIET" id="btnInsert" name="btnInsert" /></th>
+<!--                    <th>Day</th>
+                <th>Hour</th>-->
+            </tr>
+        </thead>
+<!--            <tbody id="tableBodyDiet">
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td><input type="button" value="Insert more Food" id="btnInsertFood" name="btnInsertFood" />
+                    <input type="button" value="Insert" id="btnInsert" name="btnInsert" /></td>
+            </tr>
+        </tfoot>-->
+
+
+    </table>
+    <h1> Assign diet to <?php echo $namePerson ?></h1>
+
+    <table border="1px" cellpadding="10px">
+        <thead>
+            <tr>
                 <th>Name</th>
                 <th>Funcion</th>
                 <th>Food</th>
@@ -29,58 +99,12 @@ if (isset($_GET['id'])) {
         </tfoot>
     </table>
 
-    <br><br>
-    <fieldset>
-        <legend><legend> Assign diet to <?php echo $namePerson ?></legend></legend>
-        <table>
-            <thead>
-                <tr><td><div></div></td>
-                    <th>Dient Name</th>
-                    <th></th>
-                    <th>Diet Function</th>
-                </tr>
-            </thead>
 
-
-            <tbody>
-                <tr> 
-                    <td><div></div></td>
-                    <td><input id="txtDescription" /></td>
-                    <td></td>
-                    <td> <input id="txtName" /></td>
-                </tr>
-            </tbody>
-
-        </table>
-        </br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Food</th>
-                    <th>Day</th>
-                    <th>Hour</th>
-                </tr>
-            </thead>
-            <tbody id="tableBodyDiet">
-
-            </tbody>
-
-            <tfoot>
-                <tr>
-                    <td><input type="button" value="Insert more Food" id="btnInsertFood" name="btnInsertFood" />
-                        <input type="button" value="Insert" id="btnInsert" name="btnInsert" /></td>
-                </tr>
-            </tfoot>
-
-
-        </table>
-    </fieldset>
     <div id="msg"></div>
 </div>
 
 <?php include './footer.php' ?>
 <script type="text/javascript">
-
     function getDiet()
     {
         var infoData = "option=3" + "&idPerson=" +<?php echo $idPerson ?>;
@@ -167,7 +191,7 @@ if (isset($_GET['id'])) {
                             }
                         }
                 );
-        getDiet();
+//        getDiet();
         getDiet();
     }//Fin de la función
     $(document).ready

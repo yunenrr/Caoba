@@ -69,11 +69,11 @@ class UserBusiness {
     }
     /**
      * use to get a specif user
-     * @param type $userName
+     * @param type $idPerson
      * @return type
      */
-    public function getUserByIdPerson($id) {
-        return $this->userData->getUserByIdPerson($id);
+    public function getUserByIdPerson($idPerson) {
+        return $this->userData->getUserByIdPerson($idPerson);
     }
 
 }

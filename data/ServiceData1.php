@@ -60,7 +60,7 @@ class ServiceData1 extends Connector {
      * @return type
      */
     public function getDayService($id) {
-        $query = "SELECT dayscheduleservice FROM tbscheduleservice WHERE idservicescheduleservice = " . $id;
+        $query = "SELECT dayscheduleservice FROM tbscheduleservice WHERE idservicescheduleservice = " . $id." GROUP BY  dayscheduleservice";
 
         $allService = $this->exeQuery($query);
         $array = [];

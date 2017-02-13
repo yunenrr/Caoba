@@ -15,16 +15,18 @@ class User {
 
     private $idUser;
     private $idPersonUser;
-    private $typeUser; //-- 0 = ROOT -- 1 = ADMIN -- 2 = ADMIN & INSTRUCTOR -- 3 = INSTRUCTOR -- 4 = CLIENT
+    private $typeUser;
     private $userNameUser;
     private $passUser;
+    private $starDate;
 
-    function User($idUser, $idPersonUser, $typeUser, $userNameUser, $passUser) {
+    function User($idUser, $idPersonUser, $typeUser, $userNameUser, $passUser, $starDate) {
         $this->idUser = $idUser;
         $this->idPersonUser = $idPersonUser;
         $this->typeUser = $typeUser;
         $this->userNameUser = $userNameUser;
         $this->passUser = $passUser;
+        $this->starDate = $starDate;
     }
 
     function getIdUser() {
@@ -47,6 +49,10 @@ class User {
         return $this->passUser;
     }
 
+    function getStarDate() {
+        return $this->starDate;
+    }
+
     function setIdUser($idUser) {
         $this->idUser = $idUser;
     }
@@ -65,6 +71,10 @@ class User {
 
     function setPassUser($passUser) {
         $this->passUser = $passUser;
+    }
+
+    function setStarDate($starDate) {
+        $this->starDate = $starDate;
     }
 
 }

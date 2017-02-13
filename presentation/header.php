@@ -23,26 +23,22 @@
                     if ($_SESSION['type'] != '1') {
                         ?>
                         <li>
-                            <a>Client</a>
+                            <a>Person</a>
                             <ul>
                                 <?php
                                 error_reporting(E_ALL ^ E_NOTICE);
                                 session_start();
                                 if ($_SESSION['type'] == '2' || $_SESSION['type'] == '3') {
                                     ?>
-                                    <li>
-                                        <a>Person</a>
-                                        <ul>
-                                            <li><a href="Person.php">Person</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="Person.php">Insert</a></li>
                                     <?php
                                 }
                                 if ($_SESSION['type'] == '0') {
                                     echo '<li><a href="Routine.php?id=' . $_SESSION['id'] . '&name=client&type=' . $_SESSION['type'] . '" >Routine</a></li>';
                                     ?>
                                     <li><a href="ChooseService.php" >Schedule add</a></li>
-                                    <li><a href="ShowSchedule.php" >Service Hours</a></li>
+                                    <li><a href="ShowSchedule.php">Schedule</a></li>
+                                    <?php echo '<li><a href="EditClient.php?id=' . $_SESSION['id'] . '" >Update personal information</a></li>'; ?>
                                 <?php } ?>
                             </ul>
                         </li>
@@ -61,14 +57,25 @@
                                 <li><a href="DeleteExercise.php">Delete</a></li>
                             </ul>
                         </li>
+                        <li>
+                            <a>Inventory</a>
+                            <ul>
+                                <li><a href="">Buy</a></li>
+                                <li><a href="RepairInventory.php">Repair</a></li>
+                                <li><a href="WasteInventory.php">Waste</a></li>
+                                <li><a href="DamageInUseInventory.php">Damage in use</a></li>
+                                <li><a href="StolenInventory.php">Stolen</a></li>
+                                <li><a href="">Donated</a></li>
+                                <li><a href="DonationInventory.php">Donation</a></li>
+                            </ul>
+                        </li>
                     <?php } ?>
 
                     <?php
                     if ($_SESSION['type'] != '0' && $_SESSION['type'] != '3') {
                         ?>
                         <li>
-                            <strong> <a href="Instructor.php">Instructor</a></strong>
-
+                            <strong><a href="Neighborhood.php">Neighborhood</a></strong>
                         </li>
                     <?php } ?>
 
@@ -81,8 +88,7 @@
                             <ul>
                                 <li><a href="CreateService.php">Insert</a></li>
                                 <li><a href="ViewService.php" >Show</a></li>
-                                <li><a href="AddSchedule.php">Add Schedule</a></li>
-                                <li><a href="RemoveSchedule.php">Remove Schedule</a></li>
+                                <li><a href="ScheduleCampus.php">Schedule</a></li>
                             </ul>
                         </li>
                     <?php } ?>

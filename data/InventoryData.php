@@ -3,6 +3,7 @@
 header("Content-Type: text/html;charset=utf-8");
 require_once '../data/Connector.php';
 include '../domain/Inventory.php';
+include '../domain/Buy.php';
 
 /**
  * Description of InventoryData
@@ -16,27 +17,56 @@ class InventoryData extends Connector {
      * @param type $inventory
      * @return type
      */
-    public function insertInventory($inventory) {
-        $query = "SELECT count(codeactiveinventory) FROM tbinventory WHERE codeactiveinventory ='" . $inventory->getCodeActiveInventory() . "' ";
+    public function insertInventory($idInventory, $quantity, $status) {
+        $query = "SELECT idgoodsinventory  FROM tbinventory WHERE idinventory=" . $idInventory . "";
+        $arrayId = mysqli_fetch_array($this->exeQuery($query));
+        $Idgoodsinventory = trim($arrayId[0]);
+        $query = "SELECT count(idgoodsinventory) FROM tbinventory WHERE idgoodsinventory ='" . $Idgoodsinventory . "' AND statusinventory='" . $status . "'";
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         if (trim($array[0]) > 0) {
-            $query = "UPDATE `tbinventory` SET quantityinventory= `quantityinventory`+" . $inventory->getQuantityInventory() . ""
-                    . " WHERE `codeactiveinventory` = '" . $inventory->getCodeActiveInventory() . "'";
+
+            $query = "UPDATE tbinventory SET quantityinventory= quantityinventory+" . $quantity . ""
+                    . " WHERE idgoodsinventory ='" . $Idgoodsinventory . "' AND statusinventory='" . $status . "'";
+            $this->exeQuery($query);
+        } else {
+            $query = "INSERT INTO `tbinventory`(`idinventory`, `idgoodsinventory`, `statusinventory`, `quantityinventory`, `locationactveinventory`)"
+                    . "VALUES ('" . $this->getMaxId() . "'"
+                    . ", '" . $Idgoodsinventory . "'"
+                    . ",'" . $status . "'"
+                    . ",'" . $quantity . "','');";
+            $this->exeQuery($query);
+        }
+        $query = "UPDATE tbinventory SET quantityinventory= quantityinventory-" . $quantity . ""
+                . " WHERE idinventory ='" . $idInventory . "'";
+        return $this->exeQuery($query);
+    }
+
+    /**
+     * Used to insert a new inventory
+     * @param type $inventory
+     * @return type
+     */
+    public function insertInventoryRepair($idInventory, $quantity) {
+
+        $query = "UPDATE tbinventory SET quantityinventory= quantityinventory-" . $quantity . ""
+                . " WHERE idinventory ='" . $idInventory . "'";
+        $this->exeQuery($query);
+
+        $query = "SELECT idgoodsinventory  FROM tbinventory WHERE idinventory=" . $idInventory . "";
+        $arrayId = mysqli_fetch_array($this->exeQuery($query));
+        $Idgoodsinventory = trim($arrayId[0]);
+        $query = "UPDATE tbinventory SET quantityinventory= quantityinventory+" . $quantity . ""
+                . " WHERE idgoodsinventory ='" . $Idgoodsinventory . "' AND statusinventory='1'";
+        $this->exeQuery($query);
+
+        $query = "SELECT quantityinventory FROM tbinventory WHERE idinventory='" . $idInventory . "'";
+        $array = mysqli_fetch_array($this->exeQuery($query));
+        if (trim($array[0]) <= 0) {
+            $query = "DELETE FROM tbinventory WHERE idinventory = '" . $idInventory . "';";
             return $this->exeQuery($query);
         } else {
-            $query = "INSERT INTO `tbinventory`(`idinventory`, `nameactiveinventory`, "
-                    . "`quantityinventory`, `priceinventory`, `registrationdateinventory`, "
-                    . "`codeactiveinventory`, `locationactveinventory`)"
-                    . "VALUES ('" . $inventory->getIdInventory() . "'"
-                    . ", '" . $inventory->getNameActiveInventory() . "'"
-                    . ",'" . $inventory->getQuantityInventory() . "'"
-                    . ",'" . $inventory->getPriceInventory() . "'"
-                    . ",'" . $inventory->getRegistrationDateInventory() . "'"
-                    . ",'" . $inventory->getCodeActiveInventory() . "'"
-                    . ",'" . $inventory->getLocationActiveInventory() . "');";
-
-            return $this->exeQuery($query);
+            return 'mier';
         }
     }
 
@@ -63,27 +93,28 @@ class InventoryData extends Connector {
      * @return type
      */
     public function deleteInventory($idinventory, $quantity) {
-        $query = "UPDATE `tbinventory` SET quantityinventory= `quantityinventory`-" . $quantity . ""
+        $query = "UPDATE tbinventory SET quantityinventory= quantityinventory-" . $quantity . ""
                 . " WHERE `idinventory` = '" . $idinventory . "' AND `quantityinventory` > 0";
         return $this->exeQuery($query);
     }
 
     /**
-     * get all active inventory
+     * get all inventory by status
      * @return type
      */
-    public function getAllInventory() {
-        $query = "SELECT `idInventory`, `nameActiveInventory`, `quantityInventory`, "
-                . "`priceInventory`, `registrationDateInventory`, `codeActiveInventory`, "
-                . "`locationActveInventory` "
-                . "FROM TBInventory;";
+    public function getInventory($status) {
+        $query = "SELECT idInventory, brandbuy, modelbuy, quantityinventory, buydatebuy, "
+                . "invoicenumberbuy, providerbuy, pricebuy, buyerbuy, paymentbuy, seriesbuy "
+                . "FROM tbbuy INNER JOIN tbinventory ON idbuy=`idgoodsinventory` where statusinventory='" . $status . "' AND quantityinventory>0";
+
         $result = $this->exeQuery($query);
         $array = [];
-        while ($row = mysqli_fetch_array($result)) {
-            $currentInventory = new Inventory($row['idInventory'], $row['nameActiveInventory'], $row['quantityInventory'], $row['priceInventory'], $row['registrationDateInventory'], $row['codeActiveInventory'], $row['locationActveInventory']);
-
-            array_push($array, $currentInventory);
-        }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                $buy = new Buy($row['idInventory'], $row['brandbuy'], $row['modelbuy'], $row['quantityinventory'], $row['buydatebuy'], $row['invoicenumberbuy'], $row['providerbuy'], $row['pricebuy'], $row['buyerbuy'], $row['paymentbuy'], $row['seriesbuy']);
+                array_push($array, $buy);
+            }//Fin del while
+        }//Fin del if
         return $array;
     }
 
@@ -105,6 +136,23 @@ class InventoryData extends Connector {
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
+    }
+
+    /**
+     * Use to get all status
+     * @param type $id
+     * @return \Person
+     */
+    public function getStatus() {
+        $query = "SELECT `idstatusgoods`, `statusstatusgoods` FROM `tbstatusgoods` WHERE 1";
+        $result = $this->exeQuery($query);
+        $array = [];
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                array_push($array, $row['idstatusgoods'], $row['statusstatusgoods']);
+            }//Fin del while
+        }//Fin del if
+        return $array;
     }
 
 }

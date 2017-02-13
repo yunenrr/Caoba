@@ -36,7 +36,8 @@
                                 if ($_SESSION['type'] == '0') {
                                     echo '<li><a href="Routine.php?id=' . $_SESSION['id'] . '&name=client&type=' . $_SESSION['type'] . '" >Routine</a></li>';
                                     ?>
-                                    <li><a href="clientScheduleView.php">Schedule</a></li>
+                                    <li><a href="ChooseService.php" >Schedule add</a></li>
+                                    <li><a href="ShowSchedule.php">Schedule</a></li>
                                     <?php echo '<li><a href="EditClient.php?id=' . $_SESSION['id'] . '" >Update personal information</a></li>'; ?>
                                 <?php } ?>
                             </ul>

@@ -11,23 +11,29 @@ include '../domain/Service.php';
  */
 class ServiceData1 extends Connector {
 
-    public function insertServiceToClient($idClientRecord, $idPersonUserClientRecord, $idServicePaymentModuleClientRecord, $idRelationServiceScheduleClientRecord, $startDateClientRecord) {
+    public function insertServiceToClient($idclientschedule, 
+            $idpersonclientschedule, 
+            $startdateclientschedule, 
+            $hourclientschedule, 
+            $dayclientschedule, 
+            $idservicepaymentmoduleclientschedule, 
+            $idserviceclientschedule) {
 
-
-
-        $query = "insert into `tbclientrecord` (`idclientrecord`,
-                                                `idpersonuserclientrecord`,
-                                                `idservicepaymentmoduleclientrecord`,
-                                                `idrelationservicescheduleclientrecord`,
-                                                `startdateclientrecord`,
-                                                `finaldateclientrecord`) 
+        $query = "insert into `tbclientschedule` (`idclientschedule`,
+                                                `idpersonclientschedule`,
+                                                `startdateclientschedule`,
+                                                `hourclientschedule`,
+                                                `dayclientschedule`,
+                                                `idservicepaymentmoduleclientschedule`,
+                                                `idserviceclientschedule`) 
                  values
-                 (" . $idClientRecord . ""
-                . "," . $idPersonUserClientRecord . ""
-                . "," . $idServicePaymentModuleClientRecord . ""
-                . "," . $idRelationServiceScheduleClientRecord . ""
-                . "," . $startDateClientRecord . ""
-                . "," . $startDateClientRecord . ");";
+                 (" . $idclientschedule . ""
+                . "," . $idpersonclientschedule . ""
+                . ",'" . $startdateclientschedule . "'"
+                . "," . $hourclientschedule . ""
+                . "," . $dayclientschedule . ""
+                . "," . $idservicepaymentmoduleclientschedule . ""
+                . "," . $idserviceclientschedule . ");";
 
         return $this->exeQuery($query);
     }
@@ -54,20 +60,12 @@ class ServiceData1 extends Connector {
      * @return type
      */
     public function getDayService($id) {
-        $query = "select tbday.idday, tbday.nameday from tbservice inner join 
-                  tbrelationserviceschedule on 
-                  tbrelationserviceschedule.idservice = tbservice.idservice inner join 
-                  tbdayhourservice 
-                  on tbrelationserviceschedule.iddayhourservice = tbdayhourservice.iddayhourservice inner join 
-                  tbday 
-                  on tbdayhourservice.dayservice = tbday.idday where
-                  tbservice.idservice = " . $id . " group by tbday.nameday";
+        $query = "SELECT dayscheduleservice FROM tbscheduleservice WHERE idservicescheduleservice = " . $id." GROUP BY  dayscheduleservice";
 
         $allService = $this->exeQuery($query);
         $array = [];
         while ($row = mysqli_fetch_array($allService)) {
-            $array[] = array("idday" => $row['idday'],
-                "nameday" => $row['nameday']);
+            $array[] = array("dayscheduleservice" => $row['dayscheduleservice']);
         }
 
         return $array;
@@ -78,22 +76,13 @@ class ServiceData1 extends Connector {
      * @return type
      */
     public function getHourStartService($id, $idDay) {
-        $query = "select tbdayhourservice.iddayhourservice, tbhour.idhour from tbservice inner join 
-                    tbrelationserviceschedule on 
-                    tbrelationserviceschedule.idservice = tbservice.idservice inner join 
-                    tbdayhourservice on 
-                    tbrelationserviceschedule.iddayhourservice = tbdayhourservice.iddayhourservice inner join 
-                    tbday on 
-                    tbdayhourservice.dayservice = tbday.idday inner join 
-                    tbhour on
-                    tbdayhourservice.hourstartservice = tbhour.idhour where 
-                    tbservice.idservice = " . $id . " and tbday.idday =" . $idDay;
+        $query = "SELECT hourscheduleservice FROM tbscheduleservice 
+                    WHERE idservicescheduleservice = " . $id . " AND dayscheduleservice = " . $idDay . ";";
 
         $hourStart = $this->exeQuery($query);
         $array = [];
         while ($row = mysqli_fetch_array($hourStart)) {
-            $array[] = array("iddayhourservice" => $row['iddayhourservice'],
-                "idhour" => $row['idhour']);
+            $array[] = array("hourscheduleservice" => $row['hourscheduleservice']);
         }
         return $array;
     }
@@ -117,14 +106,10 @@ class ServiceData1 extends Connector {
     }
 
     public function getCampusService($id) {
-        $query = "select tbcampus.namecampus from tbservice inner join 
-                    tbrelationserviceschedule on 
-                    tbrelationserviceschedule.idservice = tbservice.idservice inner join 
-                    tbdayhourservice on
-                    tbrelationserviceschedule.idrelationserviceschedule = tbdayhourservice.iddayhourservice inner join 
-                    tbcampus on 
-                    tbdayhourservice.idcampusservice = tbcampus.idcampus where 
-                    tbservice.idservice = " . $id . " group by tbcampus.namecampus";
+        $query = "SELECT namecampus FROM tbcampus INNER JOIN tbscheduleservice
+                    ON tbcampus.idcampus = tbscheduleservice.idcampuscheduleservice INNER JOIN 
+                    tbservice ON tbscheduleservice.idservicescheduleservice = tbservice.idservice 
+                    WHERE tbservice.idservice = " . $id . ";";
 
         $campus = $this->exeQuery($query);
         $array = [];
@@ -147,11 +132,8 @@ class ServiceData1 extends Connector {
         return $array;
     }
 
-    public function getPaymentModuleService($id) {
-        $query = "select tbpaymentmodule.idpaymentmodule, tbpaymentmodule.namepaymentmodule from tbpaymentmodule "
-                . "inner join tbservicepaymentmodule on tbpaymentmodule.idpaymentmodule = "
-                . "tbservicepaymentmodule.idpaymentmoduleservicepaymentmodule where "
-                . "tbservicepaymentmodule.idserviceservicepaymentmodule = $id;";
+    public function getPaymentModuleService() {
+        $query = "SELECT idpaymentmodule, namepaymentmodule FROM gymcaoba.tbpaymentmodule;";
 
         $module = $this->exeQuery($query);
         $array = [];
@@ -168,7 +150,7 @@ class ServiceData1 extends Connector {
                     inner join tbservice 
                     on tbrelationserviceschedule.idservice = tbservice.idservice 
                     where tbservice.idservice = " . $idservice . " and tbrelationserviceschedule.iddayhourservice =" . $idService . " AND tbrelationserviceschedule.iddayhourservice = " . $idRelation . ";";
-        
+
         $getId = $this->exeQuery($query);
         $row = mysqli_fetch_array($getId);
 
@@ -179,7 +161,7 @@ class ServiceData1 extends Connector {
         $query = "select tbservicepaymentmodule.idservicepaymentmodule from tbservicepaymentmodule"
                 . " where tbservicepaymentmodule.idserviceservicepaymentmodule = " . $idservice . " and "
                 . "tbservicepaymentmodule.idpaymentmoduleservicepaymentmodule =" . $idModule . ";";
-       
+
         $getId = $this->exeQuery($query);
         $row = mysqli_fetch_array($getId);
 
@@ -191,7 +173,7 @@ class ServiceData1 extends Connector {
      * @return type
      */
     public function getMaxId() {
-        return $this->getMaxIdTable("clientrecord");
+        return $this->getMaxIdTable("clientschedule");
     }
 
 }

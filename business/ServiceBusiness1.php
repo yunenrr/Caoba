@@ -15,8 +15,8 @@ class ServiceBusiness1 {
         return $this->serviceData = new ServiceData1();
     }
 
-    public function insertServiceToClient($idClientRecord, $idPersonUserClientRecord, $idServicePaymentModuleClientRecord, $idRelationServiceScheduleClientRecord, $startDateClientRecord) {
-        return $this->serviceData->insertServiceToClient($idClientRecord, $idPersonUserClientRecord, $idServicePaymentModuleClientRecord, $idRelationServiceScheduleClientRecord, $startDateClientRecord);
+    public function insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule) {
+        return $this->serviceData->insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule);
     }
 
     /**
@@ -59,8 +59,8 @@ class ServiceBusiness1 {
         return $this->serviceData->getInstructorService($id);
     }
 
-    public function getPaymentModuleService($id) {
-        return $this->serviceData->getPaymentModuleService($id);
+    public function getPaymentModuleService() {
+        return $this->serviceData->getPaymentModuleService();
     }
 
     public function getIdTbServicePaymentModule($idService, $idModule) {

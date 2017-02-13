@@ -22,26 +22,24 @@ class ScheduleServiceData
 
     /**
      * Método que nos permite obtener el horario en el rango de dos fechas.
-     * @param date $startDate Corresponde a la fecha de inicio.
-     * @param date $endDate Corresponde a la fecha de fin.
+     * @param date $currentDate Corresponde a la fecha actual.
      * @param int $idCampus Corresponde al identificador del campus.
      * @return array[ScheduleService] Un arreglo de horarios.
      */
-    function getDatePerWeek($startDate,$endDate,$idCampus)
+    function getDatePerWeek($currentDate,$idCampus)
     {
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
         mysqli_set_charset($connO, "utf8");
         
         //Validamos la información
-        $startDate = mysqli_real_escape_string($connO,$startDate);
-        $endDate = mysqli_real_escape_string($connO,$endDate);
+        $currentDate = mysqli_real_escape_string($connO,$currentDate);
         $idCampus = mysqli_real_escape_string($connO,$idCampus);
         
         $sql = "select idscheduleservice, idcampuscheduleservice, "
                 . "idservicescheduleservice, dayscheduleservice, hourscheduleservice, "
                 . "datescheduleservice from tbscheduleservice where idcampuscheduleservice = $idCampus "
-                . "and datescheduleservice >= '$startDate' and datescheduleservice <= '$endDate' order by hourscheduleservice,dayscheduleservice;";
+                . "and datescheduleservice >= '$currentDate' order by hourscheduleservice,dayscheduleservice;";
         
         $result = mysqli_query($connO,$sql);
         $array = [];

@@ -1,5 +1,9 @@
 <?php
 include './header.php';
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("location: ./Home.php");
+}
 ?>
 
 <div>
@@ -9,66 +13,52 @@ include './header.php';
         <table border="1">
             <tr>
                 <th>Service</th>
-                <th>Instructor</th>
                 <th>Campus</th>
                 <th>Day</th>
-                <th>Start Time</th>
-                <th>End Time</th>
+                <th>Hour</th>
                 <th>Start Day</th>
                 <th>Payment Module</th>
             </tr>
 
             <tr id="tr0">
 
-            <input id="idClient" name="idClient" type="number">
+                <!--SERVICE-->
+                <td>
+                    <SELECT id="comboService" NAME="comboService" SIZE=1 onchange="loadSelectDay();">
+                        <OPTION VALUE="-1">SELECT</OPTION>
+                    </SELECT>
+                </td>
 
-            <!--SERVICE-->
-            <td>
-                <SELECT id="comboService" NAME="comboService" SIZE=1 onchange="loadSelectDay();">
-                    <OPTION VALUE="-1">SELECT</OPTION>
-                </SELECT>
-            </td>
+                <!--CAMPUS-->
+                <td>
+                    <input id="campus" name="campus" type="text" readonly="readonly"/>
+                </td>
 
-            <!--INSTRUCTOR-->
-            <td>
-                <input id="instructor" name="instructor" type="text" readonly="readonly"/>
-            </td>
+                <!--DAY-->
+                <td>
+                    <SELECT id="comboDay" NAME="comboDay" SIZE=1 onchange="loadSelectHourStart();">
+                        <OPTION VALUE="-1">SELECT</OPTION>
+                    </SELECT>
+                </td>
 
-            <!--CAMPUS-->
-            <td>
-                <input id="campus" name="campus" type="text" readonly="readonly"/>
-            </td>
+                <!--HOUR-START-->
+                <td>
+                    <SELECT id="comboHourStart" NAME="comboHourStart" SIZE=1 onchange="loadHourEnd();">
+                        <OPTION VALUE="-1">SELECT</OPTION>
+                    </SELECT>
+                </td>
 
-            <!--DAY-->
-            <td>
-                <SELECT id="comboDay" NAME="comboDay" SIZE=1 onchange="loadSelectHourStart();">
-                    <OPTION VALUE="-1">SELECT</OPTION>
-                </SELECT>
-            </td>
+                <!--Start Day-->
+                <td>
+                    <input id="startDay" name="startDay" type="date"/>
+                </td>
 
-            <!--HOUR-START-->
-            <td>
-                <SELECT id="comboHourStart" NAME="comboHourStart" SIZE=1 onchange="loadHourEnd();">
-                    <OPTION VALUE="-1">SELECT</OPTION>
-                </SELECT>
-            </td>
-
-            <!--HOUR-END-->
-            <td>
-                <input id="comboHourEnd" name="comboHourStart" type="text" readonly="readonly"/>
-            </td>
-
-            <!--Start Day-->
-            <td>
-                <input id="startDay" name="startDay" type="date"/>
-            </td>
-
-            <!--HOUR-START-->
-            <td>
-                <SELECT id="comboPaymentModule" NAME="comboPaymentModule" SIZE=1">
-                    <OPTION VALUE="-1">SELECT</OPTION>
-                </SELECT>
-            </td>
+                <!--PAYMENT MODULE-->
+                <td>
+                    <SELECT id="comboPaymentModule" NAME="comboPaymentModule" SIZE=1">
+                        <OPTION VALUE="-1">SELECT</OPTION>
+                    </SELECT>
+                </td>
 
             </tr>
         </table>
@@ -88,11 +78,7 @@ include './footer.php';
 
 <script type="text/javascript">
 
-    function init() {
-
-        $('#idClient').hide();
-        $('#idClient').val($.get("id"));
-
+    $(function () {
         $.ajax({
             type: 'GET',
             url: "../business/GetService.php",
@@ -101,7 +87,7 @@ include './footer.php';
                 var services = JSON.parse(data);
                 var htmlCombo = '<OPTION VALUE="-1">SELECT</OPTION>';
                 $.each(services, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idService + '">' + item.nameService + '</OPTION>';
+                    htmlCombo += '<OPTION VALUE="' + item.idservice + '">' + item.nameservice + '</OPTION>';
                 });
                 $("#comboService").html(htmlCombo);
             },
@@ -110,46 +96,7 @@ include './footer.php';
                 alert("Error show services!");
             }
         });
-    }
-
-    (function ($) {
-        $.get = function (key) {
-            key = key.replace(/[\[]/, '\\[');
-            key = key.replace(/[\]]/, '\\]');
-            var pattern = "[\\?&]" + key + "=([^&#]*)";
-            var regex = new RegExp(pattern);
-            var url = unescape(window.location.href);
-            var results = regex.exec(url);
-            if (results === null) {
-                return null;
-            } else {
-                return results[1];
-            }
-        }
-    })(jQuery);
-
-    $(function () {
-        init();
     });
-
-    function loadInstructor() {
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetInstructorService.php",
-            data: {"id": $("#comboService").val()},
-            success: function (data)
-            {
-                var instructor = JSON.parse(data);
-                $.each(instructor, function (i, item) {
-                    $("#instructor").val(item.namePerson);
-                });
-            },
-            error: function ()
-            {
-                alert("Error show instructor!");
-            }
-        });
-    }
 
     function loadCampus() {
         $.ajax({
@@ -160,7 +107,7 @@ include './footer.php';
             {
                 var campus = JSON.parse(data);
                 $.each(campus, function (i, item) {
-                    $("#campus").val(item.nameCampus);
+                    $("#campus").val(item.namecampus);
                 });
             },
             error: function ()
@@ -171,7 +118,6 @@ include './footer.php';
     }
 
     function loadSelectDay() {
-        loadInstructor();
         loadCampus();
         loadPaymentModule();
         $.ajax({
@@ -180,10 +126,31 @@ include './footer.php';
             data: {"id": $("#comboService").val()},
             success: function (data)
             {
-                var day = JSON.parse(data);
+                var days = JSON.parse(data);
                 var htmlCombo = '<OPTION VALUE="-1">SELECT</OPTION>';
-                $.each(day, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idDay + '">' + item.nameDay + '</OPTION>';
+                var day = "";
+                $.each(days, function (i, item) {
+                    switch (item.dayscheduleservice) {
+                        case '0':
+                            day = "Monday";
+                            break;
+                        case '1':
+                            day = "Tuesday";
+                            break;
+                        case '2':
+                            day = "Wednesday";
+                            break;
+                        case '3':
+                            day = "Thursday";
+                            break;
+                        case '4':
+                            day = "Friday";
+                            break;
+                        default:
+                            day = "error";
+                            break;
+                    }
+                    htmlCombo += '<OPTION VALUE="' + item.dayscheduleservice + '">' + day + '</OPTION>';
                 });
                 $("#comboDay").html(htmlCombo);
             },
@@ -199,14 +166,74 @@ include './footer.php';
             type: 'GET',
             url: "../business/GetHourService.php",
             data: {"id": $("#comboService").val(),
-                "idDay": $("#comboDay").val(),
-                "condiction": "0"},
+                "idDay": $("#comboDay").val()},
             success: function (data)
             {
-                var hour = JSON.parse(data);
+                var hours = JSON.parse(data);
                 var htmlCombo = '<OPTION VALUE="-1">SELECT</OPTION>';
-                $.each(hour, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idDayHourService + '">' + item.idHour + '</OPTION>';
+                var hour = "";
+                $.each(hours, function (i, item) {
+                    switch (item.hourscheduleservice) {
+                        case '5':
+                            hour = "5am";
+                            break;
+                        case '6':
+                            hour = "6am";
+                            break;
+                        case '7':
+                            hour = "7am";
+                            break;
+                        case '8':
+                            hour = "8am";
+                            break;
+                        case '9':
+                            hour = "9am";
+                            break;
+                        case '10':
+                            hour = "10am";
+                            break;
+                        case '11':
+                            hour = "11am";
+                            break;
+                        case '12':
+                            hour = "12md";
+                            break;
+                        case '13':
+                            hour = "1pm";
+                            break;
+                        case '14':
+                            hour = "2pm";
+                            break;
+                        case '15':
+                            hour = "3pm";
+                            break;
+                        case '16':
+                            hour = "4pm";
+                            break;
+                        case '17':
+                            hour = "5pm";
+                            break;
+                        case '18':
+                            hour = "6pm";
+                            break;
+                        case '19':
+                            hour = "7pm";
+                            break;
+                        case '20':
+                            hour = "8pm";
+                            break;
+                        case '21':
+                            hour = "9pm";
+                            break;
+                        case '22':
+                            hour = "10pm";
+                            break;
+
+                        default:
+                            hour = "error";
+                            break;
+                    }
+                    htmlCombo += '<OPTION VALUE="' + item.hourscheduleservice + '">' + hour + '</OPTION>';
                 });
                 $("#comboHourStart").html(htmlCombo);
             },
@@ -217,40 +244,16 @@ include './footer.php';
         });
     }
 
-    function loadHourEnd() {
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetHourService.php",
-            data: {"id": $("#comboService").val(),
-                "idDay": $("#comboHourStart").val(),
-                "condiction": "1"},
-            success: function (data)
-            {
-                var hourEnd = JSON.parse(data);
-                $.each(hourEnd, function (i, item) {
-                    $("#comboHourEnd").val(item.HourEnd);
-                });
-            }
-            ,
-            error: function ()
-            {
-                alert("Error show hour End!");
-            }
-        }
-        );
-    }
-
     function loadPaymentModule() {
         $.ajax({
             type: 'GET',
             url: "../business/GetPaymentModule.php",
-            data: {"id": $("#comboService").val()},
             success: function (data)
             {
                 var module = JSON.parse(data);
                 var htmlCombo = '<OPTION VALUE="-1">SELECT</OPTION>';
                 $.each(module, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idPaymentModule + '">' + item.namePaymentModule + '</OPTION>';
+                    htmlCombo += '<OPTION VALUE="' + item.idpaymentmodule + '">' + item.namepaymentmodule + '</OPTION>';
                 });
                 $("#comboPaymentModule").html(htmlCombo);
             },
@@ -264,7 +267,6 @@ include './footer.php';
     function clear() {
 
     }
-
 
 </script>
 

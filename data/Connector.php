@@ -30,12 +30,6 @@ class Connector {
         $this->password = '';
         $this->db = 'gymcaoba';
     }
-//    public function Connector() {
-//        $this->server = '163.178.107.130';
-//        $this->user = 'adm';
-//        $this->password = 'saucr.092';
-//        $this->db = 'gymcaoba';
-//    }
 
     /**
      * Open connection to the data base

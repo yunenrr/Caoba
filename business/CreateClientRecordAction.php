@@ -1,37 +1,30 @@
 <?php
 
 include './ServiceBusiness1.php';
+session_start();
 
 if (isset($_POST['submit'])) {
-    $idPersonUserClientRecord = (int) $_POST['idClient'];
-    $idService = (int) $_POST['comboService'];
-    $idRelation = (int) $_POST['comboHourStart'];
+
+    $startdateclientschedule = $_POST['startDay'];
+    $hour = (int) $_POST['comboHourStart'];
+    $day = (int) $_POST['comboDay'];
     $idModule = (int) $_POST['comboPaymentModule'];
-    $startDateClientRecord = $_POST['startDay'];
+    $idService = (int) $_POST['comboService'];
     
-    if(isset($idPersonUserClientRecord) && isset($idRelation) && isset($idModule) && isset($startDateClientRecord)){
+    if (isset($startdateclientschedule) && isset($hour) && isset($day) && isset($idModule) && isset($idService)) {
+
         $serviceBusiness1 = new ServiceBusiness1();
-        $idClientRecord = $serviceBusiness1->getMaxId();
-        $idRelationServiceScheduleClientRecord = $serviceBusiness1->getIdRelationtServices($idService, $idRelation);
-        
-        $idServicePaymentModuleClientRecord = $serviceBusiness1->getIdTbServicePaymentModule($idService, $idModule);
-     
-        if($serviceBusiness1->insertServiceToClient($idClientRecord, 
-                $idPersonUserClientRecord, 
-                $idServicePaymentModuleClientRecord, 
-                $idRelationServiceScheduleClientRecord, 
-                $startDateClientRecord)){
-            
-            header("location: ../presentation/ChooseService.php?id=".$idPersonUserClientRecord."&success=inserted");
-            
-        }else{
-            header("location: ../presentation/ChooseService.php?id=".$idPersonUserClientRecord."&error=inserted");
+        $id = $serviceBusiness1->getMaxId();
+
+        if ($serviceBusiness1->insertServiceToClient($id, $_SESSION['id'], $startdateclientschedule, $hour, $day, $idModule, $idService)) {
+
+            header("location: ../presentation/ChooseService.php?success=inserted");
+        } else {
+            header("location: ../presentation/ChooseService.php?error=inserted");
         }
-        
     }
-    
-}else{
-     header("location: ../presentation/ViewClient.php?error=insert_Payment_Module");
+} else {
+    header("location: ../presentation/ViewClient.php?error=insert_Payment_Module");
 }
 
 

@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
 
     if ($personBusiness->insertPerson($person)) {
         $personStateBusiness = new personStateBusiness();
-        $personStateBusiness->insertPersonState($dniPerson);
+        $personStateBusiness->insertPersonState($idPerson);
         $idUser = $userBusiness->getMaxId();
         $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser, $starDateUser);
         $userBusiness->insertUser($user);

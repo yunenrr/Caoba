@@ -10,15 +10,12 @@ class ConditionData extends Connector {
     public function insertClientCondition($idclient, $idcondition) {
         $id = $this->getMaxId("clinicaldetailperson");
         $query = "insert into tbclinicaldetailperson values(" . $id . "," . $idclient . "," . $idcondition . ");";
-//        echo $query;
-//        exit;
         return $this->exeQuery($query);
     }
+
     public function insertCondition($name, $risk) {
         $id = $this->getMaxId("condition");
         $query = "insert into tbcondition values(" . $id . ",\"" . $name . "\"," . $risk . ");";
-//        echo $query;
-//        exit;
         return $this->exeQuery($query);
     }
 
@@ -32,8 +29,9 @@ class ConditionData extends Connector {
             return FALSE;
         }
     }
-    public function deleteClientCondition($id,$condition) {
-        $query = "delete from tbclinicaldetailperson where idpersonclinicaldetailperson=" . $id ." and idcondictionclinicaldetailperson=".$condition;
+
+    public function deleteClientCondition($id, $condition) {
+        $query = "delete from tbclinicaldetailperson where idpersonclinicaldetailperson=" . $id . " and idcondictionclinicaldetailperson=" . $condition;
         if ($this->exeQuery($query)) {
             return TRUE;
         } else {

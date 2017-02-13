@@ -1,6 +1,6 @@
 <?php include './header.php' ?>
 <div>
-    <table border>
+    <table border="1px" cellpadding="10px">
         <thead>
             <tr>
                 <th>Name</th>

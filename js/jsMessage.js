@@ -40,6 +40,18 @@ function getErrorMessage(idError)
         case 8:
             message = "The date entered is less than the initial date of the service.";
             break;
+        //No seleccionó un campus.
+        case 9:
+            message = "Please select a campus.";
+            break;
+        //No seleccionó un servicio.
+        case 10:
+            message = "Please select a service.";
+            break;
+        //No seleccionó un servicio.
+        case 11:
+            message = "Please select a time field.";
+            break;
     }//Fin del switch
     
     return message;

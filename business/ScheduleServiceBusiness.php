@@ -32,7 +32,7 @@ if(isset($_POST['option']))
             $lastFriday = date("Y-m-d",$dateFriday);
             
             //Conexión con la data
-            $data = new ScheduleData();
+            $data = new ScheduleServiceData();
             $arraySchedule = $data->getDatePerWeek($lastMonday, $lastFriday, $idCampus);
             
             //Recorremos para mandar a vista
@@ -52,7 +52,7 @@ if(isset($_POST['option']))
             $arrayAdd = $_POST['arrayScheduleAdd'];
             $serviceData = new ServiceData();
             $service = $serviceData->getServiceByID($idService);
-            $scheduleData = new ScheduleData();
+            $scheduleData = new ScheduleServiceData();
             $temp = "";
             
             //Recorremos los días del horario seleccionados
@@ -80,7 +80,7 @@ if(isset($_POST['option']))
         case 3:
             $idCampus = $_POST['idCampus'];
             $arrayScheduleRemove = $_POST['arrayScheduleRemove'];
-            $scheduleData = new ScheduleData();
+            $scheduleData = new ScheduleServiceData();
             $temp = "";
             
             //Recorremos los días del horario seleccionados

@@ -67,6 +67,11 @@ function getFormatHour(idHour)
     return answer;
 }//Fin de la función
 
+/**
+ * Función que retorna el nombre de un día.
+ * @param {String} idDay Corresponde al identificador del día.
+ * @return {String} Corresponde al nombre del día.
+ * */
 function getDay(idDay)
 {
     var answer = "";

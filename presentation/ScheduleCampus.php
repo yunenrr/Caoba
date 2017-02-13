@@ -55,6 +55,10 @@
             getSelectAllCampus();
             getScheduleByCampus("0");
             
+            /**
+             * Función que se encarga de mostrar el horario para la sala recibida.
+             * @param {String} idCampus Corresponde al identificador del campus.
+             * */
             function getScheduleByCampus(idCampus)
             {
                 var infoData = "option=1&idCampus="+idCampus;
@@ -117,6 +121,13 @@
                 $("#tableSchedule").html(temp);
             }//Fin de la función
             
+            /**
+            * Función que se encarga de buscar en el arreglo de horarios de la base de datos
+            * un horario que coincida con el recibido por parámetros.
+            * @param {int} hour Corresponde al identificador de la hora
+            * @param {int} day Corresponde al identificador del día.
+            * @return {String} -0 si no se encontró coincidencia, y el identificador del servicio en casoc ontrario.
+            * */
             function searchInArrayDB(hour,day)
             {
                 var answer = "-0";
@@ -138,6 +149,13 @@
                 return answer;
             }//Fin de la función
             
+            /**
+            * Busca en el array indicado el horario recibido por parámetro.
+            * @param {Array} array Corresponde al arreglo en el que se desea buscar.
+            * @param {int} hour Corresponde al identificador de la hora.
+            * @param {int} day Corresponde al identificador del día.
+            * @return {boolean} true: si existe en el horario, false en caso contrario.
+            * */
             function searchInArraySchedule(array,hour,day)
             {
                 var answer = false; //No existe
@@ -162,6 +180,11 @@
                 return answer;
             }//Fin de la función
             
+            /**
+            * Función que retorna el nombre del servicio.
+            * @param {int} idService Corresponde al identificador del servicio.
+            * @return {String} Contiene el nombre del servicio.
+            * */
             function getNameService(idService)
             {
                 var answer = "";
@@ -182,6 +205,11 @@
                 return answer;
             }//Fin de la función
             
+            /**
+            * Función agrega un valor al array correspondiente.
+            * @param {String} idField Valor que se desea agregar.
+            * @return {boolean} true: si es al array de agregar, false en caso contrario.
+            * */
             function addToArray(idField)
             {
                 var answer = false;
@@ -213,6 +241,9 @@
                 return answer;
             }//Fin de la función
             
+            /**
+            * Función que obtiene todos los servicios de la base de datos.
+            * */
             function getAllService()
             {
                 var infoData = "option=1";
@@ -246,6 +277,18 @@
                 );
             }//Fin de la función
             
+            /**
+            * Función que se encarga de vacíar los valores almacenados en memoria.
+            * */
+            function clearData()
+            {
+                arrayScheduleAdd = "";
+                arrayScheduleRemove = "";
+                arrayScheduleDB = "";
+                $("#lblAddSchedule").text("");
+                $("#lblRemoveSchedule").text("");
+            }//Fin de la función
+            
             /**************************** EVENTOS *****************************/
             $("#selCampus").change
             (
@@ -253,9 +296,7 @@
                 {
                     if($("#selCampus").val() !== "-0")
                     {
-                        arrayScheduleAdd = "";
-                        arrayScheduleRemove = "";
-                        arrayScheduleDB = "";
+                        clearData();
                         getScheduleByCampus($("#selCampus").val());
                     }//Fin del if
                     else
@@ -315,9 +356,7 @@
                                     {
                                         if(data.toString().length > 0)
                                         {
-                                            arrayScheduleAdd = "";
-                                            $("#lblAddSchedule").text("");
-                                            arrayScheduleDB = "";
+                                            clearData();
                                             getScheduleByCampus($("#selCampus").val());
                                         }
                                         else
@@ -370,9 +409,7 @@
                                 {
                                     if(data.toString().length > 0)
                                     {
-                                        arrayScheduleRemove = "";
-                                        $("#lblRemoveSchedule").text("");
-                                        arrayScheduleDB = "";
+                                        clearData();
                                         getScheduleByCampus($("#selCampus").val());
                                     }
                                     else

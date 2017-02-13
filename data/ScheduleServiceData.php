@@ -8,18 +8,25 @@ include_once '../domain/ScheduleService.php';
  * @author Yunen Ramos Ramírez
  * @version 1.0
  */
-class ScheduleData 
+class ScheduleServiceData 
 {
     private $connection;
     
     /**
      * Función constructora
      */
-    function ScheduleData() 
+    function ScheduleServiceData() 
     {
         $this->connection = new Connection();
     }//Fin de la función
 
+    /**
+     * Método que nos permite obtener el horario en el rango de dos fechas.
+     * @param date $startDate Corresponde a la fecha de inicio.
+     * @param date $endDate Corresponde a la fecha de fin.
+     * @param int $idCampus Corresponde al identificador del campus.
+     * @return array[ScheduleService] Un arreglo de horarios.
+     */
     function getDatePerWeek($startDate,$endDate,$idCampus)
     {
         //Abrimos la conexión
@@ -55,6 +62,14 @@ class ScheduleData
         return $array;
     }//Fin de la función 
     
+    /**
+     * Método que nos retorna las fechas para un día en específico, por ejemplo:
+     * Las fechas de todos los lunes en un año.
+     * @param date $dateStart Corresponde a la fecha de inicio.
+     * @param date $dateFinish Corresponde a la fecha de fin.
+     * @param int $day Corresponde al identificador del día.
+     * @return String Contiene todas las fechas del día ingresado.
+     */
     function getDateForScheduleService($dateStart,$dateFinish,$day)
     {
         switch ($day)
@@ -86,6 +101,11 @@ class ScheduleData
         return $temp;
     }//Fin del método
     
+    /**
+     * Método que ingresa un horario para un servicio.
+     * @param ScheduleService $scheduleService Corresponde al horario que se desea ingresar.
+     * @return int 0: Si ocurrió un error.
+     */
     function insertScheduleService($scheduleService)
     {
          $idScheduleService = $this->getLastID("scheduleservice");
@@ -119,6 +139,11 @@ class ScheduleData
         return $result;
     }//Fin de la función
     
+    /**
+     * Método que elimina un horario para un servicio.
+     * @param ScheduleService $scheduleService Corresponde al horario que se desea eliminar.
+     * @return int 0: Si ocurrió un error.
+     */
     function deleteSchedule($scheduleService)
     {
         //Abrimos la conexión

@@ -8,8 +8,7 @@ if (isset($_GET['id'])) {
 }
 ?>
 <div>
-<!--    <H2 ALIGN=JUSTIFY> <?php // echo $namePerson     ?>'s diet</H2>-->
-
+<!--    <H2 ALIGN=JUSTIFY> <?php // echo $namePerson       ?>'s diet</H2>-->
     <br><br>
     <!--<fieldset>-->
     <h2> Diet Information:</h2>

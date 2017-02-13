@@ -132,7 +132,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                     <td>
                         <select id="selNeighborhood" name="selNeighborhood" > 
                             <?php foreach ($neighborhood as $value) { ?>
-                                <option value="<?php echo $value->getNeighborhoodAddresss(); ?>"><?php echo $value->getNeighborhoodAddresss(); ?></option> 
+                                <option value="<?php echo $value->getIdAddress(); ?>"><?php echo $value->getNeighborhoodAddresss(); ?></option> 
                             <?php } ?>
                         </select>
                     </td>

@@ -1,12 +1,11 @@
-<?php
-include './header.php';
-session_start();
-if(isset($_SESSION['id'])){
-    header("location: ./Home.php");
-}
-?>
-
-<div>
+<!DOCTYPE html>
+<html>
+    <head lang="es" >
+        <title>Gym Caoba</title>
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+    </head>
+    <body><div>
 
     <form name="formInsert" action="../business/LoginAction.php" method="POST">
 
@@ -33,3 +32,4 @@ if(isset($_SESSION['id'])){
     </form>
 
 </div>
+    </body>

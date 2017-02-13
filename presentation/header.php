@@ -16,7 +16,8 @@
                 <?php
                 error_reporting(E_ALL ^ E_NOTICE);
                 session_start();
-                if (isset($_SESSION['id'])) {
+                if (isset($_SESSION['id'])) 
+                {
                     ?>
 
                     <?php
@@ -107,9 +108,7 @@
                     <?php
                 } else {
                     ?>
-                    <li>
-                        <strong> <a href="Login.php">Login</a></strong>
-                    </li>
+                    <?php header("location: ./Login.php") ?>
                 <?php } ?>
             </ul>
         </nav>

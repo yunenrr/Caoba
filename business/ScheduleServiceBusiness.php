@@ -13,27 +13,19 @@ if(isset($_POST['option']))
     
     /**
      * Opciones:
-     * 1 - Obtener todos los dias que tienen un horario.
-     * 2 - Obtener todos los horarios existentes para un día y campus en específico.
-     * 3 - Insertar una relación entre horario/servicio.
-     * 4 - Elimiar la relación entre horario y servicio.
-     * 5 - Obtener los horarios de un servicio en específico.
-     * 
      * 1 - Obtener el horario de entre una semana.
      * 2 - Insertar la relacion entre horario y servicio.
+     * 3 - Eliminar la relacion entre horario y servicio.
      */
     switch($option)
     {
         case 1:
             $idCampus = $_POST['idCampus'];
-            $lastMonday = date("Y-m-d", strtotime ("last Monday"));
-            $dateMonday =  strtotime("$lastMonday");
-            $dateFriday= strtotime("4 day","$dateMonday");
-            $lastFriday = date("Y-m-d",$dateFriday);
+            $currentDate = date("Y-m-d");
             
             //Conexión con la data
             $data = new ScheduleServiceData();
-            $arraySchedule = $data->getDatePerWeek($lastMonday, $lastFriday, $idCampus);
+            $arraySchedule = $data->getDatePerWeek($currentDate, $idCampus);
             
             //Recorremos para mandar a vista
             $temp = "";
@@ -54,26 +46,16 @@ if(isset($_POST['option']))
             $service = $serviceData->getServiceByID($idService);
             $scheduleData = new ScheduleServiceData();
             $temp = "";
-            
+
             //Recorremos los días del horario seleccionados
             $arrayDayHour = explode(";", $arrayAdd);
             foreach ($arrayDayHour as $currentDayHour)
             {
                 $arraySchedule = explode("-", $currentDayHour);
-                
-                $stringDate = $scheduleData->getDateForScheduleService($service->getStartDateService(),
-                        $service->getEndDateService(), $arraySchedule[1]);
-                $stringDate = substr($stringDate,0, strlen($stringDate)-1);
-                $arrayDate = explode(",", $stringDate);
-                
-                //Recorremos las fechas de los dias seleccionados
-                foreach ($arrayDate as $currentDate)
-                {
-                    $scheduleService = new ScheduleService(0,$idCampus, 
+                $scheduleService = new ScheduleService(0,$idCampus, 
                             $idService, $arraySchedule[1], $arraySchedule[0], 
-                            $currentDate);
-                    $temp = $scheduleData->insertScheduleService($scheduleService);
-                }//Fin del foreach
+                            $service->getEndDateService());
+                $temp = $scheduleData->insertScheduleService($scheduleService);
             }//Fin del foreach
             echo $temp;
             break;

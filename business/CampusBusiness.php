@@ -17,7 +17,9 @@ if(isset($_POST['option']))
     switch($option)
     {
         case 1:
+            $currentDate = date("Y-m-d");
             $data = new CampusData();
+            $data->updateCampusSchedule($currentDate);
             $array = $data->getAllCampus();
             $temp = "";
             foreach ($array as $current)

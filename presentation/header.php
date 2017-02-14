@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <head lang="es" >
+    <head lang="en" >
         <title>Gym Caoba</title>
-
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/jsState.js" type="text/javascript"></script>
         <script src="../js/jquery.mask.min.js" type="text/javascript"></script>

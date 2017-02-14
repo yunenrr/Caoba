@@ -10,7 +10,8 @@ if (isset($_POST['submit'])) {
         $userBusiness = new UserBusiness();
         $countUser = (int) $userBusiness->verifyUserNameUser($userName, $pass);
 
-        if ($countUser > 0) {
+        if ($countUser > 0) 
+        {
             $user = $userBusiness->getUser($userName, $pass);
 
             $_SESSION['id'] = "" . $user->getIdPersonUser();

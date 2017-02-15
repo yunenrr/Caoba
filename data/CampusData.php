@@ -45,4 +45,27 @@ class CampusData
         return $array;
     }//Fin de la función
     
+    /**
+     * Función que nos permite eliminar de la base los horarios antiguos.
+     * @param date $currentDate Corresponde a la fecha actual del sistema.
+     */
+    public function updateCampusSchedule($currentDate)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Validamos la información
+        $currentDate = mysqli_real_escape_string($connO,$currentDate);
+        
+        $sql = "delete from tbscheduleservice where datescheduleservice < '$currentDate';";
+        $result = mysqli_query($connO,$sql);
+        
+        if($result){}
+        else{$result = "0";}
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $result;
+    }//Fin del método
 }//Fin de la clase

@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
     
     if ($personBusiness->updatePerson($person)) {
         $userBusiness->updateUser($user);
-        header("location: ../presentation/EditClient.php?success=UPDATE");
+        header("location: ../presentation/Home.php");
     } else {
         header("location: ../presentation/EditClient.php?error=UPDATE");
     }

@@ -17,12 +17,11 @@ class BuyData extends Connector {
                 $buy->providerbuy . "'," .
                 $buy->pricebuy . ",'" .
                 $buy->buyerbuy . "'," .
-                $buy->paymentbuy . ",'".
-                $buy->seriesbuy  . "')";
+                $buy->paymentbuy . ",'" .
+                $buy->seriesbuy . "')";
 //        echo  $query;
 //        exit;
         return $this->exeQuery($query);
-        
     }
 
     public function getMaxId() {
@@ -41,13 +40,19 @@ class BuyData extends Connector {
                 $buy->buyerbuy . "',paymentbuy=" .
                 $buy->paymentbuy . ",seriesbuy='" .
                 $buy->seriesbuy . "' where idbuy=" . $buy->idbuy;
-        
-//        echo  $query ;exit;
+
         return $this->exeQuery($query);
     }
 
-    public function returnAll() {
-        $query = "select * from tbbuy";
+    /**
+     * Función que me permite obtener el inventario por estados
+     * @param type $status
+     * @return array
+     */
+    public function returnAll($status) {
+        $query = "SELECT idbuy, brandbuy, modelbuy, quantitybuy, buydatebuy, invoicenumberbuy, "
+                . "providerbuy, pricebuy, buyerbuy, paymentbuy, seriesbuy,quantityinventory,idinventory, namecampus FROM tbbuy  "
+                . "INNER JOIN tbinventory ON idgoodsinventory=idbuy AND statusinventory='" . $status . "' INNER JOIN tbcampus  where idcampus=locationactveinventory";
         $result = $this->exeQuery($query);
         $arrayResult = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -61,7 +66,10 @@ class BuyData extends Connector {
                 "pricebuy" => $row['pricebuy'],
                 "buyerbuy" => $row['buyerbuy'],
                 "paymentbuy" => $row['paymentbuy'],
-                "seriesbuy" => $row['seriesbuy']
+                "seriesbuy" => $row['seriesbuy'],
+                "quantityinventory" => $row['quantityinventory'],
+                "idinventory" => $row['idinventory'],
+                "namecampus" => $row['namecampus']
             );
             array_push($arrayResult, $array);
         }

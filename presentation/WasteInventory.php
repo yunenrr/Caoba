@@ -1,291 +1,163 @@
 <?php
 include './header.php';
-include_once '../data/CampusData.php';
-include '../business/InventoryBusiness.php';
 ?>
-<h2>Wastes</h2>
-<div>
-    <table border='1'>
-        <thead>
-            <tr>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Series</th>
-                <th>Quantity </th>
-                <th>Buy date </th>
-                <th>voice number </th>
-                <th>Provider </th>
-                <th>Price </th>
-                <th>Buyer </th>
-                <th>Payment Type </th>
-            </tr>
-        </thead>
-        <tbody id="tableBodyShow"> 
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
-</div>
-<div id="msg"></div><br><br>
+<h2>Waste</h2>
 
-<div>
-    <fieldset>
-    <table>
-        <thead>
-            <tr>
-                <th>By status</th>
-                <th>Goods</th>
-                <th>Quantity</th>
-                
-            </tr>
-        </thead>
-        <tbody id="tableBodyRepair"> 
-        <th><select name="status" id='status'>
-                <option value="1">Functionary</option>
-         <option value="2">Repair</option>
-         <option value="4">Damage in use</option>
-         <option value="6">Donated</option>
-        
-        </select></th>
-        <th><div id="select"></div></th>
-        <th><input type="number" id="txtQuantity" min="0">*</th>
-        <th><input type="button" id="btnWast" name="btnWast" value="Insert" onclick="validation()"></th>
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
- </fieldset>
-</div>
-<div id="msgError"></div><br><br>
+<div>Select a status <select name="status" id='status'>
+        <option value="0">Select</option>
+        <option value="1">Functionary</option>
+        <option value="2">Repair</option>
+        <option value="4">Damage in use</option>
+        <option value="6">Donated</option>
+    </select><br><br><br>
 
-<?php include './footer.php' ?>
-<script>
-    $(document).ready
-      (
-        function ()
-          {
-              
-            getCurrentRepair();
-            var arrayInventory;
-                
-                $('select#status').on('change',function(){
-                    var valor = $(this).val();
-                     getGoods(valor);
-                });
-                $("#tableBodyShow").on
-            (
-               'click', 'input.btnRepaired', function ()
-                    {
-                      var row = $(this).attr("id");
-                      var currentRow = parseInt(row.substring(11, row.length));
-                      
-                       if($("#txtQuantity"+currentRow).val().length===0){
-                            $("#msg").html("<p>Insert the quantity</p>");
-                       }else if($("#txtQuantity"+currentRow).val()>$("#txtQuantitystar"+currentRow).val()){
-                           $("#msg").html("<p>ERROR: Amount exceeded!</p>");
-                       }else if($("#txtQuantity"+currentRow).val()<0){
-                           $("#msg").html("<p>ERROR: ENTER A MAJOR AMOUNT!</p>");
-                       }else{
-                           repaired(currentRow);
-                       }
-                    }
-            );
-             }//Fin de la función principal
-          );
-          
-                /**
-               * Esta función nos permite poder obtener todos  los registros de inventario 
-               * que se encuentra en la base de datos.
-               * */
-               function getCurrentRepair()
-                {
-                  var infoData = "option=1&status=3";
-                    $.ajax
-                       (
-                         {
-                           type: 'POST',
-                           url: "../business/InventoryAction.php",
-                           data: infoData,
-                           beforeSend: function (before)
-                           {
-                            $("#msg").html("<p>Wait.</p>");
-                           },
-                          success: function (data)
-                           {
-                             if (data.toString().length > 0)
-                           {
-                             var temp = "";
-                             var array = data.split(";");
-                              for (var i = 0; i < array.length; i++)
-                                {
-                                  var newRow = i + 1;
-                                  var goods = array[i].split(",");
-                                                            
-                                  temp = temp + '<tr id="tr' + newRow + '">' +
-                                         '<td>' + goods[1] + '<input type="hidden" id="txtID' + newRow + '" name="txtID' + newRow + '" value="' + goods[0] + '"/></td>' +
-                                          '<td>' + goods[2] + '</td>'+
-                                          '<td>' + goods[3] + '</td>'+
-                                          '<td>' + goods[4] + '</td>'+
-                                          '<td>' + goods[5] + '</td>'+
-                                          '<td>' + goods[6] + '</td>'+
-                                          '<td>' + goods[7] + '</td>'+
-                                          '<td>' + goods[8] + '</td>'+
-                                          '<td>' + goods[9] + '</td>'+
-                                          '<td>' + goods[10] + '</td>'+
-                                          '</tr>';
-                                   }
-                                      $("#tableBodyShow").html(temp);
-                                      $("#msg").html("");
-                              } else{
-                                     $("#msg").html("");
-                                   }
-                          },
-                         error: function ()
-                           {
-                             $("#msg").html("<p>Error.</p>");
-                           }
-                        }
-                     );
-               }
-               
-                /**
-         * Función que valida los campos.
-         * @param {String} positionToValidate Corresponde a la posición en la tabla.
-         * @return {boolean} Indicando si está todo bien o no.
-         * */
-           function validation()
+</div>
+<div>
+    <table  id="paymentTable" border="1px" cellpadding="10px" >
+    </table>
+    <div id="msg"></div>
+</div><br><br>
+
+<?php
+include './footer.php';
+?>
+
+<script type="text/javascript">
+    var status = 0;
+    $(document).ready(
+            function test()
             {
-              if (($("#txtQuantity").val().length === 0))
-                 {
-                   $("#msgError").html("<p>Insert the quantity</p>");
-                  }else{ 
-                      insert();
-                  }
-            }//Fin de la función
-            
-            /**
-            * 
-             * @returns {undefined}             */
-            function insert(){
-              var infoData = "option=2&status=3"+
-                              "&txtIdInventory="+$("#selInformation").val()+
-                              "&txtQuantity="+$("#txtQuantity").val();
-                    $.ajax
-                       (
-                         {
-                           type: 'POST',
-                           url: "../business/InventoryAction.php",
-                           data: infoData,
-                           beforeSend: function (before)
-                           {
-                            $("#msgError").html("<p>Wait.</p>");
-                           },
-                          success: function (data)
-                           {
-                             if (data==='1')
-                           {
-                             $("#msgError").html("<p>Sucess.</p>");
-                             getCurrentRepair();
-                            } else{
-                                $("#msgError").html("<p>Error.</p>");
-                             }
-                          },
-                         error: function ()
-                           {
-                             $("#msgError").html("<p>Error.</p>");
-                           }
-                        }
-                     );
+
+
+                $('select#status').on('change', function () {
+                    status = $(this).val();
+                    returnAll(status);
+                });
             }
-               
-      /**
-            * 
-             * @returns {undefined}             
-             * */
-            function repaired(currentRow){
-            
-              var infoData = "option=3&status=3"+
-                              "&txtIdInventory="+$("#txtID"+currentRow).val()+
-                              "&txtQuantity="+$("#txtQuantity"+currentRow).val();
-                    $.ajax
-                       (
-                         {
-                           type: 'POST',
-                           url: "../business/InventoryAction.php",
-                           data: infoData,
-                           beforeSend: function (before)
-                           {
-                            $("#msg").html("<p>Wait.</p>");
-                           },
-                          success: function (data)
-                           {
-                             if (data==='1')
-                           {
-                             $("#msg").html("<p>Sucess.</p>");
-                             getCurrentRepair();
-                            } else{
-                                $("#msg").html("<p>Error.</p>");
-                             }
-                          },
-                         error: function ()
-                           {
-                             $("#msg").html("<p>Error.</p>");
-                           }
-                           
-                        }
-                     );
+    );
+    function returnAll(status) {
+        $("#paymentTable").empty();
+        $.ajax({
+            type: 'POST',
+            url: "../business/ReturnAllBuyAction.php",
+            data: "status=" + status,
+            success: function (data) {
+                if (data.length === 2) {
+                    $("#msg").html("<h2>Nothing to show!!</h2>");
+                } else {
+                    var instructor = JSON.parse(data);
+                    $.each(instructor, function (i, item) {
+                        $("#msg").html("");
+                        insertNewRow(item);
+                    });
+                }
+            },
+            error: function () {
             }
-            
-            function getGoods(status)
-             {
-               
-              var infoData = "option=4&status="+status;
-                $.ajax
-                  (
-                    {
-                      type: 'POST',
-                      url: "../business/InventoryAction.php",
-                      data: infoData,
-                      beforeSend: function (before)
-                        {
-                          $("#msg").html("<p>.</p>");
-                        },
-                      success: function (data)
-                        {
-                          if (data.toString().length > 0)
-                            {
-                              arrayInventory = data.split(";");
-                              $("#msgError").html("");
-                              getSelect();
-                            } else
-                               {
-                                 $("#select").html('');
-                                 $("#msgError").html("Don't have goods to show");
-                               }
-                        },
-                       error: function ()
-                         {
-                           $("#msg").html("<p>Error.</p>");
-                         }
-                    }
-                  );
-             }//Fin del if
-             
-         /**
-                * Función que nos permite obtener el select de las miembros que componen a la familia.
-                 * @param {type} currentRow
-                 * @returns {String}                 
-                 * */
-              function getSelect()
-                {
-                 var temp = '<select id="selInformation'  + '" name="selInformation'  + '">';
-                 for (var i = 0; i < arrayInventory.length; i++)
-                   {
-                       var relative = arrayInventory[i].split(",");
-                        temp = temp + '<option value="' + relative[0] + '" selected="">'+' Brand:' + relative[1] +' Model:' + relative[2] +' Series:' + relative[3] + '</option>';
-                        
-                    }//Fin del for
-                   $("#select").html(temp);
-                }//Fin de la función
+        }
+        );
+    }
+
+    function update(idInventory,id) {
+        var min = parseInt($("#quantity" + id).val());
+        var max = parseInt($("#qu" + id).val());
+        if (isNaN($('#quantity' + id).val())) {
+            $("#msg").html("<p>Quantity waste it's not a number!!!!</p>");
+        } else if ($('#quantity' + id).val() === '') {
+            $("#msg").html("<p>Quantity waste empty!!!!</p>");
+        } else if (min > max) {
+            $("#msg").html("<p>The maximum is: " + max + "!!!</p>");
+        } else {
+            waste(idInventory,id);
+        }
+
+
+    }
+    function insertNewRow(buy) {
+
+        var pay = '';
+        if (buy.paymentbuy === 0) {
+            var pay = "Cash"
+        } else {
+            var pay = "Credit"
+        }
+        var temp = '<tr>' +
+                '<td><strong>Brand</strong></td>' +
+                '<td><strong>Model</strong></td>' +
+                '<td><strong>Quantity</strong></td>' +
+                '<td><strong>Invoice num</strong></td>' +
+                '<td><strong>Provider</strong></td>' +
+                '<td><strong>Price</strong></td>' +
+                '<td><strong>Payment type</strong></td>' +
+                '<td><strong>Bayer</strong></td>' +
+                '<td><strong>Series</strong></td>' +
+                '<td><strong>Date</strong></td>' +
+//                '<td><strong>Campus gym</strong></td>' +
+                '<td><strong>Stolen amount</strong></td>' +
+                '</tr>';
+        $("#paymentTable").append(temp);
+        var temp = '<tr  id="' + buy.idbuy + '">' +
+                '<td>' +
+                '<input id="bra' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="mo' + buy.idbuy + '" value="' + buy.modelbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="qu' + buy.idbuy + '" value="' + buy.quantityinventory + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="in' + buy.idbuy + '" value="' + buy.invoicenumberbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="pro' + buy.idbuy + '" value="' + buy.providerbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="pri' + buy.idbuy + '" value="' + '$' + buy.pricebuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="pay' + buy.idbuy + '" value="' + pay + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="bayer' + buy.idbuy + '" value="' + buy.buyerbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="ser' + buy.idbuy + '" value="' + buy.seriesbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="date' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
+                '</td>' +
+//                '<td>' +
+//                '<input id="hu' + '" value="' + 888 + '" readonly/>' +
+//                '</td>' +
+                '<td>' +
+                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity repair" maxlength="' + buy.quantitybuy + '">' +
+                '</td>' +
+                '<td>' +
+                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory +','+buy.idbuy + ');" value="    Waste    "/>' +
+                '</td>' +
+                '</tr>';
+        $("#paymentTable").append(temp);
+    }
+
+
+    function waste(idInventory,id) {
+        var qu = parseInt($("#quantity" + id).val());
+        var infodata = "status=3&idInventory=" + idInventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";
+       
+        $.ajax({
+            type: 'POST',
+            url: "../business/InventoryAction.php",
+            data: infodata,
+            success: function (data) {
+                $("#msg").html("<p>Success!!!!</p>");
+                returnAll(status);
+            },
+            error: function (data) {
+                $("#msg").html("<p>Error!!!!</p>");
+            }
+        });
+    }//Fin de la función
+
 </script>
 

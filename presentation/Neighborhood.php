@@ -15,13 +15,13 @@ include './header.php';
             <tbody id="tableBodyNeighborhood"> 
             </tbody>
             <tfoot>
-                <tr><td><div>Required fields(*)</div></td></tr>
                 <tr>
                     <td><input type="button" value="Insert" id="btnInsert" name="btnInsert" /></td>
                 </tr>
             </tfoot>
         </table>
     </div>
+    <div>Required fields(*)</div></td>
 </fieldset>
 <div id="msg"></div>
 

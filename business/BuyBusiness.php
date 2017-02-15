@@ -24,9 +24,13 @@ class BuyBusiness {
     }
 
     //inserta en base de datos
-    public function returnAll() {
-        $result = $this->buyData->returnAll();
+    public function returnAll($status) {
+        $result = $this->buyData->returnAll($status);
         return $result;
     }
 
+    //obtiene el id
+    public function getMaxId() {
+        return $this->buyData->getMaxIdTable('buy');
+    }
 }

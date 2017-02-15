@@ -1,18 +1,22 @@
 <?php
 include './header.php';
 ?>
-<h2>Damage in use</h2>
+<h2>Inventory</h2>
 
 <div>Select a status <select name="status" id='status'>
         <option value="0">Select</option>
         <option value="1">Functionary</option>
         <option value="2">Repair</option>
+        <option value="3">Waste</option>
+        <option value="4">Damage in use</option>
+        <option value="5">Stolen</option>
         <option value="6">Donated</option>
+        <option value="7">Donation</option>
     </select><br><br><br>
 
 </div>
 <div>
-    <table  id="paymentTable" border="1px" cellpadding="10px" >
+    <table  id="paymentTable" border="2" cellpadding="10px" >
     </table>
     <div id="msg"></div>
 </div><br><br>
@@ -26,7 +30,6 @@ include './footer.php';
     $(document).ready(
             function test()
             {
-
                 $('select#status').on('change', function () {
                     status = $(this).val();
                     returnAll(status);
@@ -46,7 +49,11 @@ include './footer.php';
                     var instructor = JSON.parse(data);
                     $.each(instructor, function (i, item) {
                         $("#msg").html("");
-                        insertNewRow(item);
+                        if (status === '6') {
+                            insertNewRowDonated(item);
+                        } else {
+                            insertNewRow(item);
+                        }
                     });
                 }
             },
@@ -54,22 +61,6 @@ include './footer.php';
             }
         }
         );
-    }
-
-    function update(idInventory,id) {
-        var min = parseInt($("#quantity" + id).val());
-        var max = parseInt($("#qu" + id).val());
-        if (isNaN($('#quantity' + id).val())) {
-            $("#msg").html("<p>Quantity it's not a number!!!!</p>");
-        } else if ($('#quantity' + id).val() === '') {
-            $("#msg").html("<p>Quantity  empty!!!!</p>");
-        } else if (min > max) {
-            $("#msg").html("<p>The maximum is: " + max + "!!!</p>");
-        } else {
-            damage(idInventory,id);
-        }
-
-
     }
     function insertNewRow(buy) {
 
@@ -90,8 +81,7 @@ include './footer.php';
                 '<td><strong>Bayer</strong></td>' +
                 '<td><strong>Series</strong></td>' +
                 '<td><strong>Date</strong></td>' +
-                '<td><strong>Campus gym</strong></td>' +
-                '<td><strong>Stolen amount</strong></td>' +
+                '<td><strong>Location Gym</strong></td>' +
                 '</tr>';
         $("#paymentTable").append(temp);
         var temp = '<tr  id="' + buy.idbuy + '">' +
@@ -126,36 +116,59 @@ include './footer.php';
                 '<input id="date' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<input id="hu' + '" value="' + 888 + '" readonly/>' +
-                '</td>' +
-                '<td>' +
-                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity repair" maxlength="' + buy.quantitybuy + '">' +
-                '</td>' +
-                '<td>' +
-                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory +','+buy.idbuy + ');" value="    Damaged    "/>' +
+                '<input id="hu' + '" value="' + buy.namecampus + '" readonly/>' +
                 '</td>' +
                 '</tr>';
         $("#paymentTable").append(temp);
     }
 
 
-    function damage(idInventory,id) {
-        var qu = parseInt($("#quantity" + id).val());
-        var infodata = "status=4&idInventory=" + idInventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";
-        $.ajax({
-            type: 'POST',
-            url: "../business/InventoryAction.php",
-            data: infodata,
-            success: function (data) {
-                $("#msg").html("<p>Success!!!!</p>");
-                returnAll(status);
-            },
-            error: function (data) {
-                $("#msg").html("<p>Error!!!!</p>");
-            }
-        });
-    }//Fin de la función
 
+    function insertNewRowDonated(buy) {
+
+        var pay = '';
+        if (buy.paymentbuy === 0) {
+            var pay = "Cash"
+        } else {
+            var pay = "Credit"
+        }
+        var temp = '<tr>' +
+                '<td><strong>Brand</strong></td>' +
+                '<td><strong>Model</strong></td>' +
+                '<td><strong>Quantity</strong></td>' +
+                '<td><strong>Donor</strong></td>' +
+                '<td><strong>Creditor</strong></td>' +
+                '<td><strong>Series</strong></td>' +
+                '<td><strong>Date</strong></td>' +
+                '<td><strong>Campus gym</strong></td>' +
+                '</tr>';
+        $("#paymentTable").append(temp);
+        var temp = '<tr  id="' + buy.idbuy + '">' +
+                '<td>' +
+                '<input id="bra' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="mo' + buy.idbuy + '" value="' + buy.modelbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="qu' + buy.idbuy + '" value="' + buy.quantitybuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="pro' + buy.idbuy + '" value="' + buy.providerbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="cre' + buy.idbuy + '" value="' + buy.buyerbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="ser' + buy.idbuy + '" value="' + buy.seriesbuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="date' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
+                '</td>' +
+                '<td>' +
+                '<input id="hu' + '" value="' + buy.namecampus + '" readonly/>' +
+                '</td>' +
+                '</tr>';
+        $("#paymentTable").append(temp);
+    }
 </script>
-
-

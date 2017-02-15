@@ -8,13 +8,14 @@ include '../data/FamilyParentingData.php';
  * @author Karen
  */
 class FamilyParentingBusiness {
-    
+
     private $familyParentingData;
-    
-    function FamilyParentingBusiness(){
+
+    function FamilyParentingBusiness() {
         return $this->familyParentingData = new FamilyParentingData();
     }
-  /**
+
+    /**
      * Used to insert a new FamilyParenting
      * @param type $familyParenting
      * @return type
@@ -48,7 +49,7 @@ class FamilyParentingBusiness {
     public function getMaxId() {
         return $this->familyParentingData->getMaxId();
     }
-    
+
     /**
      * use to get all RelationShip
      * @param type $idPerson
@@ -57,7 +58,8 @@ class FamilyParentingBusiness {
     public function getAllRelationShip() {
         return $this->familyParentingData->getAllRelationShip();
     }
-/**
+
+    /**
      * use to get a specif RelationShip
      * @param type $idPerson
      * @return type
@@ -65,8 +67,8 @@ class FamilyParentingBusiness {
     public function getFamilyParenty($idPerson) {
         return $this->familyParentingData->getFamilyParenty($idPerson);
     }
-    
-     /**
+
+    /**
      * Use to Check if are already family
      * @param type $idPerson
      * @return type
@@ -74,6 +76,7 @@ class FamilyParentingBusiness {
     public function verifyFamily($idPerson, $idPersonFamilyParenting) {
         return $this->familyParentingData->verifyFamily($idPerson, $idPersonFamilyParenting);
     }
+
     /**
      * use to get a specif RelationShip tree
      * @param type $idPerson
@@ -82,4 +85,14 @@ class FamilyParentingBusiness {
     public function getFamily($idPerson) {
         return $this->familyParentingData->getFamily($idPerson);
     }
+
+    /**
+     * Use to Check if are already family
+     * @param type $id
+     * @return type
+     */
+    public function verifyFamilyParents($id) {
+        return $this->familyParentingData->verifyFamilyParents($id);
+    }
+
 }

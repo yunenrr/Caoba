@@ -41,8 +41,7 @@ class PersonData extends Connector {
      */
     public function getPerson($id) {
 
-        $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,birthdayperson,genderperson,"
-                . "emailperson,addressperson,phonereferenceperson,bloodtypeperson from tbperson where idperson=" . $id;
+        $query = "select tbperson.idperson,dniperson,nameperson,firstnameperson,secondnameperson,birthdayperson,genderperson, emailperson,addressperson,phonereferenceperson,bloodtypeperson from tbperson where idperson= '" . $id. "'";
 
         $personResult = $this->exeQuery($query);
 

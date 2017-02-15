@@ -3,31 +3,26 @@ include './header.php';
 ?>
 <style type="text/css" media = "all">
 </style>
-<h2>Shopping entry</h2>
+<h2>Donated</h2>
 <div>
     <table  border="1px" cellpadding="10px" >
         <tr>
             <td><strong>Brand</strong></td>
             <td><strong>Model</strong></td>
             <td><strong>Quantity</strong></td>
-            <td><strong>Invoice num</strong></td>
-            <td><strong>Provider</strong></td>
-            <td><strong>Price</strong></td>
-            <td><strong>Payment type</strong></td>
-            <td><strong>Bayer</strong></td>
+            <td><strong>Donor</strong></td>
+            <td><strong>Creditor</strong></td>
             <td><strong>Series</strong></td>
             <td><strong>Date</strong></td>
             <td><strong>Campus gym</strong></td>
+            <td><strong>Insert</strong></td>
         </tr>
         <tr>
             <td> <input  id="bra"/>  *</td>
             <td><input  id="mo"/>  *</td>
             <td><input  id="qu"/> * </td>
-            <td><input id="in"/>  *</td>
-            <td><input id="pro"/> * </td>
-            <td><input id="pri"/> * </td>
-            <td> <select id="pay"><option value="0">Cash Payment</option>   <option value="1">Credit Payment</option>   </select> </td>  
-            <td><input id="bayer"/>  *</td>
+            <td><input id="pro"/>  *</td>
+            <td><input id="cre"/>  *</td>
             <td><input id="ser"/>  *</td>
             <td><input id="date"/> * </td>
             <td><div id="campus"/> </td>
@@ -36,8 +31,8 @@ include './header.php';
     </table>
     <table  id="paymentTable" border="1px" cellpadding="10px" >
     </table>
-    <div id="msg"></div>
     <div><p>Requiered fields(*)</p></div>
+    <div id="msg"></div>
 </div>
 
 <?php
@@ -48,9 +43,8 @@ include './footer.php';
     $(document).ready(
             function test()
             {
-                returnAll();
                 $('#date').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
-                $('#pri').mask('$9999999999999', {placeholder: '$'});
+                returnAll();
                 var arrayCampus = "";
                 getCampus();
             }
@@ -63,13 +57,13 @@ include './footer.php';
         $("#in").val("");
         $("#pro").val("");
         $("#pri").val("");
-        $("#bayer").val("");
+        $("#cre").val("");
         $("#ser").val("");
         $("#date").val("");
         $.ajax({
             type: 'POST',
             url: "../business/ReturnAllBuyAction.php",
-            data: "status=1",
+            data: "status=6",
             success: function (data) {
                 var instructor = JSON.parse(data);
                 $.each(instructor, function (i, item) {
@@ -85,35 +79,35 @@ include './footer.php';
         var result = 0;
         $("#msg").empty();
         if ($("#bra").val() === "") {
-            $("#msg").append("<h1>Brandbuy empty!!!!</h1>");
+            $("#msg").html("<p>Brandbuy empty!!!!</p>");
             result = 1;
         }
         if ($("#mo").val() === "") {
-            $("#msg").append("<h1>Modelbuy empty!!!!</h1>");
+            $("#msg").html("<p>Modelbuy empty!!!!</p>");
             result = 1;
         }
         if ($("#in").val() === "") {
-            $("#msg").append("<h1>Invoicenumberbuy empty!!!!</h1>");
+            $("#msg").html("<p>Invoicenumberbuy empty!!!!</p>");
             result = 1;
         }
         if ($("#pro").val() === "") {
-            $("#msg").append("<h1>Providerbuy empty!!!!</h1>");
+            $("#msg").html("<p>Providerbuy empty!!!!</p>");
             result = 1;
         }
         if ($("#pri").val() === "") {
-            $("#msg").append("<h1>Pricebuy empty!!!!</h1>");
+            $("#msg").html("<p>Pricebuy empty!!!!</p>");
             result = 1;
         }
         if ($("#ser").val() === "") {
-            $("#msg").append("<h1>Seriesbuy empty!!!!</h1>");
+            $("#msg").html("<h1>Seriesbuy empty!!!!</p>");
             result = 1;
         }
         if (isNaN($('#qu').val())) {
-            $("#msg").append("<h1>QuantityBuy it's not a number!!!!</h1>");
+            $("#msg").html("<p>QuantityBuy it's not a number!!!!</p>");
             result = 1;
         }
         if ($("#ser").val() === "") {
-            $("#msg").append("<h1>Quantity empty!!!!</h1>");
+            $("#msg").html("<p>Quantity empty!!!!</p>");
             result = 1;
         }
         if (result === 1) {
@@ -124,13 +118,12 @@ include './footer.php';
         }
     }
     function insert() {
-        var pri = parseInt($("#pri").val().substring(1, $("#pri").val().length));
-        var infoData = "bra=" + $("#bra").val() + "&mo=" + $("#mo").val() + "&qu=" + $("#qu").val() + "&in=" + $("#in").val() + "&pro=" + $("#pro").val() + "&pri=" + pri + "&pay=" + $("#pay").val() + "&bayer=" + $("#bayer").val() + "&ser=" + $("#ser").val() + "&date=" + $("#date").val() + "&campus=" + $("#selCampus").val() + "&status=1" + "";
+        var dataInfo = "bra=" + $("#bra").val() + "&mo=" + $("#mo").val() + "&qu=" + $("#qu").val() + "&in=0" + "&pro=" + $("#pro").val() + "&pri=0" + "&pay=0" + "&bayer=" + $("#cre").val() + "&ser=" + $("#ser").val() + "&date=" + $("#date").val() + "&campus=" + $("#selCampus").val() + "&status=6" + "";
        
         $.ajax({
             type: 'POST',
             url: "../business/BuyInsertAction.php",
-            data: infoData,
+            data: dataInfo,
             success: function (data) {
                 returnAll();
             },
@@ -139,36 +132,7 @@ include './footer.php';
             }
         });
     }
-    function update(id) {
-        $.ajax({
-            type: 'POST',
-            url: "../business/BuyUpdateAction.php",
-            data: "id=" + id + "&bra=" + $("#bra" + id).val() + "&mo=" + $("#mo" + id).val() + "&qu=" + $("#qu" + id).val() + "&in=" + $("#in" + id).val() + "&pro=" + $("#pro" + id).val() + "&pri=" + $("#pri" + id).val() + "&pay=" + $("#pay" + id).val() + "&ser=" + $("#ser" + id).val() + "",
-            beforeSend: function (before)
-            {
-            },
-            success: function (data)
-            {
-//                    alert(data);
-//                    alert("id=" + id + "&bra=" + $("#bra" + id).val() + "&mo=" + $("#mo" + id).val() + "&qu=" + $("#qu" + id).val() + "&in=" + $("#in" + id).val() + "&pro=" + $("#pro" + id).val() + "&pri=" + $("#pri" + id).val() + "&pay=" + $("#pay" + id).val() + "&ser=" + $("#ser" + id).val() + "");
-//                    alert(id);
-                returnAll();
-            },
-            error: function (data)
-            {
 
-//                    alert(data);
-            }
-        }
-        );
-    }
-    function validateUpdate(id) {
-//            alert('vf');
-        if (validate(id) === 0) {
-//                alert('vfcd');
-            update(id);
-        }
-    }
     function validate(id) {
         var result = 0;
         $("#msg").empty();
@@ -214,7 +178,6 @@ include './footer.php';
     function updateControlsEnable(id) {
         $("#bra" + id).removeAttr("readonly");
         $("#mo" + id).removeAttr("readonly");
-//        $("#qu" + id).removeAttr("readonly");
         $("#in" + id).removeAttr("readonly");
         $("#pro" + id).removeAttr("readonly");
         $("#pri" + id).removeAttr("readonly");
@@ -234,13 +197,6 @@ include './footer.php';
 
     }
     function insertNewRow(buy) {
-        var pay = '';
-        if (buy.paymentbuy === 0) {
-            var pay = "Cash"
-        } else {
-            var pay = "Credit"
-        }
-
         var temp = '<tr  id="' + buy.idbuy + '">' +
                 '<td>' +
                 '<input id="bra' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
@@ -252,19 +208,10 @@ include './footer.php';
                 '<input id="qu' + buy.idbuy + '" value="' + buy.quantitybuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<input id="in' + buy.idbuy + '" value="' + buy.invoicenumberbuy + '" readonly/>' +
-                '</td>' +
-                '<td>' +
                 '<input id="pro' + buy.idbuy + '" value="' + buy.providerbuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<input id="pri' + buy.idbuy + '" value="' + '$' + buy.pricebuy + '" readonly/>' +
-                '</td>' +
-                '<td>' +
-                '<select id="pay' + buy.idbuy + '" disabled="true"><option value="0" >' + pay + ' Payment</option></select>' +
-                '</td>' +
-                '<td>' +
-                '<input id="bayer' + buy.idbuy + '" value="' + buy.buyerbuy + '" readonly/>' +
+                '<input id="cre' + buy.idbuy + '" value="' + buy.buyerbuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
                 '<input id="ser' + buy.idbuy + '" value="' + buy.seriesbuy + '" readonly/>' +
@@ -273,14 +220,8 @@ include './footer.php';
                 '<input id="date' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<input id="ca' + buy.idbuy + '" value="' + buy.namecampus + '" readonly/>' +
+                '<input id="hu' + '" value="' + buy.namecampus + '" readonly/>' +
                 '</td>' +
-//                '<td>' +
-//                '<input id="update' + buy.idbuy + '" type="button" onclick="updateControlsEnable(' + buy.idbuy + ');" value="    UPDATE    "/>' +
-//                '</td>' +
-//                '<td>' +
-//                '<input id="save' + buy.idbuy + '" type="button" onclick="validateUpdate(' + buy.idbuy + ');" value="SAVE" disabled/>' +
-//                '</td>' +
                 '</tr>';
         getCampus();
         $("#paymentTable").append(temp);

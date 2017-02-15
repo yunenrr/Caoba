@@ -105,13 +105,25 @@ class FamilyParentingData extends Connector {
      * @return type
      */
     public function verifyFamily($idPerson, $idPersonFamilyParenting) {
-        $query = "select count(idrelativefamilyparenting) from tbfamilyparenting where idrelativefamilyparenting=" . $idPerson." and idpersonfamilyparenting=".$idPersonFamilyParenting ;
+        $query = "select count(idrelativefamilyparenting) from tbfamilyparenting where idrelativefamilyparenting=" . $idPerson . " and idpersonfamilyparenting=" . $idPersonFamilyParenting;
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
     }
     
      /**
+     * Use to Check if are already family
+     * @param type $idPerson
+     * @return type
+     */
+    public function verifyFamilyParents($id) {
+        $query = "select count(idrelativefamilyparenting) from tbfamilyparenting where idrelativefamilyparenting=" . $id . "";
+        $result = $this->exeQuery($query);
+        $array = mysqli_fetch_array($result);
+        return trim($array[0]);
+    }
+
+    /**
      * Use to get a tree familyParenty
      * @return array
      */
@@ -122,12 +134,16 @@ class FamilyParentingData extends Connector {
                 . "inner join tbrelationship on idrelationshipfamilyparenting=idrelationship "
                 . "where idpersonfamilyparenting=" . $idPerson;
 
-        $temp1 = "<ul><a>Parents</a><ul>"; //papás
-        $temp2 = "<ul><a>Siblings</a><ul>"; //hermanos
-        $temp3 = "<ul><a>Sons</a><ul>"; //hijos
+        $temp1 = "";
+        $temp2 = "";
+        $temp3 = "";
 
         $result = $this->exeQuery($query);
         if (mysqli_num_rows($result) > 0) {
+            $temp1 = "<ul><a>Parents</a><ul>"; //papás
+            $temp2 = "<ul><a>Siblings</a><ul>"; //hermanos
+            $temp3 = "<ul><a>Sons</a><ul>"; //hijos
+
             for ($i = 0; $i < 4; $i++) {
                 while ($row = mysqli_fetch_array($result)) {
                     $relation = $row['idrelationshipfamilyparenting'];
@@ -154,4 +170,5 @@ class FamilyParentingData extends Connector {
 
         return $temp1 . $temp2 . $temp3;
     }
+
 }

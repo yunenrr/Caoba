@@ -9,75 +9,54 @@ include '../data/InventoryData.php';
  */
 class InventoryBusiness {
 
-     private $inventoryData;
+    private $inventoryData;
 
     public function InventoryBusiness() {
         $this->inventoryData = new InventoryData();
     }
 
     /**
-     * Used to insert a new inventory
-     * @param type $inventory
+     * Función que permite insertar un nuevo registro de compra o donación
+     * @param type $buy
      * @return type
      */
-    public function insertInventory($idInventory, $quantityInventory, $status) {
-        return $this->inventoryData->insertInventory($idInventory, $quantityInventory, $status);
+    public function insertNewBuy($inventory, $buy) {
+        return $this->inventoryData->insertNewBuy($inventory, $buy);
     }
      /**
-     * Used regresa el articulo en  estado de reparación a funcionamiento
+     * Función que permite insertar un nuevo registro de robo, reparación.
      * @param type $inventory
      * @return type
      */
-    public function insertInventoryRepair($inventory,$quantity) {
-        return $this->inventoryData->insertInventoryRepair($inventory,$quantity);
+    public function insertNewInventory($inventory) {
+        return $this->inventoryData->insertNewInventory($inventory);
     }
 
     /**
-     * Update inventory data
-     * @param type $inventory inventory to keep data
-     * @return type query result
+     * Método que verifica si el artiulo ingresado ya se encuentra registrado en el inventario
+     * @param type $buy
+     * @return type
+     */
+    public function existInventary($buy) {
+        return $this->inventoryData->existInventary($buy);
+    }
+
+    /**
+     * Función que me permite actualizar la informacíon de un inventario.
+     * @param type $inventory
      */
     public function updateInventory($inventory) {
-        return $this->inventoryData->updateInventory($inventory);
+        return $this->inventoryData->updateIncrease($inventory);
     }
 
     /**
-     * Used to delete a inventory
-     * @param type $idInventory pk of the inventory to delete
+     * Función que me permite actualizar la informacíon de un inventario, para disminuir.
+     * @param type $idGoods
+     * @param type $quantity
      * @return type
      */
-    public function deleteInventory($idInventory, $quantityActiveInventory) {
-        return $this->inventoryData->deleteInventory($idInventory, $quantityActiveInventory);
+    public function updateDecrease($idinventory, $quantity) {
+        return $this->inventoryData->updateDecrease($idinventory, $quantity);
     }
-    
-     /**
-     * Used to delete a inventory
-     * @param type $id pk of the inventory to delete
-     * @return type
-     */
-    public function getInventory($status) {
-        return $this->inventoryData->getInventory($status);
-    }
-    
-     /**
-     * Use to get the max id num to the inventory registration
-     * @return type
-     */
-    public function getMaxId() {
-        return $this->inventoryData->getMaxId();
-    } 
-    /**
-     * Use to get a goods
-     * @return type
-     */
-    public function getActive($id){
-        return $this->inventoryData->getActive($id);
-    }
-    /**
-     * Use to get status
-     * @return type
-     */
-    public function getStatus(){
-        return $this->inventoryData->getStatus();
-    }
+
 }

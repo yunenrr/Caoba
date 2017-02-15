@@ -1,6 +1,7 @@
 <?php
 
 include './InventoryBusiness.php';
+include './BuyBusiness.php';
 
 
 if (isset($_POST['option'])) {
@@ -9,59 +10,28 @@ if (isset($_POST['option'])) {
     $inventoryBusiness = new InventoryBusiness();
 
     switch ($option) {
-        case 1: // obtener todos los activos registrados
-            $status = $_POST['status'];
-            $array = $inventoryBusiness->getInventory($status);
-
-            $temp = "";
-            $payment = "";
-            foreach ($array as $current) {
-                if ($current->getPaymentbuy() == 1) {
-                    $payment = "Credit";
-                } else {
-                    $payment = "Cash";
-                }
-                $temp = $temp . $current->getIdbuy() . "," . $current->getBrandbuy() . "," . $current->getModelbuy() . "," . $current->getSeriesbuy() . "," . $current->getQuantitybuy() . "," . $current->getBuydatebuy() . "," . $current->getInvoicenumberbuy() . "," . $current->getProviderbuy() . "," . $current->getPricebuy() . "," . $current->getBuyerbuy() . "," . $payment . ";";
-            }//Fin del foreach
-            if (strlen($temp) > 0) {
-                $temp = substr($temp, 0, strlen($temp) - 1);
-            }
-            echo $temp;
+        case 1: // robo
+            $idInventory = $_POST['id'];
+            $quantity = $_POST['quantity'];
+            $inventory = new Inventory(0, $idInventory, 5, $quantity, 0);
+            $inventoryBusiness->insertNewInventory($inventory);
+            $inventoryBusiness->updateDecrease($idInventory, $quantity);
             break;
 
-        case 2:// insertar nuevos inventario
-            $idInventory = $_POST['txtIdInventory'];
-            $statusinventory = $_POST['status'];
-            $quantityInventory = $_POST['txtQuantity'];
-            echo $inventoryBusiness->insertInventory($idInventory, $quantityInventory, $statusinventory);
+        case 2:// obtiene elementos del inventario para robado
+            $buy = new BuyBusiness();
+            $result = $buy->returnAllForStolen();
+            echo (json_encode($result));
             break;
 
-        case 3:// opción para eliminar un activo del inventario
-//            $idInventory = $_POST['txtID'];
-//            $quantityActiveInventory = $_POST['txtQuantity'];
-//            if($inventoryBusiness->getActive($idInventory)>=$quantityActiveInventory){
-//               echo $inventoryBusiness->deleteInventory($idInventory,$quantityActiveInventory); 
-//            }else{
-//                echo 'Error!! Dont have enought quantity';
-//            }
-            $idInventory = $_POST['txtIdInventory'];
-            $quantityInventory = $_POST['txtQuantity'];
-            $inventoryBusiness->insertInventoryRepair($idInventory, $quantityInventory);
-            echo '1';
-            break;
-        case 4:
-            $status = $_POST['status'];
-            $array = $inventoryBusiness->getInventory($status);
-
-            $temp = "";
-            $payment = "";
-            foreach ($array as $current) {
-                $temp = $temp . $current->getIdbuy() . "," . $current->getBrandbuy() . "," . $current->getModelbuy() . "," . $current->getSeriesbuy() . "," . $current->getQuantitybuy() . ";";
-            }//Fin del foreach
-            if (strlen($temp) > 0) {
-                $temp = substr($temp, 0, strlen($temp) - 1);
-            }
-            echo $temp;
+        case 3:
+            $idBuy = $_POST['id'];
+            $idInventory = $_POST['idInventory'];
+            $quantity = $_POST['quantity'];
+            $sta = $_POST['status'];
+            $inventory = new Inventory(0, $idBuy, $sta, $quantity, 0);
+            $inventoryBusiness->insertNewInventory($inventory);
+            $inventoryBusiness->updateDecrease($idInventory, $quantity);
             break;
     }
 }

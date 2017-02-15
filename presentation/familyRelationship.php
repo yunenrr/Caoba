@@ -8,11 +8,9 @@ $namePerson = $_GET['name'];
     ?>
 <div>
     <fieldset>
-        <legend><?php echo $namePerson?>'s family</legend>
+        <legend>Family</legend>
         <div id="tree"></div>       
         </fieldset><br><br>
-    
-    
     <table border>
         <thead>
             <tr>
@@ -60,7 +58,7 @@ $namePerson = $_GET['name'];
              TreeFamily();
              getAllRelationship();
              getAllPerson();
-//             getFamily();
+             getFamily();
              
  /****************************** Eventos ************************************/
  

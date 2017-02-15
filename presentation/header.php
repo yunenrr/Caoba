@@ -16,8 +16,7 @@
                 <?php
                 error_reporting(E_ALL ^ E_NOTICE);
                 session_start();
-                if (isset($_SESSION['id'])) 
-                {
+                if (isset($_SESSION['id'])) {
                     ?>
 
                     <?php
@@ -40,6 +39,7 @@
                                     <li><a href="ChooseService.php" >Schedule add</a></li>
                                     <li><a href="ShowSchedule.php">Schedule</a></li>
                                     <?php echo '<li><a href="EditClient.php?id=' . $_SESSION['id'] . '" >Update personal information</a></li>'; ?>
+                                    <?php echo '<li><a href="familyRelationship.php?id=' . $_SESSION['id'] . '" >Family</a></li>'; ?>
                                 <?php } ?>
                             </ul>
                         </li>
@@ -61,22 +61,35 @@
                         <li>
                             <a>Inventory</a>
                             <ul>
-                                <li><a href="">Buy</a></li>
+                                <li><a href="InventoryView.php">Inventory view</a></li>
+                                <li><a href="BuyView.php">Buy</a></li>
                                 <li><a href="RepairInventory.php">Repair</a></li>
                                 <li><a href="WasteInventory.php">Waste</a></li>
                                 <li><a href="DamageInUseInventory.php">Damage in use</a></li>
                                 <li><a href="StolenInventory.php">Stolen</a></li>
-                                <li><a href="">Donated</a></li>
+                                <li><a href="DonatedInventory.php">Donated</a></li>
                                 <li><a href="DonationInventory.php">Donation</a></li>
                             </ul>
                         </li>
+                        <li><strong><a href="Neighborhood.php">Neighborhood</a></strong> </li>
                     <?php } ?>
 
                     <?php
                     if ($_SESSION['type'] != '0' && $_SESSION['type'] != '3') {
                         ?>
-                        <li>
-                            <strong><a href="Neighborhood.php">Neighborhood</a></strong>
+                        <li><strong><a href="Neighborhood.php">Neighborhood</a></strong> </li>
+                         <li>
+                            <a>Inventory</a>
+                            <ul>
+                                <li><a href="InventoryView.php">Inventory view</a></li>
+                                <li><a href="BuyView.php">Buy</a></li>
+                                <li><a href="RepairInventory.php">Repair</a></li>
+                                <li><a href="WasteInventory.php">Waste</a></li>
+                                <li><a href="DamageInUseInventory.php">Damage in use</a></li>
+                                <li><a href="StolenInventory.php">Stolen</a></li>
+                                <li><a href="DonatedInventory.php">Donated</a></li>
+                                <li><a href="DonationInventory.php">Donation</a></li>
+                            </ul>
                         </li>
                     <?php } ?>
 
@@ -97,8 +110,6 @@
                     <?php
                     if ($_SESSION['type'] != '0' && $_SESSION['type'] != '3') {
                         ?>
-                        <li> <strong> <a href="Goods.php">Goods</a></strong></li>
-                        <li><strong> <a href="Inventory.php">Inventory</a></strong></li>
                     <?php } ?>
 
                     <li>
@@ -108,7 +119,6 @@
                     <?php
                 } else {
                     ?>
-                    <?php header("location: ./Login.php") ?>
                 <?php } ?>
             </ul>
         </nav>

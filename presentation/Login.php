@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head lang="es" >
-        <title>Gym Caoba</title>
+        <title>Gimnasio Caoba</title>
         <script src="../js/jquery-3.1.1.min.js"></script>
         <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
     </head>
@@ -12,7 +12,7 @@
         <table>
             <tr>
                 <td>
-                    <label>User: </label>
+                    <label>Usuarios: </label>
                 </td>
                 <td>
                     <input id="user" name="user" type="text" placeholder="Username"/>
@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td>
-                    <label>Password: </label>
+                    <label>Contraseña: </label>
                 </td>
                 <td>
                     <input id="pass" name="pass" type="password" placeholder="Password"/>
@@ -28,7 +28,7 @@
             </tr>
         </table>
 
-        <input type="submit" name="submit" value="Login"/>
+        <input type="submit" name="submit" value="Ingresar"/>
     </form>
 
 </div>

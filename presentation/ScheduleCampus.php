@@ -1,37 +1,37 @@
 <?php include './header.php' ?>
 <div>
-    <h1>Schedule Campus:</h1>
+    <h1>Horario Salas:</h1>
     <div>
-        <label>Campus:</label>
+        <label>Salas:</label>
         <select id="selCampus" name="selCampus"></select>
     </div>
     <div>
-        <label>Add Schedule:</label><label id="lblAddSchedule"></label>
-    </div>
-    <div>
-        <label>Services:</label>
+        <label>Servicios:</label>
         <select id="selService" name="selService"></select>
     </div>
-    <button id="btnAdd">Add</button>
-    <div>
-        <label>Remove Schedule:</label><label id="lblRemoveSchedule"></label>
-    </div>
-    <button id="btnRemove">Remove</button>
+    <button id="btnAdd">Agregar</button>
+    <button id="btnRemove">Eliminar</button>
     <fieldset>
-        <legend>Current Schedule:</legend>
+        <legend>Horario actual:</legend>
         <table>
             <thead>
                 <tr>
-                    <td>Schedule</td>
-                    <td>Monday</td>
-                    <td>Tuesday</td>
-                    <td>Wednesday</td>
-                    <td>Thursday</td>
-                    <td>Friday</td>
+                    <td>Horario</td>
+                    <td>Lunes</td>
+                    <td>Martes</td>
+                    <td>Miércoles</td>
+                    <td>Jueves</td>
+                    <td>Viernes</td>
                 </tr>
             </thead>
-            <tbody id="tableSchedule">
+            <tbody id="tableSchedule" style="cursor: default">
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"><label style="background-color: #00ff40;">&Square;</label> <label> = Agregar</label></td>
+                    <td colspan="3"><label style="background-color: #b94646;">&Square;</label> <label> = Eliminar</label></td>
+                </tr>
+            </tfoot>
         </table>
     </fieldset>
     <div id="msg"></div>
@@ -208,11 +208,11 @@
             /**
             * Función agrega un valor al array correspondiente.
             * @param {String} idField Valor que se desea agregar.
-            * @return {boolean} true: si es al array de agregar, false en caso contrario.
+            * @return {String} F = Free,
             * */
             function addToArray(idField)
             {
-                var answer = false;
+                var answer = "";
                 var arrayTemp = idField.split("-");
                 
                 //Preguntamos si es agregar
@@ -221,24 +221,79 @@
                     //Verificamos que no existe actualmente
                     if(!searchInArraySchedule(arrayScheduleAdd,arrayTemp[0],arrayTemp[1]))
                     {
-                        var text = $("#lblAddSchedule").text() + getDay(arrayTemp[1]) + ": " + getFormatHour(parseInt(arrayTemp[0])) + " - " + getFormatHour(parseInt(arrayTemp[0])+1) + " ";
-                        $("#lblAddSchedule").text(text);
+                        //Si no existe lo agregamos al array correspondiente
                         arrayScheduleAdd = arrayScheduleAdd  + idField + ";";
                     }//Fin del if
-                    answer = true;
+                    answer = "f";
                 }//Fin del if
+                //Preguntamos si ya se había seleccionado para agregar
+                else if(arrayTemp[2] === "a")
+                {
+                    //Verificamos que existe actualmente
+                    if(searchInArraySchedule(arrayScheduleAdd,arrayTemp[0],arrayTemp[1]))
+                    {
+                        arrayScheduleAdd = removeToArray(arrayScheduleAdd,idField);
+                    }//Fin del if
+                    answer = "df";
+                }//Fin del if
+                //Preguntamos si ya se había seleccionado para eliminar
+                else if(arrayTemp[2] === "r")
+                {
+                    //Verificamos que existe actualmente
+                    if(searchInArraySchedule(arrayScheduleRemove,arrayTemp[0],arrayTemp[1]))
+                    {
+                        arrayScheduleRemove = removeToArray(arrayScheduleRemove,idField);
+                    }//Fin del if
+                    answer = "dr";
+                }//Fin del if                
                 else
                 {
                     //Verificamos que no existe actualmente
                     if(!searchInArraySchedule(arrayScheduleRemove,arrayTemp[0],arrayTemp[1]))
                     {
-                        var text = $("#lblRemoveSchedule").text() + getDay(arrayTemp[1]) + ": " + getFormatHour(parseInt(arrayTemp[0])) + " - " + getFormatHour(parseInt(arrayTemp[0])+1) + " ";
-                        $("#lblRemoveSchedule").text(text);
                         arrayScheduleRemove = arrayScheduleRemove  + idField + ";";
                     }//Fin del
-                    answer = false;
+                    answer = "o";
                 }//Fin del else
                 return answer;
+            }//Fin de la función
+            
+            /**
+            * Función que nos permite eliminar un elemento de un array.
+            * @param {Array} array Corresponde al array que se desea revisar.
+            * @param {String} value Corresponde al valor que se desea buscar en el arreglo.
+            * @return {Array} El nuevo arreglo sin el valor recibido por parámetro.
+            * */
+            function removeToArray(array,value)
+            {
+                var arraySchedule = value.split("-");
+                var hour = arraySchedule[0];
+                var day = arraySchedule[1];
+                var newArray = "";
+                
+                
+                if(array.length > 0)
+                {
+                    var arrayTemp = array.split(";");
+                    
+                    //Ciclo para el arreglo de horarios de la base de datos
+                    for(var k = 0; k < arrayTemp.length; k++)
+                    {
+                        //Validamos que no esté vacío
+                        if(arrayTemp[k].length > 0)
+                        {
+                            var currentSchedule = arrayTemp[k].split("-");
+
+                            //Pregunta si es el mismo día y hora
+                            if(currentSchedule[0] !== hour || currentSchedule[1] !== day)
+                            {
+                                newArray = newArray + arrayTemp[k] + ";";
+                            }//Fin del if
+                        }//Fin del if
+                    }//Fin del for   
+                }//Fin del if
+                
+                return newArray;
             }//Fin de la función
             
             /**
@@ -285,8 +340,6 @@
                 arrayScheduleAdd = "";
                 arrayScheduleRemove = "";
                 arrayScheduleDB = "";
-                $("#lblAddSchedule").text("");
-                $("#lblRemoveSchedule").text("");
             }//Fin de la función
             
             /**************************** EVENTOS *****************************/
@@ -313,16 +366,36 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(2,row.length);
+                    var currentOption = addToArray(currentRow);
                     
-                    //If para asignar color
-                    if(addToArray(currentRow))
+                    //Switch para asignar color
+                    switch(currentOption)
                     {
-                        $(this).css("background-color", "#00ff40"); //Verde
-                    }//Fin del if
-                    else
-                    {
-                        $(this).css("background-color", "#b94646"); //Rojo
-                    }//Fin del else
+                        case "f":
+                            $(this).css("background-color", "#00ff40"); //Verde
+                            var newId = row.substring(0,(row.length-1));
+                            newId = newId + "a";
+                            $(this).attr("id",newId);
+                            break;
+                        case "o":
+                            $(this).css("background-color", "#b94646"); //Rojo
+                            var newId = row.substring(0,(row.length-1));
+                            newId = newId + "r";
+                            $(this).attr("id",newId);
+                            break;
+                        case "df":
+                            $(this).css("background-color", "transparent"); //Default
+                            var newId = row.substring(0,(row.length-1));
+                            newId = newId + "0";
+                            $(this).attr("id",newId);
+                            break;
+                        case "dr":
+                            $(this).css("background-color", "transparent"); //Default
+                            var newId = row.substring(0,(row.length-1));
+                            newId = newId + "n";
+                            $(this).attr("id",newId);
+                            break;
+                    }//Fin del switch
                 }//Fin de la función del evento
             );//Fin del even
             

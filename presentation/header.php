@@ -118,7 +118,7 @@
                     <?php
                 } else {
                     ?>
-                    <?php header("location: ./Login.php") ?>
+                    <?php // header("location: ./Login.php"); ?>
                 <?php } ?>
             </ul>
         </nav>

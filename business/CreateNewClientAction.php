@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
             $number = $_POST['phone' . $i];
             if (isset($number) && $number != "") {
                 $idPhone = $phoneBusiness->getMaxId();
-                $phone = new Phone($idPhone, $id, $number);
+                $phone = new Phone($idPhone, $idPerson, $number);
                 $phoneBusiness->insertPhone($phone);
             }
         }

@@ -11,17 +11,12 @@ include '../domain/Service.php';
  */
 class ServiceData1 extends Connector {
 
-    public function insertServiceToClient($idclientschedule, 
-            $idpersonclientschedule, 
-            $startdateclientschedule, 
-            $hourclientschedule, 
-            $dayclientschedule, 
-            $idservicepaymentmoduleclientschedule, 
-            $idserviceclientschedule) {
+    public function insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule, $enddateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule) {
 
         $query = "insert into `tbclientschedule` (`idclientschedule`,
                                                 `idpersonclientschedule`,
                                                 `startdateclientschedule`,
+                                                `enddateclientschedule`,
                                                 `hourclientschedule`,
                                                 `dayclientschedule`,
                                                 `idservicepaymentmoduleclientschedule`,
@@ -30,12 +25,19 @@ class ServiceData1 extends Connector {
                  (" . $idclientschedule . ""
                 . "," . $idpersonclientschedule . ""
                 . ",'" . $startdateclientschedule . "'"
+                . ",'" . $enddateclientschedule . "'"
                 . "," . $hourclientschedule . ""
                 . "," . $dayclientschedule . ""
                 . "," . $idservicepaymentmoduleclientschedule . ""
                 . "," . $idserviceclientschedule . ");";
 
-        return $this->exeQuery($query);
+        if ($this->exeQuery($query)) {
+            $query2 = 'UPDATE `tbservice` SET `quotaservice`= (`quotaservice` - 1) WHERE  `idservice`= '.$idserviceclientschedule ;
+            if ($this->exeQuery($query2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -59,7 +61,7 @@ class ServiceData1 extends Connector {
      * @return type
      */
     public function getDayService($id) {
-        $query = "SELECT dayscheduleservice FROM tbscheduleservice WHERE idservicescheduleservice = " . $id." GROUP BY  dayscheduleservice";
+        $query = "SELECT dayscheduleservice FROM tbscheduleservice WHERE idservicescheduleservice = " . $id . " GROUP BY  dayscheduleservice";
 
         $allService = $this->exeQuery($query);
         $array = [];
@@ -76,7 +78,7 @@ class ServiceData1 extends Connector {
      */
     public function getHourStartService($id, $idDay) {
         $query = "SELECT hourscheduleservice FROM tbscheduleservice 
-                    WHERE idservicescheduleservice = " . $id . " AND dayscheduleservice = " . $idDay . ";";
+                    WHERE idservicescheduleservice = " . $id . " AND dayscheduleservice = " . $idDay . " GROUP BY hourscheduleservice;";
 
         $hourStart = $this->exeQuery($query);
         $array = [];
@@ -173,6 +175,14 @@ class ServiceData1 extends Connector {
      */
     public function getMaxId() {
         return $this->getMaxIdTable("clientschedule");
+    }
+
+    public function getQuota($id) {
+        $query = 'SELECT quotaservice FROM gymcaoba.tbservice where idservice = ' . $id;
+        $result = $this->exeQuery($query);
+        $array = mysqli_fetch_array($result);
+        $quota = trim($array[0]);
+        return $quota;
     }
 
 }

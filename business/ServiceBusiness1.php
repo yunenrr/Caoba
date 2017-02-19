@@ -15,8 +15,8 @@ class ServiceBusiness1 {
         return $this->serviceData = new ServiceData1();
     }
 
-    public function insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule) {
-        return $this->serviceData->insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule);
+    public function insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule,$enddateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule) {
+        return $this->serviceData->insertServiceToClient($idclientschedule, $idpersonclientschedule, $startdateclientschedule, $enddateclientschedule, $hourclientschedule, $dayclientschedule, $idservicepaymentmoduleclientschedule, $idserviceclientschedule);
     }
 
     /**
@@ -73,6 +73,10 @@ class ServiceBusiness1 {
 
     public function getMaxId() {
         return $this->serviceData->getMaxId();
+    }
+    
+    public function getQuota($id){
+        return $this->serviceData->getQuota($id);
     }
 
 }

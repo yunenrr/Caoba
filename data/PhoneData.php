@@ -17,9 +17,9 @@ class PhoneData extends Connector {
      * @return type
      */
     public function insertPhone($phone) {
-        $query = "INSERT INTO TBPhone (idphone ,idclientphone ,numberphone)
+        $query = "INSERT INTO tbphone (idphone ,idclientphone ,numberphone)
         VALUES ('" . $phone->getIdPhone() . "' , '" . $phone->getIdClientPhone() . "', '" . $phone->getNumberPhone() . "');";
-
+        
         return $this->exeQuery($query);
     }
 
@@ -54,7 +54,7 @@ class PhoneData extends Connector {
      * @return type
      */
     public function getMaxId() {
-        return $this->getMaxIdTable("Phone");
+        return $this->getMaxIdTable("phone");
     }
 
     public function getAllPhonesPerson($idPerson) {

@@ -14,26 +14,26 @@ $gender = $personBusiness->GetAllGender();
 $neighborhood= $neighborhoodBusiness->getAllAddress();
 ?>
 <div>
-    <H1 ALIGN=JUSTIFY>Person Registration </H1>
-    <table border='2'>
+    <H1 ALIGN=JUSTIFY>Registro </H1>
+    <table border='1'>
         <thead>
             <tr>
-                <th>Identifier</th>
-                <th>Name</th>
-                <th>First Surname</th>
-                <th>Second Surname</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Email</th>
-                <th>Phone Reference</th>
-                <th>Blood Type</th>
-                <th>Status</th>
-                <th>Neighborhood</th>
-                <th>Phone</th>
-                <th>Routine</th>
-                <th>Diet</th>
-                <th>Condition</th>
-                <th>Update</th>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Primer apellido</th>
+                <th>Segundo apellido</th>
+                <th>Edad</th>
+                <th>Género</th>
+                <th>Correo</th>
+                <th>Teléfono de referencia</th>
+                <th>Tipo de sangre</th>
+                <th>Estado</th>
+                <th>Barrio</th>
+                <th>Teléfono</th>
+                <th>Rutinas</th>
+                <th>Dieta</th>
+                <th>Condición</th>
+                <th>Actualizar</th>
             </tr>
         </thead>
         <tbody id="tableBodyPerson">
@@ -47,72 +47,72 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
 
 <div>
     <fieldset>
-        <legend>Basic Information</legend>
+        <legend>Infomación Personal</legend>
         <!--FORM-->
         <form name="form" action="../business/CreateNewClientAction.php" method="POST" onsubmit="return valide(this)">
             <!--INFO-->
-            <table>
+            <table  border="1px" cellpadding="8px">
                 <!--DNI-->
                 <tr>
-                    <td>Identify:</td>
+                    <td>Cédula:</td>
                     <td><input type="text" id="dni" name="dni" placeholder="0-0000-000" />*
                         <div id="msgUsuario"></div></td>
                 </tr>
 
                 <!--Type user-->
                 <tr>
-                    <td> Type user:</td>
+                    <td> Tipo de usuario:</td>
                     <td><select id="userType" name="userType"><option value="0">Client</option><option value="1">Instructor</option>
                             <option value="2">Instructor & Admin</option><option value="3">Admin</option></select></td>
                 </tr>
 
                 <!--NAME-->
                 <tr>
-                    <td>Person name:</td>
+                    <td>Nombre:</td>
                     <td><input type="text" id="name" name="name" 
                                pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"/>*<br/></td>
                 </tr>
 
                 <!--FIRST NAME-->
                 <tr>
-                    <td> First surname:</td>
+                    <td> Primer Apellido:</td>
                     <td><input type="text" id="firstname" name="firstname" 
                                pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"/>*<br/></td>
                 </tr>
 
                 <!--SECOND NAME-->
                 <tr>
-                    <td>Second surname:</td>
+                    <td>Segundo Apellido:</td>
                     <td><input type="text" id="secondname" name="secondname" 
                                pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"/>*<br/></td>
                 </tr>
 
                 <!--USER NAME-->
                 <tr>
-                    <td>User name:</td>
+                    <td>Nombre de usuario:</td>
                     <td><input type="text" id="userName" name="userName" />*<br/>
                         <div id="msgUserName"></div></td>
                 </tr>
                 <!--PASSWORD-->
                 <tr>
-                    <td>Password:</td>
+                    <td>Contraseña:</td>
                     <td><input type="password" id="password" name="password" />*<br/></td>
                 </tr>
 
                 <!--Birthday-->
                 <tr>
-                    <td>Birthday date:</td>
+                    <td>Fecha de nacimiento:</td>
                     <td><input type="text" id="birthday" name="birthday" />*</td>
                 </tr>
                 
                 <!--StartDate-->
                 <tr>
-                    <td>Start Date :</td>
+                    <td>Fecha de ingreso :</td>
                     <td><input type="text" id="startDay" name="startDay" />*</td>
                 </tr>
                 <!--GENDER-->
                 <tr>
-                    <td>Gender:</td>
+                    <td>Genero:</td>
                     <td>
                         <select id="selGender" name="selGender" > 
                             <?php foreach ($gender as $value) { ?>
@@ -123,14 +123,14 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 </tr>
                 <!--Blood-->
                 <tr>
-                    <td>Blood Type:</td>
+                    <td>Tipo de sangre:</td>
                     <td><select id="selBlood" name="selBlood"><option value="0-">0-</option><option value="0+">0+</option>
                             <option value="A-">A-</option><option value="A+">A+</option> <option value="B-">B-</option>
                             <option value="B+">B+</option><option value="AB-">AB-</option><option value="AB+">AB+</option> </select></td>
                 </tr>
                 <!--NEIGHBORHOOD-->
                 <tr>
-                    <td>Neighborhood:</td>
+                    <td>Barrio:</td>
                     <td>
                         <select id="selNeighborhood" name="selNeighborhood" > 
                             <?php foreach ($neighborhood as $value) { ?>
@@ -141,19 +141,19 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 </tr>
                 <!--EMAIL-->
                 <tr>
-                    <td>Email:</td>
+                    <td>Correo:</td>
                     <td><input type="email" id="email" name="email" required placeholder="example@gmail.com"/>*<br/></td>
                 </tr>
 
                 <!--Phone reference-->
                 <tr>
-                    <td>Phone reference:</td>
+                    <td>Teléfono de referencia:</td>
                     <td><input type="text" id="addPhoneReference" name= "addPhoneReference" type="button">*</td>
                 </tr>
 
                 <!--PHONE-->
                 <tr>
-                    <td>Phone:</td>
+                    <td>Teléfono:</td>
                     <td>
                         <table border="1" id="phone">
                             <tr id="tr0">
@@ -162,18 +162,18 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                                     <input id="phone0" name="phone0" type="text">
                                 </td>
                                 <td>
-                                    <input id="deletePhone0" type="button" onclick="deletePhone(-1);" value="Delete">
+                                    <input id="deletePhone0" type="button" onclick="deletePhone(-1);" value="Eliminar">
                                 </td>
                             </tr>
                         </table>
-                        <input id="AddPhone" type="button" onclick="addPhone();" value="Add Phone">
+                        <input id="AddPhone" type="button" onclick="addPhone();" value="Agregar teléfono">
                     </td>
                 </tr>
             </table>
 
             <!--REGISTRE-->
             <div>
-                <div>Required fields(*)</div><br>
+                <div>Campos obligatorios(*)</div><br>
                 <input type="submit" id="submit" name="submit" value="Register">
                 <input type="hidden" id="option" name="option" value="2">
             </div>
@@ -222,7 +222,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 },
                 success: function (result) {
                     if (result === '1') {
-                        $('#msgUserName').html("It already exists");
+                        $('#msgUserName').html("ERROR!! Ya existe!");
                         availability = false;
                     } else {
                         $('#msgUserName').html("");
@@ -236,7 +236,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
     // Use to valite the dni
     $('#dni').focusout(function () {
         if ($('#dni').val().length <= 8) {
-            $('#msgUsuario').html("Check!! The format is 0-000-000");
+            $('#msgUsuario').html("Error!! El formato es 0-000-000");
         } else{
             $.ajax({
                 type: "Post",
@@ -247,7 +247,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 },
                 success: function (result) {
                     if (result === '1'){
-                        $('#msgUsuario').html("It already exists");
+                        $('#msgUsuario').html("Error! Ya existe!");
                         availability = false;
                     } else {
                         $('#msgUsuario').html("");
@@ -295,11 +295,11 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                                             '<td>' + person[10] + '</td>' +
                                             '<td>' + person[11] + '</td>' +
                                             '<td>' + person[12] + '</td>' +
-                                            '<td><a href="../presentation/EditPhone.php?id='+ person[1]+ '&name=' +person[3] + '">Phones</a></td>'+
-                                            '<td><a href="../presentation/Routine.php?id=' +  person[1] +'&name=' + person[2]+ '">Routine</a></td>'+
-                                            '<td><a href="../presentation/diet.php?id=' +  person[1] +'&name=' + person[2]+ '">Diet</a></td>'+
-                                            '<td><a href="../presentation/conditionview.php?id=' +  person[1] +'&name=' + person[2]+ '">Condition</a></td>'+
-                                            '<td><a href="../presentation/EditClient.php?id='+ person[1]+  '">Edit</a></td>'+
+                                            '<td><a href="../presentation/EditPhone.php?id='+ person[1]+ '&name=' +person[3] + '">Teléfonos</a></td>'+
+                                            '<td><a href="../presentation/Routine.php?id=' +  person[1] +'&name=' + person[3]+ '">Rutinas</a></td>'+
+                                            '<td><a href="../presentation/diet.php?id=' +  person[1] +'&name=' + person[3]+ '">Dieta</a></td>'+
+                                            '<td><a href="../presentation/conditionSet.php?id=' +  person[1] +'&name=' + person[3]+ '">Condición</a></td>'+
+                                            '<td><a href="../presentation/EditClient.php?id='+ person[1]+  '">Actualizar</a></td>'+
                                             '</tr>';
                             }
                               $("#tableBodyPerson").html(temp);
@@ -357,20 +357,20 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 email.length === 0 || userName.length === 0 ||
                 password.length === 0 || startDay===0) {
             
-            $("#msgError").html("Error:Check the information.Fields empty");
+            $("#msgError").html("Error:Revise la Información.Campos vacios");
             ok = false;
         } else if (phoneReference.length < 14) {
-            $("#msgError").html("Error:Check the phone references. The formart is (000)-0000-0000");
+            $("#msgError").html("Error:Revise el teléfono de referencia. El formato es (000)-0000-0000");
             ok = false;
         }else if (birthday.length < 10) {
-            $("#msgError").html("Error:Check the birthday date. The formart is aaa-mm-dd");
+            $("#msgError").html("Error:Revise la fecha de nacimiento.El formato es aaa-mm-dd");
             ok = false;
         }else if (startDay.length < 10) {
-            $("#msgError").html("Error:Check the star date. The formart is aaa-mm-dd");
+            $("#msgError").html("Error:Revise la fecha de ingreso. El formato es aaa-mm-dd");
             ok = false;
         }
         else if (!expr.test(email)) {
-            $("#msgError").html("Error: The email " + email + " is incorrect.");
+            $("#msgError").html("Error: El correo " + email + " está incorrecto.");
             ok = false;
         }else if(availability===false){
             $("#msgError").html("");
@@ -381,7 +381,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
             var idPhone = 'phone' + idPhone;
             alert('phone');
             if (form.idPhone.value.length < 14) {
-                 $("#msgError").html("Error:ERROR: Check the phones!!");
+                 $("#msgError").html("Error:ERROR: Revise los teléfonos ingresados!!");
                 ok = false;
             }
         }

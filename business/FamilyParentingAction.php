@@ -7,20 +7,36 @@ if (isset($_POST['option'])) {
     $option = $_POST['option'];
 
     $relationshipBusiness = new FamilyParentingBusiness();
-
+//echo json_encode($relationshipBusiness->getAllRelationShip());
     switch ($option) {
         case 1:// ingresa un familiar a la base
-            $idPersonFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['idPerson']));
-            $idRelativeFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['selFamilyParenting']));
-            $idRelationshipFamilyParenting = mysql_real_escape_string(htmlspecialchars($_POST['selRelationShip']));
+            $idPersonFamilyParenting = $_POST['idPerson'];
+            $idRelativeFamilyParenting = $_POST['selFamilyParenting'];
+            $idRelationshipFamilyParenting = $_POST['selRelationShip'];
 
             // se valida que el cliente selecionado como familia no se haya ingresado antes.
-            if ($relationshipBusiness->verifyFamily($idRelativeFamilyParenting,$idPersonFamilyParenting) > 0) {
-                echo 0;
+            if ($relationshipBusiness->verifyFamily($idRelativeFamilyParenting, $idPersonFamilyParenting) > 0) {
+                echo 'Esta persona ya fue ingresada como familiar!!';
             } else {// se ingresa a la base 
-                $idFamilyParenting = $relationshipBusiness->getMaxId();
-                $family = new FamilyParenting($idFamilyParenting, $idPersonFamilyParenting, $idRelativeFamilyParenting, $idRelationshipFamilyParenting);
-                $relationshipBusiness->insertFamilyParenting($family);
+                if ($idRelationshipFamilyParenting == 1 || $idRelationshipFamilyParenting == 2) {
+
+                    if ($relationshipBusiness->verifyFamilyParents($idRelationshipFamilyParenting, $idPersonFamilyParenting) > 0) {
+
+                        if ($idRelationshipFamilyParenting == 1) {
+                            echo "Ya tiene un padre registrado!!";
+                        } else {
+                            echo "Ya tiene una madre registrada!!";
+                        }
+                    } else {
+                        $idFamilyParenting = $relationshipBusiness->getMaxId();
+                        $family = new FamilyParenting($idFamilyParenting, $idPersonFamilyParenting, $idRelativeFamilyParenting, $idRelationshipFamilyParenting);
+                        echo $relationshipBusiness->insertFamilyParenting($family);
+                    }
+                } else {
+                    $idFamilyParenting = $relationshipBusiness->getMaxId();
+                    $family = new FamilyParenting($idFamilyParenting, $idPersonFamilyParenting, $idRelativeFamilyParenting, $idRelationshipFamilyParenting);
+                    echo $relationshipBusiness->insertFamilyParenting($family);
+                }
             }
 
             break;

@@ -6,10 +6,6 @@ include '../business/UserBusiness.php';
 include '../business/PersonStateBusiness.php';
 include '../business/AddressBusiness.php';
 
-//session_start();
-//if (!isset($_SESSION['id']) || !isset($_GET['id'])) {
-//    header("location: ./Home.php");
-//}
 $id = $_GET['id'];
 
 $personBusiness = new PersonBusiness();
@@ -32,17 +28,17 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
 }
 ?>
 
-<H2 ALIGN=JUSTIFY> Edit customer </H2>
+<H2 ALIGN=JUSTIFY> Actualizar Información </H2>
 
 <fieldset>
-    <LEGEND>Basic Information</LEGEND>
+    <LEGEND>Información Personal</LEGEND>
     <!--FORM-->
     <form  name="formEdit"action="../business/EditClientAction.php" method="post" onsubmit="return validationForm(this)">
-        <table>
+        <table border="1px" cellpadding="8px" >
 
             <!--DNI-->
             <tr>
-                <td>DNI:</td>
+                <td>Cédula:</td>
                 <td>
                     <input id="dni" name="dni"  readonly="readonly" type="text"  value=<?php echo $person->getDniPerson() ?> /><br/>
                 </td>
@@ -50,7 +46,7 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
 
             <!--NAME-->
             <tr>
-                <td>Person name:</td>
+                <td>Nombre:</td>
                 <td>
                     <input type="text" id="name" name="name" 
                            pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"  value=<?php echo $person->getNamePerson() ?>  />*<br/>
@@ -59,7 +55,7 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
 
             <!--FISTNAME-->
             <tr>
-                <td>First surname:</td>
+                <td>Primer apellido:</td>
                 <td>
                     <input type="text" id="firstname" name="firstname" 
                            pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" value=<?php echo $person->getFirstNamePerson() ?>  />*<br/>
@@ -68,7 +64,7 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
 
             <!--SECONDNAME-->
             <tr>
-                <td>Second surname:</td>
+                <td>Segundo Apellido:</td>
                 <td>
                     <input type="text" id="secondname" name="secondname" 
                            pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" value=<?php echo $person->getSecondNamePerson() ?> />*<br/>
@@ -76,24 +72,24 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
             </tr>
             <!--USER NAME-->
             <tr>
-                <td>User name:</td>
+                <td>Nombre de usuario:</td>
                 <td><input type="text" id="userName" name="userName"  value=<?php echo $user->getUserNameUser() ?> />*<br/>
                     <div id="msgUserName"></div></td>
             </tr>
             <!--PASSWORD-->
             <tr>
-                <td>Password:</td>
+                <td>Contraseña:</td>
                 <td><input type="password" id="password" name="password"  value=<?php echo $user->getPassUser() ?>/>*<br/></td>
             </tr>
             <!--Birthday date-->
             <tr>
-                <td>Birthday date:</td>
+                <td>Fecha de nacimiento:</td>
                 <td><input type="text" id="birthday" name="birthday" value=<?php echo $person->getBirthdayPerson() ?>/>*</td>
             </tr>
 
             <!--GENDER-->
             <tr>
-                <td>Gender:</td>
+                <td>Género:</td>
                 <td>
                     <select id="selGender" name="selGender" > 
                         <?php foreach ($gender as $value) { ?>
@@ -105,14 +101,14 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
 
             <!--Blood-->
             <tr>
-                <td>Blood Type:</td>
+                <td>Tipo de Sangre:</td>
                 <td><select id="selBlood" name="selBlood"><option value="0-">0-</option><option value="0+">0+</option>
                         <option value="A-">A-</option><option value="A+">A+</option> <option value="B-">B-</option>
                         <option value="B+">B+</option><option value="AB-">AB-</option><option value="AB+">AB+</option> </select></td>
             </tr>
             <!--NEIGHBORHOOD-->
             <tr>
-                <td>Neighborhood:</td>
+                <td>Barrio:</td>
                 <td>
                     <select id="selNeighborhood" name="selNeighborhood" > 
                         <?php foreach ($neighborhood as $value) { ?>
@@ -123,35 +119,34 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
             </tr>
             <!--EMAIL-->
             <tr>
-                <td>Email:</td>
+                <td>Correo:</td>
                 <td><input type="email" id="email" name="email" value=<?php echo $person->getEmailPerson() ?> />*<br/></td>
             </tr>
 
             <!--Phone reference-->
             <tr>
-                <td>Phone reference:</td>
+                <td>Teléfono de referencia:</td>
                 <td><input type="text" id="addPhoneReference" name= "addPhoneReference" type="button" value=<?php echo $person->getPhoneReferencePerson() ?>>*</td>
             </tr>
             <!--ADDRESS-->
             <tr>
-                <td>Status:</td>
+                <td>Estado:</td>
                 <td>
                     <label id="status" > <?php echo $state; ?> </label>
 
-                    <input type="button"  name="id" onclick="<?= 'update(' . $id . ')' ?>" value=Change /> 
+                    <input type="button"  name="id" onclick="<?= 'update(' . $id . ')' ?>" value=Cambiar /> 
 
                 </td>
             </tr>
             <!--ID-->
-            <tr><td> <input type="hidden" dni ="id" name="id" value=<?php echo $id ?>/> <br/></tr>
+            <input type="hidden" dni ="id" name="id" value=<?php echo $id ?>/>
 
             <!--REGISTRE-->
             <tr>
-                <td>Required fields(*)</td>
-                <td><br></td>
-                <td><input type="submit" name="submit" value="Edit"></td>
+                <td><input type="submit" name="submit" value="Actualizar"></td>
             </tr>
         </table>
+        <div>Campos obligatorios(*)</div>
 
         <!--MESSAGE ERROR-->
         <div id="msgError"></div>

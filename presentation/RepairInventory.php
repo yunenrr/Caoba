@@ -1,14 +1,14 @@
 <?php
 include './header.php';
 ?>
-<h2>Repair</h2>
+<h2>Activos para reparar</h2>
 
-<div>Select a status <select name="status" id='status'>
-        <option value="0">Select</option>
-        <option value="1">Functionary</option>
-        <option value="2">Repair</option>
-        <option value="4">Damage in use</option>
-        <option value="6">Donated</option>
+<div>Seleccione a estado <select name="status" id='status'>
+        <option value="0">SELECCIONE</option>
+        <option value="1">Funcionamiento</option>
+        <!--<option value="2">Reparación</option>-->
+        <option value="4">Dañados en uso</option>
+        <option value="6">Donados</option>
     </select><br><br><br>
 
 </div>
@@ -19,7 +19,7 @@ include './header.php';
 </div><br><br>
 
 
-<h2>Recover</h2>
+<h2>Activos en reparación</h2>
 <div>
     <table  id="RepairedTable" border="1px" cellpadding="10px" >
     </table>
@@ -54,6 +54,22 @@ include './footer.php';
                     $("#msg").html("<h2>Nothing to show!!</h2>");
                 } else {
                     var instructor = JSON.parse(data);
+
+                    var temp = '<tr>' +
+                            '<td><strong>Marca</strong></td>' +
+                            '<td><strong>Modelo</strong></td>' +
+                            '<td><strong>Cantidad</strong></td>' +
+                            '<td><strong>Num de factura</strong></td>' +
+                            '<td><strong>Proveedor</strong></td>' +
+                            '<td><strong>Precio</strong></td>' +
+                            '<td><strong>Tipo de pagoo</strong></td>' +
+                            '<td><strong>Comprador</strong></td>' +
+                            '<td><strong>Series</strong></td>' +
+                            '<td><strong>Fecha de compra</strong></td>' +
+                            '<td><strong>Cantidad a reparar</strong></td>' +
+                            '</tr>';
+                    $("#repairTable").append(temp);
+
                     $.each(instructor, function (i, item) {
                         $("#msg").html("");
                         insertNewRow(item);
@@ -76,6 +92,22 @@ include './footer.php';
                     $("#msgStole").html("<h2>Nothing to show!!</h2>");
                 } else {
                     var instructor = JSON.parse(data);
+
+                    var temp = '<tr>' +
+                            '<td><strong>Marca</strong></td>' +
+                            '<td><strong>Modelo</strong></td>' +
+                            '<td><strong>Cantidad</strong></td>' +
+                            '<td><strong>Num de factura</strong></td>' +
+                            '<td><strong>Proveedor</strong></td>' +
+                            '<td><strong>Precio</strong></td>' +
+                            '<td><strong>Tipo de pago</strong></td>' +
+                            '<td><strong>Comprador</strong></td>' +
+                            '<td><strong>Series</strong></td>' +
+                            '<td><strong>Fecha de compra</strong></td>' +
+                            '<td><strong>Cantidad reparada</strong></td>' +
+                            '</tr>';
+                    $("#RepairedTable").append(temp);
+
                     $.each(instructor, function (i, item) {
                         $("#msg").html("");
                         insertNewRowStole(item);
@@ -87,7 +119,7 @@ include './footer.php';
         }
         );
     }
-    function update(idinventory,id) {
+    function update(idinventory, id) {
         var min = parseInt($("#quantity" + id).val());
         var max = parseInt($("#qu" + id).val());
         if (isNaN($('#quantity' + id).val())) {
@@ -97,12 +129,12 @@ include './footer.php';
         } else if (min > max) {
             $("#msg").html("<p>The maximum is: " + max + "!!!</p>");
         } else {
-            repair(idinventory,id);
+            repair(idinventory, id);
         }
 
 
     }
-    function updateRecover(idinventory,id) {
+    function updateRecover(idinventory, id) {
         var min = parseInt($("#quantity2" + id).val());
         var max = parseInt($("#qu2" + id).val());
         if (isNaN($('#quantity2' + id).val())) {
@@ -112,7 +144,7 @@ include './footer.php';
         } else if (min > max) {
             $("#msgRecover").html("<p>The maximum is: " + max + "!!!</p>");
         } else {
-            Repaired(idinventory,id);
+            Repaired(idinventory, id);
         }
 
 
@@ -125,20 +157,6 @@ include './footer.php';
         } else {
             var pay = "Credit"
         }
-        var temp = '<tr>' +
-                '<td><strong>Brand</strong></td>' +
-                '<td><strong>Model</strong></td>' +
-                '<td><strong>Quantity</strong></td>' +
-                '<td><strong>Invoice num</strong></td>' +
-                '<td><strong>Provider</strong></td>' +
-                '<td><strong>Price</strong></td>' +
-                '<td><strong>Payment type</strong></td>' +
-                '<td><strong>Bayer</strong></td>' +
-                '<td><strong>Series</strong></td>' +
-                '<td><strong>Date</strong></td>' +
-                '<td><strong>Stolen amount</strong></td>' +
-                '</tr>';
-        $("#RepairedTable").append(temp);
         var temp = '<tr  id="' + buy.idbuy + '">' +
                 '<td>' +
                 '<input id="bra2' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
@@ -171,10 +189,10 @@ include './footer.php';
                 '<input id="date2' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<INPUT id="quantity2' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity stolen" maxlength="' + buy.quantitybuy + '">' +
+                '<INPUT id="quantity2' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="cantidad reparada" maxlength="' + buy.quantitybuy + '">' +
                 '</td>' +
                 '<td>' +
-                '<input id="update2' + buy.idbuy + '" type="button" onclick="updateRecover(' + buy.idinventory +','+buy.idbuy + ');" value="    Repaired    "/>' +
+                '<input id="update2' + buy.idbuy + '" type="button" onclick="updateRecover(' + buy.idinventory + ',' + buy.idbuy + ');" value="    Reparado    "/>' +
                 '</td>' +
                 '</tr>';
         $("#RepairedTable").append(temp);
@@ -188,20 +206,6 @@ include './footer.php';
         } else {
             var pay = "Credit"
         }
-        var temp = '<tr>' +
-                '<td><strong>Brand</strong></td>' +
-                '<td><strong>Model</strong></td>' +
-                '<td><strong>Quantity</strong></td>' +
-                '<td><strong>Invoice num</strong></td>' +
-                '<td><strong>Provider</strong></td>' +
-                '<td><strong>Price</strong></td>' +
-                '<td><strong>Payment type</strong></td>' +
-                '<td><strong>Bayer</strong></td>' +
-                '<td><strong>Series</strong></td>' +
-                '<td><strong>Date</strong></td>' +
-                '<td><strong>Stolen amount</strong></td>' +
-                '</tr>';
-        $("#repairTable").append(temp);
         var temp = '<tr  id="' + buy.idbuy + '">' +
                 '<td>' +
                 '<input id="bra' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
@@ -234,20 +238,20 @@ include './footer.php';
                 '<input id="date' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity repair" maxlength="' + buy.quantitybuy + '">' +
+                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="cantidad a reparar" maxlength="' + buy.quantitybuy + '">' +
                 '</td>' +
                 '<td>' +
-                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory +','+buy.idbuy + ');" value="    Repair    "/>' +
+                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory + ',' + buy.idbuy + ');" value="    Reparar    "/>' +
                 '</td>' +
                 '</tr>';
         $("#repairTable").append(temp);
     }
 
 
-    function repair(idinventory,id) {
+    function repair(idinventory, id) {
         var qu = parseInt($("#quantity" + id).val());
         var infodata = "status=2&idInventory=" + idinventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";
-        
+
         $.ajax({
             type: 'POST',
             url: "../business/InventoryAction.php",
@@ -263,7 +267,7 @@ include './footer.php';
         });
     }//Fin de la función
 
-    function Repaired(idinventory,id) {
+    function Repaired(idinventory, id) {
 
         var qu = parseInt($("#quantity2" + id).val());
         var infodata = "status=1&idInventory=" + idinventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";

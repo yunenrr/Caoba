@@ -7,31 +7,31 @@ include './header.php';
 <div>
     <table  border="1px" cellpadding="10px" >
         <tr>
-            <td><strong>Brand</strong></td>
-            <td><strong>Model</strong></td>
-            <td><strong>Quantity</strong></td>
-            <td><strong>Donor</strong></td>
-            <td><strong>Creditor</strong></td>
-            <td><strong>Series</strong></td>
-            <td><strong>Date</strong></td>
-            <td><strong>Campus gym</strong></td>
-            <td><strong>Insert</strong></td>
+            <td><strong>Marca</strong></td>
+            <td><strong>Modelo</strong></td>
+            <td><strong>Cantidad</strong></td>
+            <td><strong>Donador</strong></td>
+            <td><strong>Acreedor</strong></td>
+            <td><strong>Serie</strong></td>
+            <td><strong>Fecha de donación</strong></td>
+            <td><strong>Ubicación en el gym</strong></td>
+            <td><strong>Guardar</strong></td>
         </tr>
         <tr>
-            <td> <input  id="bra"/>  *</td>
-            <td><input  id="mo"/>  *</td>
-            <td><input  id="qu"/> * </td>
-            <td><input id="pro"/>  *</td>
-            <td><input id="cre"/>  *</td>
-            <td><input id="ser"/>  *</td>
-            <td><input id="date"/> * </td>
-            <td><div id="campus"/> </td>
-            <td><input type="button" onclick="insertPaymentValidate();" value=" INSERT "/></td>
+            <td><input id="bra"/>*</td>
+            <td><input id="mo"/>*</td>
+            <td><input id="qu"/>*</td>
+            <td><input id="pro"/>*</td>
+            <td><input id="cre"/>*</td>
+            <td><input id="ser"/>*</td>
+            <td><input id="date"/>*</td>
+            <td><div id="campus"/></td>
+            <td><input type="button" onclick="insertPaymentValidate();" value=" Guardar "/></td>
         </tr>
     </table>
-    <table  id="paymentTable" border="1px" cellpadding="10px" >
+    <table  id="paymentTable" border="1px" cellpadding="10px" ><br><br>
     </table>
-    <div><p>Requiered fields(*)</p></div>
+    <div><p>Campos Requeridos(*)</p></div>
     <div id="msg"></div>
 </div>
 
@@ -66,6 +66,18 @@ include './footer.php';
             data: "status=6",
             success: function (data) {
                 var instructor = JSON.parse(data);
+
+                var temp = '<tr>' +
+                        '<td><strong>Marca</strong></td>' +
+                        '<td><strong>Modelo</strong></td>' +
+                        '<td><strong>Cantidad</strong></td>' +
+                        '<td><strong>Donador</strong></td>' +
+                        '<td><strong>Acreedor</strong></td>' +
+                        '<td><strong>Serie</strong></td>' +
+                        '<td><strong>Fecha de donación</strong></td>' +
+                        '<td><strong>Ubicación en el gym</strong></td>' +
+                        '</tr>';
+                $("#paymentTable").append(temp);
                 $.each(instructor, function (i, item) {
                     insertNewRow(item);
                 });
@@ -79,35 +91,35 @@ include './footer.php';
         var result = 0;
         $("#msg").empty();
         if ($("#bra").val() === "") {
-            $("#msg").html("<p>Brandbuy empty!!!!</p>");
+            $("#msg").html("<p>Marca vacia!!!!</p>");
             result = 1;
         }
         if ($("#mo").val() === "") {
-            $("#msg").html("<p>Modelbuy empty!!!!</p>");
+            $("#msg").html("<p>Modelo vacio!!!!</p>");
             result = 1;
         }
         if ($("#in").val() === "") {
-            $("#msg").html("<p>Invoicenumberbuy empty!!!!</p>");
+            $("#msg").html("<p>num factura vacio!!!!</p>");
             result = 1;
         }
         if ($("#pro").val() === "") {
-            $("#msg").html("<p>Providerbuy empty!!!!</p>");
+            $("#msg").html("<p>Proveedor vacio!!!!</p>");
             result = 1;
         }
         if ($("#pri").val() === "") {
-            $("#msg").html("<p>Pricebuy empty!!!!</p>");
+            $("#msg").html("<p>Precio vacio!!!!</p>");
             result = 1;
         }
         if ($("#ser").val() === "") {
-            $("#msg").html("<h1>Seriesbuy empty!!!!</p>");
+            $("#msg").html("<h1>Serie vacio!!!!</p>");
             result = 1;
         }
         if (isNaN($('#qu').val())) {
-            $("#msg").html("<p>QuantityBuy it's not a number!!!!</p>");
+            $("#msg").html("<p>La cantidad debe ser un número!!!!</p>");
             result = 1;
         }
         if ($("#ser").val() === "") {
-            $("#msg").html("<p>Quantity empty!!!!</p>");
+            $("#msg").html("<p>Cantidad vacia!!!!</p>");
             result = 1;
         }
         if (result === 1) {
@@ -119,7 +131,7 @@ include './footer.php';
     }
     function insert() {
         var dataInfo = "bra=" + $("#bra").val() + "&mo=" + $("#mo").val() + "&qu=" + $("#qu").val() + "&in=0" + "&pro=" + $("#pro").val() + "&pri=0" + "&pay=0" + "&bayer=" + $("#cre").val() + "&ser=" + $("#ser").val() + "&date=" + $("#date").val() + "&campus=" + $("#selCampus").val() + "&status=6" + "";
-       
+
         $.ajax({
             type: 'POST',
             url: "../business/BuyInsertAction.php",

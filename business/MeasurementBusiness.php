@@ -16,8 +16,11 @@ class MeasurementBusiness {
     }
 
     public function getMeasurementByClientId($id) {
-       return $this->measurementData->getMeasurementByClientId($id);
-        
+        return $this->measurementData->getMeasurementByClientId($id);
+    }
+
+    public function getMeasurementByClientIdForGraph($id) {
+        return $this->measurementData->getMeasurementByClientIdForGraph($id);
     }
 
     /**
@@ -27,6 +30,10 @@ class MeasurementBusiness {
      */
     public function insertMeasurement($measurement) {
         return $this->measurementData->insertMeasurement($measurement);
+    }
+
+    public function returnMeasurementQuantity($id) {
+        return $this->measurementData->returnMeasurementQuantity($id);
     }
 
     /**

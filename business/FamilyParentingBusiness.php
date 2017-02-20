@@ -91,8 +91,8 @@ class FamilyParentingBusiness {
      * @param type $id
      * @return type
      */
-    public function verifyFamilyParents($id) {
-        return $this->familyParentingData->verifyFamilyParents($id);
+    public function verifyFamilyParents($id, $idPersonFamilyParenting) {
+        return $this->familyParentingData->verifyFamilyParents($id, $idPersonFamilyParenting);
     }
 
 }

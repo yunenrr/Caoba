@@ -1,9 +1,13 @@
 <?php
 include './header.php';
+include '../business/ScheduleClientBusiness.php';
 session_start();
 if (!isset($_SESSION['id'])) {
     header("location: ./Home.php");
 }
+
+$schedule = new ScheduleClientBusiness();
+$schedule->deleteRecord();
 
 ?>
 

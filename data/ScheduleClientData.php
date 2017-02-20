@@ -43,4 +43,8 @@ class ScheduleClientData extends Connector {
         return $array;
     }
 
+    function deleteRecord() {
+        $query = 'DELETE FROM `tbclientschedule` WHERE (DATEDIFF(enddateclientschedule,NOW())) < 0;';
+        $this->exeQuery($query);
+    }
 }

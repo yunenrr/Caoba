@@ -66,15 +66,18 @@ class FamilyParentingData extends Connector {
      */
     public function getAllRelationShip() {
 
-        $query = "select `idrelationship`, `namerelationship` from `tbrelationship`";
+        $query = "select idrelationship, namerelationship from tbrelationship";
         $result = $this->exeQuery($query);
-        $temp = "";
+        $arrayResult = array();
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-                $temp = $temp . $row['idrelationship'] . "," . $row['namerelationship'] . ";";
-            }
+                 $array = array("id" => $row['idrelationship'],
+                "name" => $row['namerelationship']
+            );
+            array_push($arrayResult, $array);
         }
-        return $temp;
+        return json_encode($arrayResult);
+    }
     }
 
     /**
@@ -110,18 +113,18 @@ class FamilyParentingData extends Connector {
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
     }
-    
-     /**
-     * Use to Check if are already family
-     * @param type $idPerson
+
+    /**
+     * Use to Check if are Si ya hay padres o madres ingresados
+     * @param type $id
      * @return type
      */
-    public function verifyFamilyParents($id) {
-        $query = "select count(idrelativefamilyparenting) from tbfamilyparenting where idrelativefamilyparenting=" . $id . "";
+    public function verifyFamilyParents($id, $idPersonFamilyParenting) {
+        $query = "select count(idrelativefamilyparenting) from tbfamilyparenting where idrelationshipfamilyparenting=" . $id. " and idpersonfamilyparenting=" . $idPersonFamilyParenting;
         $result = $this->exeQuery($query);
         $array = mysqli_fetch_array($result);
         return trim($array[0]);
-    }
+    } 
 
     /**
      * Use to get a tree familyParenty
@@ -140,9 +143,9 @@ class FamilyParentingData extends Connector {
 
         $result = $this->exeQuery($query);
         if (mysqli_num_rows($result) > 0) {
-            $temp1 = "<ul><a>Parents</a><ul>"; //papás
-            $temp2 = "<ul><a>Siblings</a><ul>"; //hermanos
-            $temp3 = "<ul><a>Sons</a><ul>"; //hijos
+            $temp1 = "<ul><a>Padres</a><ul>"; //papás
+            $temp2 = "<ul><a>Hermanos</a><ul>"; //hermanos
+            $temp3 = "<ul><a>Hijos</a><ul>"; //hijos
 
             for ($i = 0; $i < 4; $i++) {
                 while ($row = mysqli_fetch_array($result)) {
@@ -158,6 +161,9 @@ class FamilyParentingData extends Connector {
                             $temp2 = $temp2 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
                             break;
                         case 4;
+                            $temp2 = $temp2 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
+                            break;
+                        case 5;
                             $temp3 = $temp3 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
                             break;
                     }

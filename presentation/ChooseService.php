@@ -264,9 +264,5 @@ include './footer.php';
         });
     }
 
-    function clear() {
-
-    }
-
 </script>
 

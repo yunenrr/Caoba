@@ -34,7 +34,7 @@
         </div>
         <div>
             <label>Start date:</label>
-            <input type="date" class="date" id="txtStartDate" name="txtStartDate" required=""/>
+            <input type="text" class="date" id="txtStartDate" name="txtStartDate" required=""/>
             <label>*</label>
         </div>
         <div>

@@ -3,30 +3,30 @@ include './header.php';
 ?>
 <style type="text/css" media = "all">
 </style>
-<h2>Shopping entry</h2>
+<h2>Compra de equipo</h2>
 <div>
     <table  border="1px" cellpadding="10px" >
         <tr>
-            <td><strong>Brand</strong></td>
-            <td><strong>Model</strong></td>
-            <td><strong>Quantity</strong></td>
-            <td><strong>Invoice num</strong></td>
-            <td><strong>Provider</strong></td>
-            <td><strong>Price</strong></td>
-            <td><strong>Payment type</strong></td>
-            <td><strong>Bayer</strong></td>
+            <td><strong>Marca</strong></td>
+            <td><strong>Modelo</strong></td>
+            <td><strong>Cantidad</strong></td>
+            <td><strong>Número de factura</strong></td>
+            <td><strong>Proveedor</strong></td>
+            <td><strong>Precio</strong></td>
+            <td><strong>Typo de pago</strong></td>
+            <td><strong>Comprador</strong></td>
             <td><strong>Series</strong></td>
-            <td><strong>Date</strong></td>
-            <td><strong>Campus gym</strong></td>
+            <td><strong>Fecha de compra</strong></td>
+            <td><strong>Ubicación en el gym</strong></td>
         </tr>
         <tr>
-            <td> <input  id="bra"/>  *</td>
-            <td><input  id="mo"/>  *</td>
-            <td><input  id="qu"/> * </td>
+            <td><input id="bra"/>  *</td>
+            <td><input id="mo"/>  *</td>
+            <td><input id="qu"/> * </td>
             <td><input id="in"/>  *</td>
             <td><input id="pro"/> * </td>
             <td><input id="pri"/> * </td>
-            <td> <select id="pay"><option value="0">Cash Payment</option>   <option value="1">Credit Payment</option>   </select> </td>  
+            <td><select id="pay"><option value="0">Cash Payment</option>   <option value="1">Credit Payment</option>   </select> </td>  
             <td><input id="bayer"/>  *</td>
             <td><input id="ser"/>  *</td>
             <td><input id="date"/> * </td>
@@ -34,7 +34,7 @@ include './header.php';
             <td><input type="button" onclick="insertPaymentValidate();" value=" INSERT "/></td>
         </tr>
     </table>
-    <table  id="paymentTable" border="1px" cellpadding="10px" >
+    <table  id="paymentTable" border="1px" cellpadding="10px" ><br><br>
     </table>
     <div id="msg"></div>
     <div><p>Requiered fields(*)</p></div>
@@ -66,6 +66,23 @@ include './footer.php';
         $("#bayer").val("");
         $("#ser").val("");
         $("#date").val("");
+
+
+
+        var temp = '<tr>' +
+                '<td><strong>Marca</strong></td>' +
+                '<td><strong>Modelo</strong></td>' +
+                '<td><strong>Cantidad</strong></td>' +
+                '<td><strong>Número de factura</strong></td>' +
+                '<td><strong>Proveedor</strong></td>' +
+                '<td><strong>Precio</strong></td>' +
+                '<td><strong>Tipo de pago</strong></td>' +
+                '<td><strong>Comprador</strong></td>' +
+                '<td><strong>Serie</strong></td>' +
+                '<td><strong>Fecha de Compra</strong></td>' +
+                '<td><strong>Ubicación en el Gym</strong></td>' +
+                '</tr>';
+        $("#paymentTable").append(temp);
         $.ajax({
             type: 'POST',
             url: "../business/ReturnAllBuyAction.php",
@@ -73,6 +90,7 @@ include './footer.php';
             success: function (data) {
                 var instructor = JSON.parse(data);
                 $.each(instructor, function (i, item) {
+
                     insertNewRow(item);
                 });
             },
@@ -126,7 +144,7 @@ include './footer.php';
     function insert() {
         var pri = parseInt($("#pri").val().substring(1, $("#pri").val().length));
         var infoData = "bra=" + $("#bra").val() + "&mo=" + $("#mo").val() + "&qu=" + $("#qu").val() + "&in=" + $("#in").val() + "&pro=" + $("#pro").val() + "&pri=" + pri + "&pay=" + $("#pay").val() + "&bayer=" + $("#bayer").val() + "&ser=" + $("#ser").val() + "&date=" + $("#date").val() + "&campus=" + $("#selCampus").val() + "&status=1" + "";
-       
+
         $.ajax({
             type: 'POST',
             url: "../business/BuyInsertAction.php",

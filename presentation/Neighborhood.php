@@ -3,25 +3,25 @@ include './header.php';
 ?>
 <h2></h2>
 <fieldset>
-    <legend>Neighborhood</legend>
+    <legend>Barrios</legend>
     <div>
-        <table>
+        <table  border="1px" cellpadding="8px">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Update/Delete</th>
+                    <th>Barrio</th>
+                    <th>Actualizar/Eliminar</th>
                 </tr>
             </thead>
             <tbody id="tableBodyNeighborhood"> 
             </tbody>
             <tfoot>
                 <tr>
-                    <td><input type="button" value="Insert" id="btnInsert" name="btnInsert" /></td>
+                    <td><input type="button" value="Guardar" id="btnInsert" name="btnInsert" /></td>
                 </tr>
             </tfoot>
         </table>
     </div>
-    <div>Required fields(*)</div></td>
+    <div>Campos requeridos(*)</div></td>
 </fieldset>
 <div id="msg"></div>
 
@@ -90,8 +90,8 @@ include './header.php';
                                     
                                     temp = temp + '<tr id="tr'+newRow+'">'+
                                     '<td><input type="text" id="txtNeighborhood'+newRow+'" name="txtNeighborhood'+newRow+'" value="'+person[1]+'"/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+person[0]+'"/>*</td>' +
-                                    '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                                    '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>'+
+                                    '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                                    '<input type="button" value="Elimiar" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>'+
                                     '</tr>';
                                 }
                                 $("#tableBodyNeighborhood").html(temp);

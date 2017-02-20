@@ -94,7 +94,7 @@ echo "</table>";
 
                     <input id="newPhones" name="newPhones" type="number">
 
-                    <input id="newPhone0" name="newPhone0" type="number">
+                    <input id="newPhone0" name="newPhone0" type="text">
                 </td>
                 <td>
                     <input id="deletePhone0" type="button" onclick="deletePhone(-1);" value="Delete">
@@ -122,9 +122,11 @@ echo "</table>";
     $('#newPhones').hide();
     $('#idPerson').hide();
     $('#namePerson').hide();
+    $('#newPhone0').mask('(000)0000-0000', {placeholder: '(000) 0000-0000'});
 
     function editButton(id) {
         $("#phone" + id).removeAttr("readonly");
+        $('#phone' + id).mask('(000) 0000-0000', {placeholder: '(000) 0000-0000'});
         $("#edit" + id).hide();
         $("#update" + id).show();
     }
@@ -176,7 +178,8 @@ echo "</table>";
     }
 
     function addPhone() {
-        $('#tbPhone tr:last').after('<tr id="tr' + idPhone + '"><td><input id="newPhone' + idPhone + '" name="newPhone' + idPhone + '" type="number"></td> ' + '<td><input id="deletePhone' + idPhone + '" type="button" onclick="deletePhone(' + idPhone + ');" value="Delete">' + '</td></tr>');
+        $('#tbPhone tr:last').after('<tr id="tr' + idPhone + '"><td><input id="newPhone' + idPhone + '" name="newPhone' + idPhone + '" type="text"></td> ' + '<td><input id="deletePhone' + idPhone + '" type="button" onclick="deletePhone(' + idPhone + ');" value="Delete">' + '</td></tr>');
+        $('#newPhone' + idPhone).mask('(000) 0000-0000', {placeholder: '(000) 0000-0000'});
         idPhone++;
         $('#newPhones').val(idPhone);
     }
@@ -184,7 +187,7 @@ echo "</table>";
     function deletePhone(id) {
         $("#tr" + id).remove();
     }
-    
-   
+
+
 
 </script>

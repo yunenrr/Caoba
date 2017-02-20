@@ -1,13 +1,13 @@
 <?php
 include './header.php';
 ?>
-<h2>Damage in use</h2>
+<h2>Dañado en uso</h2>
 
-<div>Select a status <select name="status" id='status'>
-        <option value="0">Select</option>
-        <option value="1">Functionary</option>
-        <option value="2">Repair</option>
-        <option value="6">Donated</option>
+<div>Seleccione un estado <select name="status" id='status'>
+        <option value="0">SELECCIONE</option>
+        <option value="1">Funcionamiento</option>
+        <option value="2">Repación</option>
+        <option value="6">Donado</option>
     </select><br><br><br>
 
 </div>
@@ -44,6 +44,23 @@ include './footer.php';
                     $("#msg").html("<h2>Nothing to show!!</h2>");
                 } else {
                     var instructor = JSON.parse(data);
+
+                    var temp = '<tr>' +
+                            '<td><strong>Marca</strong></td>' +
+                            '<td><strong>Modelo</strong></td>' +
+                            '<td><strong>Cantidad</strong></td>' +
+                            '<td><strong>Num factura</strong></td>' +
+                            '<td><strong>Proveedor</strong></td>' +
+                            '<td><strong>Precio</strong></td>' +
+                            '<td><strong>Tipo de pgo </strong></td>' +
+                            '<td><strong>Comprador</strong></td>' +
+                            '<td><strong>Series</strong></td>' +
+                            '<td><strong>Fecha</strong></td>' +
+                            '<td><strong>Localizacion en el gym</strong></td>' +
+                            '<td><strong>Cantidad dañada</strong></td>' +
+                            '</tr>';
+                    $("#paymentTable").append(temp);
+
                     $.each(instructor, function (i, item) {
                         $("#msg").html("");
                         insertNewRow(item);
@@ -56,17 +73,17 @@ include './footer.php';
         );
     }
 
-    function update(idInventory,id) {
+    function update(idInventory, id) {
         var min = parseInt($("#quantity" + id).val());
         var max = parseInt($("#qu" + id).val());
         if (isNaN($('#quantity' + id).val())) {
-            $("#msg").html("<p>Quantity it's not a number!!!!</p>");
+            $("#msg").html("<p>Cantidad dañada debe ser un número!!!!</p>");
         } else if ($('#quantity' + id).val() === '') {
-            $("#msg").html("<p>Quantity  empty!!!!</p>");
+            $("#msg").html("<p>Cantidad dañada vacia!!!!</p>");
         } else if (min > max) {
-            $("#msg").html("<p>The maximum is: " + max + "!!!</p>");
+            $("#msg").html("<p>El máximo es: " + max + "!!!</p>");
         } else {
-            damage(idInventory,id);
+            damage(idInventory, id);
         }
 
 
@@ -75,25 +92,10 @@ include './footer.php';
 
         var pay = '';
         if (buy.paymentbuy === 0) {
-            var pay = "Cash"
+            var pay = "Efectivo"
         } else {
-            var pay = "Credit"
+            var pay = "Credito"
         }
-        var temp = '<tr>' +
-                '<td><strong>Brand</strong></td>' +
-                '<td><strong>Model</strong></td>' +
-                '<td><strong>Quantity</strong></td>' +
-                '<td><strong>Invoice num</strong></td>' +
-                '<td><strong>Provider</strong></td>' +
-                '<td><strong>Price</strong></td>' +
-                '<td><strong>Payment type</strong></td>' +
-                '<td><strong>Bayer</strong></td>' +
-                '<td><strong>Series</strong></td>' +
-                '<td><strong>Date</strong></td>' +
-                '<td><strong>Campus gym</strong></td>' +
-                '<td><strong>Stolen amount</strong></td>' +
-                '</tr>';
-        $("#paymentTable").append(temp);
         var temp = '<tr  id="' + buy.idbuy + '">' +
                 '<td>' +
                 '<input id="bra' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
@@ -129,17 +131,17 @@ include './footer.php';
                 '<input id="hu' + '" value="' + 888 + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity repair" maxlength="' + buy.quantitybuy + '">' +
+                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Cantidad dañada" maxlength="' + buy.quantitybuy + '">' +
                 '</td>' +
                 '<td>' +
-                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory +','+buy.idbuy + ');" value="    Damaged    "/>' +
+                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory + ',' + buy.idbuy + ');" value="    Dañado    "/>' +
                 '</td>' +
                 '</tr>';
         $("#paymentTable").append(temp);
     }
 
 
-    function damage(idInventory,id) {
+    function damage(idInventory, id) {
         var qu = parseInt($("#quantity" + id).val());
         var infodata = "status=4&idInventory=" + idInventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";
         $.ajax({

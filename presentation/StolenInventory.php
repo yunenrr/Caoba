@@ -1,14 +1,14 @@
 <?php
 include './header.php';
 ?>
-<h2>Stolen</h2>
+<h2>Robado</h2>
 
-<div>Select a status <select name="status" id='status'>
-        <option value="0">Select</option>
-        <option value="1">Functionary</option>
-        <option value="2">Repair</option>
-        <option value="4">Damage in use</option>
-        <option value="6">Donated</option>
+<div>Seleccione un estado <select name="status" id='status'>
+        <option value="0">SELECCIONE</option>
+        <option value="1">Funcionamiento</option>
+        <option value="2">Repación</option>
+        <option value="4">Dañados en uso</option>
+        <option value="6">Donado</option>
     </select><br><br><br>
 
 </div>
@@ -19,7 +19,7 @@ include './header.php';
 </div><br><br>
 
 
-<h2>Recover</h2>
+<h2>Reupación de articulos robados</h2>
 <div>
     <table  id="recoverTable" border="1px" cellpadding="10px" >
     </table>
@@ -54,6 +54,22 @@ include './footer.php';
                     $("#msg").html("<h2>Nothing to show!!</h2>");
                 } else {
                     var instructor = JSON.parse(data);
+
+                    var temp = '<tr>' +
+                            '<td><strong>Marca</strong></td>' +
+                            '<td><strong>Modelo</strong></td>' +
+                            '<td><strong>Cantidad</strong></td>' +
+                            '<td><strong>Num factura</strong></td>' +
+                            '<td><strong>Proveedor</strong></td>' +
+                            '<td><strong>Precio</strong></td>' +
+                            '<td><strong>Tipo de pago</strong></td>' +
+                            '<td><strong>Comprador</strong></td>' +
+                            '<td><strong>Serie</strong></td>' +
+                            '<td><strong>Fecha</strong></td>' +
+                            '<td><strong>Cantidad robada</strong></td>' +
+                            '</tr>';
+                    $("#paymentTable").append(temp);
+
                     $.each(instructor, function (i, item) {
                         $("#msg").html("");
                         insertNewRow(item);
@@ -76,6 +92,22 @@ include './footer.php';
                     $("#msgStole").html("<h2>Nothing to show!!</h2>");
                 } else {
                     var instructor = JSON.parse(data);
+
+                    var temp = '<tr>' +
+                            '<td><strong>Marca</strong></td>' +
+                            '<td><strong>Modelo</strong></td>' +
+                            '<td><strong>Cantidad</strong></td>' +
+                            '<td><strong>Num factura</strong></td>' +
+                            '<td><strong>Proveedor</strong></td>' +
+                            '<td><strong>Precio</strong></td>' +
+                            '<td><strong>Tipo de pago</strong></td>' +
+                            '<td><strong>Comprador</strong></td>' +
+                            '<td><strong>Serie</strong></td>' +
+                            '<td><strong>Fecha</strong></td>' +
+                            '<td><strong>Cantidad recuperada</strong></td>' +
+                            '</tr>';
+                    $("#recoverTable").append(temp);
+
                     $.each(instructor, function (i, item) {
                         $("#msg").html("");
                         insertNewRowStole(item);
@@ -87,7 +119,7 @@ include './footer.php';
         }
         );
     }
-    function update(idinventory,id) {
+    function update(idinventory, id) {
         var min = parseInt($("#quantity" + id).val());
         var max = parseInt($("#qu" + id).val());
         if (isNaN($('#quantity' + id).val())) {
@@ -97,12 +129,12 @@ include './footer.php';
         } else if (min > max) {
             $("#msg").html("<p>The maximum is: " + max + "!!!</p>");
         } else {
-            stole(idinventory,id);
+            stole(idinventory, id);
         }
 
 
     }
-    function updateRecover(idinventory,id) {
+    function updateRecover(idinventory, id) {
         var min = parseInt($("#quantity2" + id).val());
         var max = parseInt($("#qu2" + id).val());
         if (isNaN($('#quantity2' + id).val())) {
@@ -112,7 +144,7 @@ include './footer.php';
         } else if (min > max) {
             $("#msgRecover").html("<p>The maximum is: " + max + "!!!</p>");
         } else {
-            recover(idinventory,id);
+            recover(idinventory, id);
         }
 
 
@@ -121,24 +153,11 @@ include './footer.php';
     function insertNewRowStole(buy) {
         var pay = '';
         if (buy.paymentbuy === 0) {
-            var pay = "Cash"
+            var pay = "Efectivo"
         } else {
-            var pay = "Credit"
+            var pay = "Credito"
         }
-        var temp = '<tr>' +
-                '<td><strong>Brand</strong></td>' +
-                '<td><strong>Model</strong></td>' +
-                '<td><strong>Quantity</strong></td>' +
-                '<td><strong>Invoice num</strong></td>' +
-                '<td><strong>Provider</strong></td>' +
-                '<td><strong>Price</strong></td>' +
-                '<td><strong>Payment type</strong></td>' +
-                '<td><strong>Bayer</strong></td>' +
-                '<td><strong>Series</strong></td>' +
-                '<td><strong>Date</strong></td>' +
-                '<td><strong>Stolen amount</strong></td>' +
-                '</tr>';
-        $("#recoverTable").append(temp);
+
         var temp = '<tr  id="' + buy.idbuy + '">' +
                 '<td>' +
                 '<input id="bra2' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
@@ -171,10 +190,10 @@ include './footer.php';
                 '<input id="date2' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<INPUT id="quantity2' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity stolen" maxlength="' + buy.quantitybuy + '">' +
+                '<INPUT id="quantity2' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Cantidad recuperada" maxlength="' + buy.quantitybuy + '">' +
                 '</td>' +
                 '<td>' +
-                '<input id="update2' + buy.idbuy + '" type="button" onclick="updateRecover(' + buy.idinventory +','+buy.idbuy + ');" value="    Recover    "/>' +
+                '<input id="update2' + buy.idbuy + '" type="button" onclick="updateRecover(' + buy.idinventory + ',' + buy.idbuy + ');" value="Recuperado"/>' +
                 '</td>' +
                 '</tr>';
         $("#recoverTable").append(temp);
@@ -184,24 +203,10 @@ include './footer.php';
 
         var pay = '';
         if (buy.paymentbuy === 0) {
-            var pay = "Cash"
+            var pay = "Efectivo"
         } else {
-            var pay = "Credit"
+            var pay = "Credito"
         }
-        var temp = '<tr>' +
-                '<td><strong>Brand</strong></td>' +
-                '<td><strong>Model</strong></td>' +
-                '<td><strong>Quantity</strong></td>' +
-                '<td><strong>Invoice num</strong></td>' +
-                '<td><strong>Provider</strong></td>' +
-                '<td><strong>Price</strong></td>' +
-                '<td><strong>Payment type</strong></td>' +
-                '<td><strong>Bayer</strong></td>' +
-                '<td><strong>Series</strong></td>' +
-                '<td><strong>Date</strong></td>' +
-                '<td><strong>Stolen amount</strong></td>' +
-                '</tr>';
-        $("#paymentTable").append(temp);
         var temp = '<tr  id="' + buy.idbuy + '">' +
                 '<td>' +
                 '<input id="bra' + buy.idbuy + '" value="' + buy.brandbuy + '" readonly/>' +
@@ -234,20 +239,20 @@ include './footer.php';
                 '<input id="date' + buy.idbuy + '" value="' + buy.buydatebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Quantity stolen" maxlength="' + buy.quantitybuy + '">' +
+                '<INPUT id="quantity' + buy.idbuy + '" type="text" STYLE= "background-color: #F6D8CE;" " placeholder="Cantidad robada" maxlength="' + buy.quantitybuy + '">' +
                 '</td>' +
                 '<td>' +
-                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory +','+buy.idbuy + ');" value="    Stolen    "/>' +
+                '<input id="update' + buy.idbuy + '" type="button" onclick="update(' + buy.idinventory + ',' + buy.idbuy + ');" value="Robado"/>' +
                 '</td>' +
                 '</tr>';
         $("#paymentTable").append(temp);
     }
 
 
-    function stole(idinventory,id) {
+    function stole(idinventory, id) {
         var qu = parseInt($("#quantity" + id).val());
         var infodata = "status=5&idInventory=" + idinventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";
-        
+
         $.ajax({
             type: 'POST',
             url: "../business/InventoryAction.php",
@@ -263,7 +268,7 @@ include './footer.php';
         });
     }//Fin de la función
 
-    function recover(idinventory,id) {
+    function recover(idinventory, id) {
 
         var qu = parseInt($("#quantity2" + id).val());
         var infodata = "status=1&idInventory=" + idinventory + "&quantity=" + qu + "&id=" + id + "&option=3" + "";

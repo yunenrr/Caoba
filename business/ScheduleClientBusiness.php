@@ -18,9 +18,13 @@ class ScheduleClientBusiness {
     public function getSchedule($idClient, $idService) {
         return $this->scheduleClientData->getSchedule($idClient, $idService);
     }
-    
+
     public function getAllSchedule($idClient) {
         return $this->scheduleClientData->getAllSchedule($idClient);
+    }
+
+    public function deleteRecord() {
+        return $this->scheduleClientData->deleteRecord();
     }
 
 }

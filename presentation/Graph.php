@@ -1,7 +1,7 @@
 <?php
 
-require_once ('../jp/src/jpgraph.php');
-require_once ('../jp/src/jpgraph_line.php');
+require_once ('../resources/jp/src/jpgraph.php');
+require_once ('../resources/jp/src/jpgraph_line.php');
 require_once ('../business/MeasurementBusiness.php');
 
 $measurementBusiness = new MeasurementBusiness();

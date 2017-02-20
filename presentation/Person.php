@@ -32,6 +32,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 <th>Teléfono</th>
                 <th>Rutinas</th>
                 <th>Dieta</th>
+                <th>Medidas</th>
                 <th>Condición</th>
                 <th>Actualizar</th>
             </tr>
@@ -298,6 +299,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                                             '<td><a href="../presentation/EditPhone.php?id='+ person[1]+ '&name=' +person[3] + '">Teléfonos</a></td>'+
                                             '<td><a href="../presentation/Routine.php?id=' +  person[1] +'&name=' + person[3]+ '">Rutinas</a></td>'+
                                             '<td><a href="../presentation/diet.php?id=' +  person[1] +'&name=' + person[3]+ '">Dieta</a></td>'+
+                                            '<td><a href="../presentation/MeasurementView.php?id=' +  person[1] + '">Medida</a></td>'+
                                             '<td><a href="../presentation/conditionSet.php?id=' +  person[1] +'&name=' + person[3]+ '">Condición</a></td>'+
                                             '<td><a href="../presentation/EditClient.php?id='+ person[1]+  '">Actualizar</a></td>'+
                                             '</tr>';

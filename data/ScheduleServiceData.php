@@ -26,7 +26,7 @@ class ScheduleServiceData
      * @param int $idCampus Corresponde al identificador del campus.
      * @return array[ScheduleService] Un arreglo de horarios.
      */
-    function getDatePerWeek($currentDate,$idCampus)
+    public function getDatePerWeek($currentDate,$idCampus)
     {
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
@@ -68,7 +68,7 @@ class ScheduleServiceData
      * @param int $day Corresponde al identificador del día.
      * @return String Contiene todas las fechas del día ingresado.
      */
-    function getDateForScheduleService($dateStart,$dateFinish,$day)
+    public function getDateForScheduleService($dateStart,$dateFinish,$day)
     {
         switch ($day)
         {
@@ -104,7 +104,7 @@ class ScheduleServiceData
      * @param ScheduleService $scheduleService Corresponde al horario que se desea ingresar.
      * @return int 0: Si ocurrió un error.
      */
-    function insertScheduleService($scheduleService)
+    public function insertScheduleService($scheduleService)
     {
          $idScheduleService = $this->getLastID("scheduleservice");
          
@@ -142,7 +142,7 @@ class ScheduleServiceData
      * @param ScheduleService $scheduleService Corresponde al horario que se desea eliminar.
      * @return int 0: Si ocurrió un error.
      */
-    function deleteSchedule($scheduleService)
+    public function deleteSchedule($scheduleService)
     {
         //Abrimos la conexión
         $connO = $this->connection->getConnection();
@@ -191,4 +191,33 @@ class ScheduleServiceData
         
         return $id;
     }//Fin de la función
+    
+    /**
+     * Método que verifica que no ocurran choques de horarios.
+     * @param int $idService Corresponde al identificador del servicio.
+     * @param int $idDay Corresponde al identificador del día.
+     * @param int $idHour Corresponde al identificador de la hora.
+     */
+    public function validateCampusSchedule($idService,$idDay,$idHour)
+    {
+        $connO = $this->connection->getConnection();
+        $sqlQuery = "select idservicescheduleservice from tbscheduleservice where "
+                . "idservicescheduleservice = $idService and "
+                . "dayscheduleservice = $idDay and "
+                . "hourscheduleservice = $idHour;";
+        $result = mysqli_query($connO,$sqlQuery);
+        
+        if(mysqli_num_rows($result) > 0)
+        {
+            $id = 1;
+        }
+        else
+        {
+            $id = 0;
+        }
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $id;
+    }//Fin del método
 }//Fin de la clase

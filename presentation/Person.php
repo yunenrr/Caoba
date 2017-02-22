@@ -45,7 +45,6 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
     <div id="msg"></div>
 </div><br>
 
-
 <div>
     <fieldset>
         <legend>Infomación Personal</legend>
@@ -87,13 +86,6 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                     <td><input type="text" id="secondname" name="secondname" 
                                pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"/>*<br/></td>
                 </tr>
-
-                <!--USER NAME-->
-                <tr>
-                    <td>Nombre de usuario:</td>
-                    <td><input type="text" id="userName" name="userName" />*<br/>
-                        <div id="msgUserName"></div></td>
-                </tr>
                 <!--PASSWORD-->
                 <tr>
                     <td>Contraseña:</td>
@@ -113,7 +105,7 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 </tr>
                 <!--GENDER-->
                 <tr>
-                    <td>Genero:</td>
+                    <td>Género:</td>
                     <td>
                         <select id="selGender" name="selGender" > 
                             <?php foreach ($gender as $value) { ?>
@@ -143,7 +135,8 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 <!--EMAIL-->
                 <tr>
                     <td>Correo:</td>
-                    <td><input type="email" id="email" name="email" required placeholder="example@gmail.com"/>*<br/></td>
+                    <td><input type="email" id="email" name="email" required placeholder="example@gmail.com"/>*<br/>
+                    <div id="msgUserName"></div></td>
                 </tr>
 
                 <!--Phone reference-->
@@ -182,12 +175,32 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
             <div id="msgError"></div>
         </form>
     </fieldset>
-
-
 </div>
+<a href="#" onclick="barrio()">Ingresar barrio</a>
+<div id="barrio">
+<fieldset>
+    <legend>Barrios</legend>
+    <div>
+        <table  border="1px" cellpadding="8px">
+            <thead>
+                <tr>
+                    <th>Barrio</th>
+                    <th>Actualizar/Eliminar</th>
+                </tr>
+            </thead>
+            <tbody id="tableBodyNeighborhood"> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><input type="button" value="Guardar" id="btnInsert" name="btnInsert" /></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div>Campos requeridos(*)</div></td>
+</fieldset>
+<div id="msg"></div>
 </div>
-
-
 <?php include './footer.php' ?>
 <script type="text/javascript">
     
@@ -195,39 +208,51 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
 
 <script>
     
-     var availability = true; //Availability of dni/username
+     var availabilityDNI = false; //Availability of dni/username
+     var availabilityUser=false;
      var idPhone = 1;
-     CalculateAge('1992-11-');
      
     $(document).ready
     (
         function()
         {
+            
+            getCurrentNeighborhood();
+            document.getElementById('barrio').style.display = 'none';
             //**************************Mask******************************************
-            $("#dni").mask("9-999-999", {placeholder: '0-000-000'}); //placeholder
+            $("#dni").mask("9-9999-9999", {placeholder: '0-0000-0000'}); //placeholder
             $('#addPhoneReference').mask('(000)0000-0000', {placeholder: '(000) 0000-0000'}); //placeholder
             $('#phone0').mask('(000)0000-0000', {placeholder: '(000) 0000-0000'});
-            $('#birthday').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
-            $('#startDay').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
+            $('#birthday').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
+            $('#startDay').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
             getperson();  
             
+            $( function() {
+                $( "#birthday" ).datepicker();
+              } );
+              
+             $( function() {
+                $( "#startDay" ).datepicker();
+              } );
+            
+            
     // Use to valite the username
-    $('#userName').focusout(function () {
-        if ($('#userName').val() !== "") {
+    $('#email').focusout(function () {
+        if ($('#email').val() !== "") {
             $.ajax({
                 type: "POST",
                 url: "../business/PersonBusinessAction.php",
-                data: "option=3&userName=" + $('#userName').val(),
+                data: "option=3&userName=" + $('#email').val(),
                 beforeSend: function () {
                     $('#msgUserName').html('');
                 },
                 success: function (result) {
                     if (result === '1') {
                         $('#msgUserName').html("ERROR!! Ya existe!");
-                        availability = false;
+                        availabilityUser = false;
                     } else {
                         $('#msgUserName').html("");
-                        availability = true;
+                        availabilityUser = true;
                     }
                 }
             });
@@ -236,8 +261,8 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
 
     // Use to valite the dni
     $('#dni').focusout(function () {
-        if ($('#dni').val().length <= 8) {
-            $('#msgUsuario').html("Error!! El formato es 0-000-000");
+        if ($('#dni').val().length <=10) {
+            $('#msgUsuario').html("Error!! El formato es 0-0000-0000");
         } else{
             $.ajax({
                 type: "Post",
@@ -249,10 +274,10 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                 success: function (result) {
                     if (result === '1'){
                         $('#msgUsuario').html("Error! Ya existe!");
-                        availability = false;
+                        availabilityDNI = false;
                     } else {
                         $('#msgUsuario').html("");
-                        availability = true;
+                        availabilityDNI = true;
                     }
                 }
             });
@@ -317,6 +342,87 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
                     }
                   );
              }//Fin de la función
+             
+             
+             //*************************Barrio**********************************
+             
+              /************************ EVENTOS *******************************/
+            $("#btnInsert").on
+            (
+                'click',function()
+                {
+                    var row = $("#tableBodyNeighborhood tr:last").attr("id");
+                    var newRow = row.substring(2,row.length);
+                    
+                    if(validation(newRow))
+                    {
+                        var buttons = '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                            '<input type="button" value="Delete" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>';
+                        $("#tableBodyNeighborhood tr:last").append(buttons);
+                        
+                        var infoData = "option=2"+
+                                "&txtNeighborhood="+$("#txtNeighborhood"+newRow).val();
+                        $.ajax
+                        (
+                            {
+                                type: 'POST',
+                                url: "../business/AddressBusinessAction.php",
+                                data: infoData,
+                                beforeSend: function(before)
+                                {
+                                    $("#msg").html("<p>Wait.</p>");
+                                },
+                                success: function(data)
+                                {
+                                    if(data.toString() === "1")
+                                    {
+                                        $("#msg").html("<p>Success insert.</p>");
+                                        $("#txtID"+newRow).val(data);
+                                        insertNewRow("tableBodyNeighborhood");
+                                        document.getElementById('barrio').style.display = 'none';
+                                        getCurrentNeighborhood();
+                                    }
+                                    else
+                                    {
+                                        $("#msg").html("<p>Error.</p>");
+                                    }
+                                },
+                                error:function()
+                                {
+                                    $("#msg").html("<p>Error.</p>");
+                                }
+                            }
+                        );
+                    }//
+                    else{$("#msg").html("<p>Please, check the information.</p>");}
+                }
+            );
+            $("#tableBodyNeighborhood").on
+            (
+                'click','input.btnUpdate', function() 
+                {
+                    var row = $(this).attr("id");
+                    var currentRow = row.substring(9,row.length);
+                    updateAddress(currentRow);
+                    document.getElementById('barrio').style.display = 'none';
+                    getCurrentNeighborhood();
+                }
+            );
+            $("#tableBodyNeighborhood").on
+                    (
+                        'click','input.btnDelete', function() 
+                        {
+                            var row = $(this).attr("id");
+                            var currentRow = row.substring(9,row.length);
+                            deleteAddress(currentRow);
+                            document.getElementById('barrio').style.display = 'none';
+                            getCurrentNeighborhood();
+                        }
+                    );
+             
+             
+             
+             
         }//Fin de la función principal
     );
     
@@ -349,15 +455,14 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
         var secondname = form.secondname.value;
         var birthday = form.birthday.value;
         var email = form.email.value;
-        var userName = form.userName.value;
         var password = form.password.value;
         var phoneReference = form.addPhoneReference.value;
         var startDay = form.startDay.value;
         var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+       
 
         if (name.length === 0 || firstname.length === 0 || secondname.length === 0 || birthday.length === 0 ||
-                email.length === 0 || userName.length === 0 ||
-                password.length === 0 || startDay===0) {
+                email.length === 0 || password.length === 0 || startDay===0) {
             
             $("#msgError").html("Error:Revise la Información.Campos vacios");
             ok = false;
@@ -365,23 +470,22 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
             $("#msgError").html("Error:Revise el teléfono de referencia. El formato es (000)-0000-0000");
             ok = false;
         }else if (birthday.length < 10) {
-            $("#msgError").html("Error:Revise la fecha de nacimiento.El formato es aaa-mm-dd");
+            $("#msgError").html("Error:Revise la fecha de nacimiento.El formato es dd-mm-yyyy");
             ok = false;
         }else if (startDay.length < 10) {
-            $("#msgError").html("Error:Revise la fecha de ingreso. El formato es aaa-mm-dd");
+            $("#msgError").html("Error:Revise la fecha de ingreso. El formato es dd-mm-yyyy");
             ok = false;
         }
         else if (!expr.test(email)) {
             $("#msgError").html("Error: El correo " + email + " está incorrecto.");
             ok = false;
-        }else if(availability===false){
+        }else if(availabilityDNI===false || availabilityUser===false){
             $("#msgError").html("");
             ok = false; 
         } else {
             ok = true;
             for (var i = 0; i <= idPhone; i++) {
             var idPhone = 'phone' + idPhone;
-            alert('phone');
             if (form.idPhone.value.length < 14) {
                  $("#msgError").html("Error:ERROR: Revise los teléfonos ingresados!!");
                 ok = false;
@@ -425,6 +529,196 @@ $neighborhood= $neighborhoodBusiness->getAllAddress();
 
         return edad;
 }
+
+/**
+             * Función que nos permite insertar una nueva fila a la tabla.
+             * @param {String} nameTable Corresponde al nombre de la tabla
+             * */
+            function insertNewRow(nameTable)
+            {
+                var newRow = ($("#"+nameTable+" tr").length);
+                var temp = "";
+                
+                if(newRow === 0)
+                {  
+                    temp = '<tr id="tr'+newRow+'">'+
+                        '<td><input type="text" id="txtNeighborhood'+newRow+'" name="txtNeighborhood'+newRow+'" />*<input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" /></td>' +
+                        '</tr>';
+                    $("#"+nameTable).html(temp);
+                }
+                else
+                {
+                    var row = $("#tableBodyNeighborhood tr:last").attr("id");
+                    var newRow = parseInt(row.substring(2,row.length)) + 1;
+                    temp = '<tr id="tr'+newRow+'">'+
+                        '<td><input type="text" id="txtNeighborhood'+newRow+'" name="txtNeighborhood'+newRow+'" />*<input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" /></td>' +
+                        '</tr>';
+                    $("#"+nameTable+" tr:last").after(temp);
+                }//Fin del else
+            }//Fin de la función
+            
+             /**
+            * Esta función nos permite poder obtener todos  los registros de inventario 
+            * que se encuentra en la base de datos.
+            * */
+            function getCurrentNeighborhood()
+            {
+                var infoData = "option=1";
+                clearSelect();
+                
+                $.ajax
+                (
+                    {
+                        type: 'POST',
+                        url: "../business/AddressBusinessAction.php",
+                        data: infoData,
+                        beforeSend: function(before)
+                        {
+                            $("#msg").html("<p>Wait.</p>");
+                        },
+                        success: function(data)
+                        {
+                            if(data.toString().length > 0)
+                            {
+                                var temp = "";
+                                var array = data.split(";");
+                                for(var i = 0; i < array.length; i++)
+                                {
+                                    var newRow = i + 1;
+                                    var neighborhood = array[i].split(",");
+                                    
+                                    temp = temp + '<tr id="tr'+newRow+'">'+
+                                    '<td><input type="text" id="txtNeighborhood'+newRow+'" name="txtNeighborhood'+newRow+'" value="'+neighborhood[1]+'"/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+neighborhood[0]+'"/>*</td>' +
+                                    '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                                    '<input type="button" value="Elimiar" class="btnDelete" id="btnDelete'+newRow+'" name="btnDelete'+newRow+'" /></td>'+
+                                    '</tr>';
+                                     document.getElementById("selNeighborhood").options[document.getElementById("selNeighborhood").options.length]=new Option(neighborhood[1], neighborhood[0]);
+                                }
+                                $("#tableBodyNeighborhood").html(temp);
+                                insertNewRow("tableBodyNeighborhood");
+                                $("#msg").html("");
+                            }
+                            else
+                            {
+                                insertNewRow("tableBodyNeighborhood");
+                                $("#msg").html("");
+                            }
+                        },
+                        error:function()
+                        {
+                            $("#msg").html("<p>Error.</p>");
+                        }
+                    }
+                );
+            }
+            
+            /**
+            * Función que valida los campos.
+            * @param {String} positionToValidate Corresponde a la posición en la tabla.
+            * @return {boolean} Indicando si está todo bien o no.
+            * */
+            function validation(positionToValidate)
+            {
+                var flag = true;
+                
+                if(($("#txtNeighborhood"+positionToValidate).val().length === 0)) 
+                {
+                    flag = false;
+                }
+                
+                return flag;
+            }//Fin de la función
+            
+            /**
+            * Esta función nos permite poder eliminar la información del barrio
+             * @param {type} currentRow
+             * @returns {undefined}             
+             * */
+            function deleteAddress(currentRow)
+            {
+                var infoData = "option=4"+
+                                "&txtID="+$("#txtID"+currentRow).val();
+                    $.ajax
+                    (
+                        {
+                            type: 'POST',
+                            url: "../business/AddressBusinessAction.php",
+                            data: infoData,
+                            beforeSend: function(before)
+                            {
+                                $("#msg").html("<p>Wait.</p>");
+                            },
+                            success: function(data)
+                            {
+                                if(data.toString() !== "0")
+                                {
+                                    $("#msg").html("<p>Success delete.</p>");
+                                    $("#tr"+currentRow).remove();
+                                }
+                                else
+                                {
+                                    $("#msg").html("<p>Error.</p>");
+                                }
+                            },
+                            error:function()
+                            {
+                                $("#msg").html("<p>Error.</p>");
+                            }
+                        }
+                    );
+            }//Fin de la función
+            
+            /**
+            * Esta función nos permite poder actualizar la información de un inventario.
+            * @param {int} currentRow Corresponde a la fila que deseamos actualizar.
+            * */
+            function updateAddress(currentRow)
+            {
+                if(validation(currentRow))
+                {
+                    var infoData = "option=3"+
+                            "&txtNeighborhood="+$("#txtNeighborhood"+currentRow).val() +
+                            "&txtID="+$("#txtID"+currentRow).val();
+                    $.ajax
+                    (
+                        {
+                            type: 'POST',
+                            url: "../business/AddressBusinessAction.php",
+                            data: infoData,
+                            beforeSend: function(before)
+                            {
+                                $("#msg").html("<p>Wait.</p>");
+                            },
+                            success: function(data)
+                            {
+                                if(data.toString() !== "0")
+                                {
+                                    $("#msg").html("<p>Success update.</p>");
+                                }
+                                else
+                                {
+                                    $("#msg").html("<p>Error.</p>");
+                                }
+                            },
+                            error:function()
+                            {
+                                $("#msg").html("<p>Error.</p>");
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    $("#msg").html("<p>Please, check the information.</p>");
+                }
+            }//Fin de la función
+            
+       function barrio() {
+        document.getElementById('barrio').style.display = 'block';
+      }
+      function clearSelect(){
+         document.getElementById("selNeighborhood").options.length = 0;
+    }
 </script>
 
 

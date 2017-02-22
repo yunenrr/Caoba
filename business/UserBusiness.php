@@ -58,7 +58,14 @@ class UserBusiness {
     public function verifyUserNameUser($userName, $pass) {
         return $this->userData->verifyUserName($userName, $pass);
     }
-
+    /**
+     * Use to verify if the username already exist
+     * @param type $userName
+     * @return type
+     */
+    public function valideUserName($userName){
+        return $this->userData->valideUserName($userName);
+    }
     /**
      * use to get a specif user
      * @param type $idPersonUser

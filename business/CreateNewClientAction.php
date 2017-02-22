@@ -25,27 +25,30 @@ if (isset($_POST['submit'])) {
     $secondnamePerson = $_POST['secondname'];
     $emailPerson = $_POST['email'];
     $passwordUser = $_POST['password'];
-    $nameUser =$_POST['userName'];
-    $phoneReferencePerson = $_POST['addPhoneReference'];
-    $bloodPerson =$_POST['selBlood'];
-    $birthdayPersonPerson = $_POST['birthday'];
+    $nameUser = $_POST['email'];
+    $bloodPerson = $_POST['selBlood'];
     $userType = $_POST['userType'];
     $genderPerson = $_POST['selGender'];
-    $starDateUser = $_POST['startDay'];
+    $phoneReferencePerson = $_POST['addPhoneReference'];
     $address = $_POST['selNeighborhood'];
 
     $idPerson = $personBusiness->getMaxId();
+    $birthdayPersonPerson = explode("/", $_POST['birthday']);
+    $starDateUser = explode("/", $_POST['startDay']);
 
+    $birthday = $birthdayPersonPerson[2] . "/" . $birthdayPersonPerson[1] . "/" . $birthdayPersonPerson[0];
+    $starDate = $starDateUser[2] . "/" . $starDateUser[1] . "/" . $starDateUser[0];
+    
     $indexPhones = 0;
-    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $birthdayPersonPerson, $genderPerson, $emailPerson, $address, $phoneReferencePerson, $bloodPerson);
+    $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $birthday, $genderPerson, $emailPerson, $address, $phoneReferencePerson, $bloodPerson);
 
     if ($personBusiness->insertPerson($person)) {
         $personStateBusiness = new personStateBusiness();
         $personStateBusiness->insertPersonState($idPerson);
         $idUser = $userBusiness->getMaxId();
-        $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser, $starDateUser);
+        $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser, $starDate);
         $userBusiness->insertUser($user);
-        
+
 
         if (isset($_POST['phones'])) {
             $indexPhones = (int) $_POST['phones'];

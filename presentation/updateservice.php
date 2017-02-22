@@ -1,35 +1,35 @@
 <?php include './header.php' ?>
 <div>
-    <h2>Register Service</h2>
+    <h2>Actualizar Servicio</h2>
     <fieldset>
-        <legend>Basic Information</legend>
+        <legend>Información básica</legend>
         <div>
             <label>Instructor:</label>
             <select id="selInstructor" name="selInstructor"></select>
         </div>
         <div>
-            <label>Name:</label>
+            <label>Nombre del servicio:</label>
             <input type="text" id="txtName" name="txtName" maxlength="20" required="" />
         </div>
         <div>
-            <label>Description:</label>
+            <label>Descripción:</label>
             <input type="text" id="txtDescription" name="txtDescription" maxlength="50" required="" />
         </div>
         <div>
-            <label>Payment Method:</label>
+            <label>Métodos de pago:</label>
             <table id="tablePaymentMethod" name="tablePaymentMethod"></table>
             <input type="text" id="txtPrice" class="money" name="txtPrice" 
                    maxlength="5" required="" dir="rtl"/>
             <select id="selPaymentModule"></select>
-            <button id="btnAdd" name="btnAdd">Add</button>
+            <button id="btnAdd" name="btnAdd">Agregar</button>
         </div>
         <div>
-            <label>Quota:</label>
+            <label>Cupo:</label>
             <input type="number" id="txtQuota" name="txtQuota" 
                    maxlength="5" required="" dir="rtl"/>
         </div>
         <div>
-            <button id="btnUpdate" name="btnUpdate">Update</button>
+            <button id="btnUpdate" name="btnUpdate">Actualizar</button>
         </div>
     </fieldset>
     <div id="msg"></div>
@@ -45,7 +45,7 @@
         {
             if ($.getURLParam("id")=== null || $.getURLParam("id").length === 0) 
             {
-                document.location.href = "ViewService.php";
+                document.location.href = "viewservice.php";
             }//Fin del if
             var id = $.getURLParam("id");
             var selectedPaymentModule = "";
@@ -84,7 +84,7 @@
                             }//Fin del if
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("El servicio no existe en la base de datos.");
                             }
                         },
                         error:function()
@@ -169,7 +169,7 @@
                             }
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("No hay instructores en la base de datos.");
                             }
                         },
                         error:function()
@@ -201,7 +201,7 @@
                             if(data.toString().length > 0)
                             {
                                 var arrayPaymentModule = data.split(";");
-                                var temp = '<option value="0" selected="">Select</option>';
+                                var temp = '<option value="0" selected="">Seleccione</option>';
                                 
                                 for(var i = 0; i < arrayPaymentModule.length; i++)
                                 {
@@ -222,7 +222,7 @@
                             }//Fin del if
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("No existen métodos de pago para el servicio.");
                             }
                         },
                         error:function()

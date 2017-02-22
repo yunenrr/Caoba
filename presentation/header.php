@@ -99,8 +99,8 @@
                         <li>
                             <strong>Servicios</strong>
                             <ul>
-                                <li><a href="CreateService.php">Ingresar</a></li>
-                                <li><a href="ViewService.php" >Ver servicios</a></li>
+                                <li><a href="createservice.php">Ingresar</a></li>
+                                <li><a href="viewservice.php" >Ver servicios</a></li>
                                 <li><a href="ScheduleCampus.php">Horario salas</a></li>
                             </ul>
                         </li>

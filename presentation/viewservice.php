@@ -1,23 +1,23 @@
 <?php include './header.php' ?>
 <div>
-    <h2>All Service</h2>
+    <h2>Todos los servicios</h2>
     <div>
-        <label>View by state:</label>
+        <label>Ver por estado:</label>
         <select id="selState" name="selState">
-            <option value="0">All</option>
-            <option value="1">Active</option>
-            <option value="2">Inactive</option>
+            <option value="0">Todos</option>
+            <option value="1">Activos</option>
+            <option value="2">Inactivos</option>
         </select>
     </div>
     <fieldset>
-        <legend>Basic Information</legend>
+        <legend>Información básica:</legend>
         <table>
             <thead>
                 <tr>
-                    <th>Name:</th>
-                    <th>State:</th>
-                    <th>Update information:</th>
-                    <th>Renew/Cancel service:</th>
+                    <th>Nombre:</th>
+                    <th>Estado:</th>
+                    <th>Actualizar información:</th>
+                    <th>Renovar/Cancelar servicio:</th>
                 </tr>
             </thead>
             <tbody id="tableBodyService"></tbody>
@@ -60,7 +60,7 @@
                             }
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("No existen servicios en la base de datos.");
                             }
                         },
                         error:function()
@@ -146,7 +146,7 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(9,row.length);
-                    document.location.href = "UpdateService.php?id="+$("#txtID"+currentRow).val();
+                    document.location.href = "updateservice.php?id="+$("#txtID"+currentRow).val();
                 }//Fin de la función
             );//Fin del evento
     
@@ -156,7 +156,7 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(8,row.length);
-                    document.location.href = "RenewService.php?id="+$("#txtID"+currentRow).val();
+                    document.location.href = "renewservice.php?id="+$("#txtID"+currentRow).val();
                 }//Fin de la función
             );//Fin del evento
             
@@ -166,7 +166,7 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(9,row.length);
-                    document.location.href = "CancelService.php?id="+$("#txtID"+currentRow).val();
+                    document.location.href = "cancelservice.php?id="+$("#txtID"+currentRow).val();
                 }//Fin de la función
             );//Fin del evento
     

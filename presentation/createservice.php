@@ -1,57 +1,57 @@
 <?php include './header.php' ?>
 <div>
-    <h2>Register Service</h2>
+    <h2>Ingresar Servicio</h2>
     <fieldset>
-        <legend>Basic Information</legend>
+        <legend>Información Básica:</legend>
         <div>
             <label>Instructor:</label>
             <select id="selInstructor" name="selInstructor"></select>
         </div>
         <div>
-            <label>Name:</label>
+            <label>Nombre del servicio:</label>
             <input type="text" id="txtName" name="txtName" maxlength="20" required="" />
             <label>*</label>
         </div>
         <div>
-            <label>Description:</label>
+            <label>Descripción:</label>
             <input type="text" id="txtDescription" name="txtDescription" maxlength="50" required="" />
             <label>*</label>
         </div>
         <div>
-            <label>Payment Method:</label>
+            <label>Método de pago:</label>
             <table id="tablePaymentMethod" name="tablePaymentMethod"></table>
             <input type="text" class="money" id="txtPrice" name="txtPrice" 
                    maxlength="5" required="" dir="rtl" placeholder="₡"/>
             <select id="selPaymentModule"></select>
-            <button id="btnAdd" name="btnAdd">Add</button>
+            <button id="btnAdd" name="btnAdd">Agregar</button>
             <label>*</label>
         </div>
         <div>
-            <label>Quota:</label>
+            <label>Cupo:</label>
             <input type="number" id="txtQuota" name="txtQuota" 
                    maxlength="5" required=""/>
             <label>*</label>
         </div>
         <div>
-            <label>Start date:</label>
+            <label>Fecha de inicio:</label>
             <input type="text" class="date" id="txtStartDate" name="txtStartDate" required=""/>
             <label>*</label>
         </div>
         <div>
-            <label>Periodicity:</label>
+            <label>Periodicidad:</label>
             <select id="selPeriodicity" name="selPeriodicity">
-                <option value="1">Monthly</option>
-                <option value="6">Biannual</option>
-                <option value="12">Annual</option>
+                <option value="1">Mensual</option>
+                <option value="6">Semestral</option>
+                <option value="12">Anual</option>
             </select>
             <label>*</label>
         </div>
         <div>
-            <button id="btnInsert" name="btnInsert">Insert</button>
+            <button id="btnInsert" name="btnInsert">Ingresar Servicio</button>
         </div>
         <div>
-            <p>* = Required</p>
-            <p>** = Please enter at least one.</p>
+            <p>* = Requerido</p>
+            <p>** = Debe ingresar mínimo uno.</p>
         </div>
     </fieldset>
     <div id="msg"></div>
@@ -95,7 +95,7 @@
                             if(data.toString().length > 0)
                             {
                                 arrayPaymentModule = data.split(";");
-                                var temp = '<option value="0" selected="">Select</option>';
+                                var temp = '<option value="0" selected="">Seleccione</option>';
                                 
                                 for(var i = 0; i < arrayPaymentModule.length; i++)
                                 {
@@ -106,12 +106,12 @@
                             }
                             else
                             {
-                                $("#msg").html("Don't have instructor");
+                                $("#msg").html("No existen métodos de pago en la base.");
                             }
                         },
                         error:function()
                         {
-                            $("#msg").html("<p>Error.</p>");
+                            $("#msg").html("<p>Ocurrió un error al realizar la consulta en la base de datos..</p>");
                         }
                     }
                 );
@@ -212,12 +212,12 @@
                             }
                             else
                             {
-                                $("#msg").html("Don't have instructor");
+                                $("#msg").html("No existen instructores en la base de datos.");
                             }
                         },
                         error:function()
                         {
-                            $("#msg").html("<p>Error.</p>");
+                            $("#msg").html("<p>Ocurrió un error al conectarse a la base de datos.</p>");
                         }
                     }
                 );
@@ -323,7 +323,7 @@
                                     }
                                     else
                                     {
-                                        $("#msg").html(getErrorMessage(5));
+                                        $("#msg").html("No se pudo ingresar el servicio.");
                                     }
                                 },
                                 error:function()

@@ -83,15 +83,15 @@ class SendEmailData
             $mail->addAddress($row['emailperson'], $row['nameperson']); 
 
             //La linea de asunto 
-            $mail->Subject = $service->getNameService().' Service Cancellation'; 
+            $mail->Subject = 'Cancelación del servicio: '.$service->getNameService(); 
 
             $message = '            <h1 style="text-align: center;">Service Cancellation</h1>
             <p style="font-size: 20px;">
-                Greetings '.$nameClient.', it is a pleasure to write you on behalf of the 
-                team of Gym Caoba, we write to inform you that the service '.$service->getNameService().' 
-                is no longer being taught from '.$this->getInvertDate($service->getEndDateService()).'.
+                Saludos '.$nameClient.', es un placer poder escribirte de parte del equipo de 
+                Gimnasio Caoba, te escribimos para informarte que el servicio '.$service->getNameService().' 
+                no se va brindar más apartir del '.$this->getInvertDate($service->getEndDateService()).'.
                 <br>
-                We apologize for the inconvenience that this news represents for you.</p>';
+                Lamentamos los inconvenientes que te pueda realizar esta noticia, y esperemos seguir con su apoyo.</p>';
             
             // La mejor forma de enviar un correo, es creando un HTML e insertandolo de la siguiente forma, PHPMailer permite insertar, imagenes, css, etc. (No se recomienda el uso de Javascript) 
             $mail->msgHTML($message);

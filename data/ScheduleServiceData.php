@@ -197,6 +197,7 @@ class ScheduleServiceData
      * @param int $idService Corresponde al identificador del servicio.
      * @param int $idDay Corresponde al identificador del día.
      * @param int $idHour Corresponde al identificador de la hora.
+     * @return int 0: Si está disponible, y 1 en caso contrario.
      */
     public function validateCampusSchedule($idService,$idDay,$idHour)
     {

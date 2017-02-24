@@ -11,7 +11,7 @@
     </head>
     <body>
         <div>
-            <select>
+            <select id="selCampus" name="selCampus">
                 <option value="0">Sala 1</option>
                 <option value="1">Sala 2</option>
             </select>
@@ -48,7 +48,8 @@
                     function (data) 
                     {
                         $("#msg").html("");
-                        var infoData = "option=1&dniPerson="+data;
+                        var infoData = "option=1&dniPerson="+data+
+                                "&idCampus="+$("#selCampus").val();
                          $.ajax
                          (
                              {
@@ -69,6 +70,18 @@
                                              $("#msg").html("Bienvenido(a)"); 
                                              $().delay(1000);
                                          }//Fin del if igual a existe
+                                         else if(dataBusiness === "2")
+                                         {
+                                             $("#msg").html("En estos momentos no se está impartiendo ningún servicio en la sala.");
+                                         }//Fin del else if
+                                         else if(dataBusiness === "3")
+                                         {
+                                             $("#msg").html("Usted ya está registrado para la sesión actual en una sala.");
+                                         }//Fin del else if
+                                         else
+                                         {
+                                             $("#msg").html("Usted no está registrado en el sistema.");
+                                         }//Fin del else
                                      }//Fin del if mayor a cero
                                      else
                                      {

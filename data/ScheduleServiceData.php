@@ -221,4 +221,33 @@ class ScheduleServiceData
         $this->connection->closeConnection();
         return $id;
     }//Fin del método
+    
+    public function getScheduleByCampusHour($idCampus,$idHour)
+    {
+        //Iniamos la conexión y el tipo de carácteres
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Validamos la información
+        $idCampus = mysqli_real_escape_string($connO,$idCampus);
+        $idHour = mysqli_real_escape_string($connO,$idHour);
+        
+        $sql = "select idservicescheduleservice from tbscheduleservice where "
+                . "idcampuscheduleservice = $idCampus and "
+                . "hourscheduleservice = $idHour;";
+        $result = mysqli_query($connO,$sql);
+        if(mysqli_num_rows($result) > 0)
+        {
+            $row = mysqli_fetch_array($result);
+            $id = $row['idservicescheduleservice'];
+        }
+        else
+        {
+            $id = 0;
+        }
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $id;
+    }//Fin del método
 }//Fin de la clase

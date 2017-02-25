@@ -72,7 +72,8 @@
             getAllInstructor();
             
             $('.money').mask('₡00.000', {reverse: false});
-            $('.date').mask('00-00-0000');
+            $('.date').mask('00-00-0000', {placeholder: 'dd-mm-yyyy'});
+            $( ".date" ).datepicker({firstDay: 1,dateFormat: 'dd-mm-yy'});
             
             /***************************** FUNCIONES **************************/
             /**

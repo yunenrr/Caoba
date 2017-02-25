@@ -93,8 +93,8 @@
                         temp = temp + '<tr id="tr'+newRow+'">';
                         temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
                         '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="'+((parseInt(service[2]) > 0) ? "Active" : "Inactive")+'" disabled=""/></td>' +
-                        '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                        ((parseInt(service[2]) > 0) ? '<td><input type="button" value="Cancel" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />':'<td><input type="button" value="Renew" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />')+
+                        '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                        ((parseInt(service[2]) > 0) ? '<td><input type="button" value="Cancelar" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />':'<td><input type="button" value="Renovar" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />')+
                         '</tr>';
                     }//Fin del for
                 }//Fin del if
@@ -110,8 +110,8 @@
                             temp = temp + '<tr id="tr'+newRow+'">';
                             temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
                             '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="Active" disabled=""/></td>' +
-                            '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                            '<td><input type="button" value="Cancel" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />'+
+                            '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                            '<td><input type="button" value="Cancelar" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />'+
                             '</tr>';
                         }//Fin del if
                     }//Fin del for
@@ -128,8 +128,8 @@
                             temp = temp + '<tr id="tr'+newRow+'">';
                             temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
                             '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="Inactive" disabled=""/></td>' +
-                            '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                            '<td><input type="button" value="Renew" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />' +
+                            '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                            '<td><input type="button" value="Renovar" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />' +
                             '</tr>';
                         }//Fin del if
                     }//Fin del for

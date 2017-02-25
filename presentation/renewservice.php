@@ -17,7 +17,7 @@
         <legend>Nueva información:</legend>
         <div>
             <label>Fecha de inicio:</label>
-            <input type="date" class="date" id="txtStartDate" name="txtStartDate" required=""/>
+            <input type="text" class="date" id="txtStartDate" name="txtStartDate" required=""/>
             <label>*</label>
         </div>
         <div>
@@ -53,7 +53,8 @@
             }//Fin del if
             var id = $.getURLParam("id");
             getCurrentService();
-            $('.date').mask('00-00-0000');
+            $(".date").mask('00-00-0000', {placeholder: 'dd-mm-yyyy'});
+            $( ".date" ).datepicker({firstDay: 1,dateFormat: 'dd-mm-yy'});
             
             /**
              * Función que nos permite obtener la información sobre el servicio actual.

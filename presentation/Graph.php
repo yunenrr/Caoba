@@ -16,14 +16,14 @@ if ($array[1]) {
     $datay3 = $array[3];
 
 // Setup the graph
-    $graph = new Graph(800, 450);
+    $graph = new Graph(1300, 450);
     $graph->SetScale("textlin");
 
     $theme_class = new UniversalTheme;
 
     $graph->SetTheme($theme_class);
     $graph->img->SetAntiAliasing(false);
-    $graph->title->Set('Gráfico de Medidas del cliente en centimetros para cada mes.');
+    $graph->title->Set('Gráfico de Medidas del cliente para cada mes.');
     $graph->SetBox(false);
 
     $graph->img->SetAntiAliasing();
@@ -51,7 +51,7 @@ if ($array[1]) {
     $p2 = new LinePlot($datay2);
     $graph->Add($p2);
     $p2->SetColor("#58FA58");
-    $p2->SetLegend('Edad Metabólica');
+    $p2->SetLegend('Peso');
 
 // Create the third line
     $p3 = new LinePlot($datay3);
@@ -60,7 +60,7 @@ if ($array[1]) {
     $p3->SetLegend('Grasa Total');
 
     $graph->legend->SetFrameWeight(1);
-
+    $graph->legend->SetPos(0.5, 0.98, 'left', 'bottom');
 // Output line
     $graph->Stroke();
 } else {

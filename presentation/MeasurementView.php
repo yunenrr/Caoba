@@ -5,7 +5,7 @@ include './header.php'; //header include
 <div >
     <form  id="form" >
         <div id="ok"> 
-            <!--<img src="./Graph.php?id=<?php // echo $_GET['id']                              ?>" alt="" border="0">-->
+            <!--<img src="./Graph.php?id=<?php // echo $_GET['id']                                    ?>" alt="" border="0">-->
         </div>
         <table border="1px" cellpadding="1px">
             <!--head row-->
@@ -79,10 +79,13 @@ include './header.php'; //header include
             <tr>
                 <td><strong>calf</strong></td>
                 <td><input type="number" name="calf" required value="1"></td>
-
+                <td><strong>Peso(kg)</strong></td>
+                <td><input type="number" name="weight" required value="1"></td>
+                <td><strong>Altura(Mts)</strong></td>
+                <td><input type="number" name="height" required value="1"></td>
             </tr>
         </table>
-        <input type="submit" value=" Rgistrar" id="btn_enviar"/>
+        <input type="submit" value=" Registrar" id="btn_enviar"/>
 
     </form>
 
@@ -101,7 +104,6 @@ include './header.php'; //header include
     });
     function domAdd(data) {
         var types = JSON.parse(data);
-//        $("#client").prepend("<H1>CLIENT DATA</H1>");
         $("#client").prepend("<p>Nombre:" + types[0].nameperson + "</p><p>ID: " + types[0].idperson + "</p>");
         $("#client").prepend("<H1>Datos del cliente</H1>");
     }
@@ -132,9 +134,10 @@ include './header.php'; //header include
         $("#meansu24").empty();
         $("#meansu25").empty();
         $("#meansu").empty();
-        var table = "<table border=\"1px\" cellpadding=\"5px\"><tr id=\"meansu1\"><td><strong>Fechas -->></strong></td></tr><tr id=\"meansu23\"><td><strong>***Masa Muscular***</strong></td></tr><tr id=\"meansu24\"><td><strong>***Edad Metabolica***</strong></td></tr>";
-        table = table + "<tr id=\"meansu25\"><td><strong>***Grasa Total***</strong></td></tr>"; 
-        table = table + "<tr id=\"meansu2\"><td>transverseThorax</td></tr>";
+        var table = "<table border=\"1px\" cellpadding=\"5px\"> <tr id=\"meansu1\"><td><strong>Fechas -->></strong></td></tr>";
+        table = table + "</td></tr><tr id=\"meansu24\"><td><strong>***Peso ***</strong></td></tr>";
+        table = table + "<tr id=\"meansu25\"><td><strong>***Grasa Total***</strong></td></tr>";
+        table = table + "<tr id=\"meansu23\"><td><strong>***Masa Muscular***</strong><tr id=\"meansu2\"><td>transverseThorax</td></tr>";
         table = table + "<tr id=\"meansu3\"><td>backThorax</td> </tr><tr id=\"meansu4\"><td>biiliocrestideo</td> </tr>";
         table = table + "<tr id=\"meansu5\"><td>humeral</td></tr><tr id=\"meansu6\"><td>femoral</td></tr>";
         table = table + "<tr id=\"meansu7\"><td>head</td></tr><tr id=\"meansu8\"><td>armRelaxed</td></tr>";
@@ -145,8 +148,6 @@ include './header.php'; //header include
         table = table + "<tr id=\"meansu17\"><td>triceps</td></tr><tr id=\"meansu18\"><td>subscapular</td></tr>";
         table = table + "<tr id=\"meansu19\"><td>supraspiral</td></tr><tr id=\"meansu20\"><td>abdominal</td></tr>";
         table = table + "<tr id=\"meansu21\"><td>medialthigh</td></tr><tr id=\"meansu22\"><td>calf</td></tr></table>";
-
-
         $("#meansu").append(table);
 
         for (i in types)
@@ -174,21 +175,20 @@ include './header.php'; //header include
             $("#meansu21").append("<td>" + types[i].medialThigh + "</td>");
             $("#meansu22").append("<td>" + types[i].calf + "</td>");
             $("#meansu23").append("<td>" + types[i].musclemass + "</td>");
-            $("#meansu24").append("<td>" + types[i].metabolicage + "</td>");
+            $("#meansu24").append("<td>" + types[i].weight + "</td>");
             $("#meansu25").append("<td>" + types[i].totalfat + "</td>");
+//            $("#meansu26").append("<td>" + types[i].height + "</td>");
         }
         $("#meansu").prepend("<H1>Historial del Cliente</H1>");
     }
+
     function domAdd2(data) {
         var types = JSON.parse(data);
         if (types.length >= 1) {
             chargeTable(types);
         } else {
-//            alert('b2');
         }
-
     }
-
     function test() {
         $.ajax({
             url: './Graph.php',
@@ -233,7 +233,6 @@ include './header.php'; //header include
                 domAdd2(result);
             },
             error: function (res) {
-                domAdd('error');
             }
         });
     }
@@ -265,6 +264,7 @@ include './header.php'; //header include
                 {
                     ajaxGetClientHistory('../business/returnMeasurementAction.php');
                     ajaxGetMeasurementQuantity();
+
                 },
                 error: function (data)
                 {

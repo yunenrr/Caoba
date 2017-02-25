@@ -38,10 +38,11 @@ class Measurement {
     private $medialThighMeasurement;
     private $calfMeasurement;
     private $muscleMassMeasurement;
-    private $metabolicAgeMeasurement;
+    private $weightMeasurement;
     private $totalFatMeasurement;
+    private $heightMeasurement;
 
-    function Measurement($idMeasurement, $idPersonMeasurement, $measurementDateMeasurement, $transverseThoraxMeasurement, $backThoraxMeasurement, $biiliocrestideoMeasurement, $humeralMeasurement, $femoralMeasurement, $headMeasurement, $armRelaxedMeasurement, $armFlexedMeasurement, $forearmMeasurement, $mesosternalThoraxMeasurement, $waistMeasurement, $hipMeasurement, $innerThighMeasurement, $upperThighMeasurement, $calfMaxMeasurement, $tricepsMeasurement, $subscapularMeasurement, $supraspiralMeasurement, $abdominalMeasurement, $medialThighMeasurement, $calfMeasurement, $muscleMassMeasurement, $metabolicAgeMeasurement, $totalFatMeasurement) {
+    function Measurement($idMeasurement, $idPersonMeasurement, $measurementDateMeasurement, $transverseThoraxMeasurement, $backThoraxMeasurement, $biiliocrestideoMeasurement, $humeralMeasurement, $femoralMeasurement, $headMeasurement, $armRelaxedMeasurement, $armFlexedMeasurement, $forearmMeasurement, $mesosternalThoraxMeasurement, $waistMeasurement, $hipMeasurement, $innerThighMeasurement, $upperThighMeasurement, $calfMaxMeasurement, $tricepsMeasurement, $subscapularMeasurement, $supraspiralMeasurement, $abdominalMeasurement, $medialThighMeasurement, $calfMeasurement, $muscleMassMeasurement, $weightMeasurement, $totalFatMeasurement, $heightMeasurement) {
         $this->idMeasurement = $idMeasurement;
         $this->idPersonMeasurement = $idPersonMeasurement;
         $this->measurementDateMeasurement = $measurementDateMeasurement;
@@ -67,16 +68,9 @@ class Measurement {
         $this->medialThighMeasurement = $medialThighMeasurement;
         $this->calfMeasurement = $calfMeasurement;
         $this->muscleMassMeasurement = $muscleMassMeasurement;
-        $this->metabolicAgeMeasurement = $metabolicAgeMeasurement;
+        $this->weightMeasurement = $weightMeasurement;
         $this->totalFatMeasurement = $totalFatMeasurement;
-    }
-
-    function getCalfMeasurement() {
-        return $this->calfMeasurement;
-    }
-
-    function setCalfMeasurement($calfMeasurement) {
-        $this->calfMeasurement = $calfMeasurement;
+        $this->heightMeasurement = $heightMeasurement;
     }
 
     function getIdMeasurement() {
@@ -90,31 +84,8 @@ class Measurement {
     function getMeasurementDateMeasurement() {
         return $this->measurementDateMeasurement;
     }
-    function getMuscleMassMeasurement() {
-        return $this->muscleMassMeasurement;
-    }
 
-    function getMetabolicAgeMeasurement() {
-        return $this->metabolicAgeMeasurement;
-    }
-
-    function getTotalFatMeasurement() {
-        return $this->totalFatMeasurement;
-    }
-
-    function setMuscleMassMeasurement($muscleMassMeasurement) {
-        $this->muscleMassMeasurement = $muscleMassMeasurement;
-    }
-
-    function setMetabolicAgeMeasurement($metabolicAgeMeasurement) {
-        $this->metabolicAgeMeasurement = $metabolicAgeMeasurement;
-    }
-
-    function setTotalFatMeasurement($totalFatMeasurement) {
-        $this->totalFatMeasurement = $totalFatMeasurement;
-    }
-
-        function getTransverseThoraxMeasurement() {
+    function getTransverseThoraxMeasurement() {
         return $this->transverseThoraxMeasurement;
     }
 
@@ -192,6 +163,26 @@ class Measurement {
 
     function getMedialThighMeasurement() {
         return $this->medialThighMeasurement;
+    }
+
+    function getCalfMeasurement() {
+        return $this->calfMeasurement;
+    }
+
+    function getMuscleMassMeasurement() {
+        return $this->muscleMassMeasurement;
+    }
+
+    function getWeightMeasurement() {
+        return $this->weightMeasurement;
+    }
+
+    function getTotalFatMeasurement() {
+        return $this->totalFatMeasurement;
+    }
+
+    function getHeightMeasurement() {
+        return $this->heightMeasurement;
     }
 
     function setIdMeasurement($idMeasurement) {
@@ -286,4 +277,23 @@ class Measurement {
         $this->medialThighMeasurement = $medialThighMeasurement;
     }
 
+    function setCalfMeasurement($calfMeasurement) {
+        $this->calfMeasurement = $calfMeasurement;
+    }
+
+    function setMuscleMassMeasurement($muscleMassMeasurement) {
+        $this->muscleMassMeasurement = $muscleMassMeasurement;
+    }
+
+    function setWeightMeasurement($weightMeasurement) {
+        $this->weightMeasurement = $weightMeasurement;
+    }
+
+    function setTotalFatMeasurement($totalFatMeasurement) {
+        $this->totalFatMeasurement = $totalFatMeasurement;
+    }
+
+    function setHeightMeasurement($heightMeasurement) {
+        $this->heightMeasurement = $heightMeasurement;
+    }
 }

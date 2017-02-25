@@ -386,32 +386,37 @@ create table `tbinventory` (
 -- estructura de tabla para la tabla `tbmeasurement`
 --
 
-create table `tbmeasurement` (
-  `idmeasurement` int(11) not null,
-  `idpersonmeasurement` varchar(20)  not null,
-  `measurementdatemeasurement` date not null,
-  `transversethoraxmeasurement` int(11) not null,
-  `backthoraxmeasurement` int(11) not null,
-  `biiliocrestideomeasurement` int(11) not null,
-  `humeralmeasurement` int(11) not null,
-  `femoralmeasurement` int(11) not null,
-  `headmeasurement` int(11) not null,
-  `armrelaxedmeasurement` int(11) not null,
-  `armflexedmeasurement` int(11) not null,
-  `forearmmeasurement` int(11) not null,
-  `mesosternalthoraxmeasurement` int(11) not null,
-  `waistmeasurement` int(11) not null,
-  `hipmeasurement` int(11) not null,
-  `innerthighmeasurement` int(11) not null,
-  `upperthighmeasurement` int(11) not null,
-  `calfmaxmeasurement` int(11) not null,
-  `tricepsmeasurement` int(11) not null,
-  `subscapularmeasurement` int(11) not null,
-  `supraspiralmeasurement` int(11) not null,
-  `abdominalmeasurement` int(11) not null,
-  `medialthighmeasurement` int(11) not null,
-  `calfmeasurement` int(11) not null
-) ;
+
+CREATE TABLE `tbmeasurement` (
+  `idmeasurement` int NOT NULL,
+  `idpersonmeasurement` int NOT NULL,
+  `measurementdatemeasurement` date NOT NULL,
+  `transversethoraxmeasurement` decimal(10,2) NOT NULL,
+  `backthoraxmeasurement` decimal(10,2) NOT NULL,
+  `biiliocrestideomeasurement` decimal(10,2) NOT NULL,
+  `humeralmeasurement` decimal(10,2) NOT NULL,
+  `femoralmeasurement` decimal(10,2) NOT NULL,
+  `headmeasurement` decimal(10,2) NOT NULL,
+  `armrelaxedmeasurement` decimal(10,2) NOT NULL,
+  `armflexedmeasurement` decimal(10,2) NOT NULL,
+  `forearmmeasurement` decimal(10,2) NOT NULL,
+  `mesosternalthoraxmeasurement` decimal(10,2) NOT NULL,
+  `waistmeasurement` decimal(10,2) NOT NULL,
+  `hipmeasurement` decimal(10,2) NOT NULL,
+  `innerthighmeasurement` decimal(10,2) NOT NULL,
+  `upperthighmeasurement` decimal(10,2) NOT NULL,
+  `calfmaxmeasurement` decimal(10,2) NOT NULL,
+  `tricepsmeasurement` decimal(10,2) NOT NULL,
+  `subscapularmeasurement` decimal(10,2) NOT NULL,
+  `supraspiralmeasurement` decimal(10,2) NOT NULL,
+  `abdominalmeasurement` decimal(10,2) NOT NULL,
+  `medialthighmeasurement` decimal(10,2) NOT NULL,
+  `calfmeasurement` decimal(10,2) NOT NULL,
+  `musclemassmeasurement` decimal(10,2) NOT NULL,
+  `weightmeasurement` decimal(10,2) NOT NULL,
+  `totalfatmeasurement` decimal(10,2) NOT NULL,
+  `heightmeasurement` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 

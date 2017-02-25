@@ -267,31 +267,35 @@ CREATE TABLE `tbmeasurement` (
   `idmeasurement` int NOT NULL,
   `idpersonmeasurement` int NOT NULL,
   `measurementdatemeasurement` date NOT NULL,
-  `transversethoraxmeasurement` decimal NOT NULL,
-  `backthoraxmeasurement` decimal NOT NULL,
-  `biiliocrestideomeasurement` decimal NOT NULL,
-  `humeralmeasurement` decimal NOT NULL,
-  `femoralmeasurement` decimal NOT NULL,
-  `headmeasurement` decimal NOT NULL,
-  `armrelaxedmeasurement` decimal NOT NULL,
-  `armflexedmeasurement` decimal NOT NULL,
-  `forearmmeasurement` decimal NOT NULL,
-  `mesosternalthoraxmeasurement` decimal NOT NULL,
-  `waistmeasurement` decimal NOT NULL,
-  `hipmeasurement` decimal NOT NULL,
-  `innerthighmeasurement` decimal NOT NULL,
-  `upperthighmeasurement` decimal NOT NULL,
-  `calfmaxmeasurement` decimal NOT NULL,
-  `tricepsmeasurement` decimal NOT NULL,
-  `subscapularmeasurement` decimal NOT NULL,
-  `supraspiralmeasurement` decimal NOT NULL,
-  `abdominalmeasurement` decimal NOT NULL,
-  `medialthighmeasurement` decimal NOT NULL,
-  `calfmeasurement` decimal NOT NULL,
-  `musclemassmeasurement` decimal NOT NULL,
-  `metabolicagemeasurement` decimal NOT NULL,
-  `totalfatmeasurement` decimal NOT NULL
+  `transversethoraxmeasurement` decimal(10,2) NOT NULL,
+  `backthoraxmeasurement` decimal(10,2) NOT NULL,
+  `biiliocrestideomeasurement` decimal(10,2) NOT NULL,
+  `humeralmeasurement` decimal(10,2) NOT NULL,
+  `femoralmeasurement` decimal(10,2) NOT NULL,
+  `headmeasurement` decimal(10,2) NOT NULL,
+  `armrelaxedmeasurement` decimal(10,2) NOT NULL,
+  `armflexedmeasurement` decimal(10,2) NOT NULL,
+  `forearmmeasurement` decimal(10,2) NOT NULL,
+  `mesosternalthoraxmeasurement` decimal(10,2) NOT NULL,
+  `waistmeasurement` decimal(10,2) NOT NULL,
+  `hipmeasurement` decimal(10,2) NOT NULL,
+  `innerthighmeasurement` decimal(10,2) NOT NULL,
+  `upperthighmeasurement` decimal(10,2) NOT NULL,
+  `calfmaxmeasurement` decimal(10,2) NOT NULL,
+  `tricepsmeasurement` decimal(10,2) NOT NULL,
+  `subscapularmeasurement` decimal(10,2) NOT NULL,
+  `supraspiralmeasurement` decimal(10,2) NOT NULL,
+  `abdominalmeasurement` decimal(10,2) NOT NULL,
+  `medialthighmeasurement` decimal(10,2) NOT NULL,
+  `calfmeasurement` decimal(10,2) NOT NULL,
+  `musclemassmeasurement` decimal(10,2) NOT NULL,
+  `weightmeasurement` decimal(10,2) NOT NULL,
+  `totalfatmeasurement` decimal(10,2) NOT NULL,
+  `heightmeasurement` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- heightmeasurement
 
 -- --------------------------------------------------------
 
@@ -339,7 +343,13 @@ CREATE TABLE `tbperson` (
 -- Volcado de datos para la tabla `tbperson`
 --
 INSERT INTO `tbperson` (`idperson`, `dniperson`, `nameperson`, `firstnameperson`, `secondnameperson`, `birthdayperson`, `genderperson`, `emailperson`, `addressperson`, `phonereferenceperson`, `bloodtypeperson`) VALUES
-(0, '1-123-456', 'Admin', 'Admin', 'Admin', '1995-04-12', 1, 'luisdaca@hotmail.com', 0, '4', '43');
+
+
+INSERT INTO `tbperson` (`idperson`,`dniperson`,`nameperson`,`firstnameperson`,`secondnameperson`,`birthdayperson`,`genderperson`,`emailperson`,`addressperson`,`phonereferenceperson`,`bloodtypeperson`) VALUES (0,'1-123-456','Admin','Admin','Admin','1995-04-12',1,'luisdaca@hotmail.com',0,'4','43');
+INSERT INTO `tbperson` (`idperson`,`dniperson`,`nameperson`,`firstnameperson`,`secondnameperson`,`birthdayperson`,`genderperson`,`emailperson`,`addressperson`,`phonereferenceperson`,`bloodtypeperson`) VALUES (1,'1-111-111','karen','calderon','calvo','2013-01-26',1,'vanecalderon_5@hotmail.com',0,'(777)7777-7777','0-');
+INSERT INTO `tbperson` (`idperson`,`dniperson`,`nameperson`,`firstnameperson`,`secondnameperson`,`birthdayperson`,`genderperson`,`emailperson`,`addressperson`,`phonereferenceperson`,`bloodtypeperson`) VALUES (2,'7-777-777','Yunen','Ramirez','Arias','1111-11-11',1,'vanecalderon_5@hotmail.com',1,'(777)7777-7777','0-');
+INSERT INTO `tbperson` (`idperson`,`dniperson`,`nameperson`,`firstnameperson`,`secondnameperson`,`birthdayperson`,`genderperson`,`emailperson`,`addressperson`,`phonereferenceperson`,`bloodtypeperson`) VALUES (3,'2-222-222','Luis','Castillo','CalderÃ³n','1994-01-12',5,'vanecalderon_5@hotmail.com',2,'(999)9999-9999','A+');
+INSERT INTO `tbperson` (`idperson`,`dniperson`,`nameperson`,`firstnameperson`,`secondnameperson`,`birthdayperson`,`genderperson`,`emailperson`,`addressperson`,`phonereferenceperson`,`bloodtypeperson`) VALUES (4,'3-333-333','Sebas','Solano','CalderÃ³n','2013-01-26',5,'va@ho.com',2,'(666)6666-6666','AB+');
 
 -- --------------------------------------------------------
 
@@ -464,8 +474,10 @@ CREATE TABLE `tbuser` (
 -- Volcado de datos para la tabla `tbuser`
 --
 
-INSERT INTO `tbuser` (`iduser`, `idpersonuser`, `typeuser`, `usernameuser`, `passuser`, `startdateuser`) VALUES
-(0, 0, 1, 'admin', '1234', '0000-00-00');
+INSERT INTO `tbuser` (`iduser`,`idpersonuser`,`typeuser`,`usernameuser`,`passuser`,`startdateuser`) VALUES (0,0,1,'admin','1234','0000-00-00');
+INSERT INTO `tbuser` (`iduser`,`idpersonuser`,`typeuser`,`usernameuser`,`passuser`,`startdateuser`) VALUES (1,2,2,'instructor','1234','1111-11-11');
+INSERT INTO `tbuser` (`iduser`,`idpersonuser`,`typeuser`,`usernameuser`,`passuser`,`startdateuser`) VALUES (2,3,0,'client','1234','2017-02-02');
+INSERT INTO `tbuser` (`iduser`,`idpersonuser`,`typeuser`,`usernameuser`,`passuser`,`startdateuser`) VALUES (3,4,2,'sebas','1234','2017-02-02');
 
 --
 -- Índices para tablas volcadas

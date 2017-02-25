@@ -94,7 +94,6 @@ class UserData extends Connector {
         $query = "select count(usernameuser) from tbuser where usernameuser ='" . $userName."'";
         $result = $this->exeQuery($query);
         $row = mysqli_fetch_array($result);
-        
         return $row[0];
     }
 
@@ -128,6 +127,24 @@ class UserData extends Connector {
         $user = new User($row['iduser'], $row['idpersonuser'], $row['typeuser'], $row['usernameuser'], $row['passuser'],0);
 
         return $user;
+    }
+    
+     /**
+     * Use to get a specific password
+     * @param type $userName
+     * @return type
+     */
+    public function getPassword($userName) {
+        $query = "SELECT passuser, nameperson FROM `tbuser` INNER JOIN tbperson WHERE idpersonuser=idperson AND usernameuser='" . $userName."'";
+        $result = $this->exeQuery($query);
+        $arrayResult = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $array = array('name' => $row['nameperson'],
+                'pass' => $row['passuser']
+            );
+            array_push($arrayResult, $array);
+        }
+        return $arrayResult;
     }
 
 }

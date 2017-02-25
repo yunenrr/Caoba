@@ -82,5 +82,13 @@ class UserBusiness {
     public function getUserByIdPerson($idPerson) {
         return $this->userData->getUserByIdPerson($idPerson);
     }
+     /**
+     * Use to get a specific password
+     * @param type $userName
+     * @return type
+     */
+    public function getPassword($userName){
+        return $this->userData->getPassword($userName);
+    }
 
 }

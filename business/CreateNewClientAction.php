@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Use to Insert perso in the bd
  * 
@@ -38,7 +37,7 @@ if (isset($_POST['submit'])) {
 
     $birthday = $birthdayPersonPerson[2] . "/" . $birthdayPersonPerson[1] . "/" . $birthdayPersonPerson[0];
     $starDate = $starDateUser[2] . "/" . $starDateUser[1] . "/" . $starDateUser[0];
-    
+
     $indexPhones = 0;
     $person = new Person($idPerson, $dniPerson, $namePerson, $firstnamePerson, $secondnamePerson, $birthday, $genderPerson, $emailPerson, $address, $phoneReferencePerson, $bloodPerson);
 
@@ -62,8 +61,6 @@ if (isset($_POST['submit'])) {
                 $phoneBusiness->insertPhone($phone);
             }
         }
-
-
         header("location: ../presentation/Person.php?success=inserted");
     } else {
         header("location: ../presentation/Person.php");
@@ -71,3 +68,5 @@ if (isset($_POST['submit'])) {
 } else {
     header("location: ../presentation/Person.php?error=info");
 }
+?>
+<script type="text/javascript" src="../js/qrcode.js">

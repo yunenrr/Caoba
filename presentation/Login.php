@@ -25,23 +25,55 @@
                         </td>
                     </tr>
                 </table>
-
                 <input type="submit" name="submit" value="Ingresar"/>
             </form>
+            <a href="#" onclick="ocultarForm()">¿Olvidaste tu contraseña?</a>
         </div>
-
 
         <div id="recuperar">
             <fieldset>
                 <legend>Recuperar contraseña</legend>
                 <div>
                     <table  border="1px" cellpadding="8px">
-                        <p>Correo: <input type="text" id="txtCorreo" name="txtCorreo" />*</p>
-                        <input type="submit" name="submit" value="Recuperar"/>
+                        <p>Nombre de usurio: <input type="text" id="txtCorreo" name="txtCorreo"/>*</p>
+                        <input type="submit" name="submit" value="Recuperar" onclick="recuperEmail();"/>
                     </table>
                 </div>
                 <div>Campos requeridos(*)</div></td>
             </fieldset>
             <div id="msg"></div>
+            <a href="Login.php">Iniciar sesión</a>
         </div>
     </body>
+
+    <script>
+
+        $(document).ready
+                (
+                        function ()
+                        {
+                            document.getElementById('recuperar').style.display = 'none';
+                        }
+                );
+        function ocultarForm() {
+            document.getElementById('recuperar').style.display = 'block';
+            document.getElementById('login').style.display = 'none';
+        }
+        function recuperEmail() {
+            var correo = $("#txtCorreo").val();
+            if (correo.length === 0) {
+                $("#msg").html("Por favor ingrese su nombre de usuario.");
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: "../business/EmailAction.php",
+                    data: "option=1&email=" +correo+"&codigo=o",
+                    success: function (data) {
+                        $("#msg").html(data);
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+    </script>

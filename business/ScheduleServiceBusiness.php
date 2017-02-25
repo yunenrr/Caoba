@@ -55,7 +55,12 @@ if(isset($_POST['option']))
                 $scheduleService = new ScheduleService(0,$idCampus, 
                             $idService, $arraySchedule[1], $arraySchedule[0], 
                             $service->getEndDateService());
-                $temp = $scheduleData->insertScheduleService($scheduleService);
+                $resultValidate = $scheduleData->validateCampusSchedule($idService, $scheduleService->getDayScheduleService(),
+                        $scheduleService->getHourScheduleService());
+                if($resultValidate == 0)
+                {
+                    $temp = $scheduleData->insertScheduleService($scheduleService);
+                }//Fin del if
             }//Fin del foreach
             echo $temp;
             break;

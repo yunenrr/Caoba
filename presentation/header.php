@@ -7,6 +7,8 @@
         <script src="../js/jquery.mask.min.js" type="text/javascript"></script>
         <script src="../js/jquery.getParams.js" type="text/javascript"></script>
         <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="../resources/jquery-ui-1.12.1/jquery-ui.css">
+        <script src="../resources/jquery-ui-1.12.1/jquery-ui.js"></script>
     </head>
     <body>
         <nav>
@@ -99,8 +101,8 @@
                         <li>
                             <strong>Servicios</strong>
                             <ul>
-                                <li><a href="CreateService.php">Ingresar</a></li>
-                                <li><a href="ViewService.php" >Ver servicios</a></li>
+                                <li><a href="createservice.php">Ingresar</a></li>
+                                <li><a href="viewservice.php" >Ver servicios</a></li>
                                 <li><a href="ScheduleCampus.php">Horario salas</a></li>
                             </ul>
                         </li>

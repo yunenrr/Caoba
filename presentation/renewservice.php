@@ -1,39 +1,39 @@
 <?php include './header.php' ?>
 <div>
-    <h2>Renew Service</h2>
+    <h2>Renovar servicio:</h2>
     <div>
-        <label>Name Service: </label><label id="nameService" name="nameService"></label>
+        <label>Nombre del servicio: </label><label id="nameService" name="nameService"></label>
     </div>
     <fieldset>
-        <legend>Current Information:</legend>
+        <legend>Información actual:</legend>
         <div>
-            <label>Date started: </label><label id="dateStarted" name="dateStarted"></label>
+            <label>Fecha de inicio: </label><label id="dateStarted" name="dateStarted"></label>
         </div>
         <div>
-            <label>Date Finished: </label><label id="dateFinished" name="dateFinished"></label>
+            <label>Fecha de fin: </label><label id="dateFinished" name="dateFinished"></label>
         </div>
     </fieldset>
     <fieldset>
-        <legend>New Information:</legend>
+        <legend>Nueva información:</legend>
         <div>
-            <label>Start date:</label>
-            <input type="date" class="date" id="txtStartDate" name="txtStartDate" required=""/>
+            <label>Fecha de inicio:</label>
+            <input type="text" class="date" id="txtStartDate" name="txtStartDate" required=""/>
             <label>*</label>
         </div>
         <div>
-            <label>Periodicity:</label>
+            <label>Periodicidad:</label>
             <select id="selPeriodicity" name="selPeriodicity">
-                <option value="1">Monthly</option>
-                <option value="6">Biannual</option>
-                <option value="12">Annual</option>
+                <option value="1">Mensual</option>
+                <option value="6">Semestral</option>
+                <option value="12">Anual</option>
             </select>
             <label>*</label>
         </div>
         <div>
-            <button id="btnRenew" name="btnRenew">Renew</button>
+            <button id="btnRenew" name="btnRenew">Renovar servicio</button>
         </div>
         <div>
-            <p>* = Required</p>
+            <p>* = Requerido</p>
         </div>
     </fieldset>
     <div id="msg"></div>
@@ -49,11 +49,12 @@
         {
             if ($.getURLParam("id")=== null || $.getURLParam("id").length === 0) 
             {
-                document.location.href = "ViewService.php";
+                document.location.href = "viewservice.php";
             }//Fin del if
             var id = $.getURLParam("id");
             getCurrentService();
-            $('.date').mask('00-00-0000');
+            $(".date").mask('00-00-0000', {placeholder: 'dd-mm-yyyy'});
+            $( ".date" ).datepicker({firstDay: 1,dateFormat: 'dd-mm-yy'});
             
             /**
              * Función que nos permite obtener la información sobre el servicio actual.
@@ -83,7 +84,7 @@
                             }//Fin del if
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("El servicio no existe en la base de datos.");
                             }
                         },
                         error:function()
@@ -103,7 +104,7 @@
                 var flag = true;
                 
                 //Validamos que el campo no esté vacío
-                if(validateEmptyField($("#txtEndDate").val()))
+                if(validateEmptyField($("#txtStartDate").val()))
                 {
                     flag = false;
                     $("#msg").html(getErrorMessage(1));
@@ -156,7 +157,7 @@
                                     {
                                         $("#msg").html(getSuccessfullyInsertedMessage(3));
                                         $().delay(100);
-                                        location.href = "ViewService.php";
+                                        location.href = "viewservice.php";
                                     }
                                     else
                                     {

@@ -1,23 +1,23 @@
 <?php include './header.php' ?>
 <div>
-    <h2>All Service</h2>
+    <h2>Todos los servicios</h2>
     <div>
-        <label>View by state:</label>
+        <label>Ver por estado:</label>
         <select id="selState" name="selState">
-            <option value="0">All</option>
-            <option value="1">Active</option>
-            <option value="2">Inactive</option>
+            <option value="0">Todos</option>
+            <option value="1">Activos</option>
+            <option value="2">Inactivos</option>
         </select>
     </div>
     <fieldset>
-        <legend>Basic Information</legend>
+        <legend>Información básica:</legend>
         <table>
             <thead>
                 <tr>
-                    <th>Name:</th>
-                    <th>State:</th>
-                    <th>Update information:</th>
-                    <th>Renew/Cancel service:</th>
+                    <th>Nombre:</th>
+                    <th>Estado:</th>
+                    <th>Actualizar información:</th>
+                    <th>Renovar/Cancelar servicio:</th>
                 </tr>
             </thead>
             <tbody id="tableBodyService"></tbody>
@@ -60,7 +60,7 @@
                             }
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("No existen servicios en la base de datos.");
                             }
                         },
                         error:function()
@@ -93,8 +93,8 @@
                         temp = temp + '<tr id="tr'+newRow+'">';
                         temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
                         '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="'+((parseInt(service[2]) > 0) ? "Active" : "Inactive")+'" disabled=""/></td>' +
-                        '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                        ((parseInt(service[2]) > 0) ? '<td><input type="button" value="Cancel" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />':'<td><input type="button" value="Renew" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />')+
+                        '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                        ((parseInt(service[2]) > 0) ? '<td><input type="button" value="Cancelar" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />':'<td><input type="button" value="Renovar" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />')+
                         '</tr>';
                     }//Fin del for
                 }//Fin del if
@@ -110,8 +110,8 @@
                             temp = temp + '<tr id="tr'+newRow+'">';
                             temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
                             '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="Active" disabled=""/></td>' +
-                            '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                            '<td><input type="button" value="Cancel" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />'+
+                            '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                            '<td><input type="button" value="Cancelar" class="btnCancel" id="btnCancel'+newRow+'" name="btnCancel'+newRow+'" />'+
                             '</tr>';
                         }//Fin del if
                     }//Fin del for
@@ -128,8 +128,8 @@
                             temp = temp + '<tr id="tr'+newRow+'">';
                             temp = temp + '<td><input type="text" id="txtName'+newRow+'" name="txtName'+newRow+'" value="'+service[1]+'" disabled=""/><input type="hidden" id="txtID'+newRow+'" name="txtID'+newRow+'" value="'+service[0]+'"/></td>' +
                             '<td><input type="text" id="txtState'+newRow+'" name="txtState'+newRow+'" value="Inactive" disabled=""/></td>' +
-                            '<td><input type="button" value="Update" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
-                            '<td><input type="button" value="Renew" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />' +
+                            '<td><input type="button" value="Actualizar" class="btnUpdate" id="btnUpdate'+newRow+'" name="btnUpdate'+newRow+'" />'+
+                            '<td><input type="button" value="Renovar" class="btnRenew" id="btnRenew'+newRow+'" name="btnRenew'+newRow+'" />' +
                             '</tr>';
                         }//Fin del if
                     }//Fin del for
@@ -146,7 +146,7 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(9,row.length);
-                    document.location.href = "UpdateService.php?id="+$("#txtID"+currentRow).val();
+                    document.location.href = "updateservice.php?id="+$("#txtID"+currentRow).val();
                 }//Fin de la función
             );//Fin del evento
     
@@ -156,7 +156,7 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(8,row.length);
-                    document.location.href = "RenewService.php?id="+$("#txtID"+currentRow).val();
+                    document.location.href = "renewservice.php?id="+$("#txtID"+currentRow).val();
                 }//Fin de la función
             );//Fin del evento
             
@@ -166,7 +166,7 @@
                 {
                     var row = $(this).attr("id");
                     var currentRow = row.substring(9,row.length);
-                    document.location.href = "CancelService.php?id="+$("#txtID"+currentRow).val();
+                    document.location.href = "cancelservice.php?id="+$("#txtID"+currentRow).val();
                 }//Fin de la función
             );//Fin del evento
     

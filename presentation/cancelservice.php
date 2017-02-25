@@ -1,30 +1,30 @@
 <?php include './header.php' ?>
 <div>
-    <h2>Renew Service</h2>
+    <h2>Cancelar servicio:</h2>
     <div>
-        <label>Name Service: </label><label id="nameService" name="nameService"></label>
+        <label>Nombre del servicio: </label><label id="nameService" name="nameService"></label>
     </div>
     <fieldset>
-        <legend>Current Information:</legend>
+        <legend>Información actual:</legend>
         <div>
-            <label>Date started: </label><label id="dateStarted" name="dateStarted"></label>
+            <label>Fecha de inicio: </label><label id="dateStarted" name="dateStarted"></label>
         </div>
         <div>
-            <label>Date Finished: </label><label id="dateFinished" name="dateFinished"></label>
+            <label>Fecha de fin: </label><label id="dateFinished" name="dateFinished"></label>
         </div>
     </fieldset>
     <fieldset>
-        <legend>New Information:</legend>
+        <legend>Nueva información:</legend>
         <div>
-            <label>Cancel date:</label>
-            <input type="date" class="date" id="txtEndDate" name="txtEndDate" required=""/>
+            <label>Fecha de cancelación:</label>
+            <input type="text" class="date" id="txtEndDate" name="txtEndDate" required=""/>
             <label>*</label>
         </div>
         <div>
-            <button id="btnCancel" name="btnCancel">Cancel</button>
+            <button id="btnCancel" name="btnCancel">Cancelar servicio</button>
         </div>
         <div>
-            <p>* = Required</p>
+            <p>* = Requerido</p>
         </div>
     </fieldset>
     <div id="msg"></div>
@@ -40,11 +40,12 @@
         {
             if ($.getURLParam("id")=== null || $.getURLParam("id").length === 0) 
             {
-                document.location.href = "ViewService.php";
+                document.location.href = "viewservice.php";
             }//Fin del if
             var id = $.getURLParam("id");
             getCurrentService();
-            $('.date').mask('00-00-0000');
+            $(".date").mask('00-00-0000', {placeholder: 'dd-mm-yyyy'});
+            $( ".date" ).datepicker({firstDay: 1,dateFormat: 'dd-mm-yy'});
             
             /**
              * Función que nos permite obtener la información sobre el servicio actual.
@@ -74,7 +75,7 @@
                             }//Fin del if
                             else
                             {
-                                $("#msg").html(getErrorMessage(5));
+                                $("#msg").html("El servicio no existe en la base de datos.");
                             }
                         },
                         error:function()
@@ -146,10 +147,9 @@
                         },
                         success: function(data)
                         {
-                            alert(data);
                             $("#msg").html(getRemoveMessage(2));
                             $().delay(100);
-                            location.href = "ViewService.php";
+                            location.href = "viewservice.php";
                         },
                         error:function()
                         {

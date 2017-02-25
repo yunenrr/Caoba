@@ -85,6 +85,18 @@ class UserData extends Connector {
         
         return $row[0];
     }
+     /**
+     * Use to verify if the user name already exist
+     * @param type $userName
+     * @return type
+     */
+    public function valideUserName($userName) {
+        $query = "select count(usernameuser) from tbuser where usernameuser ='" . $userName."'";
+        $result = $this->exeQuery($query);
+        $row = mysqli_fetch_array($result);
+        
+        return $row[0];
+    }
 
     /**
      * Use to get a specif user

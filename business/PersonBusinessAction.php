@@ -58,7 +58,7 @@ if (isset($_POST['option'])) {
         case 3: //validate username
             $userBusiness = new UserBusiness();
             $userNameUser = $_POST['userName'];
-            $result = $userBusiness->verifyUserNameUser($userNameUser);
+            $result = $userBusiness->valideUserName($userNameUser);
             if ($result > 0)
                 echo '1';
             else

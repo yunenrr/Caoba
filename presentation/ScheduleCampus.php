@@ -434,7 +434,7 @@
                                         }
                                         else
                                         {
-                                            $("#msg").html(getErrorMessage(5));
+                                            $("#msg").html("Verifique que el servicio actual no se brinde en el mismo horario y día pero en otra sala.");
                                         }
                                     },
                                     error:function()

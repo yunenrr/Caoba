@@ -10,23 +10,23 @@ function getErrorMessage(idError)
     {
         //Algún espacio en blanco
         case 1: 
-            message = "Left some empty field."; 
+            message = "Dejó un espacio en blanco."; 
             break;
         //El valor no es un número
         case 2: 
-            message = "You entered a non-numeric value in a field where only numbers are accepted."; 
+            message = "No ingresó un número"; 
             break;
         //No seleccionó un método de pago.
         case 3: 
-            message = "Select a payment method."; 
+            message = "Seleccione un método de pago."; 
             break;
         //La fecha no es valida
         case 4:
-            message = "The date you entered is not valid."; 
+            message = "La fecha es inválida"; 
             break;
         //Ocurrió un error al procesar la solicitud en el servidor.
         case 5:
-            message = "There was an error processing the request on the server.";
+            message = "Ocurrió un error al procesar la solicitud en el servidor.";
             break;
         //La fecha ingresada es menor que la del sistema.
         case 6:
@@ -34,23 +34,23 @@ function getErrorMessage(idError)
             break;
         //La fecha ingresada es mayor que la que fecha final que posee.
         case 7:
-            message = "The date entered is higher than the current end date of the service.";
+            message = "La fecha ingresada es mayor que la fecha final que posee.";
             break;
         //La fecha ingresada es menor que la que fecha inicial que posee.
         case 8:
-            message = "The date entered is less than the initial date of the service.";
+            message = "La fecha ingresada es menor que la fecha inicial.";
             break;
         //No seleccionó un campus.
         case 9:
-            message = "Please select a campus.";
+            message = "Seleccione una sala";
             break;
         //No seleccionó un servicio.
         case 10:
-            message = "Please select a service.";
+            message = "Seleccione un servicio";
             break;
         //No seleccionó un servicio.
         case 11:
-            message = "Please select a time field.";
+            message = "Seleccione un campo del horario";
             break;
     }//Fin del switch
     
@@ -69,15 +69,15 @@ function getSuccessfullyInsertedMessage(idSuccess)
     {
         //Método de pago del servicio ingresado correctamente.
         case 1: 
-            message = "The payment method was successfully entered."; 
+            message = "El método de pago fue ingresado correctamente."; 
             break;
         //Servicio ingresado correctamente.
         case 2:
-            message = "The service was successfully entered."; 
+            message = "El servicio fue ingresado correctamente."; 
             break;
         //Servicio renovado correctamente.
         case 3:
-            message = "The service was successfully renewed."; 
+            message = "El servicio fue renovado correctamente."; 
             break;
     }//Fin del switch
     
@@ -96,11 +96,11 @@ function getRemoveMessage(idRemove)
     {
         //Se removió correctamente el método de pago
         case 1: 
-            message = "Payment method was successfully removed."; 
+            message = "El método de pago se removió correctamente"; 
             break;
         //El servicio se canceló correctamente.
         case 2: 
-            message = "The service was successfully canceled."; 
+            message = "El servicio se canceló correctamente"; 
             break;
     }//Fin del switch
     
@@ -113,5 +113,5 @@ function getRemoveMessage(idRemove)
  * */
 function getWaitMessage()
 {
-   return "Please wait, the request is being processed"; 
+   return "Por favor espere, se está realizando la petición."; 
 }//Fin de la función

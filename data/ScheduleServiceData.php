@@ -222,6 +222,12 @@ class ScheduleServiceData
         return $id;
     }//Fin del método
     
+    /**
+     * Función que retorna el servicio impartida en un campus y hora específico.
+     * @param int $idCampus Identificador del campus.
+     * @param int $idHour Identificador de la hora.
+     * @return int 0: Si no existe servicio para esa hora, y otro número en caso contrario.
+     */
     public function getScheduleByCampusHour($idCampus,$idHour)
     {
         //Iniamos la conexión y el tipo de carácteres

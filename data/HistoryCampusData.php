@@ -82,6 +82,13 @@ class HistoryCampusData
         return $result;
     }//Fin del método
     
+    /**
+     * Revisa que en la base no exista ya un cliente registrado en ese horario.
+     * @param String $dniClient Corresponde al número de cédula del cliente.
+     * @param String $date Corresponde a la fecha a consultar.
+     * @param int $idHour Identificador de la hora.
+     * @return int 1: Si ya está registrado con esos datos y 0 en caso contrario.
+     */
     public function existSessionInCurrentCampus($dniClient,$date,$idHour)
     {
         //Inicializamos la conexión y establecemos los carácteres a usar

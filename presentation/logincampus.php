@@ -24,15 +24,19 @@
         (
             function () 
             {
+                var currentQR = "";
+                var oldQR = "-1";
+                
                 // init bunch of sounds
                 ion.sound
                 (
                     {
                         sounds: 
                         [
-                            {
-                                name: "correcto"
-                            }
+                            {name: "correct"},
+                            {name: "notexist"},
+                            {name: "notservice"},
+                            {name: "activesession"}
                         ],
 
                         // main config
@@ -47,53 +51,61 @@
                 (
                     function (data) 
                     {
-                        $("#msg").html("");
-                        var infoData = "option=1&dniPerson="+data+
-                                "&idCampus="+$("#selCampus").val();
-                         $.ajax
-                         (
-                             {
-                                 type: 'POST',
-                                 url: "../business/HistoryCampusBusiness.php",
-                                 data: infoData,
-                                 beforeSend: function(before)
+                        currentQR = data;
+                        
+                        if(currentQR !== oldQR)
+                        {
+                            $("#msg").html("");
+                            var infoData = "option=1&dniPerson="+data+
+                                    "&idCampus="+$("#selCampus").val();
+                             $.ajax
+                             (
                                  {
-                                     $("#msg").html(getWaitMessage());
-                                 },
-                                 success: function(dataBusiness)
-                                 {
-                                     if(dataBusiness.toString().length > 0)
+                                     type: 'POST',
+                                     url: "../business/HistoryCampusBusiness.php",
+                                     data: infoData,
+                                     beforeSend: function(before)
                                      {
-                                         if(dataBusiness === "1")
+                                         $("#msg").html(getWaitMessage());
+                                     },
+                                     success: function(dataBusiness)
+                                     {
+                                         if(dataBusiness.toString().length > 0)
                                          {
-                                             ion.sound.play("correcto");
-                                             $("#msg").html("Bienvenido(a)"); 
-                                             $().delay(1000);
-                                         }//Fin del if igual a existe
-                                         else if(dataBusiness === "2")
-                                         {
-                                             $("#msg").html("En estos momentos no se está impartiendo ningún servicio en la sala.");
-                                         }//Fin del else if
-                                         else if(dataBusiness === "3")
-                                         {
-                                             $("#msg").html("Usted ya está registrado para la sesión actual en una sala.");
-                                         }//Fin del else if
+                                             if(dataBusiness === "1")
+                                             {
+                                                 ion.sound.play("correct");
+                                                 $("#msg").html("Bienvenido(a)"); 
+                                             }//Fin del if igual a existe
+                                             else if(dataBusiness === "2")
+                                             {
+                                                 ion.sound.play("notservice");
+                                                 $("#msg").html("En estos momentos no se está impartiendo ningún servicio en la sala.");
+                                             }//Fin del else if
+                                             else if(dataBusiness === "3")
+                                             {
+                                                 ion.sound.play("activesession");
+                                                 $("#msg").html("Usted ya está registrado para la sesión actual en una sala.");
+                                             }//Fin del else if
+                                             else
+                                             {
+                                                 ion.sound.play("notexist");
+                                                 $("#msg").html("Usted no está registrado en el sistema.");
+                                             }//Fin del else
+                                         }//Fin del if mayor a cero
                                          else
                                          {
-                                             $("#msg").html("Usted no está registrado en el sistema.");
-                                         }//Fin del else
-                                     }//Fin del if mayor a cero
-                                     else
+                                             $("#msg").html(getErrorMessage(5));
+                                         }
+                                         oldQR = currentQR;
+                                     },
+                                     error:function()
                                      {
                                          $("#msg").html(getErrorMessage(5));
                                      }
-                                 },
-                                 error:function()
-                                 {
-                                     $("#msg").html(getErrorMessage(5));
                                  }
-                             }
-                         );
+                             );
+                        }//Fin del if
                     },
                     function (error) 
                     {

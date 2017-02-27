@@ -10,18 +10,19 @@ require_once '../data/Connector.php';
  */
 class ScheduleClientData extends Connector {
 
-    public function getSchedule($idClient, $idService) {
-        $query = "SELECT dayclientschedule, hourclientschedule, nameservice FROM tbclientschedule 
+    public function getScheduleClient($idClient) {
+        $query = "SELECT dayclientschedule, hourclientschedule, startdateclientschedule, nameservice  FROM tbclientschedule 
                     INNER JOIN tbservice ON 
                     tbclientschedule.idserviceclientschedule = tbservice.idservice INNER JOIN
                     tbperson ON tbclientschedule.idpersonclientschedule = tbperson.idperson
-                    WHERE tbservice.idservice = " . $idService . " AND tbperson.idperson = " . $idClient . ";";
-
+                    WHERE tbperson.idperson = " . $idClient . ";";
+        
         $allSchedule = $this->exeQuery($query);
         $array = [];
         while ($row = mysqli_fetch_array($allSchedule)) {
             $array[] = array("dayclientschedule" => $row['dayclientschedule'],
                 "hourclientschedule" => $row['hourclientschedule'],
+                "startdateclientschedule" => $row['startdateclientschedule'],
                 "nameservice" => $row['nameservice']);
         }
         return $array;

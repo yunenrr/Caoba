@@ -37,7 +37,6 @@
                                 if ($_SESSION['type'] == '0') {
                                     echo '<li><a href="Routine.php?id=' . $_SESSION['id'] . '&name=client&type=' . $_SESSION['type'] . '" >Rutina</a></li>';
                                     ?>
-                                    <li><a href="ChooseService.php" >Contratar servicios</a></li>
                                     <li><a href="ShowSchedule.php">Ver horario</a></li>
                                     <?php echo '<li><a href="EditClient.php?id=' . $_SESSION['id'] . '" >Actualizar información personal</a></li>'; ?>
                                     <?php echo '<li><a href="familyRelationship.php?id=' . $_SESSION['id'] . '" >Familiares</a></li>'; ?>

@@ -683,10 +683,10 @@ $schedule->deleteRecord();
 
     function loadScheduleGym() {
         if ($("#chooseview").val() === "1") {
-            return getScheduleService();
+            getScheduleService();
         } else {
             if ($("#chooseview").val() === "2") {
-                return getScheduleCampus();
+                getScheduleCampus();
             }
         }
     }
@@ -704,7 +704,6 @@ $schedule->deleteRecord();
                 var services = JSON.parse(data);
                 idsArray = "";
                 var service = "";
-                var quota = false;
                 $.each(services, function (i, item) {
                     service = item.idservicescheduleservice + item.nameservice;
                     if (idsArray.indexOf(service) === -1) {
@@ -713,11 +712,9 @@ $schedule->deleteRecord();
                     $("#g" + item.hourscheduleservice + item.dayscheduleservice).html(item.nameservice);
                     if (item.quotaservice === "0") {
                         $("#g" + item.hourscheduleservice + item.dayscheduleservice).css("background-color", "#ffff33");
-                        quota = true;
                     }
                 });
                 idsArray = idsArray.split("-");
-                return quota;
             },
             error: function ()
             {
@@ -738,14 +735,14 @@ $schedule->deleteRecord();
             success: function (data)
             {
                 var services = JSON.parse(data);
-                var quota = false;
+
                 $.each(services, function (i, item) {
                     $("#g" + item.hourscheduleservice + item.dayscheduleservice).html(item.nameservice);
                     if (item.quotaservice === "0") {
                         $("#g" + item.hourscheduleservice + item.dayscheduleservice).css("background-color", "#ffff33");
-                        quota = true;
+
                     }
-                    return quota;
+
                 });
 
             },

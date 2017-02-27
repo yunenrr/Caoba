@@ -15,8 +15,8 @@ class ScheduleClientBusiness {
         return $this->scheduleClientData = new ScheduleClientData();
     }
 
-    public function getSchedule($idClient, $idService) {
-        return $this->scheduleClientData->getSchedule($idClient, $idService);
+    public function getScheduleClient($idClient) {
+        return $this->scheduleClientData->getScheduleClient($idClient);
     }
 
     public function getAllSchedule($idClient) {

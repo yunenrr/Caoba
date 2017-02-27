@@ -423,7 +423,7 @@
                                     data: infoData,
                                     beforeSend: function(before)
                                     {
-                                        $("#msg").html("<p>Wait.</p>");
+                                        $("#msg").html(getWaitMessage());
                                     },
                                     success: function(data)
                                     {

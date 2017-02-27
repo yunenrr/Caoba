@@ -8,6 +8,7 @@ if (!isset($_SESSION['id'])) {
 
 $schedule = new ScheduleClientBusiness();
 $schedule->deleteRecord();
+
 ?>
 
 <dv>
@@ -40,7 +41,7 @@ $schedule->deleteRecord();
                 <input id="date" name="date" type="text"/>
             </td>
             <td id="showModule">
-                <SELECT id="comboPaymentModule" NAME="comboPaymentModule" SIZE=1">
+                <SELECT id="comboPaymentModule" NAME="comboPaymentModule" SIZE="1">
                 </SELECT>
             </td>
         </tr>
@@ -388,6 +389,7 @@ $schedule->deleteRecord();
     var idServiceTmp = "";
     var idsArray = "";
     var idClient = "<?php echo $_SESSION['id'] ?>";
+    
     $(function () {
         $('#showService').hide();
         $('#showCampus').hide();
@@ -870,7 +872,7 @@ $schedule->deleteRecord();
 
     function loadService() {
         clearShedule();
-        var htmlComboCampus = '<OPTION VALUE="-1">Seleccionar</OPTION>';
+//        var htmlComboCampus = '<OPTION VALUE="-1">Seleccionar</OPTION>';
         $("#comboCampus").html(htmlComboCampus);
         $.ajax({
             type: 'GET',

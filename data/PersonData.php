@@ -1,6 +1,6 @@
 <?php
 
-header("Content-Type: text/html;charset=utf-8");
+//header("Content-Type: text/html;charset=utf-8");
 require_once '../data/Connector.php';
 include '../domain/Person.php';
 include '../domain/Gender.php';

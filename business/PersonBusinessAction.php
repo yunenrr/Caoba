@@ -31,11 +31,6 @@ if (isset($_POST['option'])) {
                     $state = "Inactive";
                 }
 
-                $date1 = $current->getBirthDayperson();
-                $fecha2 = "2006-04-10";
-                $diferencia = abs((strtotime($fecha1) - strtotime($fecha2)) / 86400);
-                echo $diferencia;
-
                 $temp = $temp . "," . $current->getIdPerson() . "," . $current->getDniPerson() . "," . $current->getNamePerson() . ","
                         . $current->getFirstNamePerson() . "," . $current->getSecondNamePerson() . ","
                         . $current->getBirthDayperson() . "," . $tempGender . "," . $current->getEmailPerson() . ","

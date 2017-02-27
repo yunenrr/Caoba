@@ -9,6 +9,7 @@ include './PersonBusiness.php';
 include './PhoneBusiness.php';
 include './UserBusiness.php';
 include '../business/PersonStateBusiness.php';
+include '../business/PaymentModuleClientBusiness.php';
 
 
 // check if the form has been submitted. If it has, start to process the form and save it to the database
@@ -17,6 +18,7 @@ if (isset($_POST['submit'])) {
     $personBusiness = new PersonBusiness();
     $phoneBusiness = new PhoneBusiness();
     $userBusiness = new UserBusiness();
+    $payBusines= new PaymentModuleClientBusiness();
 
     $dniPerson = $_POST['dni'];
     $namePerson = $_POST['name'];
@@ -48,7 +50,11 @@ if (isset($_POST['submit'])) {
         $user = new User($idUser, $idPerson, $userType, $nameUser, $passwordUser, $starDate);
         $userBusiness->insertUser($user);
 
-
+        if($userType==0){
+            $pay= new PaymentModuleClient(0, $idPerson, $starDate, $_POST['selPay']);
+            echo $payBusines->insertPaymentModuleClient($pay);
+        }
+        
         if (isset($_POST['phones'])) {
             $indexPhones = (int) $_POST['phones'];
         }

@@ -47,9 +47,11 @@ if (isset($_GET['id'])) {
             <tr>
                 <td>
                     <select id="selFamily" name="selFamily" > 
-                        <?php foreach ($arrayPerson as $value) { ?>
+                        <?php foreach ($arrayPerson as $value) { 
+                            
+                            if($value->getIdPerson()!=$idPerson){?>
                             <option value="<?php echo $value->getIdPerson(); ?>"><?php echo $value->getNamePerson() . " " . $value->getFirstNamePerson() . "  " . $value->getSecondNamePerson(); ?></option> 
-                        <?php } ?>
+                        <?php }} ?>
                     </select>
                 </td>
                 <td>
@@ -93,6 +95,8 @@ if (isset($_GET['id'])) {
              var row = $(this).attr("id");
              var currentRow = parseInt(row.substring(10, row.length));
              deleteFamily(currentRow);
+             getFamily();
+              $("#tree").html("");
            }
          );
 
@@ -134,6 +138,7 @@ if (isset($_GET['id'])) {
               var row = $(this).attr("id");
               var currentRow = parseInt(row.substring(9, row.length)) + 1;
               $("#tr" + currentRow).remove();
+              deleteFamily(currentRow);
              }
             );
           }
@@ -172,6 +177,7 @@ if (isset($_GET['id'])) {
                                                 '</tr>';
                                     }
                                     $("#tableBodyFamilytshow").html(temp);
+                                    TreeFamily();
                                 }
                             },
                             error: function ()
@@ -206,10 +212,10 @@ if (isset($_GET['id'])) {
               {
                 if (data.toString() !== "0")
                   {
-                    $("#msg").html("<p>Success.</p>");
                     $("#tr" + currentRow).remove();
-                     getFamily();
                      TreeFamily();
+                    $("#msg").html("<p>Success.</p>");
+                    
                     } else
                      {
                     $("#msg").html("<p>Error.</p>");

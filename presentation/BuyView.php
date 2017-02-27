@@ -1,5 +1,7 @@
 <?php
 include './header.php';
+include '../business/PersonBusiness.php';
+
 ?>
 <style type="text/css" media = "all">
 </style>
@@ -13,7 +15,7 @@ include './header.php';
             <td><strong>Número de factura</strong></td>
             <td><strong>Proveedor</strong></td>
             <td><strong>Precio</strong></td>
-            <td><strong>Typo de pago</strong></td>
+            <td><strong>Tipo de pago</strong></td>
             <td><strong>Comprador</strong></td>
             <td><strong>Series</strong></td>
             <td><strong>Fecha de compra</strong></td>
@@ -26,7 +28,7 @@ include './header.php';
             <td><input id="in"/>  *</td>
             <td><input id="pro"/> * </td>
             <td><input id="pri"/> * </td>
-            <td><select id="pay"><option value="0">Cash Payment</option>   <option value="1">Credit Payment</option>   </select> </td>  
+            <td><select id="pay"><option value="0">Efectivo</option>   <option value="1">Credito</option>   </select> </td>  
             <td><input id="bayer"/>  *</td>
             <td><input id="ser"/>  *</td>
             <td><input id="date"/> * </td>
@@ -49,8 +51,9 @@ include './footer.php';
             function test()
             {
                 returnAll();
-                $('#date').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
+                $('#date').mask('00-00-0000', {placeholder: 'dd/mm/yyyy'});
                 $('#pri').mask('$9999999999999', {placeholder: '$'});
+                $("#date").datepicker();
                 var arrayCampus = "";
                 getCampus();
             }
@@ -253,10 +256,10 @@ include './footer.php';
     }
     function insertNewRow(buy) {
         var pay = '';
-        if (buy.paymentbuy === 0) {
-            var pay = "Cash"
+        if (buy.paymentbuy === '0') {
+            var pay = "Efectivo";
         } else {
-            var pay = "Credit"
+            var pay = "Credito";
         }
 
         var temp = '<tr  id="' + buy.idbuy + '">' +
@@ -279,7 +282,7 @@ include './footer.php';
                 '<input id="pri' + buy.idbuy + '" value="' + '$' + buy.pricebuy + '" readonly/>' +
                 '</td>' +
                 '<td>' +
-                '<select id="pay' + buy.idbuy + '" disabled="true"><option value="0" >' + pay + ' Payment</option></select>' +
+                '<input id="pri' + buy.idbuy + '" value="' + pay + '" readonly/>' +
                 '</td>' +
                 '<td>' +
                 '<input id="bayer' + buy.idbuy + '" value="' + buy.buyerbuy + '" readonly/>' +

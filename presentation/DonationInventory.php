@@ -27,7 +27,6 @@ include './footer.php';
     $(document).ready(
             function test()
             {
-
                 $('select#status').on('change', function () {
                     status = $(this).val();
                     returnAll(status);

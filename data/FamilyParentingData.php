@@ -143,35 +143,35 @@ class FamilyParentingData extends Connector {
 
         $result = $this->exeQuery($query);
         if (mysqli_num_rows($result) > 0) {
-            $temp1 = "<ul><a>Padres</a><ul>"; //papás
-            $temp2 = "<ul><a>Hermanos</a><ul>"; //hermanos
-            $temp3 = "<ul><a>Hijos</a><ul>"; //hijos
+            $temp1 = "<DT>° Padres"; //papás
+            $temp2 = "<DD><DL><DT>° Hermanos"; //hermanos
+            $temp3 = "<DD><DL><DT>° Hijos"; //hijos
 
             for ($i = 0; $i < 4; $i++) {
                 while ($row = mysqli_fetch_array($result)) {
                     $relation = $row['idrelationshipfamilyparenting'];
                     switch ($relation) {
                         case 1;
-                            $temp1 = $temp1 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
+                            $temp1 = $temp1."" . "<DD>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "";
                             break;
                         case 2;
-                            $temp1 = $temp1 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
+                            $temp1 = $temp1 . "<DD>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "";
                             break;
                         case 3;
-                            $temp2 = $temp2 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
+                            $temp2 = $temp2 . "<DD>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "";
                             break;
                         case 4;
-                            $temp2 = $temp2 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
+                            $temp2 = $temp2 . "<DD>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "";
                             break;
                         case 5;
-                            $temp3 = $temp3 . "<li>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "</li>";
+                            $temp3 = $temp3 . "<DD>" . $row['nameperson'] . " " . $row['firstnameperson'] . " " . $row['secondnameperson'] . "";
                             break;
                     }
                 }
             }
-            $temp1 = $temp1 . "</ul></ul>";
-            $temp2 = $temp2 . "</ul></ul>";
-            $temp3 = $temp3 . "</ul></ul>";
+            $temp1 = $temp1 . " ";
+            $temp2 = $temp2 . "";
+            $temp3 = $temp3 . "</DL></DL></DL>";
         }
 
         return $temp1 . $temp2 . $temp3;

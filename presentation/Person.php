@@ -9,7 +9,6 @@ include '../data/PaymentModuleData.php';
 //    header("location: ./Home.php");
 //   
 //}
-
 $personBusiness = new PersonBusiness();
 $neighborhoodBusiness = new AddressBussiness();
 $paymentModuleData=new PaymentModuleData();
@@ -17,7 +16,6 @@ $paymentModuleData=new PaymentModuleData();
 $gender = $personBusiness->GetAllGender();
 $neighborhood = $neighborhoodBusiness->getAllAddress();
 $pay= $paymentModuleData->getAllPaymentModule();
-
 ?>
 <div>
     <H1 ALIGN=JUSTIFY>Registro </H1>
@@ -143,17 +141,11 @@ $pay= $paymentModuleData->getAllPaymentModule();
                     <td>Tipo de pago:</td>
                     <td>
                         <select id="selPay" name="selPay" > 
-                            <?php foreach ($pay as $value) { ?>
-                                <option value="<?php echo $value->getIdPaymentModule(); ?>"><?php echo $value->getNamePaymentModule(); ?></option> 
-                            <?php } ?>
+                            <option value="2">Semanal</option>
+                            <option value="3">Quincena</option>
+                            <option value="4">Mensual</option>
                         </select>
                     </td>
-                </tr>
-
-                <!--FECHA PAGO-->
-                <tr id='payDate'>
-                    <td>Fecha de pago :</td>
-                    <td><input type="text" id="payDay" name="payDay" />*</td>
                 </tr>
                 <!--EMAIL-->
                 <tr>
@@ -241,7 +233,6 @@ $pay= $paymentModuleData->getAllPaymentModule();
                     {
                         getCurrentNeighborhood();
                         document.getElementById('barrio').style.display = 'none';
-                         //document.getElementById('payDate').style.display = 'none';
                          //document.getElementById('payType').style.display = 'none';
                         //**************************Mask******************************************
                         $("#dni").mask("9-9999-9999", {placeholder: '0-0000-0000'}); //placeholder
@@ -250,29 +241,21 @@ $pay= $paymentModuleData->getAllPaymentModule();
                         $('#birthday').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
                         $('#startDay').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
                         $('#payDay').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
+                        
+                         $("#birthday").datepicker();
+                         $("#startDay").datepicker();
                         getperson();
 
 
                         $('#userType').on('change', function () {
                             if($('#userType').val()==='0'){
-                                $('#payDate').show();
                                  $('#payType').show();
                                 qr();
                             }else{
-                                $('#payDate').hide();
                                  $('#payType').hide();
                                  $('#qr').html("");
                             }
-                            
                         });
-                
-                        $(function () {
-                            $("#birthday").datepicker();
-                            $("#startDay").datepicker();
-                            $("#payDay").datepicker();
-                        });
-
-
 
                         // Use to valite the username
                         $('#email').focusout(function () {
@@ -354,17 +337,17 @@ $pay= $paymentModuleData->getAllPaymentModule();
                                                             var newRow = i + 1;
                                                             var person = array[i].split(",");
                                                             temp = temp + '<tr id="td' + newRow + '">';
-                                                            temp = temp + '<td>' + person[2] + '</td>' +
-                                                                    '<td>' + person[3] + '</td>' +
-                                                                    '<td>' + person[4] + '</td>' +
-                                                                    '<td>' + person[5] + '</td>' +
-                                                                    '<td>' + CalculateAge(person[6]) + '</td>' +
-                                                                    '<td>' + person[7] + '</td>' +
-                                                                    '<td>' + person[8] + '</td>' +
-                                                                    '<td>' + person[9] + '</td>' +
-                                                                    '<td>' + person[10] + '</td>' +
-                                                                    '<td>' + person[11] + '</td>' +
-                                                                    '<td>' + person[12] + '</td>' +
+                                                            temp = temp + '<td>' + person[2] + '</td>' + //dni
+                                                                    '<td>' + person[3] + '</td>' + //nombre
+                                                                    '<td>' + person[4] + '</td>' + //apellido1 
+                                                                    '<td>' + person[5] + '</td>' +//apellido2
+                                                                    '<td>' + CalculateAge(person[6]) + '</td>' + //edad
+                                                                    '<td>' + person[7] + '</td>' + //genero
+                                                                    '<td>' + person[8] + '</td>' +//correo
+                                                                    '<td>' + person[9] + '</td>' +//referencia
+                                                                    '<td>' + person[10] + '</td>' +//sangre
+                                                                    '<td>' + person[11] + '</td>' +//estado
+                                                                    '<td>' + person[12] + '</td>' +//barrio
                                                                     '<td><a href="../presentation/EditPhone.php?id=' + person[1] + '&name=' + person[3] + '">Teléfonos</a></td>' +
                                                                     '<td><a href="../presentation/Routine.php?id=' + person[1] + '&name=' + person[3] + '">Rutinas</a></td>' +
                                                                     '<td><a href="../presentation/diet.php?id=' + person[1] + '&name=' + person[3] + '">Dieta</a></td>' +
@@ -448,7 +431,6 @@ $pay= $paymentModuleData->getAllPaymentModule();
                                             var row = $(this).attr("id");
                                             var currentRow = row.substring(9, row.length);
                                             updateAddress(currentRow);
-                                            getCurrentNeighborhood();
                                         }
                                 );
                         $("#tableBodyNeighborhood").on
@@ -458,7 +440,6 @@ $pay= $paymentModuleData->getAllPaymentModule();
                                             var row = $(this).attr("id");
                                             var currentRow = row.substring(9, row.length);
                                             deleteAddress(currentRow);
-                                            getCurrentNeighborhood();
                                         }
                                 );
 
@@ -570,7 +551,9 @@ $pay= $paymentModuleData->getAllPaymentModule();
         if (edad > 1900) {
             edad -= 1900;
         }
-
+        if(edad<0){
+            edad=0;
+        }
         return edad;
     }
 
@@ -696,6 +679,7 @@ $pay= $paymentModuleData->getAllPaymentModule();
                                 {
                                     $("#msg").html("<p>Success delete.</p>");
                                     $("#tr" + currentRow).remove();
+                                    getCurrentNeighborhood();
                                 } else
                                 {
                                     $("#msg").html("<p>Error.</p>");
@@ -735,6 +719,7 @@ $pay= $paymentModuleData->getAllPaymentModule();
                                     if (data.toString() !== "0")
                                     {
                                         $("#msg").html("<p>Success update.</p>");
+                                        getCurrentNeighborhood();
                                     } else
                                     {
                                         $("#msg").html("<p>Error.</p>");
@@ -754,6 +739,7 @@ $pay= $paymentModuleData->getAllPaymentModule();
 
     function barrio() {
         document.getElementById('barrio').style.display = 'block';
+        getCurrentNeighborhood();
     }
     function clearSelect() {
         document.getElementById("selNeighborhood").options.length = 0;

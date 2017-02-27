@@ -17,7 +17,7 @@ class PaymentModule
      * @param String $namePaymentModule Corresponde al nombre del método de pago
      * @param Int $pricePaymentModule Corresponde al precio a aplicar para dicha modalidad de pago.
      */
-    function PaymentModule($idPaymentModule, $namePaymentModule,$pricePaymentModule) 
+    function __construct($idPaymentModule, $namePaymentModule,$pricePaymentModule) 
     {
         $this->idPaymentModule = $idPaymentModule;
         $this->namePaymentModule = $namePaymentModule;

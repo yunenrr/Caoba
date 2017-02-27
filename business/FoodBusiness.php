@@ -11,7 +11,7 @@ class FoodBusiness {
 
      private $foodData;
 
-    public function FoodBusiness() {
+    public function __construct() {
         $this->foodData = new FoodData();
     }
 

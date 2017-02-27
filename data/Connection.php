@@ -24,7 +24,7 @@ class Connection
 //        $this->db = 'gymcaoba';
 //    }
 
-    public function Connection() 
+    public function __construct()
     {
         $this->server = "localhost";
         $this->user = "root";

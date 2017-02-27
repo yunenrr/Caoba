@@ -17,7 +17,7 @@ class PersonState {
     private $idClientPersonState;
     private $statePersonState;
 
-    function PersonState($idPersonState, $idClientPersonState, $statePersonState) {
+    function __construct($idPersonState, $idClientPersonState, $statePersonState) {
         $this->idPersonState = $idPersonState;
         $this->idClientPersonState = $idClientPersonState;
         $this->statePersonState = $statePersonState;

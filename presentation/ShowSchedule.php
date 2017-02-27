@@ -8,7 +8,6 @@ if (!isset($_SESSION['id'])) {
 
 $schedule = new ScheduleClientBusiness();
 $schedule->deleteRecord();
-
 ?>
 
 <dv>
@@ -383,588 +382,585 @@ $schedule->deleteRecord();
         </tr>
     </table>
 </dv>
-
+<script src="../js/jsService.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var serviseTmp = "";
-    var idServiceTmp = "";
-    var idsArray = "";
-    var idClient = "<?php echo $_SESSION['id'] ?>";
-    
-    $(function () {
-        $('#showService').hide();
-        $('#showCampus').hide();
-        $('#thService').hide();
-        $('#thCampus').hide();
-        $('#labelStarDate').hide();
-        $('#labelModule').hide();
-        $('#showDate').hide();
-        $('#showModule').hide();
-        $('#date').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
-        $("#date").datepicker();
-        loadPaymentModule();
-        loadScheduleClient();
-    });
+                var serviseTmp = "";
+                var idServiceTmp = "";
+                var idsArray = "";
+                var idClient = "<?php echo $_SESSION['id'] ?>";
 
-    $(document).ready(function () {
-        $("#schedule table tr td").click(function () {
-            var text = $(this).html();
-            var id = $(this).attr("id");
-            id = id.replace("g", "c");
-            if (text.length > 0) {
+                $(function () {
+                    $('#showService').hide();
+                    $('#showCampus').hide();
+                    $('#thService').hide();
+                    $('#thCampus').hide();
+                    $('#labelStarDate').hide();
+                    $('#labelModule').hide();
+                    $('#showDate').hide();
+                    $('#showModule').hide();
+//        $('#date').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
+                    $("#date").datepicker({firstDay: 1, dateFormat: 'dd-mm-yy'});
+                    loadPaymentModule();
+                    loadScheduleClient();
+                });
 
-                var color = $(this).css('background-color');
+                $(document).ready(function () {
+                    $("#schedule table tr td").click(function () {
+                        var text = $(this).html();
+                        var id = $(this).attr("id");
+                        id = id.replace("g", "c");
+                        if (text.length > 0) {
 
-                if (color === "rgb(255, 255, 51)") {
-                    alert("Este servicio esta sin cupo por el momento");
-                    return;
-                }
+                            var color = $(this).css('background-color');
 
-                if (color === "rgb(0, 255, 64)") {
-                    $(this).css("background-color", "#ffffff");
-                    deleteScheduleClient(id);
-                } else {
-                    if (addScheduleClient(id, text)) {
-                        $(this).css("background-color", "#00ff40");
+                            if (color === "rgb(255, 255, 51)") {
+                                alert("Este servicio esta sin cupo por el momento");
+                                return;
+                            }
+
+                            if (color === "rgb(0, 255, 64)") {
+                                $(this).css("background-color", "#ffffff");
+                                deleteScheduleClient(id);
+                            } else {
+                                if (addScheduleClient(id, text)) {
+                                    $(this).css("background-color", "#00ff40");
+                                }
+                            }
+                        }
+                    });
+                });
+
+                function valiteDate(date) {
+                    var RegExPattern = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
+                    if ((date.match(RegExPattern)) && (date != '')) {
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
-            }
-        });
-    });
 
-    function valiteDate(date) {
-        var RegExPattern = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
-        if ((date.match(RegExPattern)) && (date != '')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+                function add() {
 
-    function add() {
-
-        if ($("#comboPaymentModule").val() === "-1") {
-            alert("Seleccione un modulo de pago");
-            return;
-        }
-
-        if (!valiteDate($("#date").val())) {
-            alert("Verifique su fecha para iniciar el servicio");
-            return;
-        }
-
-        $("#tbgym tbody tr").each(function ()
-        {
-            $(this).children("td").each(function ()
-            {
-                var color = $(this).css('background-color');
-                if (color === "rgb(0, 255, 64)") {
-                    var stop = false;
-                    var idTd = $(this).attr("id");
-
-                    var hour = idTd.charAt(1);
-                    var day = idTd.charAt(2);
-
-                    if (idTd.length === 4) {
-                        hour = idTd.substr(1, 2);
-                        day = idTd.substr(3, 4);
+                    if ($("#comboPaymentModule").val() === "-1") {
+                        alert("Seleccione un modulo de pago");
+                        return;
                     }
-                    var idService = $("#comboService").val();
-                    var name = $(this).html();
 
-                    if ($("#chooseview").val() === "2") {
-                        $.each(idsArray, function (i, index) {
-                            var nameTmp = index.substr(1, (index.length - 1));
-                            if (nameTmp === $("#" + idTd).html() && !stop) {
-                                idService = index.substr(0, 1);
-                                name = nameTmp;
-                                stop = true;
+//        if (!valiteDate($("#date").val())) {
+//            alert("Verifique su fecha para iniciar el servicio");
+//            return;
+//        }
+
+                    $("#tbgym tbody tr").each(function ()
+                    {
+                        $(this).children("td").each(function ()
+                        {
+                            var color = $(this).css('background-color');
+                            if (color === "rgb(0, 255, 64)") {
+                                var stop = false;
+                                var idTd = $(this).attr("id");
+
+                                var hour = idTd.charAt(1);
+                                var day = idTd.charAt(2);
+
+                                if (idTd.length === 4) {
+                                    hour = idTd.substr(1, 2);
+                                    day = idTd.substr(3, 4);
+                                }
+                                var idService = $("#comboService").val();
+                                var name = $(this).html();
+
+                                if ($("#chooseview").val() === "2") {
+                                    $.each(idsArray, function (i, index) {
+                                        var nameTmp = index.substr(1, (index.length - 1));
+                                        if (nameTmp === $("#" + idTd).html() && !stop) {
+                                            idService = index.substr(0, 1);
+                                            name = nameTmp;
+                                            stop = true;
+                                        }
+                                    });
+
+                                    stop = false;
+                                }
+                                var msg = "¿Seguro que desea asistir al siguiente servicio? \nServicio: " + name
+                                        + "  \nDía: " + getDay(day)
+                                        + " \nHora: " + getHour(hour)
+                                        + "  \nFecha de inicio: " + $("#date").val()
+                                        + " \nModulo de pago: " + $("#comboPaymentModule option:selected").text();
+
+                                if (confirmInsert(msg)) {
+                                    $("#msgInsert").html("Espere....");
+                                    insertSchedule(idTd, idService, day, hour, $("#date").val(), $("#comboPaymentModule").val());
+                                }
                             }
                         });
-
-                        stop = false;
-                    }
-                    var msg = "¿Seguro que desea asistir al siguiente servicio? \nServicio: " + name
-                            + "  \nDía: " + getDay(day)
-                            + " \nHora: " + getHour(hour)
-                            + "  \nFecha de inicio: " + $("#date").val()
-                            + " \nModulo de pago: " + $("#comboPaymentModule option:selected").text();
-
-                    if (confirmInsert(msg)) {
-                        $("#msgInsert").html("Espere....");
-                        insertSchedule(idTd, idService, day, hour, $("#date").val(), $("#comboPaymentModule").val());
-                    }
+                    });
                 }
-            });
-        });
-    }
 
-    function getDay(day) {
-        var nameDay = "";
-        switch (day) {
-            case "0":
-                nameDay = "Lunes";
-                break;
-            case "1":
-                nameDay = "Martes";
-                break;
-            case "2":
-                nameDay = "Miercoles";
-                break;
-            case "3":
-                nameDay = "Jueves";
-                break;
-            case "4":
-                nameDay = "Viernes";
-                break;
-            default:
-                nameDay = "";
-                break;
-        }
-        return nameDay;
-    }
-
-    function getHour(hour) {
-        var nameHour = "";
-        switch (hour) {
-            case "5":
-                nameHour = "5am";
-                break;
-            case "6":
-                nameHour = "6am";
-                break;
-            case "7":
-                nameHour = "7am";
-                break;
-            case "8":
-                nameHour = "8am";
-                break;
-            case "9":
-                nameHour = "9am";
-                break;
-            case "10":
-                nameHour = "10am";
-                break;
-            case "11":
-                nameHour = "11am";
-                break;
-            case "12":
-                nameHour = "12md";
-                break;
-            case "13":
-                nameHour = "1pm";
-                break;
-            case "14":
-                nameHour = "2pm";
-                break;
-            case "15":
-                nameHour = "3pm";
-                break;
-            case "16":
-                nameHour = "4pm";
-                break;
-            case "17":
-                nameHour = "5pm";
-                break;
-            case "18":
-                nameHour = "6pm";
-                break;
-            case "19":
-                nameHour = "7pm";
-                break;
-            case "20":
-                nameHour = "8pm";
-                break;
-            case "21":
-                nameHour = "9pm";
-                break;
-            case "22":
-                nameHour = "10pm";
-                break;
-            default:
-                nameHour = "";
-                break;
-        }
-        return nameHour;
-    }
-
-    function insertSchedule(idTd, idService, day, hour, date, module) {
-        $("#msgInsert").html("Estamos trabajando....");
-        $.ajax({
-            type: 'GET',
-            url: "../business/CreateClientRecordAction.php",
-            data: {
-                "idService": idService,
-                "day": day,
-                "hour": hour,
-                "date": date,
-                "module": module
-            },
-            success: function (data)
-            {
-                if (data === "1") {
-                    $("#" + idTd).css("background-color", "#ffffff");
-                    $("#msgInsert").html("Su servicio ha sido insertado correctamente :)");
-                    loadScheduleClient();
-                } else {
-                    insertSchedule(idTd, idService, day, hour, date, module);
+                function getDay(day) {
+                    var nameDay = "";
+                    switch (day) {
+                        case "0":
+                            nameDay = "Lunes";
+                            break;
+                        case "1":
+                            nameDay = "Martes";
+                            break;
+                        case "2":
+                            nameDay = "Miercoles";
+                            break;
+                        case "3":
+                            nameDay = "Jueves";
+                            break;
+                        case "4":
+                            nameDay = "Viernes";
+                            break;
+                        default:
+                            nameDay = "";
+                            break;
+                    }
+                    return nameDay;
                 }
-            },
-            error: function ()
-            {
-                alert("Error show services!");
-            }
-        });
-    }
 
-    function confirmInsert(msg) {
-        if (confirm(msg)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+                function getHour(hour) {
+                    var nameHour = "";
+                    switch (hour) {
+                        case "5":
+                            nameHour = "5am";
+                            break;
+                        case "6":
+                            nameHour = "6am";
+                            break;
+                        case "7":
+                            nameHour = "7am";
+                            break;
+                        case "8":
+                            nameHour = "8am";
+                            break;
+                        case "9":
+                            nameHour = "9am";
+                            break;
+                        case "10":
+                            nameHour = "10am";
+                            break;
+                        case "11":
+                            nameHour = "11am";
+                            break;
+                        case "12":
+                            nameHour = "12md";
+                            break;
+                        case "13":
+                            nameHour = "1pm";
+                            break;
+                        case "14":
+                            nameHour = "2pm";
+                            break;
+                        case "15":
+                            nameHour = "3pm";
+                            break;
+                        case "16":
+                            nameHour = "4pm";
+                            break;
+                        case "17":
+                            nameHour = "5pm";
+                            break;
+                        case "18":
+                            nameHour = "6pm";
+                            break;
+                        case "19":
+                            nameHour = "7pm";
+                            break;
+                        case "20":
+                            nameHour = "8pm";
+                            break;
+                        case "21":
+                            nameHour = "9pm";
+                            break;
+                        case "22":
+                            nameHour = "10pm";
+                            break;
+                        default:
+                            nameHour = "";
+                            break;
+                    }
+                    return nameHour;
+                }
 
-    function loadScheduleClient() {
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetScheduleClient.php",
-            data: {
-                "idClient": idClient
-            },
-            success: function (data)
-            {
-                var services = JSON.parse(data);
-                $.each(services, function (i, item) {
-                    $("#c" + item.hourclientschedule + item.dayclientschedule).html(item.nameservice);
+                function insertSchedule(idTd, idService, day, hour, date, module) {
+                    $("#msgInsert").html("Estamos trabajando....");
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/CreateClientRecordAction.php",
+                        data: {
+                            "idService": idService,
+                            "day": day,
+                            "hour": hour,
+                            "date": getDateInvert(date),
+                            "module": module
+                        },
+                        success: function (data)
+                        {
+                            if (data === "1") {
+                                $("#" + idTd).css("background-color", "#ffffff");
+                                $("#msgInsert").html("Su servicio ha sido insertado correctamente :)");
+                                loadScheduleClient();
+                            } else {
+                                insertSchedule(idTd, idService, day, hour, date, module);
+                            }
+                        },
+                        error: function ()
+                        {
+                            alert("Error show services!");
+                        }
+                    });
+                }
 
-                    if (validateDateSuperior(getDateToDay(), item.startdateclientschedule))
-                    {
-                        $("#c" + item.hourclientschedule + item.dayclientschedule).prop('title', 'El servicio comienza apartir del ' + item.startdateclientschedule);
-                        $("#c" + item.hourclientschedule + item.dayclientschedule).css("background-color", "#ff3300");
+                function confirmInsert(msg) {
+                    if (confirm(msg)) {
+                        return true;
                     } else {
-                        $("#c" + item.hourclientschedule + item.dayclientschedule).css("background-color", "#0066ff");
+                        return false;
                     }
-                });
-            },
-            error: function ()
-            {
-                alert("Error show services!");
-            }
-        });
-    }
+                }
 
-    function validateDateSuperior(starDate, endDate) {
-        var valuesStart = starDate.split("-");
-        var valuesEnd = endDate.split("-");
+                function loadScheduleClient() {
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetScheduleClient.php",
+                        data: {
+                            "idClient": idClient
+                        },
+                        success: function (data)
+                        {
+                            var services = JSON.parse(data);
+                            $.each(services, function (i, item) {
+                                $("#c" + item.hourclientschedule + item.dayclientschedule).html(item.nameservice);
 
-        // Verificamos que la fecha no sea posterior a la actual
-        var dateStart = new Date(valuesStart[0], (valuesStart[1] - 1), valuesStart[2]);
-        var dateEnd = new Date(valuesEnd[0], (valuesEnd[1] - 1), valuesEnd[2]);
-        if (dateStart >= dateEnd)
-        {
-            return false;
-        }
-        return true;
-    }
+                                if (validateDateSuperior(getDateToDay(), item.startdateclientschedule))
+                                {
+                                    $("#c" + item.hourclientschedule + item.dayclientschedule).prop('title', 'El servicio comienza apartir del ' + item.startdateclientschedule);
+                                    $("#c" + item.hourclientschedule + item.dayclientschedule).css("background-color", "#ff3300");
+                                } else {
+                                    $("#c" + item.hourclientschedule + item.dayclientschedule).css("background-color", "#0066ff");
+                                }
+                            });
+                        },
+                        error: function ()
+                        {
+                            alert("Error show services!");
+                        }
+                    });
+                }
 
-    function getDateToDay() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+                function validateDateSuperior(starDate, endDate) {
+                    var valuesStart = starDate.split("-");
+                    var valuesEnd = endDate.split("-");
 
-        var yyyy = today.getFullYear();
-
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        return today = yyyy + '-' + mm + '-' + dd;
-    }
-
-    function loadScheduleGym() {
-        if ($("#chooseview").val() === "1") {
-            getScheduleService();
-        } else {
-            if ($("#chooseview").val() === "2") {
-                getScheduleCampus();
-            }
-        }
-    }
-
-    function getScheduleCampus() {
-        clearShedule();
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetScheduleCampus.php",
-            data: {
-                "id": $("#comboCampus").val()
-            },
-            success: function (data)
-            {
-                var services = JSON.parse(data);
-                idsArray = "";
-                var service = "";
-                $.each(services, function (i, item) {
-                    service = item.idservicescheduleservice + item.nameservice;
-                    if (idsArray.indexOf(service) === -1) {
-                        idsArray += service + "-";
+                    // Verificamos que la fecha no sea posterior a la actual
+                    var dateStart = new Date(valuesStart[0], (valuesStart[1] - 1), valuesStart[2]);
+                    var dateEnd = new Date(valuesEnd[0], (valuesEnd[1] - 1), valuesEnd[2]);
+                    if (dateStart >= dateEnd)
+                    {
+                        return false;
                     }
-                    $("#g" + item.hourscheduleservice + item.dayscheduleservice).html(item.nameservice);
-                    if (item.quotaservice === "0") {
-                        $("#g" + item.hourscheduleservice + item.dayscheduleservice).css("background-color", "#ffff33");
+                    return true;
+                }
+
+                function getDateToDay() {
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1; //January is 0!
+
+                    var yyyy = today.getFullYear();
+
+                    if (dd < 10) {
+                        dd = '0' + dd;
                     }
-                });
-                idsArray = idsArray.split("-");
-            },
-            error: function ()
-            {
-                alert("Error show services!");
-            }
-        });
-    }
-
-    function getScheduleService() {
-        clearShedule();
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetScheduleService.php",
-            data: {
-                "idService": $("#comboService").val(),
-                "idCampus": $("#comboCampus").val()
-            },
-            success: function (data)
-            {
-                var services = JSON.parse(data);
-
-                $.each(services, function (i, item) {
-                    $("#g" + item.hourscheduleservice + item.dayscheduleservice).html(item.nameservice);
-                    if (item.quotaservice === "0") {
-                        $("#g" + item.hourscheduleservice + item.dayscheduleservice).css("background-color", "#ffff33");
-
+                    if (mm < 10) {
+                        mm = '0' + mm;
                     }
+                    return today = yyyy + '-' + mm + '-' + dd;
+                }
 
-                });
+                function loadScheduleGym() {
+                    if ($("#chooseview").val() === "1") {
+                        getScheduleService();
+                    } else {
+                        if ($("#chooseview").val() === "2") {
+                            getScheduleCampus();
+                        }
+                    }
+                }
 
-            },
-            error: function ()
-            {
-                alert("Error show services!");
-            }
-        });
-    }
+                function getScheduleCampus() {
+                    clearShedule();
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetScheduleCampus.php",
+                        data: {
+                            "id": $("#comboCampus").val()
+                        },
+                        success: function (data)
+                        {
+                            var services = JSON.parse(data);
+                            idsArray = "";
+                            var service = "";
+                            $.each(services, function (i, item) {
+                                service = item.idservicescheduleservice + item.nameservice;
+                                if (idsArray.indexOf(service) === -1) {
+                                    idsArray += service + "-";
+                                }
+                                $("#g" + item.hourscheduleservice + item.dayscheduleservice).html(item.nameservice);
+                                if (item.quotaservice === "0") {
+                                    $("#g" + item.hourscheduleservice + item.dayscheduleservice).css("background-color", "#ffff33");
+                                }
+                            });
+                            idsArray = idsArray.split("-");
+                        },
+                        error: function ()
+                        {
+                            alert("Error show services!");
+                        }
+                    });
+                }
 
-    function addScheduleClient(id, text) {
-        var service = $('#' + id).html();
-        if (service.length > 0) {
-            return confirmMsg(id, text);
-        } else {
-            $('#' + id).html(text);
-            $('#' + id).css("background-color", "#00ff40");
-            return true;
-        }
-        return true;
-    }
+                function getScheduleService() {
+                    clearShedule();
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetScheduleService.php",
+                        data: {
+                            "idService": $("#comboService").val(),
+                            "idCampus": $("#comboCampus").val()
+                        },
+                        success: function (data)
+                        {
+                            var services = JSON.parse(data);
+                            $.each(services, function (i, item) {
+                                $("#g" + item.hourscheduleservice + item.dayscheduleservice).html(item.nameservice);
+                                if (item.quotaservice === "0") {
+                                    $("#g" + item.hourscheduleservice + item.dayscheduleservice).css("background-color", "#ffff33");
 
-    function deleteScheduleClient(id) {
-        if (id === idServiceTmp) {
-            $('#' + id).html(serviseTmp);
-            $('#' + id).css("background-color", "#0066ff");
-        } else {
-            $('#' + id).html("");
-            $('#' + id).css("background-color", "#ffffff");
-        }
-    }
+                                }
 
-    function confirmMsg(id, text) {
-        var mensaje = confirm("Ya tienes un servicio asignado en ese espacio ¿Desea reemplazarlo?");
-        if (mensaje) {
-            idServiceTmp = id;
-            serviseTmp = $('#' + id).html();
-            $('#' + id).html(text);
-            $('#' + id).css("background-color", "#00ff40");
-            return true;
-        } else {
-            $('#' + id).css("background-color", "#0066ff");
-            return false;
-        }
-    }
+                            });
 
-    function show() {
-        clearShedule();
-        var selectService = $('#comboService');
-        selectService.val($('option:first', selectService).val());
-        var selectCampus = $('#comboCampus');
-        selectCampus.val($('option:first', selectCampus).val());
-        var selectModule = $('#comboPaymentModule');
-        selectModule.val($('option:first', selectModule).val());
-        $.datepicker.setDefaults($.datepicker.regional["es"]);
-        $("#date").datepicker({
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1
-        }).datepicker("setDate", new Date());
-        switch ($('#chooseview').val()) {
-            case "0":
-                $('#showService').hide();
-                $('#showCampus').hide();
-                $('#thService').hide();
-                $('#thCampus').hide();
-                $('#labelStarDate').hide();
-                $('#labelModule').hide();
-                $('#showDate').hide();
-                $('#showModule').hide();
-                break;
-            case "1":
-                $('#showService').show();
-                $('#showCampus').show();
-                $('#thService').show();
-                $('#thCampus').show();
-                $('#labelStarDate').show();
-                $('#labelModule').show();
-                $('#showDate').show();
-                $('#showModule').show();
-                loadService();
-                break;
-            case "2":
-                $('#showService').hide();
-                $('#showCampus').show();
-                $('#thService').hide();
-                $('#thCampus').show();
-                $('#labelStarDate').show();
-                $('#labelModule').show();
-                $('#showDate').show();
-                $('#showModule').show();
-                loadCampus();
-                break;
-            default :
-                $('#showService').hide();
-                $('#showCampus').hide();
-                $('#thService').hide();
-                $('#thCampus').hide();
-                $('#labelStarDate').hide();
-                $('#labelModule').hide();
-                $('#showDate').hide();
-                $('#showModule').hide();
-                break;
-        }
-    }
+                        },
+                        error: function ()
+                        {
+                            alert("Error show services!");
+                        }
+                    });
+                }
 
-    function loadPaymentModule() {
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetPaymentModule.php",
-            success: function (data)
-            {
-                var module = JSON.parse(data);
-                var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
-                $.each(module, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idpaymentmodule + '">' + item.namepaymentmodule + '</OPTION>';
-                });
-                $("#comboPaymentModule").html(htmlCombo);
-            },
-            error: function ()
-            {
-                alert("Error show campus!");
-            }
-        });
-    }
+                function addScheduleClient(id, text) {
+                    var service = $('#' + id).html();
+                    if (service.length > 0) {
+                        return confirmMsg(id, text);
+                    } else {
+                        $('#' + id).html(text);
+                        $('#' + id).css("background-color", "#00ff40");
+                        return true;
+                    }
+                    return true;
+                }
 
-    function loadService() {
-        clearShedule();
-//        var htmlComboCampus = '<OPTION VALUE="-1">Seleccionar</OPTION>';
-        $("#comboCampus").html(htmlComboCampus);
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetService.php",
-            success: function (data)
-            {
-                var services = JSON.parse(data);
-                var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
-                $.each(services, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idservice + '">' + item.nameservice + '</OPTION>';
-                });
-                $("#comboService").html(htmlCombo);
-            },
-            error: function ()
-            {
-                alert("Error show services!");
-            }
-        });
-    }
+                function deleteScheduleClient(id) {
+                    if (id === idServiceTmp) {
+                        $('#' + id).html(serviseTmp);
+                        $('#' + id).css("background-color", "#0066ff");
+                    } else {
+                        $('#' + id).html("");
+                        $('#' + id).css("background-color", "#ffffff");
+                    }
+                }
 
-    function loadCampus() {
-        clearShedule();
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetCampus.php",
-            success: function (data)
-            {
-                var campus = JSON.parse(data);
-                var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
-                $.each(campus, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idcampus + '">' + item.namecampus + '</OPTION>';
-                });
-                $("#comboCampus").html(htmlCombo);
-            },
-            error: function ()
-            {
-                alert("Error show campus!");
-            }
-        });
-    }
+                function confirmMsg(id, text) {
+                    var mensaje = confirm("Ya tienes un servicio asignado en ese espacio ¿Desea reemplazarlo?");
+                    if (mensaje) {
+                        idServiceTmp = id;
+                        serviseTmp = $('#' + id).html();
+                        $('#' + id).html(text);
+                        $('#' + id).css("background-color", "#00ff40");
+                        return true;
+                    } else {
+                        $('#' + id).css("background-color", "#0066ff");
+                        return false;
+                    }
+                }
 
-    function loadCampusService() {
-        clearShedule();
-        var idService = $('#comboService').val();
-        $.ajax({
-            type: 'GET',
-            url: "../business/GetCampusService.php",
-            data: {
-                "idService": idService
-            },
-            success: function (data)
-            {
-                var campus = JSON.parse(data);
-                var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
-                $.each(campus, function (i, item) {
-                    htmlCombo += '<OPTION VALUE="' + item.idcampus + '">' + item.namecampus + '</OPTION>';
-                });
-                $("#comboCampus").html(htmlCombo);
-            },
-            error: function ()
-            {
-                alert("Error show services!");
-            }
-        });
-    }
+                function show() {
+                    clearShedule();
+                    var selectService = $('#comboService');
+                    selectService.val($('option:first', selectService).val());
+                    var selectCampus = $('#comboCampus');
+                    selectCampus.val($('option:first', selectCampus).val());
+                    var selectModule = $('#comboPaymentModule');
+                    selectModule.val($('option:first', selectModule).val());
+                    $.datepicker.setDefaults($.datepicker.regional["es"]);
+                    $("#date").datepicker({
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 1
+                    }).datepicker("setDate", new Date());
+                    switch ($('#chooseview').val()) {
+                        case "0":
+                            $('#showService').hide();
+                            $('#showCampus').hide();
+                            $('#thService').hide();
+                            $('#thCampus').hide();
+                            $('#labelStarDate').hide();
+                            $('#labelModule').hide();
+                            $('#showDate').hide();
+                            $('#showModule').hide();
+                            break;
+                        case "1":
+                            $('#showService').show();
+                            $('#showCampus').show();
+                            $('#thService').show();
+                            $('#thCampus').show();
+                            $('#labelStarDate').show();
+                            $('#labelModule').show();
+                            $('#showDate').show();
+                            $('#showModule').show();
+                            loadService();
+                            break;
+                        case "2":
+                            $('#showService').hide();
+                            $('#showCampus').show();
+                            $('#thService').hide();
+                            $('#thCampus').show();
+                            $('#labelStarDate').show();
+                            $('#labelModule').show();
+                            $('#showDate').show();
+                            $('#showModule').show();
+                            loadCampus();
+                            break;
+                        default :
+                            $('#showService').hide();
+                            $('#showCampus').hide();
+                            $('#thService').hide();
+                            $('#thCampus').hide();
+                            $('#labelStarDate').hide();
+                            $('#labelModule').hide();
+                            $('#showDate').hide();
+                            $('#showModule').hide();
+                            break;
+                    }
+                }
 
-    function clearShedule() {
-        clearSheduleGym();
-        clearSheduleClient();
-    }
+                function loadPaymentModule() {
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetPaymentModule.php",
+                        success: function (data)
+                        {
+                            var module = JSON.parse(data);
+                            var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
+                            $.each(module, function (i, item) {
+                                htmlCombo += '<OPTION VALUE="' + item.idpaymentmodule + '">' + item.namepaymentmodule + '</OPTION>';
+                            });
+                            $("#comboPaymentModule").html(htmlCombo);
+                        },
+                        error: function ()
+                        {
+                            alert("Error show campus!");
+                        }
+                    });
+                }
 
-    function clearSheduleGym() {
-        $("#tbgym tbody tr").each(function ()
-        {
-            $(this).children("td").each(function ()
-            {
-                $(this).html("");
-                $(this).css('background-color', "#ffffff");
-            });
-        });
-    }
+                function loadService() {
+                    clearShedule();
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetService.php",
+                        success: function (data)
+                        {
+                            var services = JSON.parse(data);
+                            var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
+                            $.each(services, function (i, item) {
+                                htmlCombo += '<OPTION VALUE="' + item.idservice + '">' + item.nameservice + '</OPTION>';
+                            });
+                            $("#comboService").html(htmlCombo);
+                        },
+                        error: function ()
+                        {
+                            alert("Error show services!");
+                        }
+                    });
+                }
 
-    function clearSheduleClient() {
-        $("#tbclient tbody tr").each(function ()
-        {
-            $(this).children("td").each(function ()
-            {
-                $(this).css("background-color", "#ffffff");
-                $(this).html("");
-            });
-        });
-        loadScheduleClient();
-    }
+                function loadCampus() {
+                    clearShedule();
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetCampus.php",
+                        success: function (data)
+                        {
+                            var campus = JSON.parse(data);
+                            var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
+                            $.each(campus, function (i, item) {
+                                htmlCombo += '<OPTION VALUE="' + item.idcampus + '">' + item.namecampus + '</OPTION>';
+                            });
+                            $("#comboCampus").html(htmlCombo);
+                        },
+                        error: function ()
+                        {
+                            alert("Error show campus!");
+                        }
+                    });
+                }
+
+                function loadCampusService() {
+                    clearShedule();
+                    var idService = $('#comboService').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: "../business/GetCampusService.php",
+                        data: {
+                            "idService": idService
+                        },
+                        success: function (data)
+                        {
+                            var campus = JSON.parse(data);
+                            var htmlCombo = '<OPTION VALUE="-1">Seleccionar</OPTION>';
+                            $.each(campus, function (i, item) {
+                                htmlCombo += '<OPTION VALUE="' + item.idcampus + '">' + item.namecampus + '</OPTION>';
+                            });
+                            $("#comboCampus").html(htmlCombo);
+                        },
+                        error: function ()
+                        {
+                            alert("Error show services!");
+                        }
+                    });
+                }
+
+                function clearShedule() {
+                    clearSheduleGym();
+                    clearSheduleClient();
+                }
+
+                function clearSheduleGym() {
+                    $("#tbgym tbody tr").each(function ()
+                    {
+                        $(this).children("td").each(function ()
+                        {
+                            $(this).html("");
+                            $(this).css('background-color', "#ffffff");
+                        });
+                    });
+                }
+
+                function clearSheduleClient() {
+                    $("#tbclient tbody tr").each(function ()
+                    {
+                        $(this).children("td").each(function ()
+                        {
+                            $(this).css("background-color", "#ffffff");
+                            $(this).html("");
+                        });
+                    });
+                    loadScheduleClient();
+                }
 
 </script>

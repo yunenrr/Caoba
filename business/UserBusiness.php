@@ -11,7 +11,7 @@ class UserBusiness {
 
     private $userData;
 
-    public function UserBusiness() {
+    public function __construct() {
         return $this->userData = new UserData();
     }
 

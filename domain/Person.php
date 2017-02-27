@@ -20,7 +20,7 @@ class Person {
     private $phoneReferencePerson;
     private $bloodTypePerson;
 
-    function Person($idPerson, $dniPerson, $namePerson, $firstNamePerson, $secondNamePerson, $birthdayPerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodTypePerson) {
+    function __construct($idPerson, $dniPerson, $namePerson, $firstNamePerson, $secondNamePerson, $birthdayPerson, $genderPerson, $emailPerson, $addressPerson, $phoneReferencePerson, $bloodTypePerson) {
 
         $this->idPerson = $idPerson;
         $this->dniPerson = $dniPerson;

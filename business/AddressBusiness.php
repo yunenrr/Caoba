@@ -11,7 +11,8 @@ class AddressBussiness {
 
     private $addressData;
 
-    public function AddressBussiness() {
+    public function __construct()
+    {
         return $this->addressData = new AddressData();
     }
 

@@ -17,7 +17,7 @@ class Gender
      * @param int $idGender Corresponde a un identificador del género.
      * @param String $nameGender Corresponde al nombre del género.
      */
-    function Gender($idGender, $nameGender) 
+    function __construct($idGender, $nameGender) 
     {
         $this->idGender = $idGender;
         $this->nameGender = $nameGender;

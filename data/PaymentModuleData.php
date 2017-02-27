@@ -16,7 +16,7 @@ class PaymentModuleData
     /**
      * Función constructora
      */
-    function PaymentModuleData() 
+    function __construct() 
     {
         $this->connection = new Connection();
     }//Fin de la función constructora

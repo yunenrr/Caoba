@@ -11,7 +11,7 @@ class MeasurementBusiness {
 
     private $measurementData;
 
-    public function MeasurementBusiness() {
+    public function __construct() {
         $this->measurementData = new MeasurementData();
     }
 

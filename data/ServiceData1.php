@@ -32,6 +32,8 @@ class ServiceData1 extends Connector {
                 . "," . $dayclientschedule . ""
                 . "," . $idservicepaymentmoduleclientschedule . ""
                 . "," . $idserviceclientschedule . ");";
+        
+        
 
         if ($this->exeQuery($query)) {
             $query2 = 'UPDATE `tbservice` SET `quotaservice`= (`quotaservice` - 1) WHERE  `idservice`= ' . $idserviceclientschedule;
@@ -170,8 +172,7 @@ tbperson on tbinstructor.idpersoninstructor = tbperson.idperson where tbservice.
     }
 
     public function getPaymentModuleService() {
-        $query = "SELECT idpaymentmodule, namepaymentmodule FROM gymcaoba.tbpaymentmodule;
-";
+        $query = "SELECT idpaymentmodule, namepaymentmodule FROM gymcaoba.tbpaymentmodule;";
 
         $module = $this->exeQuery($query);
         $array = [];

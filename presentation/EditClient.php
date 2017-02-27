@@ -166,9 +166,9 @@ if ($personStateBusiness->getPersonStateBusiness($id) == "1") {
                         function ()
                         {
                             $('#addPhoneReference').mask('(000)0000-0000', {placeholder: '(000) 0000-0000'}); //placeholder
-                            $('#birthday').mask('0000-00-00', {placeholder: 'yyyy-mm-dd'});
-
-                            getperson();
+                            $('#birthday').mask('00/00/0000', {placeholder: 'dd/mm/yyyy'});
+                            $("#birthday").datepicker();
+                            getperson();                            
 
                             // Use to valite the dni
                             $('#userName').focusout(function () {

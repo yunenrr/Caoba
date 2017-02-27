@@ -10,7 +10,7 @@ class DietPersonBusiness {
 
     private $dietPersonData;
 
-    public function DietPersonBusiness() {
+    public function __construct() {
         return $this->dietPersonData = new DietPersonData();
     }
     

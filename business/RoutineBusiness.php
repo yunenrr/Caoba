@@ -11,7 +11,7 @@ class RoutineBusiness {
 
     private $routineData;
 
-    public function RoutineBusiness() {
+    public function __construct() {
         return $this->routineData = new RoutineData();
     }
 

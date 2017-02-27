@@ -11,7 +11,7 @@ class DietBusiness {
 
     private $dietData;
 
-    public function DietBusiness() {
+    public function __construct() {
         return $this->dietData = new DietData();
     }
 

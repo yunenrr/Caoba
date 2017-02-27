@@ -11,7 +11,7 @@ class ScheduleClientBusiness {
 
     private $scheduleClientData;
 
-    public function ScheduleClientBusiness() {
+    public function __construct() {
         return $this->scheduleClientData = new ScheduleClientData();
     }
 

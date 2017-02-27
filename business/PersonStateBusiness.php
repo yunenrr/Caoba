@@ -11,7 +11,7 @@ class PersonStateBusiness {
 
     private $personStateData;
 
-    public function PersonStateBusiness() {
+    public function __construct() {
         return $this->personStateData = new PersonStateData();
     }
 

@@ -11,7 +11,7 @@ class PersonBusiness {
 
     private $personData;
 
-    public function PersonBusiness() {
+    public function __construct() {
         return $this->personData = new PersonData();
     }
 
@@ -29,8 +29,13 @@ class PersonBusiness {
      * @param type $id
      * @return type
      */
-    public function getPerson($id) {
-        return $this->personData->getPerson($id);
+    public function getPerson($id) 
+    {
+        $tempPerson = $this->personData->getPerson($id);
+        $tempBirthday = $tempPerson->getBirthdayPerson();
+        $array = explode("-", $tempBirthday);
+        $tempPerson->setBirthdayPerson($array[2]."-".$array[1]."-".$array[0]);
+        return $tempPerson;
     }
 
     public function getPersonByDNI($id) {

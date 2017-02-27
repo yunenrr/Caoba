@@ -20,7 +20,7 @@ class User {
     private $passUser;
     private $starDate;
 
-    function User($idUser, $idPersonUser, $typeUser, $userNameUser, $passUser, $starDate) {
+    function __construct($idUser, $idPersonUser, $typeUser, $userNameUser, $passUser, $starDate) {
         $this->idUser = $idUser;
         $this->idPersonUser = $idPersonUser;
         $this->typeUser = $typeUser;

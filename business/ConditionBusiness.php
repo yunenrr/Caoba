@@ -6,7 +6,7 @@ class ConditionBusiness {
 
     private $conditionData;
 
-    public function ConditionBusiness() {
+    public function __construct() {
         return $this->conditionData = new ConditionData();
     }
 

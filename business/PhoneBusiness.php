@@ -11,7 +11,7 @@ class PhoneBusiness {
 
      private $phoneData;
 
-    public function PhoneBusiness() {
+    public function __construct() {
         return $this->phoneData = new PhoneData();
     }
 

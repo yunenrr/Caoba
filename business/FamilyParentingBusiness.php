@@ -11,7 +11,7 @@ class FamilyParentingBusiness {
 
     private $familyParentingData;
 
-    function FamilyParentingBusiness() {
+    function __construct() {
         return $this->familyParentingData = new FamilyParentingData();
     }
 

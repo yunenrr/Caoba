@@ -11,7 +11,7 @@ class PaymentModuleClientBusiness {
 
     private $paymentModuleClientData;
 
-    public function PaymentModuleClientBusiness() {
+    public function __construct() {
         $this->paymentModuleClientData = new PaymentModuleClientData();
     }
 

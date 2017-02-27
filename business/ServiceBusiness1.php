@@ -11,7 +11,7 @@ class ServiceBusiness1 {
 
     private $serviceData;
 
-    public function ServiceBusiness1() {
+    public function __construct() {
         return $this->serviceData = new ServiceData1();
     }
 

@@ -7,7 +7,8 @@ class BuyBusiness {
     private $buyData;
 
     //constructor
-    public function BuyBusiness() {
+    public function __construct()
+    {
         $this->buyData = new BuyData();
     }
 

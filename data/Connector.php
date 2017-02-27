@@ -24,7 +24,7 @@ class Connector {
 //        $this->password = 'saucr.092';
 //        $this->db = 'gymcaoba';
 //    }
-    public function Connector() {
+    public function __construct() {
         $this->server = 'localhost';
         $this->user = 'root';
         $this->password = '';

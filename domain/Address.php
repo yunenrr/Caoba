@@ -21,7 +21,7 @@ class Address {
      * @param type $idAddress
      * @param type $neighborhoodAddresss
      */
-    function Address($idAddress, $neighborhoodAddresss) {
+    function __construct($idAddress, $neighborhoodAddresss) {
         $this->idAddress = $idAddress;
         $this->neighborhoodAddresss = $neighborhoodAddresss;
     }//fin del método construcor

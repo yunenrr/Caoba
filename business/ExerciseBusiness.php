@@ -6,7 +6,7 @@ class ExerciseBusiness {
 
     private $exerciseData;
 
-    function ExerciseBusiness() {
+    function __construct() {
         return $this->exerciseData = new ExerciseData();
     }
 

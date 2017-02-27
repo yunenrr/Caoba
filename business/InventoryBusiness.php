@@ -11,7 +11,7 @@ class InventoryBusiness {
 
     private $inventoryData;
 
-    public function InventoryBusiness() {
+    public function __construct() {
         $this->inventoryData = new InventoryData();
     }
 

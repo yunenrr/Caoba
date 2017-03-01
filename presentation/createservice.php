@@ -24,12 +24,12 @@
                    maxlength="5" required="" dir="rtl" placeholder="₡"/>
             <select id="selPaymentModule"></select>
             <button id="btnAdd" name="btnAdd">Agregar</button>
-            <label>*</label>
+            <label>**</label>
         </div>
         <div>
             <label>Cupo:</label>
             <input type="number" id="txtQuota" name="txtQuota" 
-                   maxlength="5" required=""/>
+                   maxlength="5" min="1" required=""/>
             <label>*</label>
         </div>
         <div>
@@ -51,7 +51,7 @@
         </div>
         <div>
             <p>* = Requerido</p>
-            <p>** = Debe ingresar mínimo uno.</p>
+            <p>** = Debe ingresar mínimo un método de pago.</p>
         </div>
     </fieldset>
     <div id="msg"></div>
@@ -176,6 +176,13 @@
                         flag = false;
                         $("#msg").html(getErrorMessage(4));
                     }//Fin del if
+                    
+                    //Se valida que la cuota sea un número positivo
+                    if(parseInt($("#txtQuota").val()) <= 0)
+                    {
+                        flag = false;
+                        $("#msg").html("Ingrese un cupo mayor a cero");
+                    }
                 }//Fin del else de verificacion de espacios vacios
                 
                 return flag;
@@ -318,13 +325,17 @@
                                 },
                                 success: function(data)
                                 {
-                                    if(data.toString() !== "0")
+                                    if(data.toString() === "1")
                                     {
                                         $("#msg").html(getSuccessfullyInsertedMessage(2));
                                     }
-                                    else
+                                    else if(data.toString() === "0")
                                     {
                                         $("#msg").html("No se pudo ingresar el servicio.");
+                                    }
+                                    else if(data.toString() === "2")
+                                    {
+                                        $("#msg").html("El instructor ya está registrado en este servicio.");
                                     }
                                 },
                                 error:function()

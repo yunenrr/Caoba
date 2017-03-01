@@ -87,6 +87,41 @@ class ServiceData
     }//Fin de la función
     
     /**
+     * Función que nos permite saber si un servicioe xiste en la base de datos.
+     * @param Service $service Corresponde al servicio que se va agregar.
+     * @return String Indicando si se ingresó o no.
+     */
+    public function existService($service)
+    {
+        //Abrimos la conexión
+        $connO = $this->connection->getConnection();
+        mysqli_set_charset($connO, "utf8");
+        
+        //Preparamos la información
+        $service->setIdInstructorService(mysqli_real_escape_string($connO,$service->getIdInstructorService()));
+        $service->setNameService(mysqli_real_escape_string($connO,$service->getNameService()));
+        
+        $sql = "select idservice from tbservice where "
+                . "idinstructorservice = ".$service->getIdInstructorService()." and "
+                . "nameservice = '".$service->getNameService()."';";
+        
+        $result = mysqli_query($connO,$sql);
+        $id = "1";
+        if(mysqli_num_rows($result) > 0)
+        {
+            $id = "1";
+        }
+        else
+        {
+            $id = "0";
+        }
+        
+        //Cerramos la conexión
+        $this->connection->closeConnection();
+        return $id;
+    }//Fin del método
+    
+    /**
      * Función que nos permite insertar servicios.
      * @param Service $service Corresponde al servicio que se va agregar.
      * @return String Indicando si se ingresó o no.

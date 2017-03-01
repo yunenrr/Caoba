@@ -73,19 +73,27 @@ if(isset($_POST['option']))
                 
                 $service = new Service(0, $idInstructor, $serviceName, 
                         $description, $quota,$txtStartDate,$dateEnd);
-                $condition = $data->insertService($service);
                 
-                //Insertamos las modalidades de pago
-                if($condition !== "0")
+                $existService = $data->existService($service);
+                
+                if($existService == "0")
                 {
-                    $array = explode(";", $paymentMethod);
-                    foreach ($array as $current)
+                    $condition = $data->insertService($service);
+
+                    //Insertamos las modalidades de pago
+                    if($condition != "0")
                     {
-                        $arraySecond = explode(",", $current);
-                        $cond = $paymentModuleData->insertServicePaymentMethod($condition,$arraySecond[0],$arraySecond[1]);
-                    }
+                        $array = explode(";", $paymentMethod);
+                        foreach ($array as $current)
+                        {
+                            $arraySecond = explode(",", $current);
+                            $cond = $paymentModuleData->insertServicePaymentMethod($condition,$arraySecond[0],$arraySecond[1]);
+                        }
+                        echo "1";
+                    }//Fin del if
+                    else{echo "0";}
                 }//Fin del if
-                else{echo "0";}
+                else{echo "2";}
             }//Fin del if
             else{echo "0";}
             break;

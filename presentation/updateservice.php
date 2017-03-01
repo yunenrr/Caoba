@@ -316,6 +316,15 @@
                     flag = false;
                     $("#msg").html(getErrorMessage(1));
                 }//Fin del if
+                else
+                {
+                    //Se valida que la cuota sea un número positivo
+                    if(parseInt($("#txtQuota").val()) <= 0)
+                    {
+                        flag = false;
+                        $("#msg").html("Ingrese un cupo mayor a cero");
+                    }
+                }
                 
                 return flag;
             }//Fin de la función
